@@ -27,11 +27,14 @@ const Header = (props) => {
                             const newVal = event.target.value;
                             setState(previousState => ({keyword: newVal}))
                         }}/>
-                    <input className={classes.searchImage} type="image" name="Submit" src={searchButton} alt="Submit" />
-                    <Link className={classes.searchImage} type="image" name="Submit" src={searchButton} alt="Submit" to={{
+                    {/* <input className={classes.searchImage} type="image" name="Submit" src={searchButton} alt="Submit"/> */}
+                    <Link
+                        to={{
                             pathname: "/search/",
-                            search: "?q=" + state.keyword
-                        }}></Link>
+                            search: "?kw=" + state.keyword
+                        }}>
+                        <input className={classes.searchImage} type="image" name="Submit" src={searchButton} alt="Submit"/>
+                        </Link>
                 </form>
                 
                 <NavLink to='/signIn' className={classes.signIn}>Sign in</NavLink>
