@@ -24,6 +24,7 @@ const LandingPage = (props) => {
                 <input className="search" type="text"
                     placeholder={placeholderText} 
                     value={state.keyword}
+                    data-testid='landing-search'
                     onChange={event => {
                         const newVal = event.target.value;
                         setState(previousState => ({keyword: newVal}))

@@ -1,4 +1,5 @@
 import React from 'react';
+import Aux from '../../../hoc/Auxil';
 
 const FilterGroup = (props) => {
     const groupObj = props.groupObj;

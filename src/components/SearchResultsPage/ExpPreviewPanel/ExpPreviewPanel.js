@@ -9,15 +9,18 @@ const ExpPreviewPanel = (props) => {
             </div>
             <div className="col span-3-of-4">
                 <div className="row exp-title">
-                    <b><a href="www.google.com">
-                        {props.expObj.Course.CourseTitle}
+                    <b><a href="www.google.com" data-testid="exp-prev-title">
+                        {props.expObj.Course.CourseTitle ? 
+                            props.expObj.Course.CourseTitle : "N/A"}
                     </a></b>
                 </div>
-                <div className="row exp-desc">
-                    {props.expObj.Course.CourseDescription}
+                <div className="row exp-desc" data-testid="exp-prev-desc">
+                    {props.expObj.Course.CourseDescription ?
+                        props.expObj.Course.CourseDescription : "N/A"}
                 </div>
-                <div className="row exp-provider">
-                    {props.expObj.Course.CourseProviderName}
+                <div className="row exp-provider" data-testid="exp-prev-provider">
+                    {props.expObj.Course.CourseProviderName ? 
+                        props.expObj.Course.CourseProviderName : "N/A"}
                 </div>
             </div>
 
