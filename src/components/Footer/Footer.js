@@ -1,5 +1,4 @@
 import React from 'react';
-import className from '../../resources/vendors/css/Grid.css';
 import classes from './Footer.module.css';
 
 

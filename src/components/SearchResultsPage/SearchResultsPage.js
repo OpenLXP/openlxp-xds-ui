@@ -92,14 +92,14 @@ const SearchResultPage = (props) => {
                     }
                 })
             });
-    }, [location.search])
+    }, [parsedQuery])
 
     useEffect(() => {
         setSearchInputState(previousState => {
             //console.log(parsedQuery)
             return { input: parsedQuery }
         })
-    }, [])
+    }, [parsedQuery])
 
     if (coursesState.coursesObj && !coursesState.isLoading) {
         if (coursesState.coursesObj.total < 1) {
