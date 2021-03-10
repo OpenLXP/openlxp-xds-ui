@@ -57,7 +57,7 @@
     margin-left: 10%;
     margin-right: 10%;
     display: flex;
-    background-image: url("./dodBanner.png");
+    background-image: url("../../resources/internal/dodBanner.png");
     /* width: 850px; */
 }
 
