@@ -1,5 +1,7 @@
 import React from 'react';
 
+import no_img from '../../resources/vendors/img/no-image2.png'
+
 const experienceCard = (props) => {
 
     let result = (
@@ -8,10 +10,27 @@ const experienceCard = (props) => {
         </div>
     )
 
+    let courseThumbnail = no_img;
+    // default style if no image is provided
+    let style = {
+        backgroundColor: 'rgb(243 243 243)'
+    };
+
+    // override the default img if one is passed in
+    if (props.courseObj && props.courseObj.CourseThumbnail 
+            && props.courseObj.CourseThumbnail !== '') {
+        courseThumbnail = props.courseObj.CourseThumbnail;
+        style = null;
+    }
+
+    // Only display a card if the course object is not null
     if (props.courseObj && props.courseObj.Course) {
         result = (
             <div className="col span-1-of-4 box">
-                <img src={props.courseObj.CourseThumbnail} alt="test" />
+                <img 
+                    src={courseThumbnail} 
+                    alt="Course thumbnail" 
+                    style={style}/>
                 <div className="card-detail">
                     <div className="row card-title">
                         <b><a href="www.google.com">

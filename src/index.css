@@ -12,7 +12,7 @@ html,
 body {
   background-color: rgb(244, 244, 244);
   color: #0F0B0B;
-  font-family: 'Open Sans', 'Lato', 'Arial', 'sans-serif';
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 300;
   font-size: 20px;
   text-rendering: optimizeLegibility;
@@ -89,6 +89,36 @@ ion-icon {
   font-style: italic;
 }
 
+.content-panel {
+  background-color: white;
+  font-size: large;
+  border-radius: 10px;
+  margin: 1%;
+}
+
+.inner-content {
+  margin: 1%;
+}
+
+.icon-small {
+  display: inline-block;
+  width: 30px;
+  text-align: center;
+  color: #6b94b8;
+  font-size: 120%;
+  margin-right: 10px;
+
+  /* align text with icon */
+  line-height: 120%;
+  vertical-align: middle;
+  margin-top: -5px;
+}
+
+.center-text {
+  margin: 1%;
+  text-align: center;
+}
+
 /* ---------------------- */
 /* Landing Page 
 /* ---------------------- */
@@ -150,7 +180,7 @@ ion-icon {
 .landing-section .page-break {
   height: 1px;
   background-color: #c7c7c7;
-  margin: 75px 0;
+  margin: 60px 0;
 }
 
 .card-section {
@@ -169,7 +199,11 @@ ion-icon {
   padding: 0;
   float: none;
   display: inline-block;
-  
+  margin-left: 1%;
+}
+
+.card-section .box:last-child {
+  margin-right: 1%;
 }
 
 /* ---------------------- */
@@ -239,6 +273,7 @@ ion-icon {
   background-color: white;
   font-size: large;
   border-radius: 10px;
+  min-height: 500px;
 }
 
 .results-panel div {
@@ -270,10 +305,15 @@ ion-icon {
 
 .filter-section label {
   padding-left: 5px;
+  font-size: .95vw;
 }
 
 .filter-section:last-child {
   border-bottom: none;
+}
+
+.filter-panel input {
+  margin-bottom: 15px;
 }
 
 .exp-desc {
@@ -334,5 +374,71 @@ ion-icon {
 }
 
 .content-section h2 {
-  margin: 5px;
+  margin: 10px 0 5px 0;
+  font-size: 1.5vw;
+}
+
+/* --------------------------- */
+/* Course Detail Page
+/* --------------------------- */
+.course {
+  background-color: white;
+  font-size: large;
+  border-radius: 10px;
+}
+
+.course-detail img {
+  width: 100%;
+}
+
+.course-detail p {
+  margin-bottom: 30px;
+}
+
+.course-detail p:after {
+  display: block;
+  height: 2px;
+  background-color: #6b94b8;
+  content: " ";
+  width: 150px;
+  margin-top: 20px;
+}
+
+.course-detail .course-highlights {
+  margin-top: 20px;
+  display: inline;
+}
+
+.course-detail ion-icon {
+  display: inline-block;
+  width: 30px;
+  text-align: center;
+  color: #6b94b8;
+  font-size: 120%;
+  margin-right: 10px;
+
+  /* align text with icon */
+  line-height: 120%;
+  vertical-align: middle;
+  margin-top: -5px;
+}
+
+.course-related h4 {
+  margin: 30px 0 30px 0;
+  text-align: center;
+}
+
+.course-detail .btn {
+  text-align: center;
+  border-radius: 6px;
+  text-decoration: none;
+  color: white;
+  width: 60%;
+  padding: 10px;
+  background: #005EA2;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: block;
+  margin: 10px auto 10px;
+  font-weight: 500;
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useHistory } from "react-router-dom";
 import queryString from 'query-string';
 import axios from 'axios';
 import Loader from "react-loader-spinner";
@@ -8,19 +8,100 @@ import ExpPreviewPanel from './ExpPreviewPanel/ExpPreviewPanel';
 import Pagination from '../Pagination/Pagination';
 // import dummyJSON from '../../resources/dummy.json';
 
-const getParsedQuery = (location) => {
+
+/* this helper method takes in the location object and returns the keyword 
+    parameter */
+const getKeywordParam = (location) => {
     const parsedQuery = queryString.parse(location.search);
-    //console.log(parsedQuery)
-    return parsedQuery.kw
+    return parsedQuery.keyword;
+}
+
+/* this helper method will update the current search parameter with a new value
+    and return its string representation */
+const getUpdatedSearchQuery = (location, paramObj, isChecked) => {
+    const queryObj = queryString.parse(location.search);
+
+    for (let paramNm in paramObj) {
+        // if it's the page parameter, we just update it to 1
+        if (paramNm === 'p') {
+            queryObj[paramNm] = 1;
+            continue;
+        }
+        // if checkbox is checked then we're adding a value to a parameter
+        if (isChecked) {
+            // if param already has a value
+            if (queryObj[paramNm]) {
+                // if the value is an array we add to the array otherwise we
+                // create a new array and add the new value
+                if (Array.isArray(queryObj[paramNm])) {
+                    queryObj[paramNm].push(paramObj[paramNm]);
+                } else {
+                    let valArr = [queryObj[paramNm]];
+                    valArr.push(paramObj[paramNm]);
+                    queryObj[paramNm] = valArr;
+                }
+            } else {
+                queryObj[paramNm] = paramObj[paramNm];
+            }
+        // if checkbox is unchecked then we're removing a value
+        } else {
+            // if param already has a value
+            if (queryObj[paramNm]) {
+                // if the value is an array
+                if (Array.isArray(queryObj[paramNm])) {
+                    var filteredArr = queryObj[paramNm]
+                                        .filter(e => e !== paramObj[paramNm]);
+                    queryObj[paramNm] = filteredArr;
+                } else {
+                    queryObj[paramNm] = null;
+                }
+            }
+        }
+    }
+
+    return queryObj;
+}
+
+/* this helper method takes in a query object and returns its query string 
+    representation */
+const getSearchString = (queryObj) => {
+    let result = '';
+
+    for (let param in queryObj) {
+        if (queryObj[param] !== null) {
+            // if the parameter has an array of values we need to iterate 
+            // through them
+            if (Array.isArray(queryObj[param])) {
+                for (let val of queryObj[param]) {
+                    // check if we need to add '&' in the beginning
+                    if (result === '') {
+                       result += (param + '=' + val);
+                    } else {
+                        result += ('&' + param + '=' + val);
+                    }
+                }
+            } else {
+                if (result === '') {
+                    result += (param + '=' + queryObj[param]);
+                } else {
+                    result += ('&' + param + '=' + queryObj[param]);
+                }
+            }
+        }
+    }
+
+    return result;
 }
 
 const getPage = (location) => {
     const page = queryString.parse(location.search);
     return page.p
 }
-
-const SearchResultPage = (props) => {
     
+/* This component represents the search result page shown whenever a user 
+    submits a search */
+const SearchResultPage = (props) => {
+    // Initial state for tracking found courses
     const [coursesState, setCoursesState] = useState({
         coursesObj: null,
         isLoading: false,
@@ -28,31 +109,18 @@ const SearchResultPage = (props) => {
         error: null
     });
 
-
+    // initial state to track input on the search bar
     const [searchInputState, setSearchInputState] = useState({
         input: ''
     });
-    
-    // const jsonObj = dummyJSON;
     let location = useLocation();
-    const api_url = 'http://localhost:8080/es-api/?keyword='
-    const parsedQuery = getParsedQuery(location);
-    const pageNum = getPage(location);
+    let history = useHistory();
+    // TODO: get this url from configuration
+    const api_url = 'http://localhost:8080/es-api/'
+    const keyword = getKeywordParam(location);
     const placeholderText = "Search for anything"
-    const filterGroups = [
-        {
-            title: "Personnel Type",
-            values: ["Officer", "Enlisted", "Contractor", "Civilian"]
-        },
-        {
-            title: "Pay Grade",
-            values: ["0-1", "0-2", "0-3", "0-4"]
-        },
-        {
-            title: "Component",
-            values: ["Army", "Navy", "Air Force", "Marine Corps"]
-        },
-    ]
+
+    // TODO: remove placeholder images when data comes in with images
     const imgArr = [
         'https://www.abc.net.au/news/image/12739630-3x2-940x627.jpg',
         'https://hub.packtpub.com/wp-content/uploads/2018/05/programming.jpg',
@@ -66,12 +134,49 @@ const SearchResultPage = (props) => {
     let expPanelContent = null;
     let numResultsContent = (
         <div className="row">
-            <h2>{0 + ' results for "' + parsedQuery + '"'}</h2>
+            <h2>{0 + ' results for "' + keyword + '"'}</h2>
         </div>
     )
+    let aggregations = [];
 
+    /* This function handles when a filter checkbox is clicked */
+    function handleFilterSelect(e, fieldName) {
+        let paramObj  = {};
+        paramObj[fieldName] = e.target.value
+        paramObj['p'] = 1;
+        
+        const updatedParamObj = 
+            getUpdatedSearchQuery(location, paramObj, e.target.checked);
+        console.log(updatedParamObj)
+        const searchString = getSearchString(updatedParamObj);
+        console.log(location.search);
+        history.push({
+            pathname: '/search/',
+            search: searchString
+        });
+    }
+
+    // Once the courses are loaded, we set up the aggregation object 
+    if (coursesState.coursesObj) {
+        let aggObj = coursesState.coursesObj.aggregations;
+
+        for (const groupNm in aggObj) {
+            let groupObj = {
+                title: groupNm,
+                values: aggObj[groupNm].buckets,
+                fieldName: aggObj[groupNm].field_name
+            }
+
+            if (groupObj.values.length > 0) {
+                aggregations.push(groupObj)
+            }
+        }
+    }
+
+    /* Whenever the component first renders, we make an API call to find courses
+        using the keyword in the url */
     useEffect(() => {
-        let url = api_url + parsedQuery + "&p=" + pageNum;
+        let url = api_url + location.search;
         setCoursesState(previousState => {
             const resultState = {
                 coursesObj: null,
@@ -104,20 +209,22 @@ const SearchResultPage = (props) => {
                     }
                 })
             });
-    }, [parsedQuery,pageNum])
+    }, [keyword, location.search])
 
+    /* Whenever the component renders, we copy the keyword from the URL to the 
+        search bar */
     useEffect(() => {
         setSearchInputState(previousState => {
-            //console.log(parsedQuery)
-            return { input: parsedQuery }
+            return { input: keyword }
         })
-    }, [parsedQuery])
+    }, [keyword])
 
+    // Once courses are returned from the API we display them in preview panels
     if (coursesState.coursesObj && !coursesState.isLoading) {
         if (coursesState.coursesObj.total < 1) {
             expPanelContent =
                 <h3 className='informational-text'>
-                    Sorry, we couldn't find any results for "{parsedQuery}"
+                    Sorry, we couldn't find any results for "{keyword}"
                 </h3>
         } else {
             expPanelContent = (
@@ -130,7 +237,6 @@ const SearchResultPage = (props) => {
                                 imgLink={imgArr[idx]} />
                         )
                     } else {
-                        console.log(idx)
                         return (
                             <ExpPreviewPanel
                                 expObj={exp}
@@ -148,12 +254,16 @@ const SearchResultPage = (props) => {
         numResultsContent = (
             <div className="row">
                 <h2>{coursesState.coursesObj.total +
-                    ' results for "' + parsedQuery + '"'}</h2>
+                    ' results for "' + keyword + '"'}</h2>
             </div>
         )
+    // handles cases where the API call returns an error
     } else if (coursesState.error && !coursesState.isLoading) {
         expPanelContent =
-            <div className='informational-text'>Error Loading experiences.</div>
+            <div className='informational-text'>
+                Error Loading experiences. Please contact an administrator.
+            </div>
+    // loading spinner during API call
     } else {
         expPanelContent = (
             <div className='spinner-section'>
@@ -176,9 +286,14 @@ const SearchResultPage = (props) => {
             {numResultsContent}
             <div className="row">
                 <div className="col span-1-of-5 filter-panel">
-                    {filterGroups.map((group, idx) => {
+                    {aggregations.map((group, idx) => {
                         return (
-                            <FilterGroup groupObj={group} key={idx} />
+                            <FilterGroup 
+                                groupObj={group} 
+                                key={idx} 
+                                onChange={(e) => 
+                                    handleFilterSelect(e, group.fieldName)}
+                                paramObj={queryString.parse(location.search)}/>
                         )
                     })}
                 </div>
@@ -197,7 +312,7 @@ const SearchResultPage = (props) => {
                         <Link
                             to={{
                                 pathname: "/search/",
-                                search: "?kw=" + searchInputState.input + "&p=" + 1
+                                search: "?keyword=" + searchInputState.input + "&p=" + 1
                             }}
                             className="btn">
                                 <ion-icon name="search-outline"></ion-icon>

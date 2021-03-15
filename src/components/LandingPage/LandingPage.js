@@ -4,6 +4,7 @@ import ExperienceCard from '../ExperienceCard/ExperienceCard'
 import dummyJSON from '../../resources/dummy.json'
 
 const LandingPage = (props) => {
+    // state to keep track of typed input in search bar
     const [ state, setState] = useState({
         keyword: ''
     });
@@ -13,7 +14,7 @@ const LandingPage = (props) => {
         + "unclassified training and education courses, seminars, instructional"
         + " resources and more."
     const placeholderText = '';
-    // const max_cards = 4;
+    // TODO: replace this json obj with a real call to elasticsearch
     const dummy_json = dummyJSON;
 
     return (
@@ -32,7 +33,7 @@ const LandingPage = (props) => {
                 <Link
                     to={{
                         pathname: "/search/",
-                        search: "?kw=" + state.keyword + "&p=" + 1
+                        search: "?keyword=" + state.keyword + "&p=" + 1
                     }}
                     className="btn">Search</Link>
             </div>
@@ -42,6 +43,7 @@ const LandingPage = (props) => {
                 <h4>Popular</h4>
                 <div className='row card-section'>
                     {dummy_json.map((course, idx) => {
+                        // for each course in the dummy json, render a card
                         return (
                             <ExperienceCard courseObj={course} key={idx} />
                         )

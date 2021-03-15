@@ -40,7 +40,7 @@ describe('<SearchResultsPage />', () => {
 
         await act(async () => {
             render(
-                <MemoryRouter initialEntries={["/search/?kw=business"]}>
+                <MemoryRouter initialEntries={["/search/?keyword=business"]}>
                     <SearchResultsPage />
                 </MemoryRouter>
             , container);
@@ -69,6 +69,12 @@ describe('<SearchResultsPage />', () => {
                         Provider: "Test_Provider",
                         Maintainer: "Test_maintainer",
                         OtherRole: "Test"
+                    },
+                    meta: {
+                        index: "test-index",
+                        id: "1",
+                        score: 1,
+                        doc_type: "_doc"
                     }
                 },
                 {
@@ -86,6 +92,12 @@ describe('<SearchResultsPage />', () => {
                         Provider: "Test_Provider",
                         Maintainer: "Test_maintainer",
                         OtherRole: "Test"
+                    },
+                    meta: {
+                        index: "test-index",
+                        id: "2",
+                        score: 1,
+                        doc_type: "_doc"
                     }
                 },
                 {
@@ -103,17 +115,24 @@ describe('<SearchResultsPage />', () => {
                         Provider: "Test_Provider",
                         Maintainer: "Test_maintainer",
                         OtherRole: "Test"
+                    },
+                    meta: {
+                        index: "test-index",
+                        id: "3",
+                        score: 1,
+                        doc_type: "_doc"
                     }
                 },
             ],
-            total: 3
+            total: 3,
+            aggregations: {}
         };
         const resp = {data: data};
         axios.get.mockResolvedValueOnce(resp);
 
         await act(async () => {
             render(
-                <MemoryRouter initialEntries={["/search/?kw=business"]}>
+                <MemoryRouter initialEntries={["/search/?keyword=business"]}>
                     <SearchResultsPage />
                 </MemoryRouter>
             , container);
@@ -138,7 +157,7 @@ describe('<SearchResultsPage />', () => {
 
         await act(async () => {
             render(
-                <MemoryRouter initialEntries={["/search/?kw=business"]}>
+                <MemoryRouter initialEntries={["/search/?keyword=business"]}>
                     <SearchResultsPage />
                 </MemoryRouter>
             , container);
