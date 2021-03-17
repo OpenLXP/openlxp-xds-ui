@@ -5,6 +5,7 @@ import axios from 'axios';
 import Loader from "react-loader-spinner";
 import FilterGroup from './FilterGroup/FilterGroup';
 import ExpPreviewPanel from './ExpPreviewPanel/ExpPreviewPanel';
+import Pagination from '../Pagination/Pagination';
 // import dummyJSON from '../../resources/dummy.json';
 
 const getParsedQuery = (location) => {
@@ -13,10 +14,14 @@ const getParsedQuery = (location) => {
     return parsedQuery.kw
 }
 
+// let page=1;
+
 const SearchResultPage = (props) => {
+    
     const [coursesState, setCoursesState] = useState({
         coursesObj: null,
         isLoading: false,
+        page: 1,
         error: null
     });
 
@@ -24,6 +29,9 @@ const SearchResultPage = (props) => {
     const [searchInputState, setSearchInputState] = useState({
         input: ''
     });
+    
+
+    // const totalPages= 5;
 
     // const jsonObj = dummyJSON;
     let location = useLocation();
@@ -62,11 +70,12 @@ const SearchResultPage = (props) => {
     )
 
     useEffect(() => {
-        let url = api_url + parsedQuery;
+        let url = api_url + parsedQuery + "&p=" + coursesState.page;
         setCoursesState(previousState => {
             const resultState = {
                 coursesObj: null,
                 isLoading: true,
+                page: previousState.page,
                 error: null
             }
             return resultState
@@ -78,6 +87,7 @@ const SearchResultPage = (props) => {
                     return {
                         coursesObj: response.data,
                         isLoading: false,
+                        page: previousState.page,
                         error: null
                     }
                 });
@@ -88,6 +98,7 @@ const SearchResultPage = (props) => {
                     return {
                         coursesObj: null,
                         isLoading: false,
+                        page: previousState.page,
                         error: err
                     }
                 })
@@ -100,6 +111,89 @@ const SearchResultPage = (props) => {
             return { input: parsedQuery }
         })
     }, [parsedQuery])
+////
+    const onLeftClick = (event) =>{
+        // console.log(page);
+        // page -= 1;
+        console.log(coursesState.page);
+        let url = api_url + parsedQuery + "&p=" + coursesState.page;
+        setCoursesState(previousState => {
+            const resultState = {
+                coursesObj: null,
+                isLoading: true,
+                page: previousState.page,
+                error: null
+            }
+            return resultState
+        });
+        axios.get(url)
+            .then(response => {
+                console.log(response.data)
+                setCoursesState(previousState => {
+                    return {
+                        coursesObj: response.data,
+                        isLoading: false,
+                        page: previousState.page - 1,
+                        error: null
+                    }
+                });
+            })
+            .catch(err => {
+                console.log(err)
+                setCoursesState(previousState => {
+                    return {
+                        coursesObj: null,
+                        isLoading: false,
+                        page: previousState.page,
+                        error: err
+                    }
+                })
+            });
+            console.log(coursesState.page);
+    }
+
+    const onRightClick = (event) =>{
+        // console.log(page);
+        // page += 1;
+        let url = api_url + parsedQuery + "&p=" + coursesState.page;
+        axios.get(url)
+            .then(response => {
+                console.log(response.data)
+                setCoursesState(previousState => {
+                    return {
+                        coursesObj: response.data,
+                        isLoading: false,
+                        page: previousState.page + 1,
+                        error: null
+                    }
+                });
+            })
+        console.log(coursesState.page);
+    }
+
+    const handlePageClick = (newPage) =>{
+        // console.log(page);
+        // page = page;
+        // console.log(page);
+        let url = api_url + parsedQuery + "&p=" + coursesState.page;
+        axios.get(url)
+            .then(response => {
+                console.log(response.data)
+                setCoursesState(previousState => {
+                    return {
+                        coursesObj: response.data,
+                        isLoading: false,
+                        page: newPage,
+                        error: null
+                    }
+                });
+            })
+        console.log(coursesState.page);
+
+    }
+
+    // const size=10;
+    // const totalPages= coursesState.coursesObj.total/size;
 
     if (coursesState.coursesObj && !coursesState.isLoading) {
         if (coursesState.coursesObj.total < 1) {
@@ -133,7 +227,6 @@ const SearchResultPage = (props) => {
             )
         }
 
-
         numResultsContent = (
             <div className="row">
                 <h2>{coursesState.coursesObj.total +
@@ -148,6 +241,17 @@ const SearchResultPage = (props) => {
             <div className='spinner-section'>
                 <Loader type="Rings" color="#c7c7c7" height={80} width={80} />
             </div>
+        )
+    }
+
+    
+    let pagination =  null;
+    if (coursesState.coursesObj && !coursesState.isLoading) {
+        pagination = (
+            <Pagination 
+            courseState={coursesState.coursesObj} page={coursesState.page} 
+            onPageClick={handlePageClick} onLeftClick={onLeftClick} onRightClick={onRightClick}/>
+            // totalPages={totalPages} 
         )
     }
 
@@ -186,6 +290,7 @@ const SearchResultPage = (props) => {
                         
                     </div>
                     {expPanelContent}
+                    {pagination}
                 </div>
             </div>
         </>
