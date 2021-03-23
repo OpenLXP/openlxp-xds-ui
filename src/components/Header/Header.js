@@ -31,7 +31,7 @@ const Header = (props) => {
                     <Link
                         to={{
                             pathname: "/search/",
-                            search: "?kw=" + state.keyword
+                            search: "?kw=" + state.keyword + "&p=" + 1
                         }}>
                         <input className={classes.searchImage} type="image" name="Submit" src={searchButton} alt="Submit"/>
                         </Link>

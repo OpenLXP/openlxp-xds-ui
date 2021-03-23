@@ -1,37 +1,43 @@
 import React from 'react'
 import classes from './Pagination.module.css';
+import { Link } from 'react-router-dom'
+
 
 const Pagination = (props) => {
-    
-  // const array = []
-  // for(var i = 1; i <= props.totalPages; i++){
-  //   array.push(<button key={i} onClick={handlePageClick({i})}>{i}</button>)
-  // }
 
-  let totalPages = props.courseState.total;
+  let totalEntries = props.courseState.total;
+  let totalPages = Math.ceil(totalEntries/10);
   console.log({totalPages})
 
-  function handlePageClick(index){
-    props.onPageClick(index);
-  }
-
-  
   let prevPage = null;
   let prevPageValue = props.page-1;
   if(1<=prevPageValue){
     console.log({prevPageValue});
     prevPage = (
-      <button key={prevPageValue} className={classes.number} onClick={handlePageClick.bind(handlePageClick,prevPageValue)}>{prevPageValue}</button>
-      // onClick={handlePageClick(prevPageValue)}
-    )
+      <Link
+        to={{
+          pathname: "/search/",
+          search: "?kw=" + props.searchInputState + "&p=" + (prevPageValue)
+        }}
+        className="btn">
+          <button key={prevPageValue} className={classes.number} >{prevPageValue}</button>
+      </Link>
+      )
   }
 
   let nextPage = null;
-  let nextPageValue = props.page+1;
+  let nextPageValue = parseInt(props.page)+1;
   if(nextPageValue<=totalPages){
     console.log({nextPageValue});
     nextPage = (
-      <button key={nextPageValue} className={classes.number} onClick={handlePageClick.bind(handlePageClick,nextPageValue)}>{nextPageValue}</button>
+      <Link
+        to={{
+          pathname: "/search/",
+          search: "?kw=" + props.searchInputState + "&p=" + (nextPageValue)
+        }}
+        className="btn">
+          <button key={nextPageValue} className={classes.number} >{nextPageValue}</button>
+      </Link>
     )
   }
   
@@ -39,13 +45,25 @@ const Pagination = (props) => {
   let nextText = ">"
   return (
     <div className={classes.mainClass}>
-      <button id="prev" className={classes.number} type="button" disabled={props.page<=1} onClick={props.onLeftClick}> {backText} </button>
-      {/* {array} */}
+      <Link
+        to={{
+          pathname: "/search/",
+          search: "?kw=" + props.searchInputState + "&p=" + (prevPageValue)
+        }}
+        className="btn">
+          <button id="prev" className={classes.number} type="button" disabled={props.page<=1}> {backText} </button>
+      </Link>
       {prevPage}
       <button id={props.page} className={classes.activeNumber} type="button" >{props.page}</button>
       {nextPage}
-      <button id="next" className={classes.number}  type="button" disabled={props.page>=totalPages} onClick={props.onRightClick} >{nextText}</button>
-
+      <Link
+        to={{
+          pathname: "/search/",
+          search: "?kw=" + props.searchInputState + "&p=" + (nextPageValue)
+        }}
+        className="btn">
+          <button id="next" className={classes.number}  type="button" disabled={props.page>=totalPages}>{nextText}</button>
+      </Link>
     </div>
   )
 }

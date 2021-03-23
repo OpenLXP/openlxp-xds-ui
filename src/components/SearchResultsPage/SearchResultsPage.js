@@ -14,7 +14,10 @@ const getParsedQuery = (location) => {
     return parsedQuery.kw
 }
 
-// let page=1;
+const getPage = (location) => {
+    const page = queryString.parse(location.search);
+    return page.p
+}
 
 const SearchResultPage = (props) => {
     
@@ -30,13 +33,12 @@ const SearchResultPage = (props) => {
         input: ''
     });
     
-
-    // const totalPages= 5;
-
     // const jsonObj = dummyJSON;
     let location = useLocation();
-    const api_url = 'http://localhost:8080/es_api/?keyword='
+    const api_url = 'http://localhost:8080/es-api/?keyword='
     const parsedQuery = getParsedQuery(location);
+    const pageNum = getPage(location);
+    console.log(pageNum);
     const placeholderText = "Search for anything"
     const filterGroups = [
         {
@@ -70,12 +72,12 @@ const SearchResultPage = (props) => {
     )
 
     useEffect(() => {
-        let url = api_url + parsedQuery + "&p=" + coursesState.page;
+        let url = api_url + parsedQuery + "&p=" + pageNum;
         setCoursesState(previousState => {
             const resultState = {
                 coursesObj: null,
                 isLoading: true,
-                page: previousState.page,
+                page: pageNum,
                 error: null
             }
             return resultState
@@ -87,7 +89,7 @@ const SearchResultPage = (props) => {
                     return {
                         coursesObj: response.data,
                         isLoading: false,
-                        page: previousState.page,
+                        page: pageNum,
                         error: null
                     }
                 });
@@ -98,12 +100,12 @@ const SearchResultPage = (props) => {
                     return {
                         coursesObj: null,
                         isLoading: false,
-                        page: previousState.page,
+                        page: pageNum,
                         error: err
                     }
                 })
             });
-    }, [parsedQuery])
+    }, [parsedQuery,pageNum])
 
     useEffect(() => {
         setSearchInputState(previousState => {
@@ -111,89 +113,6 @@ const SearchResultPage = (props) => {
             return { input: parsedQuery }
         })
     }, [parsedQuery])
-////
-    const onLeftClick = (event) =>{
-        // console.log(page);
-        // page -= 1;
-        console.log(coursesState.page);
-        let url = api_url + parsedQuery + "&p=" + coursesState.page;
-        setCoursesState(previousState => {
-            const resultState = {
-                coursesObj: null,
-                isLoading: true,
-                page: previousState.page,
-                error: null
-            }
-            return resultState
-        });
-        axios.get(url)
-            .then(response => {
-                console.log(response.data)
-                setCoursesState(previousState => {
-                    return {
-                        coursesObj: response.data,
-                        isLoading: false,
-                        page: previousState.page - 1,
-                        error: null
-                    }
-                });
-            })
-            .catch(err => {
-                console.log(err)
-                setCoursesState(previousState => {
-                    return {
-                        coursesObj: null,
-                        isLoading: false,
-                        page: previousState.page,
-                        error: err
-                    }
-                })
-            });
-            console.log(coursesState.page);
-    }
-
-    const onRightClick = (event) =>{
-        // console.log(page);
-        // page += 1;
-        let url = api_url + parsedQuery + "&p=" + coursesState.page;
-        axios.get(url)
-            .then(response => {
-                console.log(response.data)
-                setCoursesState(previousState => {
-                    return {
-                        coursesObj: response.data,
-                        isLoading: false,
-                        page: previousState.page + 1,
-                        error: null
-                    }
-                });
-            })
-        console.log(coursesState.page);
-    }
-
-    const handlePageClick = (newPage) =>{
-        // console.log(page);
-        // page = page;
-        // console.log(page);
-        let url = api_url + parsedQuery + "&p=" + coursesState.page;
-        axios.get(url)
-            .then(response => {
-                console.log(response.data)
-                setCoursesState(previousState => {
-                    return {
-                        coursesObj: response.data,
-                        isLoading: false,
-                        page: newPage,
-                        error: null
-                    }
-                });
-            })
-        console.log(coursesState.page);
-
-    }
-
-    // const size=10;
-    // const totalPages= coursesState.coursesObj.total/size;
 
     if (coursesState.coursesObj && !coursesState.isLoading) {
         if (coursesState.coursesObj.total < 1) {
@@ -243,15 +162,14 @@ const SearchResultPage = (props) => {
             </div>
         )
     }
-
     
     let pagination =  null;
     if (coursesState.coursesObj && !coursesState.isLoading) {
         pagination = (
             <Pagination 
-            courseState={coursesState.coursesObj} page={coursesState.page} 
-            onPageClick={handlePageClick} onLeftClick={onLeftClick} onRightClick={onRightClick}/>
-            // totalPages={totalPages} 
+            courseState={coursesState.coursesObj} page={coursesState.page} searchInputState={searchInputState.input}
+             />
+            // totalPages={totalPages} onLeftClick={onLeftClick} onRightClick={onRightClick} onPageClick={handlePageClick}
         )
     }
 
@@ -281,7 +199,7 @@ const SearchResultPage = (props) => {
                         <Link
                             to={{
                                 pathname: "/search/",
-                                search: "?kw=" + searchInputState.input
+                                search: "?kw=" + searchInputState.input + "&p=" + 1
                             }}
                             className="btn">
                                 <ion-icon name="search-outline"></ion-icon>
