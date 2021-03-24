@@ -38,7 +38,6 @@ const SearchResultPage = (props) => {
     const api_url = 'http://localhost:8080/es-api/?keyword='
     const parsedQuery = getParsedQuery(location);
     const pageNum = getPage(location);
-    console.log(pageNum);
     const placeholderText = "Search for anything"
     const filterGroups = [
         {
@@ -169,7 +168,6 @@ const SearchResultPage = (props) => {
             <Pagination 
             courseState={coursesState.coursesObj} page={coursesState.page} searchInputState={searchInputState.input}
              />
-            // totalPages={totalPages} onLeftClick={onLeftClick} onRightClick={onRightClick} onPageClick={handlePageClick}
         )
     }
 
