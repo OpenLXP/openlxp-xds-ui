@@ -2,13 +2,14 @@ import React from 'react'
 import classes from './Pagination.module.css';
 import { Link } from 'react-router-dom'
 
-
+//Shows page number bar at the bottom of the screen
 const Pagination = (props) => {
 
+  //calculates total pages based on number of results
   let totalEntries = props.courseState.total;
   let totalPages = Math.ceil(totalEntries/10);
-  console.log({totalPages})
 
+  //renders previous page number display
   let prevPage = null;
   let prevPageValue = props.page-1;
   if(1<=prevPageValue){
@@ -25,6 +26,7 @@ const Pagination = (props) => {
       )
   }
 
+  //renders next page number display
   let nextPage = null;
   let nextPageValue = parseInt(props.page)+1;
   if(nextPageValue<=totalPages){
@@ -45,6 +47,7 @@ const Pagination = (props) => {
   let nextText = ">"
   return (
     <div className={classes.mainClass}>
+      {/* previous button */}
       <Link
         to={{
           pathname: "/search/",
@@ -56,6 +59,7 @@ const Pagination = (props) => {
       {prevPage}
       <button id={props.page} className={classes.activeNumber} type="button" >{props.page}</button>
       {nextPage}
+      {/* next button */}
       <Link
         to={{
           pathname: "/search/",
