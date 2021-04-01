@@ -18,13 +18,13 @@ const getKeywordParam = (location) => {
 
 /* this helper method will update the current search parameter with a new value
     and return its string representation */
-const getUpdatedSearchQuery = (location, paramObj, isChecked) => {
+export const getUpdatedSearchQuery = (location, paramObj, isChecked) => {
     const queryObj = queryString.parse(location.search);
 
     for (let paramNm in paramObj) {
         // if it's the page parameter, we just update it to 1
         if (paramNm === 'p') {
-            queryObj[paramNm] = 1;
+            queryObj[paramNm] = paramObj[paramNm];
             continue;
         }
         // if checkbox is checked then we're adding a value to a parameter
@@ -64,7 +64,7 @@ const getUpdatedSearchQuery = (location, paramObj, isChecked) => {
 
 /* this helper method takes in a query object and returns its query string 
     representation */
-const getSearchString = (queryObj) => {
+export const getSearchString = (queryObj) => {
     let result = '';
 
     for (let param in queryObj) {
@@ -118,6 +118,7 @@ const SearchResultPage = (props) => {
     // TODO: get this url from configuration
     const api_url = 'http://localhost:8080/es-api/'
     const keyword = getKeywordParam(location);
+    const pageNum = getPage(location);
     const placeholderText = "Search for anything"
 
     // TODO: remove placeholder images when data comes in with images
@@ -209,7 +210,7 @@ const SearchResultPage = (props) => {
                     }
                 })
             });
-    }, [keyword, location.search])
+    }, [keyword, location.search, pageNum])
 
     /* Whenever the component renders, we copy the keyword from the URL to the 
         search bar */

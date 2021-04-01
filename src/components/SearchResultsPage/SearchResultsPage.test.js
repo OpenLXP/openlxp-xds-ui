@@ -153,7 +153,8 @@ describe('<SearchResultsPage />', () => {
         };
         const resp = {data: data};
         axios.get.mockRejectedValueOnce({error: "error"});
-        const errorText = 'Error Loading experiences.';
+        const errorText = 
+            'Error Loading experiences. Please contact an administrator.';
 
         await act(async () => {
             render(

@@ -34,15 +34,24 @@ describe('<ExpPreviewPanel />', () => {
                 Provider: "Test_Provider",
                 Maintainer: "Test_maintainer",
                 OtherRole: "Test"
+            },
+            meta: {
+                index: "test-index",
+                id: "2",
+                score: 1,
+                doc_type: "_doc"
             }
         }
 
         act(() => {
             render(
-                <ExpPreviewPanel
-                    expObj={courseObj}
-                    key={1}
-                    imgLink="n/a" />
+                <MemoryRouter initialEntries={["/search/?keyword=business"]}>
+                    <ExpPreviewPanel
+                        expObj={courseObj}
+                        key={1}
+                        imgLink="n/a" />
+                </MemoryRouter>
+                
             , container);
         })
         expect(screen.getByText(courseObj.Course.CourseTitle))
@@ -67,15 +76,23 @@ describe('<ExpPreviewPanel />', () => {
                 Provider: "Test_Provider",
                 Maintainer: "Test_maintainer",
                 OtherRole: "Test"
+            },
+            meta: {
+                index: "test-index",
+                id: "2",
+                score: 1,
+                doc_type: "_doc"
             }
         }
 
         act(() => {
             render(
-                <ExpPreviewPanel
-                    expObj={courseObj}
-                    key={1}
-                    imgLink="n/a" />
+                <MemoryRouter initialEntries={["/search/?keyword=business"]}>
+                    <ExpPreviewPanel
+                        expObj={courseObj}
+                        key={1}
+                        imgLink="n/a" />
+                </MemoryRouter>
             , container);
         })
 
