@@ -6,6 +6,8 @@ import Loader from "react-loader-spinner";
 import FilterGroup from './FilterGroup/FilterGroup';
 import ExpPreviewPanel from './ExpPreviewPanel/ExpPreviewPanel';
 import Pagination from '../Pagination/Pagination';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 // import dummyJSON from '../../resources/dummy.json';
 
 
@@ -24,6 +26,10 @@ export const getUpdatedSearchQuery = (location, paramObj, isChecked) => {
     for (let paramNm in paramObj) {
         // if it's the page parameter, we just update it to 1
         if (paramNm === 'p') {
+            queryObj[paramNm] = paramObj[paramNm];
+            continue;
+        }
+        if (paramNm === 'sort') {
             queryObj[paramNm] = paramObj[paramNm];
             continue;
         }
@@ -107,6 +113,27 @@ const SearchResultPage = (props) => {
         isLoading: false,
         page: 1,
         error: null
+    });
+
+    const [sortState, setSortState] = useState({
+        sort:{
+            "id": 1,
+            "search_sort_options": [
+                {
+                    "display_name": "Course Title",
+                    "field_name": "Course.CourseTitlte",
+                    "active": true,
+                    "xds_ui_configuration": 1
+                },
+                {
+                    "display_name": "Course Date",
+                    "field_name": "Lifecycle.CourseDate",
+                    "active": true,
+                    "xds_ui_configuration": 1
+                }
+            ],
+            "search_results_per_page": 10
+        } 
     });
 
     // initial state to track input on the search bar
@@ -220,6 +247,36 @@ const SearchResultPage = (props) => {
         })
     }, [keyword])
 
+    // useEffect(() => {
+    //     let url = api_url + location.search;
+    //     setSortState(previousState => {
+    //         const resultState = {
+    //             isLoading: true,
+    //             sort: null
+    //         }
+    //         return resultState
+    //     });
+    //     axios.get(url)
+    //         .then(response => {
+    //             console.log(response.data)
+    //             setSortState(previousState => {
+    //                 return {
+    //                     isLoading: false,
+    //                     sort: response.data
+    //                 }
+    //             });
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //             setSortState(previousState => {
+    //                 return {
+    //                     isLoading: false,
+    //                     sort: null
+    //                 }
+    //             })
+    //         });
+    // }, [keyword, location.search])
+
     // Once courses are returned from the API we display them in preview panels
     if (coursesState.coursesObj && !coursesState.isLoading) {
         if (coursesState.coursesObj.total < 1) {
@@ -282,6 +339,49 @@ const SearchResultPage = (props) => {
         )
     }
 
+    let options = [{value:"MostRelavent", label: "Most Relavent"} ];
+    for (let param in sortState.sort.search_sort_options) {
+        options.push({value: sortState.sort.search_sort_options[param].field_name, 
+            label: sortState.sort.search_sort_options[param].display_name});
+    }
+    console.log(options);
+
+    let filterDropdown = (    
+    
+        <Dropdown options={options} value="Most Relavent" placeholder="Select an option" 
+          style={{width: "100px"}}
+          onChange={event => {
+            // location = useLocation();
+            let paramObj  = {};
+            console.log(event);
+            console.log(event.value);
+            if (paramObj['sort'] === null){
+                const updatedParamObj = getUpdatedSearchQuery(location, paramObj, true);
+                const searchString = getSearchString(updatedParamObj);
+                history.push({
+                    pathname: '/search/',
+                    search: searchString + "&sort=" + event.value
+                });
+            }
+            else{
+                if (event.value === "MostRelavent"){
+                    paramObj['sort'] = null;
+                }
+                else{
+                    paramObj['sort'] = event.value;
+                }
+                const updatedParamObj = getUpdatedSearchQuery(location, paramObj, true);
+                const searchString = getSearchString(updatedParamObj);
+                history.push({
+                    pathname: '/search/',
+                    search: searchString
+                });
+            }          
+
+        }}/>
+    )
+
+
     let mainPageContent = (
         <>
             {numResultsContent}
@@ -321,6 +421,7 @@ const SearchResultPage = (props) => {
                         </div>
                         
                     </div>
+                    {filterDropdown}
                     {expPanelContent}
                     {pagination}
                 </div>
