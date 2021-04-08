@@ -378,6 +378,11 @@ ion-icon {
   font-size: 1.5vw;
 }
 
+.dropdown{
+  width: 20%;
+  margin-left: 40%;
+}
+
 /* --------------------------- */
 /* Course Detail Page
 /* --------------------------- */

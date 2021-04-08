@@ -1,6 +1,6 @@
 import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, fireEvent, queryByAttribute } from '@testing-library/react';
 import axios from 'axios';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -181,4 +181,117 @@ describe('<SearchResultsPage />', () => {
         expect(await screen.findByText(errorText))
             .toBeInTheDocument();
     });
+
+    // it("Should display a functional dropdown for sort", async () => {
+    //     const data = {
+    //         hits: [
+    //             {
+    //                 Course: {
+    //                     CourseProviderName: "TEST",
+    //                     DepartmentName: "TEST",
+    //                     EducationalContext: " ",
+    //                     CourseCode: "Random_code",
+    //                     CourseTitle: "Test Course 1",
+    //                     CourseDescription: "Test Description",
+    //                     CourseAudience: "Test_audience",
+    //                     CourseSectionDeliveryMode: "Online"
+    //                 },
+    //                 Lifecycle: {
+    //                     Provider: "Test_Provider",
+    //                     Maintainer: "Test_maintainer",
+    //                     OtherRole: "Test"
+    //                 },
+    //                 meta: {
+    //                     index: "test-index",
+    //                     id: "1",
+    //                     score: 1,
+    //                     doc_type: "_doc"
+    //                 }
+    //             },
+    //             {
+    //                 Course: {
+    //                     CourseProviderName: "TEST",
+    //                     DepartmentName: "TEST",
+    //                     EducationalContext: " ",
+    //                     CourseCode: "Random_code",
+    //                     CourseTitle: "Test Course 1",
+    //                     CourseDescription: "Test Description",
+    //                     CourseAudience: "Test_audience",
+    //                     CourseSectionDeliveryMode: "Online"
+    //                 },
+    //                 Lifecycle: {
+    //                     Provider: "Test_Provider",
+    //                     Maintainer: "Test_maintainer",
+    //                     OtherRole: "Test"
+    //                 },
+    //                 meta: {
+    //                     index: "test-index",
+    //                     id: "2",
+    //                     score: 1,
+    //                     doc_type: "_doc"
+    //                 }
+    //             },
+    //             {
+    //                 Course: {
+    //                     CourseProviderName: "TEST",
+    //                     DepartmentName: "TEST",
+    //                     EducationalContext: " ",
+    //                     CourseCode: "Random_code",
+    //                     CourseTitle: "Test Course 1",
+    //                     CourseDescription: "Test Description",
+    //                     CourseAudience: "Test_audience",
+    //                     CourseSectionDeliveryMode: "Online"
+    //                 },
+    //                 Lifecycle: {
+    //                     Provider: "Test_Provider",
+    //                     Maintainer: "Test_maintainer",
+    //                     OtherRole: "Test"
+    //                 },
+    //                 meta: {
+    //                     index: "test-index",
+    //                     id: "3",
+    //                     score: 1,
+    //                     doc_type: "_doc"
+    //                 }
+    //             },
+    //         ],
+    //         total: 3,
+    //         aggregations: {}
+    //     };
+    //     const data2 = {
+            
+    //         "id": 1,
+    //         "search_sort_options": [
+    //             {
+    //                 "display_name": "Course Title",
+    //                 "field_name": "Course.CourseTitlte",
+    //                 "active": true,
+    //                 "xds_ui_configuration": 1
+    //             },
+    //             {
+    //                 "display_name": "Course Date",
+    //                 "field_name": "Lifecycle.CourseDate",
+    //                 "active": true,
+    //                 "xds_ui_configuration": 1
+    //             }
+    //         ],
+    //         "search_results_per_page": 10
+    //     };
+    //     const resp = {data: data};
+    //     axios.get.mockResolvedValueOnce(resp);
+
+    //     let wrapper;
+    //     await act(async () => {
+    //         render(
+    //             <MemoryRouter initialEntries={["/search/?keyword=business&p=1"]}>
+    //                 <SearchResultsPage />
+    //             </MemoryRouter>
+    //         , container);
+    //     });
+
+    //     let getById = queryByAttribute.bind(null, 'id');
+    //     let dropdown = getById(container, 'sortDropdown');
+    //     console.log(dropdown);
+    //     expect(dropdown).toBeInTheDocument(); 
+    // });
 });
