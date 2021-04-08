@@ -348,8 +348,7 @@ const SearchResultPage = (props) => {
 
     let filterDropdown = (    
     
-        <Dropdown options={options} value="Most Relavent" placeholder="Select an option" 
-          style={{width: "100px"}}
+        <Dropdown options={options} value="Most Relavent" placeholder="Select an option" className='dropdown'
           onChange={event => {
             // location = useLocation();
             let paramObj  = {};
