@@ -3,7 +3,10 @@ import { unmountComponentAtNode } from 'react-dom';
 import { act, render, screen } from '@testing-library/react';
 import axios from 'axios';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+
 import SearchResultsPage from '../SearchResultsPage/SearchResultsPage';
+import store from '../../store/store';
 
 jest.mock('axios');
 // jest.mock("react-router-dom", () => ({
@@ -40,9 +43,12 @@ describe('<SearchResultsPage />', () => {
 
         await act(async () => {
             render(
-                <MemoryRouter initialEntries={["/search/?keyword=business"]}>
-                    <SearchResultsPage />
-                </MemoryRouter>
+                <Provider store={store}>
+                    <MemoryRouter initialEntries={["/search/?keyword=business"]}>
+                        <SearchResultsPage />
+                    </MemoryRouter>
+                </Provider>
+                
             , container);
         });
         expect(screen.getByText('0 results for "business"', {exact: false}))
@@ -132,9 +138,12 @@ describe('<SearchResultsPage />', () => {
 
         await act(async () => {
             render(
-                <MemoryRouter initialEntries={["/search/?keyword=business"]}>
-                    <SearchResultsPage />
-                </MemoryRouter>
+                <Provider store={store}>
+                    <MemoryRouter initialEntries={["/search/?keyword=business"]}>
+                        <SearchResultsPage />
+                    </MemoryRouter>
+                </Provider>
+                
             , container);
         });
 
@@ -158,9 +167,12 @@ describe('<SearchResultsPage />', () => {
 
         await act(async () => {
             render(
-                <MemoryRouter initialEntries={["/search/?keyword=business"]}>
-                    <SearchResultsPage />
-                </MemoryRouter>
+                <Provider store={store}>
+                    <MemoryRouter initialEntries={["/search/?keyword=business"]}>
+                        <SearchResultsPage />
+                    </MemoryRouter>
+                </Provider>
+                
             , container);
         });
 

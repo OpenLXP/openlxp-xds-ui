@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, Link, useHistory } from "react-router-dom";
 import queryString from 'query-string';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+
 import Loader from "react-loader-spinner";
 import FilterGroup from './FilterGroup/FilterGroup';
 import ExpPreviewPanel from './ExpPreviewPanel/ExpPreviewPanel';
@@ -139,6 +141,9 @@ const SearchResultPage = (props) => {
         </div>
     )
     let aggregations = [];
+    // Getting the global configuration object from the redux store
+    const { configuration } = useSelector((state) => state.configuration);
+    const { status } = useSelector((state) => state.configuration);
 
     /* This function handles when a filter checkbox is clicked */
     function handleFilterSelect(e, fieldName) {
@@ -148,9 +153,7 @@ const SearchResultPage = (props) => {
         
         const updatedParamObj = 
             getUpdatedSearchQuery(location, paramObj, e.target.checked);
-        console.log(updatedParamObj)
         const searchString = getSearchString(updatedParamObj);
-        console.log(location.search);
         history.push({
             pathname: '/search/',
             search: searchString
@@ -189,7 +192,6 @@ const SearchResultPage = (props) => {
         });
         axios.get(url)
             .then(response => {
-                console.log(response.data)
                 setCoursesState(previousState => {
                     return {
                         coursesObj: response.data,
@@ -200,7 +202,6 @@ const SearchResultPage = (props) => {
                 });
             })
             .catch(err => {
-                console.log(err)
                 setCoursesState(previousState => {
                     return {
                         coursesObj: null,
@@ -219,6 +220,14 @@ const SearchResultPage = (props) => {
             return { input: keyword }
         })
     }, [keyword])
+
+    // here we check that the configuration was loaded successfully from redux
+    if (status === 'succeeded') {
+        console.log(configuration);
+        // do something
+    } else if (status === 'failed') {
+        // do something
+    }
 
     // Once courses are returned from the API we display them in preview panels
     if (coursesState.coursesObj && !coursesState.isLoading) {
