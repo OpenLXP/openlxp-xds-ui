@@ -118,7 +118,7 @@ const SearchResultPage = (props) => {
     let location = useLocation();
     let history = useHistory();
     // TODO: get this url from configuration
-    const api_url = 'http://localhost:8080/es-api/'
+    const api_url = process.env.REACT_APP_ES_API;
     const keyword = getKeywordParam(location);
     const pageNum = getPage(location);
     const placeholderText = "Search for anything"
@@ -211,7 +211,7 @@ const SearchResultPage = (props) => {
                     }
                 })
             });
-    }, [keyword, location.search, pageNum])
+    }, [keyword, location.search, pageNum, api_url])
 
     /* Whenever the component renders, we copy the keyword from the URL to the 
         search bar */

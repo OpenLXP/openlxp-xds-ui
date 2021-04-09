@@ -11,7 +11,7 @@ const CourseDetail = (props) => {
     const location = useLocation();
     const expObj = location.state.expObj;
     const imgLink = location.state.imgLink;
-    const api_url = 'http://localhost:8080/es-api/more-like-this/';
+    const api_url = process.env.REACT_APP_ES_MLT;
     let cardSection = (
         <div>
             Error Loading Related card.
@@ -39,7 +39,6 @@ const CourseDetail = (props) => {
         });
         axios.get(url)
             .then(response => {
-                console.log(response.data);
                 setCoursesState(previousState => {
                     return {
                         coursesObj: response.data,
@@ -49,7 +48,6 @@ const CourseDetail = (props) => {
                 });
             })
             .catch(err => {
-                console.log(err)
                 setCoursesState(previousState => {
                     return {
                         coursesObj: null,
@@ -58,7 +56,7 @@ const CourseDetail = (props) => {
                     }
                 })
             });
-    }, [expObj.meta.id])
+    }, [expObj.meta.id, api_url])
 
     // showing loading text when the api call is in progress
     if (coursesState.isLoading === true) {

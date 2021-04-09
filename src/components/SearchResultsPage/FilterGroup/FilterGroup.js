@@ -18,7 +18,7 @@ const FilterGroup = (props) => {
                 // using the parameters passed in the url
                 let paramVal = props.paramObj[groupObj.fieldName];
                 const checkedResult = (
-                    <>
+                    <React.Fragment key={idx}>
                         <input type="checkbox"
                             id={valObj.key.replace(' ', '')}
                             name={valObj.key}
@@ -29,11 +29,11 @@ const FilterGroup = (props) => {
                             {valObj.key} ({valObj.doc_count})
                         </label>
                         <br></br>
-                    </>
+                    </React.Fragment>
                 )
             
                 const defaultResult = (
-                    <>
+                    <React.Fragment key={idx}>
                         <input type="checkbox"
                             id={valObj.key}
                             name={valObj.key}
@@ -43,7 +43,7 @@ const FilterGroup = (props) => {
                             {valObj.key} ({valObj.doc_count})
                         </label>
                         <br></br>
-                    </>
+                    </React.Fragment>
                 )
 
                 if (paramVal) {

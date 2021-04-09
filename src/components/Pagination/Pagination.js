@@ -24,7 +24,6 @@ const Pagination = (props) => {
   const prevSearchString = getSearchString(prevUpdatedParamObj);
 
   if (1 <= prevPageValue) {
-    console.log({ prevPageValue });
 
     prevPage = (
       <Link
@@ -49,7 +48,6 @@ const Pagination = (props) => {
   const nextSearchString = getSearchString(nextUpdatedParamObj);
 
   if (nextPageValue <= totalPages) {
-    console.log({ nextPageValue });
      
     nextPage = (
       <Link

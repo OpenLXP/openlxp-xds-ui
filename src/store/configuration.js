@@ -12,7 +12,7 @@ const initialState = {
 export const fetchConfiguration =
     createAsyncThunk('configuration/fetchConfiguration', async () => {
         const response =
-            await axios.get('http://localhost:8080/api/ui-configuration/');
+            await axios.get(process.env.REACT_APP_CONFIGURATION_API);
         return response.data;
 });
 
