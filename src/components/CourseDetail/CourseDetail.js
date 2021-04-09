@@ -11,7 +11,7 @@ const CourseDetail = (props) => {
     const location = useLocation();
     const expObj = location.state.expObj;
     const imgLink = location.state.imgLink;
-    const api_url = process.env.REACT_APP_ES_MLT;
+    const api_url = process.env.REACT_APP_ES_MLT_API;
     let cardSection = (
         <div>
             Error Loading Related card.
