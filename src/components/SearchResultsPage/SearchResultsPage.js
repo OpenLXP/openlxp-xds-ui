@@ -6,6 +6,7 @@ import Loader from "react-loader-spinner";
 import FilterGroup from './FilterGroup/FilterGroup';
 import ExpPreviewPanel from './ExpPreviewPanel/ExpPreviewPanel';
 import Pagination from '../Pagination/Pagination';
+import Select from 'react-select';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 // import dummyJSON from '../../resources/dummy.json';
@@ -347,8 +348,9 @@ const SearchResultPage = (props) => {
     console.log(options);
 
     let filterDropdown = (    
-    
-        <Dropdown options={options} value="Most Relavent" placeholder="Select an option" className='dropdown'
+        <div data-testid='selectSort' id="sortDropdown">
+        <Select options={options} defaultValue={{label: "Most Relavent", value:"MostRelavent"}} name="sort" classNamePrefix='list'  
+        data-testid="dropdown" placeholder="Select an option" className='dropdown'
           onChange={event => {
             // location = useLocation();
             let paramObj  = {};
@@ -377,7 +379,10 @@ const SearchResultPage = (props) => {
                 });
             }          
 
-        }}/>
+        }}>
+            <div data-testid="dropdownn"/>
+       </Select>
+        </div>
     )
 
 
