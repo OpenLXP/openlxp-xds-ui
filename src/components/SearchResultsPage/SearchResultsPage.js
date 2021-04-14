@@ -116,6 +116,27 @@ const SearchResultPage = (props) => {
         error: null
     });
 
+    const [sortState, setSortState] = useState({
+        sort:{
+            "id": 1,
+            "search_sort_options": [
+                {
+                    "display_name": "Course Title",
+                    "field_name": "Course.CourseTitlte",
+                    "active": true,
+                    "xds_ui_configuration": 1
+                },
+                {
+                    "display_name": "Course Date",
+                    "field_name": "Lifecycle.CourseDate",
+                    "active": true,
+                    "xds_ui_configuration": 1
+                }
+            ],
+            "search_results_per_page": 10
+        } 
+    });
+
     // initial state to track input on the search bar
     const [searchInputState, setSearchInputState] = useState({
         input: ''
