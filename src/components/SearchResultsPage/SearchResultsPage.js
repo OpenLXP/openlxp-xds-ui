@@ -9,8 +9,6 @@ import FilterGroup from './FilterGroup/FilterGroup';
 import ExpPreviewPanel from './ExpPreviewPanel/ExpPreviewPanel';
 import Pagination from '../Pagination/Pagination';
 import Select from 'react-select';
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
 // import dummyJSON from '../../resources/dummy.json';
 
 
@@ -118,27 +116,6 @@ const SearchResultPage = (props) => {
         error: null
     });
 
-    const [sortState, setSortState] = useState({
-        sort:{
-            "id": 1,
-            "search_sort_options": [
-                {
-                    "display_name": "Course Title",
-                    "field_name": "Course.CourseTitlte",
-                    "active": true,
-                    "xds_ui_configuration": 1
-                },
-                {
-                    "display_name": "Course Date",
-                    "field_name": "Lifecycle.CourseDate",
-                    "active": true,
-                    "xds_ui_configuration": 1
-                }
-            ],
-            "search_results_per_page": 10
-        } 
-    });
-
     // initial state to track input on the search bar
     const [searchInputState, setSearchInputState] = useState({
         input: ''
@@ -172,6 +149,7 @@ const SearchResultPage = (props) => {
     // Getting the global configuration object from the redux store
     const { configuration } = useSelector((state) => state.configuration);
     const { status } = useSelector((state) => state.configuration);
+    console.log(configuration);
 
     /* This function handles when a filter checkbox is clicked */
     function handleFilterSelect(e, fieldName) {
@@ -320,13 +298,15 @@ const SearchResultPage = (props) => {
     }
 
     let options = [{value:"MostRelavent", label: "Most Relavent"} ];
-    for (let param in sortState.sort.search_sort_options) {
-        options.push({value: sortState.sort.search_sort_options[param].field_name, 
-            label: sortState.sort.search_sort_options[param].display_name});
+    if(configuration!= null){
+        for (let param in configuration.search_sort_options) {
+            options.push({value: configuration.search_sort_options[param].field_name, 
+                label: configuration.search_sort_options[param].display_name});
+        }
     }
     console.log(options);
 
-    let filterDropdown = (    
+    let filterDropdown = (
         <div data-testid='selectSort' id="sortDropdown">
         <Select options={options} defaultValue={{label: "Most Relavent", value:"MostRelavent"}} name="sort" classNamePrefix='list'  
         data-testid="dropdown" placeholder="Select an option" className='dropdown'
