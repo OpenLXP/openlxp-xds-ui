@@ -1,8 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 import ExperienceCard from '../ExperienceCard/ExperienceCard';
+
+/* helper method to get an icon given its backend-configured name */
+const getIconByName = (name) => {
+    switch (name) {
+        case "clock":
+            return (
+                <ion-icon name="time-outline">
+                </ion-icon>
+            )
+        case "hourglass":
+            return (
+                <ion-icon name="hourglass-outline">
+                </ion-icon>
+            )
+        case "user":
+            return (
+                <ion-icon name="person-outline">
+                </ion-icon>
+            )
+        case "multi-users":
+            return (
+                <ion-icon name="people-outline">
+                </ion-icon>
+            )
+        case "location":
+            return (
+                <ion-icon name="location-outline">
+                </ion-icon>
+            )
+        default:
+            return (
+                <ion-icon name="calendar-outline">
+                </ion-icon>
+            )
+    }
+}
 
 /* CourseDetail Component to render the page when a course is selected from a
     search */
@@ -24,6 +61,10 @@ const CourseDetail = (props) => {
         isLoading: false,
         error: null
     });
+
+    // global config state
+    const { configuration } = useSelector((state) => state.configuration);
+    let courseDetails = [];
 
     // Fetch similar courses from elastic search
     useEffect(() => {
@@ -63,13 +104,52 @@ const CourseDetail = (props) => {
         cardSection = (
             <div className="center-text">Loading...</div>
         )
-    // once the api call is done and it's not an error we load the previews
+        // once the api call is done and it's not an error we load the previews
     } else if (coursesState.coursesObj && coursesState.isLoading === false) {
         cardSection = (
             coursesState.coursesObj.hits.map((course, idx) => {
                 return <ExperienceCard courseObj={course} key={idx} />
             })
         );
+    }
+
+    // if configuration is loaded and has course detail config
+    if (configuration && configuration.course_highlights) {
+
+        for (let x = 0; x < configuration.course_highlights.length; x++) {
+            let curr = configuration.course_highlights[x];
+            let col1 = null;
+            let col2 = null;
+            let col1Icon = getIconByName(curr.highlight_icon);
+
+            col1 = (
+                <div className="col span-1-of-2">
+                    {col1Icon}
+                    {curr.display_name}: {expObj[curr.field_name]}
+                </div>
+            )
+
+            x += 1;
+
+            if (x < configuration.course_highlights.length) {
+                curr = configuration.course_highlights[x];
+                let col2Icon = getIconByName(curr.highlight_icon);
+
+                col2 = (
+                    <div className="col span-1-of-2">
+                        {col2Icon}
+                        {curr.display_name}: {expObj[curr.field_name]}
+                    </div>
+                )
+            }
+
+            courseDetails.push(
+                <div className="row">
+                    {col1}
+                    {col2}
+                </div>
+            )
+        }
     }
 
     return (
@@ -79,66 +159,21 @@ const CourseDetail = (props) => {
                     <h2>{expObj.Course.CourseTitle}</h2>
                     <div className="row">
                         <div className="col span-2-of-5">
-                            <img 
-                                src={imgLink} 
-                                alt="Course thumbnail"/>
-                            <a href={expObj.Course.CourseURL} 
-                               className="btn">
-                                   View Course
+                            <img
+                                src={imgLink}
+                                alt="Course thumbnail" />
+                            <a href={expObj.Course.CourseURL}
+                                className="btn">
+                                View Course
                             </a>
                         </div>
                         <div className="col span-3-of-5">
                             <p>{expObj.Course.CourseDescription}</p>
 
                             <div className="row course-highlights">
-                                <div className="row">
-                                    <div className="col span-1-of-2">
-                                        <ion-icon name="time-outline">
-                                        </ion-icon>
-                                        Start Date: 
-                                    </div>
-                                    <div className="col span-1-of-2">
-                                        <ion-icon name="time-outline">
-                                        </ion-icon>
-                                        End Date: 
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col span-1-of-2">
-                                        <ion-icon name="hourglass-outline">
-                                        </ion-icon>
-                                        Duration:
-                                    </div>
-                                    <div className="col span-1-of-2">
-                                        <ion-icon name="calendar-outline">
-                                        </ion-icon>
-                                        Date Last Modified:
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col span-1-of-2">
-                                        <ion-icon name="person-outline">
-                                        </ion-icon>
-                                        Author:
-                                    </div>
-                                    <div className="col span-1-of-2">
-                                        <ion-icon name="location-outline">
-                                        </ion-icon>
-                                        Location:
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col span-1-of-2">
-                                        <ion-icon name="person-outline">
-                                        </ion-icon>
-                                        Instructor:
-                                    </div>
-                                    <div className="col span-1-of-2">
-                                        <ion-icon name="people-outline">
-                                        </ion-icon>
-                                        Course Audience:
-                                    </div>
-                                </div>
+                                {courseDetails.map((row, idx) => {
+                                    return row;
+                                })}
                             </div>
                         </div>
                     </div>

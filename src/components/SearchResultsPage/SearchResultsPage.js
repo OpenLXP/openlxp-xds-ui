@@ -9,6 +9,7 @@ import FilterGroup from './FilterGroup/FilterGroup';
 import ExpPreviewPanel from './ExpPreviewPanel/ExpPreviewPanel';
 import Pagination from '../Pagination/Pagination';
 import Select from 'react-select';
+import no_img from '../../resources/vendors/img/no-image2.png'
 // import dummyJSON from '../../resources/dummy.json';
 
 
@@ -127,6 +128,7 @@ const SearchResultPage = (props) => {
     const keyword = getKeywordParam(location);
     const pageNum = getPage(location);
     const placeholderText = "Search for anything"
+    const backendHost = process.env.REACT_APP_BACKEND_HOST;
 
     // TODO: remove placeholder images when data comes in with images
     const imgArr = [
@@ -244,23 +246,35 @@ const SearchResultPage = (props) => {
         } else {
             expPanelContent = (
                 coursesState.coursesObj.hits.map((exp, idx) => {
-                    if (imgArr[idx] !== null && imgArr[idx] !== undefined) {
+                    if (exp.GeneralInformation 
+                            && exp.GeneralInformation.Thumbnail) {
                         return (
                             <ExpPreviewPanel
                                 expObj={exp}
                                 key={idx}
-                                imgLink={imgArr[idx]} />
+                                imgLink={exp.GeneralInformation.Thumbnail} />
                         )
                     } else {
-                        return (
-                            <ExpPreviewPanel
-                                expObj={exp}
-                                key={idx}
-                                imgLink={'https://images.pexels.com/photos/'
-                                    + '750913/pexels-photo-750913.jpeg?auto='
-                                    + 'compress&cs=tinysrgb&dpr=2&h=750&w=1260'}
-                            />
-                        )
+                        if (configuration 
+                                && configuration.course_img_fallback) {
+                            return (
+                                <ExpPreviewPanel
+                                    expObj={exp}
+                                    key={idx}
+                                    imgLink={backendHost + 
+                                             configuration.course_img_fallback}
+                                />
+                            )
+                        } else {
+                            return (
+                                <ExpPreviewPanel
+                                    expObj={exp}
+                                    key={idx}
+                                    imgLink={no_img}
+                                />
+                            )
+                        }
+                        
                     }
                 })
             )

@@ -1,8 +1,9 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import no_img from '../../resources/vendors/img/no-image2.png'
 
-const experienceCard = (props) => {
+const ExperienceCard = (props) => {
 
     let result = (
         <div className="col span-1-of-4 box">
@@ -11,10 +12,18 @@ const experienceCard = (props) => {
     )
 
     let courseThumbnail = no_img;
+    const { configuration } = useSelector((state) => state.configuration);
+    const backendHost = process.env.REACT_APP_BACKEND_HOST;
     // default style if no image is provided
     let style = {
         backgroundColor: 'rgb(243 243 243)'
     };
+
+    // if configuration is loaded and there is an image fallback, use that
+    if (configuration && configuration.course_img_fallback) {
+        courseThumbnail = backendHost + configuration.course_img_fallback;
+        style = null;
+    }
 
     // override the default img if one is passed in
     if (props.courseObj && props.courseObj.CourseThumbnail 
@@ -68,4 +77,4 @@ const experienceCard = (props) => {
     return result;
 }
 
-export default experienceCard;
+export default ExperienceCard;
