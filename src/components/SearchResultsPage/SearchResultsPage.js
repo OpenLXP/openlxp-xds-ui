@@ -318,21 +318,19 @@ const SearchResultPage = (props) => {
         )
     }
 
-    let options = [{value:"MostRelavent", label: "Most Relavent"} ];
+    let options = [{value:"MostRelevant", label: "Most Relevant"} ];
     if(configuration!= null){
         for (let param in configuration.search_sort_options) {
             options.push({value: configuration.search_sort_options[param].field_name, 
                 label: configuration.search_sort_options[param].display_name});
         }
     }
-    console.log(options);
+    // console.log(options);
 
     let filterDropdown = (
-        <div data-testid='selectSort' id="sortDropdown">
-        <Select options={options} defaultValue={{label: "Most Relavent", value:"MostRelavent"}} name="sort" classNamePrefix='list'  
-        data-testid="dropdown" placeholder="Select an option" className='dropdown'
+        <Select options={options} defaultValue={{label: "Most Relevant", value:"MostRelevant"}} 
+        placeholder="Select an option" className='dropdown'
           onChange={event => {
-            // location = useLocation();
             let paramObj  = {};
             console.log(event);
             console.log(event.value);
@@ -345,7 +343,7 @@ const SearchResultPage = (props) => {
                 });
             }
             else{
-                if (event.value === "MostRelavent"){
+                if (event.value === "MostRelevant"){
                     paramObj['sort'] = null;
                 }
                 else{
@@ -360,9 +358,7 @@ const SearchResultPage = (props) => {
             }          
 
         }}>
-            <div data-testid="dropdownn"/>
        </Select>
-        </div>
     )
 
 
