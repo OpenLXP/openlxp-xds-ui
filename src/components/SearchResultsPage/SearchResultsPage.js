@@ -116,27 +116,6 @@ const SearchResultPage = (props) => {
         error: null
     });
 
-    const [sortState, setSortState] = useState({
-        sort:{
-            "id": 1,
-            "search_sort_options": [
-                {
-                    "display_name": "Course Title",
-                    "field_name": "Course.CourseTitlte",
-                    "active": true,
-                    "xds_ui_configuration": 1
-                },
-                {
-                    "display_name": "Course Date",
-                    "field_name": "Lifecycle.CourseDate",
-                    "active": true,
-                    "xds_ui_configuration": 1
-                }
-            ],
-            "search_results_per_page": 10
-        } 
-    });
-
     // initial state to track input on the search bar
     const [searchInputState, setSearchInputState] = useState({
         input: ''
@@ -170,7 +149,6 @@ const SearchResultPage = (props) => {
     // Getting the global configuration object from the redux store
     const { configuration } = useSelector((state) => state.configuration);
     const { status } = useSelector((state) => state.configuration);
-    console.log(configuration);
 
     /* This function handles when a filter checkbox is clicked */
     function handleFilterSelect(e, fieldName) {
@@ -325,15 +303,14 @@ const SearchResultPage = (props) => {
                 label: configuration.search_sort_options[param].display_name});
         }
     }
-    // console.log(options);
 
+    //sort functionality dropdown 
     let filterDropdown = (
         <Select options={options} defaultValue={{label: "Most Relevant", value:"MostRelevant"}} 
         placeholder="Select an option" className='dropdown'
           onChange={event => {
             let paramObj  = {};
-            console.log(event);
-            console.log(event.value);
+            //if sort is not in the url, then it is added 
             if (paramObj['sort'] === null){
                 const updatedParamObj = getUpdatedSearchQuery(location, paramObj, true);
                 const searchString = getSearchString(updatedParamObj);
@@ -342,6 +319,7 @@ const SearchResultPage = (props) => {
                     search: searchString + "&sort=" + event.value
                 });
             }
+            //if sort is already in the url, replace value 
             else{
                 if (event.value === "MostRelevant"){
                     paramObj['sort'] = null;
