@@ -27,8 +27,8 @@ const ExpPreviewPanel = (props) => {
                     </Link></b>
                 </div>
                 <div className="row exp-desc" data-testid="exp-prev-desc">
-                    {props.expObj.Course.CourseDescription ?
-                        props.expObj.Course.CourseDescription : "N/A"}
+                    {props.expObj.Course.CourseShortDescription ?
+                        props.expObj.Course.CourseShortDescription : "N/A"}
                 </div>
                 <div className="row exp-provider" data-testid="exp-prev-provider">
                     {props.expObj.Course.CourseProviderName ? 

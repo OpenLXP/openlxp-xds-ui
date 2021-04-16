@@ -246,13 +246,13 @@ const SearchResultPage = (props) => {
         } else {
             expPanelContent = (
                 coursesState.coursesObj.hits.map((exp, idx) => {
-                    if (exp.GeneralInformation 
-                            && exp.GeneralInformation.Thumbnail) {
+                    if (exp.Technical_Information 
+                            && exp.Technical_Information.Thumbnail) {
                         return (
                             <ExpPreviewPanel
                                 expObj={exp}
                                 key={idx}
-                                imgLink={exp.GeneralInformation.Thumbnail} />
+                                imgLink={exp.Technical_Information.Thumbnail} />
                         )
                     } else {
                         if (configuration 

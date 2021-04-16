@@ -26,7 +26,7 @@ describe('<ExpPreviewPanel />', () => {
                 EducationalContext: " ",
                 CourseCode: "Random_code",
                 CourseTitle: "Test Course 1",
-                CourseDescription: "Test Description",
+                CourseShortDescription: "Test Description",
                 CourseAudience: "Test_audience",
                 CourseSectionDeliveryMode: "Online"
             },
@@ -51,12 +51,11 @@ describe('<ExpPreviewPanel />', () => {
                         key={1}
                         imgLink="n/a" />
                 </MemoryRouter>
-                
             , container);
         })
         expect(screen.getByText(courseObj.Course.CourseTitle))
             .toBeInTheDocument();
-        expect(screen.getByText(courseObj.Course.CourseDescription))
+        expect(screen.getByText(courseObj.Course.CourseShortDescription))
             .toBeInTheDocument();
         expect(screen.getByText(courseObj.Course.CourseProviderName))
             .toBeInTheDocument();

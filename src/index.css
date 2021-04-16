@@ -292,7 +292,7 @@ ion-icon {
   flex-shrink: 0;
   min-height: 100%;
   min-width: 100%;
-  max-height: 200px;
+  max-height: 145px;
 }
 
 .filter-section {
@@ -394,6 +394,9 @@ ion-icon {
 
 .course-detail img {
   width: 100%;
+  min-height: 100%;
+  min-width: 100%;
+  max-height: 400px;
 }
 
 .course-detail p {

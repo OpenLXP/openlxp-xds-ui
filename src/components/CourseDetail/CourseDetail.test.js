@@ -3,6 +3,9 @@ import { unmountComponentAtNode } from 'react-dom';
 import { act, render, screen } from '@testing-library/react';
 import axios from 'axios';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+
+import store from '../../store/store';
 import CourseDetail from './CourseDetail';
 import dummyJSON from '../../resources/dummy.json'
 
@@ -18,7 +21,7 @@ describe('<CourseDetail />', () => {
         courseObj = {
             Course: {
                 CourseTitle: "Title1",
-                CourseDescription: "Random Course Description",
+                CourseFullDescription: "Random Course Description",
                 DepartmentName: "Department1"
             },
             meta: {
@@ -44,15 +47,17 @@ describe('<CourseDetail />', () => {
 
         await act(async () => {
             render(
-                <MemoryRouter
-                    initialEntries={[{
-                        pathname: "/course/51",
-                        state: {
-                            expObj: courseObj
-                        }
-                    }]}>
-                    <CourseDetail />
-                </MemoryRouter>
+                <Provider store={store}>
+                    <MemoryRouter
+                        initialEntries={[{
+                            pathname: "/course/51",
+                            state: {
+                                expObj: courseObj
+                            }
+                        }]}>
+                        <CourseDetail />
+                    </MemoryRouter>
+                </Provider>
                 , container);
         });
 
@@ -69,15 +74,17 @@ describe('<CourseDetail />', () => {
 
         await act(async () => {
             render(
-                <MemoryRouter
-                    initialEntries={[{
-                        pathname: "/course/51",
-                        state: {
-                            expObj: courseObj
-                        }
-                    }]}>
-                    <CourseDetail />
-                </MemoryRouter>
+                <Provider store={store}>
+                    <MemoryRouter
+                        initialEntries={[{
+                            pathname: "/course/51",
+                            state: {
+                                expObj: courseObj
+                            }
+                        }]}>
+                        <CourseDetail />
+                    </MemoryRouter>
+                </Provider>
                 , container);
         });
 
@@ -95,15 +102,17 @@ describe('<CourseDetail />', () => {
 
             await act(async () => {
                 render(
-                    <MemoryRouter
-                        initialEntries={[{
-                            pathname: "/course/51",
-                            state: {
-                                expObj: courseObj
-                            }
-                        }]}>
-                        <CourseDetail />
-                    </MemoryRouter>
+                    <Provider store={store}>
+                        <MemoryRouter
+                            initialEntries={[{
+                                pathname: "/course/51",
+                                state: {
+                                    expObj: courseObj
+                                }
+                            }]}>
+                            <CourseDetail />
+                        </MemoryRouter>
+                    </Provider>
                     , container);
             });
 

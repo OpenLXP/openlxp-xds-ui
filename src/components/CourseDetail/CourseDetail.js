@@ -168,7 +168,7 @@ const CourseDetail = (props) => {
                             </a>
                         </div>
                         <div className="col span-3-of-5">
-                            <p>{expObj.Course.CourseDescription}</p>
+                            <p>{expObj.Course.CourseFullDescription}</p>
 
                             <div className="row course-highlights">
                                 {courseDetails.map((row, idx) => {

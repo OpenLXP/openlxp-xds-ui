@@ -4,6 +4,10 @@ import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import LandingPage from './LandingPage';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+
+import store from '../../store/store';
+
 
 describe('<LandingPage />', () => {
     let container = null;
@@ -23,9 +27,11 @@ describe('<LandingPage />', () => {
 
         act(() => {
             render(
-                <MemoryRouter>
-                    <LandingPage />
-                </MemoryRouter>
+                <Provider store={store}>
+                    <MemoryRouter>
+                        <LandingPage />
+                    </MemoryRouter>
+                </Provider>
             , container);
         })
 
@@ -43,9 +49,11 @@ describe('<LandingPage />', () => {
 
         act(() => {
             render(
-                <MemoryRouter>
-                    <LandingPage />
-                </MemoryRouter>
+                <Provider store={store}>
+                    <MemoryRouter>
+                        <LandingPage />
+                    </MemoryRouter>
+                </Provider>
             , container);
         });
 

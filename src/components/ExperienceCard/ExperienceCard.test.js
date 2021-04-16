@@ -4,6 +4,9 @@ import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import ExperienceCard from './ExperienceCard';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+
+import store from '../../store/store';
 
 describe('<ExperienceCard />', () => {
     let container = null;
@@ -31,7 +34,11 @@ describe('<ExperienceCard />', () => {
 
         act(() => {
             render(
-                <ExperienceCard courseObj={courseObj} />
+                <Provider store={store}>
+                    <MemoryRouter>
+                        <ExperienceCard courseObj={courseObj} />
+                    </MemoryRouter>
+                </Provider>
             , container);
         })
 
@@ -48,7 +55,11 @@ describe('<ExperienceCard />', () => {
 
         act(() => {
             render(
-                <ExperienceCard courseObj={courseObj} />
+                <Provider store={store}>
+                    <MemoryRouter>
+                        <ExperienceCard courseObj={courseObj} />
+                    </MemoryRouter>
+                </Provider>
             , container);
         })
 
@@ -60,7 +71,11 @@ describe('<ExperienceCard />', () => {
 
         act(() => {
             render(
-                <ExperienceCard />
+                <Provider store={store}>
+                    <MemoryRouter>
+                        <ExperienceCard />
+                    </MemoryRouter>
+                </Provider>
             , container);
         })
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from "react-router-dom";
 
 import no_img from '../../resources/vendors/img/no-image2.png'
 
@@ -26,9 +27,9 @@ const ExperienceCard = (props) => {
     }
 
     // override the default img if one is passed in
-    if (props.courseObj && props.courseObj.CourseThumbnail 
-            && props.courseObj.CourseThumbnail !== '') {
-        courseThumbnail = props.courseObj.CourseThumbnail;
+    if (props.courseObj && props.courseObj.Technical_Information
+        && props.courseObj.Technical_Information.Thumbnail) {
+        courseThumbnail = props.courseObj.Technical_Information.Thumbnail;
         style = null;
     }
 
@@ -36,25 +37,32 @@ const ExperienceCard = (props) => {
     if (props.courseObj && props.courseObj.Course) {
         result = (
             <div className="col span-1-of-4 box">
-                <img 
-                    src={courseThumbnail} 
-                    alt="Course thumbnail" 
-                    style={style}/>
+                <img
+                    src={courseThumbnail}
+                    alt="Course thumbnail"
+                    style={style} />
                 <div className="card-detail">
                     <div className="row card-title">
-                        <b><a href="www.google.com">
-                        {props.courseObj.Course.CourseTitle ? 
-                            props.courseObj.Course.CourseTitle : 
-                            "Missing Course Title"}
-                    </a></b>
+                        <b><Link
+                            to={{
+                                pathname: "/course/" /*+ props.courseObj.meta.id*/,
+                                state: {
+                                    expObj: props.courseObj,
+                                    imgLink: courseThumbnail
+                                }
+                            }}>
+                            {props.courseObj.Course.CourseTitle ?
+                                props.courseObj.Course.CourseTitle :
+                                "Missing Course Title"}
+                        </Link></b>
                     </div>
-                    
+
                     <div className="icon-section">
                         <div className="icon-block">
                             <ion-icon name="business-outline"></ion-icon>
                         </div>
                         <div className="course-highlights">
-                            {props.courseObj.Course.CourseProviderName ? 
+                            {props.courseObj.Course.CourseProviderName ?
                                 props.courseObj.Course.CourseProviderName :
                                 "N/A"}
                         </div>
