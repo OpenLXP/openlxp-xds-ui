@@ -20,24 +20,23 @@ const Header = (props) => {
                 <p> <b className={classes.title1}>U.S. Department of Defense</b> </p>
             </div>
             <div className={classes.div2} >
-                <form className={classes.search}>
-                    {/* <input className={classes.text} type="text" placeholder= "Keyword search" value={this.state.value} onChange={this.handleChange} /> */}
-                    <input className={classes.text} type="text" placeholder="Keyword search" value={state.keyword}
-                        onChange={event => {
-                            const newVal = event.target.value;
-                            setState(previousState => ({keyword: newVal}))
-                        }}/>
-                    {/* <input className={classes.searchImage} type="image" name="Submit" src={searchButton} alt="Submit"/> */}
-                    <Link
-                        to={{
-                            pathname: "/search/",
-                            search: "?keyword=" + state.keyword + "&p=" + 1
-                        }}>
-                        <input className={classes.searchImage} type="image" name="Submit" src={searchButton} alt="Submit"/>
-                        </Link>
-                </form>
-                
-                <NavLink to='/signIn' className={classes.signIn}>Sign in</NavLink>
+                <div className={classes.topLeft}>
+                    <NavLink to='/signIn' className={classes.signIn}>Sign in</NavLink>
+                    <div className={classes.inputwithicon}>
+                        <input className={classes.text} type="text" placeholder="Keyword search" value={state.keyword}
+                            onChange={event => {
+                                const newVal = event.target.value;
+                                setState(previousState => ({keyword: newVal}))
+                            }}/>
+                        <Link
+                            to={{
+                                pathname: "/search/",
+                                search: "?keyword=" + state.keyword + "&p=" + 1
+                            }}className="btn">
+                            <ion-icon name="search-outline"></ion-icon>
+                            </Link>
+                    </div>
+                </div>
             </div>         
         </div>
         </div>
