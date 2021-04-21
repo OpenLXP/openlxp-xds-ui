@@ -5,39 +5,29 @@ import { useSelector } from 'react-redux';
 
 import ExperienceCard from '../ExperienceCard/ExperienceCard';
 
+
+const icons = {
+    clock: "time-outline",
+    hourglass: "hourglass-outline",
+    user: "person-outline",
+    multi_users: "people-outline",
+    location: "location-outline",
+    calendar: "calendar-outline"
+}
+
 /* helper method to get an icon given its backend-configured name */
 const getIconByName = (name) => {
-    switch (name) {
-        case "clock":
-            return (
-                <ion-icon name="time-outline">
-                </ion-icon>
-            )
-        case "hourglass":
-            return (
-                <ion-icon name="hourglass-outline">
-                </ion-icon>
-            )
-        case "user":
-            return (
-                <ion-icon name="person-outline">
-                </ion-icon>
-            )
-        case "multi-users":
-            return (
-                <ion-icon name="people-outline">
-                </ion-icon>
-            )
-        case "location":
-            return (
-                <ion-icon name="location-outline">
-                </ion-icon>
-            )
-        default:
-            return (
-                <ion-icon name="calendar-outline">
-                </ion-icon>
-            )
+    
+    if (icons[name]) {
+        return (
+            <ion-icon name={icons[name]}>
+            </ion-icon>
+        )
+    } else {
+        return (
+            <ion-icon name={icons["calendar"]}>
+            </ion-icon>
+        )
     }
 }
 
