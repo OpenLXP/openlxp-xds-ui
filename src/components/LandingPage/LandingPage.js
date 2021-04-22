@@ -99,6 +99,7 @@ const LandingPage = ({ history }) => {
         )
     // once the api call is done and it's not an error we load the previews
     } else if (spotlightCoursesState.coursesObj && spotlightCoursesState.isLoading === false) {
+      console.log(spotlightCoursesState.coursesObj);
         cardSection = (
             spotlightCoursesState.coursesObj.map((course, idx) => {
                 return <ExperienceCard courseObj={course} key={idx} />
