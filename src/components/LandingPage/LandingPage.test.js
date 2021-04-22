@@ -23,7 +23,7 @@ describe('<LandingPage />', () => {
         container = null;
     })
 
-    it("should display: header, subheader, and popular section", () => {
+    it("should display: header, subheader, and spotlight section", () => {
 
         act(() => {
             render(
@@ -41,7 +41,7 @@ describe('<LandingPage />', () => {
             + "unclassified training and education courses, seminars, "
             + "instructional resources and more."))
             .toBeInTheDocument();
-        expect(screen.getByText("Popular"))
+        expect(screen.getByText("Spotlight"))
             .toBeInTheDocument();
     })
 

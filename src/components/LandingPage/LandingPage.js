@@ -45,22 +45,20 @@ const LandingPage = ({ history }) => {
     keyword: ''
   });
 
-  // const api_url = process.env.REACT_APP_ES_MLT_API;
-  const api_url = "http://localhost:8080/es-api/spotlight-courses";
-  console.log(api_url);
+  const api_url = process.env.REACT_APP_SPOTLIGHT_COURSES;
 
   // state to keep track of all the related course found
-  const [coursesState, setCoursesState] = useState({
+  const [spotlightCoursesState, setSpotlightCoursesState] = useState({
       coursesObj: null,
       isLoading: false,
       error: null
   });
 
-  // Fetch similar courses from elastic search
+  // Fetch spotlight courses from elastic search
   useEffect(() => {
       let url = api_url;
       // set the loading state
-      setCoursesState(previousState => {
+      setSpotlightCoursesState(previousState => {
           const resultState = {
               coursesObj: null,
               isLoading: true,
@@ -70,7 +68,7 @@ const LandingPage = ({ history }) => {
       });
       axios.get(url)
           .then(response => {
-              setCoursesState(previousState => {
+            setSpotlightCoursesState(previousState => {
                   return {
                       coursesObj: response.data,
                       isLoading: false,
@@ -79,7 +77,7 @@ const LandingPage = ({ history }) => {
               });
           })
           .catch(err => {
-              setCoursesState(previousState => {
+            setSpotlightCoursesState(previousState => {
                   return {
                       coursesObj: null,
                       isLoading: false,
@@ -92,18 +90,17 @@ const LandingPage = ({ history }) => {
   // showing loading text when the api call is in progress
   let cardSection = (
     <div>
-        Error Loading Popular cards.
+        Error Loading Spotlight Courses.
     </div>
     )
-    if (coursesState.isLoading === true) {
+    if (spotlightCoursesState.isLoading === true) {
         cardSection = (
             <div className="center-text">Loading...</div>
         )
     // once the api call is done and it's not an error we load the previews
-    } else if (coursesState.coursesObj && coursesState.isLoading === false) {
-        console.log(coursesState.coursesObj);
+    } else if (spotlightCoursesState.coursesObj && spotlightCoursesState.isLoading === false) {
         cardSection = (
-            coursesState.coursesObj.map((course, idx) => {
+            spotlightCoursesState.coursesObj.map((course, idx) => {
                 return <ExperienceCard courseObj={course} key={idx} />
             })
         );
@@ -129,7 +126,7 @@ const LandingPage = ({ history }) => {
       </div>
       <div className="row page-break"></div>
       <div className="row">
-        <h4>Popular</h4>
+        <h4>Spotlight</h4>
         <div className="row card-section">
             {cardSection}
         </div>
