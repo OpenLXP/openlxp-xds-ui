@@ -1,25 +1,43 @@
-import React from 'react';
-import classes from './Navbar.module.css';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import { NavLink } from "react-router-dom";
 
-// import classname from 'classnames';
+import classes from "./Navbar.module.css";
 
-const navbar = (props) => {
+const Navbar = (props) => {
+  // data struct for button name and routes to them
+  const buttonNames = [
+    { title: "Home", route: "/" },
+    { title: "About", route: "/about" },
+    { title: "Resources", route: "/resources" },
+    { title: "Help", route: "/help" },
+  ];
 
+  // Generating the buttons
+  const listItems = buttonNames.map((item) => {
     return (
-        <>
-            <ul className={classes.navBar}>
-                <li className={classes.navItem1}><NavLink to='/' exact className={classes.navLink} activeClassName={classes.navItemActive}>Home</NavLink></li>
-                <li className={classes.navItem}><NavLink to='/about' className={classes.navLink} activeClassName={classes.navItemActive}>About</NavLink></li>
-                <li className={classes.navItem}><NavLink to='/resources' className={classes.navLink} activeClassName={classes.navItemActive}>Resources</NavLink></li>
-                <li className={classes.navItem}><NavLink to='/help' className={classes.navLink} activeClassName={classes.navItemActive}>Help</NavLink></li>
-            </ul>
-            <ul className={classes.navBar}>
-                <li className={classes.navItem}></li>
-            </ul>
-        </>
+      <li className={classes.navItemWrapper}>
+        <NavLink
+          exact
+          to={item.route}
+          className={classes.navItem}
+          activeClassName={classes.navItemWrapperActive}
+        >
+          {item.title}
+        </NavLink>
+      </li>
+    );
+  });
 
-    )
-}
+  return (
+    <>
+      <div className={classes.nav}>
+        <ul className={classes.navMain}>{listItems}</ul>
+      </div>
+      <ul className={classes.nav}>
+        <li className={classes.navItem}></li>
+      </ul>
+    </>
+  );
+};
 
-export default navbar;
+export default Navbar;
