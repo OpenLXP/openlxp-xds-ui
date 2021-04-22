@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import ExperienceCard from "../ExperienceCard/ExperienceCard";
 import dummyJSON from "../../resources/dummy.json";
 
@@ -38,6 +40,75 @@ const LandingPage = ({ history }) => {
     setQuery(value);
   };
 
+  // state to keep track of typed input in search bar
+  const [ state, setState] = useState({
+    keyword: ''
+  });
+
+  // const api_url = process.env.REACT_APP_ES_MLT_API;
+  const api_url = "http://localhost:8080/es-api/spotlight-courses";
+  console.log(api_url);
+
+  // state to keep track of all the related course found
+  const [coursesState, setCoursesState] = useState({
+      coursesObj: null,
+      isLoading: false,
+      error: null
+  });
+
+  // Fetch similar courses from elastic search
+  useEffect(() => {
+      let url = api_url;
+      // set the loading state
+      setCoursesState(previousState => {
+          const resultState = {
+              coursesObj: null,
+              isLoading: true,
+              error: null
+          }
+          return resultState
+      });
+      axios.get(url)
+          .then(response => {
+              setCoursesState(previousState => {
+                  return {
+                      coursesObj: response.data,
+                      isLoading: false,
+                      error: null
+                  }
+              });
+          })
+          .catch(err => {
+              setCoursesState(previousState => {
+                  return {
+                      coursesObj: null,
+                      isLoading: false,
+                      error: err
+                  }
+              })
+          });
+  }, [])
+
+  // showing loading text when the api call is in progress
+  let cardSection = (
+    <div>
+        Error Loading Popular cards.
+    </div>
+    )
+    if (coursesState.isLoading === true) {
+        cardSection = (
+            <div className="center-text">Loading...</div>
+        )
+    // once the api call is done and it's not an error we load the previews
+    } else if (coursesState.coursesObj && coursesState.isLoading === false) {
+        console.log(coursesState.coursesObj);
+        cardSection = (
+            coursesState.coursesObj.map((course, idx) => {
+                return <ExperienceCard courseObj={course} key={idx} />
+            })
+        );
+    }
+
   return (
     <div className="row landing-section">
       <h2>{landingHeader}</h2>
@@ -60,10 +131,7 @@ const LandingPage = ({ history }) => {
       <div className="row">
         <h4>Popular</h4>
         <div className="row card-section">
-          {dummy_json.map((course, idx) => {
-            // for each course in the dummy json, render a card
-            return <ExperienceCard courseObj={course} key={idx} />;
-          })}
+            {cardSection}
         </div>
       </div>
     </div>
