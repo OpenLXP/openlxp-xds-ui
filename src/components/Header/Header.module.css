@@ -101,6 +101,7 @@
     border: 1px solid #ccc;
     display: block;
     float: right;
+    background-color: white;
   }
   
   .inputwithicon input {
@@ -134,4 +135,8 @@
 .topLeft{
     display: inline;
     border: 5px;
+}
+
+.searchIcon{
+    background-color: white;
 }

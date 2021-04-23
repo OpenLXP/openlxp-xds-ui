@@ -9,7 +9,6 @@ import FilterGroup from './FilterGroup/FilterGroup';
 import ExpPreviewPanel from './ExpPreviewPanel/ExpPreviewPanel';
 import Pagination from '../Pagination/Pagination';
 import Select from 'react-select';
-import no_img from '../../resources/vendors/img/no-image2.png'
 // import dummyJSON from '../../resources/dummy.json';
 
 
@@ -270,7 +269,6 @@ const SearchResultPage = (props) => {
                                 <ExpPreviewPanel
                                     expObj={exp}
                                     key={idx}
-                                    imgLink={no_img}
                                 />
                             )
                         }
@@ -356,53 +354,66 @@ const SearchResultPage = (props) => {
         )
     }
 
+  const handleEnterKey = (event) => {
+    // Handles if the the user hits enter and there is data to be searched.
+    if ((event.key === "Enter" || event.key === 13) && searchInputState.input) {
+      props.history.push(
+          {
+            pathname: "/search/",
+            search: `?keyword=${searchInputState.input}&p=1`
+          }
+      )
+    }
+  }
 
-    let mainPageContent = (
-        <>
-            {numResultsContent}
+
+  let mainPageContent = (
+      <>
+        {numResultsContent}
+        <div className="row">
+          <div className="col span-1-of-5 filter-panel">
+            {aggregations.map( (group, idx) => {
+              return (
+                  <FilterGroup
+                      groupObj={group}
+                      key={idx}
+                      onChange={(e) =>
+                          handleFilterSelect( e, group.fieldName )}
+                      paramObj={queryString.parse( location.search )}/>
+              )
+            } )}
+          </div>
+          <div className="col span-4-of-5 results-panel">
             <div className="row">
-                <div className="col span-1-of-5 filter-panel">
-                    {aggregations.map((group, idx) => {
-                        return (
-                            <FilterGroup 
-                                groupObj={group} 
-                                key={idx} 
-                                onChange={(e) => 
-                                    handleFilterSelect(e, group.fieldName)}
-                                paramObj={queryString.parse(location.search)}/>
-                        )
-                    })}
-                </div>
-                <div className="col span-4-of-5 results-panel">
-                    <div className="row">
-                        <div className='input-with-icon'>
-                            <input className="search" type="text"
-                            placeholder={placeholderText}
-                            value={searchInputState.input}
-                            onChange={event => {
-                                const newVal = event.target.value;
-                                setSearchInputState(previousState => {
-                                    return { input: newVal }
-                                })
-                            }} />
-                        <Link
-                            to={{
-                                pathname: "/search/",
-                                search: "?keyword=" + searchInputState.input + "&p=" + 1
-                            }}
-                            className="btn">
-                                <ion-icon name="search-outline"></ion-icon>
-                            </Link>
-                        </div>
-                        
-                    </div>
-                    {filterDropdown}
-                    {expPanelContent}
-                    {pagination}
-                </div>
+              <div className="input-with-icon">
+                <input className="search" type="text"
+                       placeholder={placeholderText}
+                       value={searchInputState.input}
+                       onKeyPress={handleEnterKey}
+                       onChange={event => {
+                         const newVal = event.target.value;
+                         setSearchInputState( previousState => {
+                           return {input: newVal}
+                         } )
+                       }}/>
+                <Link
+                    to={{
+                      pathname: "/search/",
+                      search: "?keyword=" + searchInputState.input + "&p=" + 1
+                    }}
+                    className="btn">
+                  <ion-icon name="search-outline"/>
+                </Link>
+              </div>
+
             </div>
-        </>
-    )
+            {filterDropdown}
+            {expPanelContent}
+            {pagination}
+          </div>
+        </div>
+      </>
+  )
 
     const overlay = (
         <>
