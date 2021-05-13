@@ -19,7 +19,7 @@ const FilterGroup = (props) => {
                 let paramVal = props.paramObj[groupObj.fieldName];
                 const checkedResult = (
                     <React.Fragment key={idx}>
-                        <input type="checkbox"
+                        <input type="checkbox" aria-label={valObj.key}
                             id={valObj.key.replace(' ', '')}
                             name={valObj.key}
                             value={valObj.key}
@@ -34,7 +34,7 @@ const FilterGroup = (props) => {
             
                 const defaultResult = (
                     <React.Fragment key={idx}>
-                        <input type="checkbox"
+                        <input type="checkbox" aria-label={valObj.key}
                             id={valObj.key}
                             name={valObj.key}
                             value={valObj.key}

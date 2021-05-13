@@ -115,6 +115,7 @@ const LandingPage = ({ history }) => {
         <input
           className="search"
           type="text"
+          aria-label="searchBox"
           placeholder={placeholderText}
           onKeyPress={handleEnterKey}
           value={query}
