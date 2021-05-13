@@ -389,6 +389,7 @@ const SearchResultPage = (props) => {
                 <input className="search" type="text"
                        placeholder={placeholderText}
                        value={searchInputState.input}
+                       aria-label="searchKeyword"
                        onKeyPress={handleEnterKey}
                        onChange={event => {
                          const newVal = event.target.value;

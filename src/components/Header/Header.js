@@ -23,7 +23,7 @@ const Header = (props) => {
                 <div className={classes.topLeft}>
                     <NavLink to='/signIn' className={classes.signIn}>Sign in</NavLink>
                     <div className={classes.inputwithicon}>
-                        <input className={classes.text} type="text" placeholder="Keyword search" value={state.keyword}
+                        <input className={classes.text} type="text" aria-label="search" placeholder="Keyword search" value={state.keyword} data-testid="header-search"
                             onChange={event => {
                                 const newVal = event.target.value;
                                 setState(previousState => ({keyword: newVal}))
