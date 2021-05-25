@@ -22,13 +22,16 @@ describe('<ExperienceCard />', () => {
         container = null;
     })
 
-    it("should display: title, provider name, and dept name from props", () => {
+    it("should display: img, title, provider name, and dept name from props", () => {
 
         const courseObj = {
             Course: {
                 CourseTitle: "Title1",
                 CourseProviderName: "Provider1",
                 DepartmentName: "Department1"
+            },
+            Technical_Information:{
+                Thumbnail: "Test"
             }
         }
 
@@ -45,6 +48,7 @@ describe('<ExperienceCard />', () => {
         expect(screen.getByText("Title1")).toBeInTheDocument();
         expect(screen.getByText("Provider1")).toBeInTheDocument();
         expect(screen.getByText("Department1")).toBeInTheDocument();
+        expect(screen.getByAltText("Course thumbnail")).toBeInTheDocument();
     });
 
     it("should display: N/A when props are missing", () => {

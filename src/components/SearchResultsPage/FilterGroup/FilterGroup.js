@@ -28,7 +28,6 @@ const FilterGroup = (props) => {
                         <label htmlFor={valObj.key.replace(' ', '')} >
                             {valObj.key} ({valObj.doc_count})
                         </label>
-                        <br></br>
                     </React.Fragment>
                 )
             

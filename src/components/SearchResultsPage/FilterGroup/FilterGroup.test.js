@@ -124,4 +124,49 @@ describe('<FilterGroup />', () => {
             expect(screen.getByRole('checkbox', { checked: true, name: label }))
                 .toBeInTheDocument();
     })
+
+    it("using search parameter array of values",
+        () => {
+            const group = {
+                title: "Test Group",
+                values: [
+                    {
+                        "key": "value 1",
+                        "doc_count": 25
+                    },
+                    {
+                        "key": "value 2",
+                        "doc_count": 25
+                    }
+                ],
+                fieldName: "test_name"
+            };
+    
+            const parameters = [
+                {
+                    test_name: "value 1"
+                },
+                {
+                    test_name: "value 2"
+                }
+            ]
+
+            const label = "value 1";
+    
+            act(() => {
+                render(
+                    <FilterGroup 
+                        groupObj={group} 
+                        paramObj={parameters}
+                        onChange={() => null} />
+                    , container
+                );
+            });
+            
+            for (let val of group.values) {
+                let label = `${val.key} (${val.doc_count})`;
+                expect(screen.getByRole('checkbox', { name: label }))
+                    .toBeInTheDocument();
+            }
+    })
 });

@@ -35,10 +35,10 @@ const CourseDetail = (props) => {
 
   // state to keep track of all the related course found
   const [coursesState, setCoursesState] = useState( {
-                                                      coursesObj: null,
-                                                      isLoading: false,
-                                                      error: null,
-                                                    } );
+    coursesObj: null,
+    isLoading: false,
+    error: null,
+  } );
 
   // global config state
   const {configuration} = useSelector( (state) => state.configuration );
