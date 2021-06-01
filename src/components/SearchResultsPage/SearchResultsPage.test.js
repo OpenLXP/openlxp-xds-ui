@@ -4,6 +4,7 @@ import { act, render, screen, fireEvent, queryByAttribute } from '@testing-libra
 import axios from 'axios';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import * as redux from 'react-redux';
 
 import SearchResultsPage from '../SearchResultsPage/SearchResultsPage';
 import store from '../../store/store';
@@ -19,16 +20,48 @@ jest.mock('axios');
 
 describe('<SearchResultsPage />', () => {
     let container = null;
+    let state = null;
+    const useSelectorMock = jest.spyOn(redux, 'useSelector')
 
     beforeEach(() => {
         container = document.createElement("div");
         document.body.appendChild(container);
+        state = {
+            configuration: {
+                id: 1,
+                search_sort_options: [
+                    {
+                        display_name: "Course Date",
+                        field_name: "Lifecycle.CourseDate",
+                        active: true,
+                        xds_ui_configuration: 1
+                    }
+                ],
+                course_highlights: [
+                    {
+                        display_name: "Start Date",
+                        field_name: "GeneralInformation.StartDate",
+                        active: true,
+                        xds_ui_configuration: 1,
+                        highlight_icon: "clock"
+                    }
+                ],
+                created: "2021-05-20T01:24:29.082370Z",
+                modified: "2021-05-20T13:10:35.608284Z",
+                search_results_per_page: 10,
+                course_img_fallback: "/media/images/elearning_KpJuxw0.jpeg"
+            },
+            status: 'succeeded',
+            error: null
+        }
+        useSelectorMock.mockClear();
     });
 
     afterEach(() => {
         unmountComponentAtNode(container);
         container.remove();
         container = null;
+        state = null;
     })
 
     it("returns no results from API", async () => {
@@ -37,6 +70,7 @@ describe('<SearchResultsPage />', () => {
             total: 0
         };
         const resp = {data: data};
+        useSelectorMock.mockReturnValue(state);
         axios.get.mockResolvedValueOnce(resp);
         const noResultText = 
             'Sorry, we couldn\'t find any results for "business"'
@@ -134,6 +168,7 @@ describe('<SearchResultsPage />', () => {
             aggregations: {}
         };
         const resp = {data: data};
+        useSelectorMock.mockReturnValue(state);
         axios.get.mockResolvedValueOnce(resp);
 
         await act(async () => {
@@ -161,6 +196,7 @@ describe('<SearchResultsPage />', () => {
             total: 0
         };
         const resp = {data: data};
+        useSelectorMock.mockReturnValue(state);
         axios.get.mockRejectedValueOnce({error: "error"});
         const errorText = 
             'Error Loading experiences. Please contact an administrator.';
