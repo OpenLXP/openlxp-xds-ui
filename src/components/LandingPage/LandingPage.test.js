@@ -43,6 +43,8 @@ describe('<LandingPage />', () => {
             .toBeInTheDocument();
         expect(screen.getByText("Spotlight"))
             .toBeInTheDocument();
+        expect(screen.getByText("Loading..."))
+            .toBeInTheDocument();
     })
 
     it("should show user input on the search bar", async () => {
