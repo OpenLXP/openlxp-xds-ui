@@ -40,6 +40,11 @@ code {
 /* ---------------------- */
 /* Shared Components
 /* ---------------------- */
+
+.btn {
+  cursor: pointer;
+}
+
 .box {
   padding: 1%;
 }
