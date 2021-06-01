@@ -7,7 +7,6 @@ import { fetchConfiguration } from "./store/configuration";
 import Layout from "./hoc/Layout/Layout";
 import LandingPage from "./components/LandingPage/LandingPage";
 import SearchResultPage from "./components/SearchResultsPage/SearchResultsPage";
-import CourseDetail from "./components/CourseDetail/CourseDetail";
 import CourseInformation from "./components/CourseInformation/CourseInformation";
 
 function App() {
@@ -22,7 +21,6 @@ function App() {
       <Route path="/help" />
       <Route path="/signIn" />
       <Route path="/course" component={CourseInformation} />
-      <Route path="/course" component={CourseDetail} />
       <Route path="/" exact component={LandingPage} />
       <Redirect to="/" />
     </Switch>
