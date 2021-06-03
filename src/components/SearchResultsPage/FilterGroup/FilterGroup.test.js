@@ -98,7 +98,7 @@ describe('<FilterGroup />', () => {
                         "doc_count": 25
                     },
                     {
-                        "key": "value 2",
+                        "key": "",
                         "doc_count": 25
                     }
                 ],

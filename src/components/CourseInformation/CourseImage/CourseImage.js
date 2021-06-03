@@ -4,7 +4,7 @@ const CourseImage = (props) => {
 	const img = props.img;
 
 	if (!img) {
-		return <div className={classes.courseImage}></div>;
+		return <div data-testid="image" className={classes.courseImage}></div>;
 	}
 
 	return <img src={img} alt={"Course Image"} />;
