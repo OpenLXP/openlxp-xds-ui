@@ -104,7 +104,7 @@ const CourseInformation = (props) => {
           <div className="row">
             <div className="col span-2-of-5">
               <CourseImage img={imgLink} />
-              <CourseButton url={"http://www.google.com"} />
+              <CourseButton url={"#"} />
             </div>
             <div className="col span-3-of-5">
               <CourseDetails details={courseDetails} />

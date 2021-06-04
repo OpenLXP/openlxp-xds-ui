@@ -157,8 +157,7 @@ const SearchResultPage = (props) => {
         paramObj[fieldName] = e.target.value
         paramObj['p'] = 1;
         
-        const updatedParamObj = 
-            getUpdatedSearchQuery(location, paramObj, e.target.checked);
+        const updatedParamObj = getUpdatedSearchQuery(location, paramObj, e.target.checked);
         const searchString = getSearchString(updatedParamObj);
         history.push({
             pathname: '/search/',
@@ -229,7 +228,7 @@ const SearchResultPage = (props) => {
 
     // here we check that the configuration was loaded successfully from redux
     if (status === 'succeeded') {
-        console.log(configuration);
+        // console.log(configuration);
         // do something
     } else if (status === 'failed') {
         // do something
@@ -390,6 +389,7 @@ const SearchResultPage = (props) => {
                        placeholder={placeholderText}
                        value={searchInputState.input}
                        aria-label="searchKeyword"
+                       data-testid="results-search"
                        onKeyPress={handleEnterKey}
                        onChange={event => {
                          const newVal = event.target.value;
