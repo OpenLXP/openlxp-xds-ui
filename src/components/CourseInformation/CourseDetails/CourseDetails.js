@@ -1,5 +1,5 @@
 const CourseDetails = (props) => {
-  const details = props.details;
+  const details = props.details || [];
   let col1 = [];
   let col2 = [];
 
