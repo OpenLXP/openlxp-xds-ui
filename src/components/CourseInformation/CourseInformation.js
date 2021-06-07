@@ -51,6 +51,7 @@ const CourseInformation = (props) => {
   // Get the global config
   const { configuration } = useSelector((state) => state.configuration);
 
+  console.log(configuration);
   // List of icons that come from the backend
   const icons = {
     user: "person-outline",
@@ -66,14 +67,9 @@ const CourseInformation = (props) => {
     icons[name] ? icons[name] : icons["calendar"];
 
   // Return the value of specific detail.
-  const getCourseDetailValue = (strKey, data) => {
-
-    // gets the keys for the data mapping
-    const objKeys = strKey.split(".");
-
-    // inits with all the data
+  const getCourseDataMapping = (strKey, data) => {
     let valueToReturn = data;
-
+    const objKeys = strKey.split(".");
 
     // Reduces it down to the specific value
     objKeys.forEach((key) => {
@@ -86,32 +82,49 @@ const CourseInformation = (props) => {
     return valueToReturn;
   };
 
-  // Get the icon to render
-  const courseDetails = configuration.course_highlights.map((item, index) => {
-    return {
-      icon: getIconNameToUse(item.highlight_icon),
-      name: item.display_name,
-      value: getCourseDetailValue(item.field_name, courseData) || "",
+  let courseDetails = undefined;
+  let courseInformation = {};
+
+  // Wait for the configuration to be available.
+  if (configuration) {
+    // Get the icon to render
+    courseDetails = configuration.course_highlights.map((item, index) => {
+      return {
+        icon: getIconNameToUse(item.highlight_icon),
+        name: item.display_name,
+        value: getCourseDataMapping(item.field_name, courseData) || "",
+      };
+    });
+
+    // gets the course information mappings
+    const courseInfoMappings = configuration.course_information;
+    courseInformation = {
+      title: getCourseDataMapping(courseInfoMappings.course_title, courseData),
+      url: getCourseDataMapping(courseInfoMappings.course_url, courseData),
+      desc: getCourseDataMapping(
+        courseInfoMappings.course_description,
+        courseData
+      ),
     };
-  });
+  }
 
   return (
     <div className="content-section">
       <div className="row content-panel course-detail">
         <div className="inner-content">
-          <h4>{courseData.Course.CourseTitle}</h4>
+          <h4>{courseInformation.title}</h4>
 
           <div className="row">
             <div className="col span-2-of-5">
               <CourseImage img={imgLink} />
-              <CourseButton url={"#"} />
+              <CourseButton url={courseInformation.url || "/"} />
             </div>
             <div className="col span-3-of-5">
               <CourseDetails details={courseDetails} />
             </div>
           </div>
 
-          <CourseDescription desc={courseData.Course.CourseDescription} />
+          <CourseDescription desc={courseInformation.desc} />
         </div>
       </div>
       <RelatedCourses data={relatedCourses.data} />
