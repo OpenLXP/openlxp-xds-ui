@@ -87,14 +87,16 @@ const CourseInformation = (props) => {
   };
 
   // Get the icon to render
-  const courseDetails = configuration.course_highlights.map((item, index) => {
-    return {
-      icon: getIconNameToUse(item.highlight_icon),
-      name: item.display_name,
-      value: getCourseDetailValue(item.field_name, courseData) || "",
-    };
-  });
-
+  let courseDetails = null;
+  if (configuration != null){
+    courseDetails = configuration.course_highlights.map((item, index) => {
+      return {
+        icon: getIconNameToUse(item.highlight_icon),
+        name: item.display_name,
+        value: getCourseDetailValue(item.field_name, courseData) || "",
+      };
+    });
+  }
   return (
     <div className="content-section">
       <div className="row content-panel course-detail">

@@ -15,7 +15,7 @@ const Navbar = (props) => {
   // Generating the buttons
   const listItems = buttonNames.map((item) => {
     return (
-      <li className={classes.navItemWrapper}>
+      <li className={classes.navItemWrapper} key={item.title}>
         <NavLink
           exact
           to={item.route}

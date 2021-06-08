@@ -327,6 +327,7 @@ describe('<SearchResultsPage />', () => {
             const resp = { data: data };
             useSelectorMock.mockReturnValue(state);
             axios.get.mockResolvedValueOnce(resp);
+            axios.get.mockResolvedValueOnce(resp);
 
             render(
                 <Provider store={store}>
@@ -335,13 +336,19 @@ describe('<SearchResultsPage />', () => {
                     </MemoryRouter>
                 </Provider>
 
-                , container);
+            , container);
+
         });
-        expect(screen.getByText('Provider')).toBeInTheDocument();
-        expect(screen.getByLabelText('searchKeyword')).toBeInTheDocument()
+
+        await act(async () => {
+            const check = screen.getByText("DAU (3)", {exact:false});
+            fireEvent.click(check);
+        });
+
+
+        // expect(screen.getByText('Provider')).toBeInTheDocument();
+        // expect(screen.getByLabelText('searchKeyword')).toBeInTheDocument();
         
-        // const check = screen.getByText("DAU (3)", {exact:false});
-        // fireEvent.click(check);
     });
 
     it("Should display error message if API returns an Error", async () => {
