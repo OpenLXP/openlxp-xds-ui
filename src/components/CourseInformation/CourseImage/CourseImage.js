@@ -7,7 +7,7 @@ const CourseImage = (props) => {
 		return <div data-testid="image" className={classes.courseImage}></div>;
 	}
 
-	return <img src={img} alt={"Course Image"} />;
+	return <img src={img} alt={"Course"} />;
 };
 
 export default CourseImage;
