@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import no_img from "../../resources/vendors/img/no-image2.png";
 
 const ExperienceCard = (props) => {
   // Random number gen for styling cards
