@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+
+
 import ExperienceCard from "../ExperienceCard/ExperienceCard";
-import dummyJSON from "../../resources/dummy.json";
 
 const LandingPage = ({ history }) => {
   // state to keep track of typed input in search bar
@@ -13,8 +13,6 @@ const LandingPage = ({ history }) => {
     "unclassified training and education courses, seminars, instructional" +
     " resources and more.";
   const placeholderText = "";
-  // TODO: replace this json obj with a real call to elasticsearch
-  const dummy_json = dummyJSON;
 
   const [query, setQuery] = useState("");
 
@@ -39,11 +37,6 @@ const LandingPage = ({ history }) => {
     const value = event.target.value;
     setQuery(value);
   };
-
-  // state to keep track of typed input in search bar
-  const [ state, setState] = useState({
-    keyword: ''
-  });
 
   const api_url = process.env.REACT_APP_SPOTLIGHT_COURSES;
 
@@ -85,7 +78,7 @@ const LandingPage = ({ history }) => {
                   }
               })
           });
-  }, [])
+  }, [api_url])
 
   // showing loading text when the api call is in progress
   let cardSection = (
