@@ -12,8 +12,8 @@ import RelatedCourses from "./RelatedCourses/RelatedCourses";
 const CourseInformation = (props) => {
   // Getting the current location and the data
   const location = useLocation();
-  const courseData = location.state.expObj;
   const imgLink = location.state.imgLink;
+  const courseData = location.state.expObj;
 
   // The base url for the back end
   const api_url = process.env.REACT_APP_ES_MLT_API;
@@ -48,10 +48,6 @@ const CourseInformation = (props) => {
       });
   }, [courseData.meta.id, api_url]);
 
-  // Get the global config
-  const { configuration } = useSelector((state) => state.configuration);
-
-  console.log(configuration);
   // List of icons that come from the backend
   const icons = {
     user: "person-outline",
@@ -82,8 +78,10 @@ const CourseInformation = (props) => {
     return valueToReturn;
   };
 
+  // Get the global config
+  const { configuration } = useSelector((state) => state.configuration);
+  let courseInfo = {};
   let courseDetails = undefined;
-  let courseInformation = {};
 
   // Wait for the configuration to be available.
   if (configuration) {
@@ -97,12 +95,12 @@ const CourseInformation = (props) => {
     });
 
     // gets the course information mappings
-    const courseInfoMappings = configuration.course_information;
-    courseInformation = {
-      title: getCourseDataMapping(courseInfoMappings.course_title, courseData),
-      url: getCourseDataMapping(courseInfoMappings.course_url, courseData),
+    const courseDataMappings = configuration.course_information;
+    courseInfo = {
+      title: getCourseDataMapping(courseDataMappings.course_title, courseData),
+      url: getCourseDataMapping(courseDataMappings.course_url, courseData),
       desc: getCourseDataMapping(
-        courseInfoMappings.course_description,
+        courseDataMappings.course_description,
         courseData
       ),
     };
@@ -112,19 +110,18 @@ const CourseInformation = (props) => {
     <div className="content-section">
       <div className="row content-panel course-detail">
         <div className="inner-content">
-          <h4>{courseInformation.title}</h4>
-
+          <h4>{courseInfo.title}</h4>
           <div className="row">
             <div className="col span-2-of-5">
               <CourseImage img={imgLink} />
-              <CourseButton url={courseInformation.url || "/"} />
+              <CourseButton url={courseInfo.url} />
             </div>
             <div className="col span-3-of-5">
               <CourseDetails details={courseDetails} />
             </div>
           </div>
 
-          <CourseDescription desc={courseInformation.desc} />
+          <CourseDescription desc={courseInfo.desc} />
         </div>
       </div>
       <RelatedCourses data={relatedCourses.data} />
