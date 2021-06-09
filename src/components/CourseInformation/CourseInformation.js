@@ -67,13 +67,11 @@ const CourseInformation = (props) => {
 
   // Return the value of specific detail.
   const getCourseDetailValue = (strKey, data) => {
-
     // gets the keys for the data mapping
     const objKeys = strKey.split(".");
 
     // inits with all the data
     let valueToReturn = data;
-
 
     // Reduces it down to the specific value
     objKeys.forEach((key) => {
@@ -81,14 +79,13 @@ const CourseInformation = (props) => {
         valueToReturn = valueToReturn[key];
       }
     });
-
     // Returning the desired value.
     return valueToReturn;
   };
 
   // Get the icon to render
   let courseDetails = null;
-  if (configuration != null){
+  if (configuration != null) {
     courseDetails = configuration.course_highlights.map((item, index) => {
       return {
         icon: getIconNameToUse(item.highlight_icon),
@@ -116,7 +113,11 @@ const CourseInformation = (props) => {
           <CourseDescription desc={courseData.Course.CourseDescription} />
         </div>
       </div>
-      <RelatedCourses data={relatedCourses.data} />
+      {relatedCourses.data ? (
+        <RelatedCourses data={relatedCourses.data} /> // If the data is not there
+      ) : (
+        <div>Loading...</div>
+      )}
     </div>
   );
 };
