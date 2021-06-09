@@ -36,7 +36,7 @@ describe("CourseImage", () => {
       render(<CourseImage img={img} />);
     });
 
-    expect(screen.getByAltText("Course Image")).toBeInTheDocument();
+    expect(screen.getByAltText("Course")).toBeInTheDocument();
   });
 
   test("should render course image", () => {
