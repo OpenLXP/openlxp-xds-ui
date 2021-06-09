@@ -8,6 +8,7 @@ const CourseImage = (props) => {
 	}
 
 	return <img src={img} alt={"Course"} />;
+
 };
 
 export default CourseImage;

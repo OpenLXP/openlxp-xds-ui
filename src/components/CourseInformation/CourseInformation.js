@@ -15,6 +15,7 @@ const CourseInformation = (props) => {
   const imgLink = location.state.imgLink;
   const courseData = location.state.expObj;
 
+
   // The base url for the back end
   const api_url = process.env.REACT_APP_ES_MLT_API;
 
@@ -48,6 +49,9 @@ const CourseInformation = (props) => {
       });
   }, [courseData.meta.id, api_url]);
 
+  // Get the global config
+  const { configuration } = useSelector((state) => state.configuration);
+
   // List of icons that come from the backend
   const icons = {
     user: "person-outline",
@@ -64,9 +68,13 @@ const CourseInformation = (props) => {
 
   // Return the value of specific detail.
 
-  const getCourseDataMapping = (strKey, data) => {
-    let valueToReturn = data;
+  const getCourseDetailValue = (strKey, data) => {
+    // gets the keys for the data mapping
     const objKeys = strKey.split(".");
+
+    // inits with all the data
+    let valueToReturn = data;
+
 
     // Reduces it down to the specific value
     objKeys.forEach((key) => {
@@ -77,6 +85,7 @@ const CourseInformation = (props) => {
     // Returning the desired value.
     return valueToReturn;
   };
+
 
   // Get the global config
   const { configuration } = useSelector((state) => state.configuration);
@@ -107,6 +116,7 @@ const CourseInformation = (props) => {
     };
   }
 
+
   return (
     <div className="content-section">
       <div className="row content-panel course-detail">
@@ -121,9 +131,7 @@ const CourseInformation = (props) => {
               <CourseDetails details={courseDetails} />
             </div>
           </div>
-
           <CourseDescription desc={courseInfo.desc} />
-        </div>
       </div>
       {relatedCourses.data ? (
         <RelatedCourses data={relatedCourses.data} /> // If the data is not there

@@ -35,7 +35,6 @@ describe("<LandingPage />", () => {
                 container
             );
         });
-
         expect(
             screen.getByText("Enterprise Course Catalog", { exact: false })
         ).toBeInTheDocument();
