@@ -1,5 +1,5 @@
 const CourseDetails = (props) => {
-  const details = props.details;
+  const details = props.details || [];
 
   let col1 = [];
   let col2 = [];
@@ -20,7 +20,7 @@ const CourseDetails = (props) => {
   };
 
   return (
-    <div className="row" data-testid='details'>
+    <div className="row" data-testid="details">
       <div className="col span-1-of-2">
         {col1.map((item, index) => {
           return detail(item.icon, item.name, item.value, index);
