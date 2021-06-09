@@ -4,12 +4,6 @@ const RelatedCourses = (props) => {
   // Expects an array of courses
   const courses = props.data;
 
-
-  // If the data is not there 
-  if (!courses) {
-    return <div>Loading...</div>;
-  }
-
   // Returns the list of related courses
   return (
     <div className="row content-panel course-related">

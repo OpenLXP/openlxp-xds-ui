@@ -19,14 +19,7 @@ afterEach(() => {
 });
 
 describe("RelatedCourses", () => {
-  test("should render loading if courses is undefined", () => {
-    act(() => {
-      render(<RelatedCourses data={undefined} />);
-    });
-
-    screen.getByText("Loading...");
-  });
-
+  
   test("should render related course when given data", () => {
     act(() => {
       const testRelatedCourses = {

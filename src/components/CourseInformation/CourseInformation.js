@@ -63,6 +63,7 @@ const CourseInformation = (props) => {
     icons[name] ? icons[name] : icons["calendar"];
 
   // Return the value of specific detail.
+
   const getCourseDataMapping = (strKey, data) => {
     let valueToReturn = data;
     const objKeys = strKey.split(".");
@@ -73,13 +74,13 @@ const CourseInformation = (props) => {
         valueToReturn = valueToReturn[key];
       }
     });
-
     // Returning the desired value.
     return valueToReturn;
   };
 
   // Get the global config
   const { configuration } = useSelector((state) => state.configuration);
+
   let courseInfo = {};
   let courseDetails = undefined;
 
@@ -97,7 +98,7 @@ const CourseInformation = (props) => {
     // gets the course information mappings
     const courseDataMappings = configuration.course_information;
     courseInfo = {
-      title: getCourseDataMapping(courseDataMappings.course_title, courseData),
+      title: getCourseDataMapping(courseDataMappings.course_title, courseData) ,
       url: getCourseDataMapping(courseDataMappings.course_url, courseData),
       desc: getCourseDataMapping(
         courseDataMappings.course_description,
@@ -124,7 +125,11 @@ const CourseInformation = (props) => {
           <CourseDescription desc={courseInfo.desc} />
         </div>
       </div>
-      <RelatedCourses data={relatedCourses.data} />
+      {relatedCourses.data ? (
+        <RelatedCourses data={relatedCourses.data} /> // If the data is not there
+      ) : (
+        <div>Loading...</div>
+      )}
     </div>
   );
 };
