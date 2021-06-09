@@ -129,6 +129,17 @@ const SearchResultPage = (props) => {
     const placeholderText = "Search for anything";
     const backendHost = process.env.REACT_APP_BACKEND_HOST;
 
+    // TODO: remove placeholder images when data comes in with images
+    const imgArr = [
+        "https://www.abc.net.au/news/image/12739630-3x2-940x627.jpg",
+        "https://hub.packtpub.com/wp-content/uploads/2018/05/programming.jpg",
+        "https://images.pexels.com/photos/256541/pexels-photo-256541.jpeg?auto" +
+            "=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto" +
+            "=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "https://images.pexels.com/photos/2041629/pexels-photo-2041629.jpeg?" +
+            "auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    ];
     let expPanelContent = null;
     let numResultsContent = (
         <div className="row">
@@ -142,12 +153,15 @@ const SearchResultPage = (props) => {
 
     /* This function handles when a filter checkbox is clicked */
     function handleFilterSelect(e, fieldName) {
-        let paramObj  = {};
-        paramObj[fieldName] = e.target.value
-        paramObj['p'] = 1;
-        
-        const updatedParamObj = getUpdatedSearchQuery(location, paramObj, e.target.checked);
+        let paramObj = {};
+        paramObj[fieldName] = e.target.value;
+        paramObj["p"] = 1;
 
+        const updatedParamObj = getUpdatedSearchQuery(
+            location,
+            paramObj,
+            e.target.checked
+        );
         const searchString = getSearchString(updatedParamObj);
         history.push({
             pathname: "/search/",
@@ -218,9 +232,7 @@ const SearchResultPage = (props) => {
     }, [keyword]);
 
     // here we check that the configuration was loaded successfully from redux
-
     if (status === "succeeded") {
-
         // console.log(configuration);
         // do something
     } else if (status === "failed") {
@@ -382,28 +394,57 @@ const SearchResultPage = (props) => {
         <>
             {numResultsContent}
             <div className="row">
-              <div className="input-with-icon">
-                <input className="search" type="text"
-                       placeholder={placeholderText}
-                       value={searchInputState.input}
-                       aria-label="searchKeyword"
-                       data-testid="results-search"
-                       onKeyPress={handleEnterKey}
-                       onChange={event => {
-                         const newVal = event.target.value;
-                         setSearchInputState( previousState => {
-                           return {input: newVal}
-                         } )
-                       }}/>
-                <Link
-                    to={{
-                      pathname: "/search/",
-                      search: "?keyword=" + searchInputState.input + "&p=" + 1
-                    }}
-                    className="btn">
-                  <ion-icon name="search-outline"/>
-                </Link>
-              </div>
+                <div className="col span-1-of-5 filter-panel">
+                    {aggregations.map((group, idx) => {
+                        return (
+                            <FilterGroup
+                                groupObj={group}
+                                key={idx}
+                                onChange={(e) =>
+                                    handleFilterSelect(e, group.fieldName)
+                                }
+                                paramObj={queryString.parse(location.search)}
+                            />
+                        );
+                    })}
+                </div>
+                <div className="col span-4-of-5 results-panel">
+                    <div className="row">
+                        <div className="input-with-icon">
+                            <input
+                                className="search"
+                                type="text"
+                                placeholder={placeholderText}
+                                value={searchInputState.input}
+                                aria-label="searchKeyword"
+                                data-testid="results-search"
+                                onKeyPress={handleEnterKey}
+                                onChange={(event) => {
+                                    const newVal = event.target.value;
+                                    setSearchInputState((previousState) => {
+                                        return { input: newVal };
+                                    });
+                                }}
+                            />
+                            <Link
+                                to={{
+                                    pathname: "/search/",
+                                    search:
+                                        "?keyword=" +
+                                        searchInputState.input +
+                                        "&p=" +
+                                        1,
+                                }}
+                                className="btn"
+                            >
+                                <ion-icon name="search-outline" />
+                            </Link>
+                        </div>
+                    </div>
+                    {filterDropdown}
+                    {expPanelContent}
+                    {pagination}
+                </div>
             </div>
         </>
     );
