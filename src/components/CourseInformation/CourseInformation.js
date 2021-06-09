@@ -15,7 +15,6 @@ const CourseInformation = (props) => {
   const imgLink = location.state.imgLink;
   const courseData = location.state.expObj;
 
-
   // The base url for the back end
   const api_url = process.env.REACT_APP_ES_MLT_API;
 
@@ -68,13 +67,12 @@ const CourseInformation = (props) => {
 
   // Return the value of specific detail.
 
-  const getCourseDetailValue = (strKey, data) => {
+  const getCourseDataMapping = (strKey, data) => {
     // gets the keys for the data mapping
     const objKeys = strKey.split(".");
 
     // inits with all the data
     let valueToReturn = data;
-
 
     // Reduces it down to the specific value
     objKeys.forEach((key) => {
@@ -86,9 +84,8 @@ const CourseInformation = (props) => {
     return valueToReturn;
   };
 
-
   // Get the global config
-  const { configuration } = useSelector((state) => state.configuration);
+  // const { configuration } = useSelector((state) => state.configuration);
 
   let courseInfo = {};
   let courseDetails = undefined;
@@ -107,7 +104,7 @@ const CourseInformation = (props) => {
     // gets the course information mappings
     const courseDataMappings = configuration.course_information;
     courseInfo = {
-      title: getCourseDataMapping(courseDataMappings.course_title, courseData) ,
+      title: getCourseDataMapping(courseDataMappings.course_title, courseData),
       url: getCourseDataMapping(courseDataMappings.course_url, courseData),
       desc: getCourseDataMapping(
         courseDataMappings.course_description,
@@ -115,7 +112,6 @@ const CourseInformation = (props) => {
       ),
     };
   }
-
 
   return (
     <div className="content-section">
@@ -132,12 +128,13 @@ const CourseInformation = (props) => {
             </div>
           </div>
           <CourseDescription desc={courseInfo.desc} />
+        </div>
+        {relatedCourses.data ? (
+          <RelatedCourses data={relatedCourses.data} /> // If the data is not there
+        ) : (
+          <div>Loading...</div>
+        )}
       </div>
-      {relatedCourses.data ? (
-        <RelatedCourses data={relatedCourses.data} /> // If the data is not there
-      ) : (
-        <div>Loading...</div>
-      )}
     </div>
   );
 };
