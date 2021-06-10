@@ -116,6 +116,11 @@ const SearchResultPage = (props) => {
         error: null,
     });
 
+    const [filterDropdown, setFilterDropdown] = useState({
+        label: "Most Relevant", 
+        value:"MostRelevant"
+    });
+
     // initial state to track input on the search bar
     const [searchInputState, setSearchInputState] = useState({
         input: "",
