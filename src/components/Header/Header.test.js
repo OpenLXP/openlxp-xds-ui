@@ -1,66 +1,115 @@
-import React from 'react';
-import { unmountComponentAtNode } from 'react-dom';
-import { act, render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import Header from './Header';
-import userEvent from '@testing-library/user-event';
-import { Provider } from 'react-redux';
+import { render, act, screen, fireEvent } from "@testing-library/react";
+import { unmountComponentAtNode } from "react-dom";
+import { StaticRouter, MemoryRouter, Switch, Route } from "react-router-dom";
+import { Provider } from "react-redux";
+import * as redux from "react-redux";
 
-import store from '../../store/store';
+import store from "../../store/store";
 
+import Header from "./Header";
+import LandingPage from "../LandingPage/LandingPage";
 
-describe('<Header />', () => {
-    let container = null;
+const useSelectorMock = jest.spyOn(redux, "useSelector");
 
-    beforeEach(() => {
-        container = document.createElement("div");
-        document.body.appendChild(container);
-    });
+let container = null;
 
-    afterEach(() => {
-        unmountComponentAtNode(container);
-        container.remove();
-        container = null;
-    })
+beforeEach(() => {
+    container = (
+        <div>
+            <Provider store={store}>
+                <MemoryRouter initialEntries={["/signin"]}>
+                    <Header />
+                    <Switch>
+                        <Route path="/" exact component={LandingPage} />
+                    </Switch>
+                </MemoryRouter>
+            </Provider>
+        </div>
+    );
+});
 
-    it("should display: header with title, subtilte, searchbar, and sign in", () => {
+afterEach(() => {
+    container = null;
+});
 
+describe("Header", () => {
+    test("Does render icon", () => {
+        let state = { user: null };
+        useSelectorMock.mockReturnValue(state);
         act(() => {
-            render(
-                <Provider store={store}>
-                    <MemoryRouter>
-                        <Header />
-                    </MemoryRouter>
-                </Provider>
-            , container);
-        })
-
-        expect(screen.getByText("DIGITAL LEARNING PORTAL", {exact: false}))
-            .toBeInTheDocument();
-        expect(screen.getByText("U.S. Department of Defense"))
-            .toBeInTheDocument();
-        // expect(screen.getByText("Keyword Search"))
-        //     .toBeInTheDocument();
-        expect(screen.getByText("Sign in"))
-            .toBeInTheDocument();
-    })
-
-    it("should show user input on the search bar", async () => {
-
-        act(() => {
-            render(
-                <Provider store={store}>
-                    <MemoryRouter>
-                        <Header />
-                    </MemoryRouter>
-                </Provider>
-            , container);
+            render(container);
         });
 
-        await userEvent.type(screen.getByTestId('header-search'),
-            'Hello');
+        screen.getByText("Digital Learning Portal");
+        screen.getByText("U.S. Department of Defense");
+    });
 
-        expect(screen.getByDisplayValue('Hello'))
-            .toBeInTheDocument();
+    test("Does navigate to homepage", () => {
+        let state = { user: null };
+        useSelectorMock.mockReturnValue(state);
+        act(() => {
+            render(container);
+        });
+        act(() => {
+            fireEvent.click(screen.getByText("Digital Learning Portal"));
+        });
+        screen.getByText("Enterprise Course Catalog*");
+    });
+
+    test("Does render sign in button", () => {
+        let state = { user: null };
+        useSelectorMock.mockReturnValue(state);
+        act(() => {
+            render(container);
+        });
+
+        screen.getByText("Sign in");
+    });
+
+    test("Does render sign out button", async () => {
+        let state = { user: { email: "test@test.com" } };
+        useSelectorMock.mockReturnValue(state);
+        act(() => {
+            render(container);
+        });
+        screen.getByText("Sign out");
+    });
+
+    test("Does render user info", async () => {
+        let state = { user: { email: "test@test.com" } };
+        useSelectorMock.mockReturnValue(state);
+        act(() => {
+            render(container);
+        });
+        screen.getByText("test@test.com");
+    });
+
+    test("Does render sign in after sign out", async () => {
+        let state = { user: { email: "test@test.com" } };
+        useSelectorMock.mockReturnValue(state);
+        await act(async () => {
+            render(container);
+        });
+
+        act(() => {
+            fireEvent.click(screen.getByText("Sign out"));
+        });
+        screen.getByText("Sign in");
+    });
+
+    test("Does render search", async () => {
+        let state = { user: { email: "test@test.com" } };
+        useSelectorMock.mockReturnValue(state);
+        await act(async () => {
+            render(container);
+        });
+
+        act(() => {
+            fireEvent.change(screen.getByPlaceholderText("Search"), {
+                target: { value: "test" },
+            });
+        });
+
+        expect(screen.getByPlaceholderText("Search").value).toBe("test");
     });
 });
