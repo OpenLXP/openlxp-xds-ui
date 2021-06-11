@@ -87,7 +87,7 @@ const SignIn = (props) => {
 
   const handleSignup = () => {
     // alert("Sign Up Complete");
-    props.history.push("/Signup");
+    props.history.push("/signup");
   };
 
   return (

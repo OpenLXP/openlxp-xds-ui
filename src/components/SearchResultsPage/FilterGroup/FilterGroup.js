@@ -5,8 +5,8 @@ const FilterGroup = (props) => {
   const groupObj = props.groupObj;
 
   return (
-    <div className="filter-section">
-      <h3>{groupObj.title}</h3>
+    <div className="bg-white rounded-md px-2 pt-2 pb-4">
+      <h3 className="font-semibold">{groupObj.title}</h3>
       {/* We filter out empty check boxes */}
       {groupObj.values
         .filter((valObj) => {
@@ -20,7 +20,7 @@ const FilterGroup = (props) => {
           // using the parameters passed in the url
           let paramVal = props.paramObj[groupObj.fieldName];
           const checkedResult = (
-            <React.Fragment key={idx}>
+            <div key={idx} className="flex flex-row items-center space-x-2">
               <input
                 type="checkbox"
                 id={valObj.key.replace(" ", "")}
@@ -29,14 +29,17 @@ const FilterGroup = (props) => {
                 onChange={props.onChange}
                 checked
               />
-              <label htmlFor={valObj.key.replace(" ", "")}>
+              <label htmlFor={valObj.key.replace(" ", "")} className="text-2xs">
                 {valObj.key} ({valObj.doc_count})
               </label>
-            </React.Fragment>
+            </div>
           );
 
           const defaultResult = (
-            <React.Fragment key={idx}>
+            <div
+              key={idx}
+              className="flex flex-row items-center space-x-2 py-0.5"
+            >
               <input
                 type="checkbox"
                 id={valObj.key}
@@ -44,11 +47,10 @@ const FilterGroup = (props) => {
                 value={valObj.key}
                 onChange={props.onChange}
               />
-              <label htmlFor={valObj.key}>
+              <label htmlFor={valObj.key} className="text-2xs">
                 {valObj.key} ({valObj.doc_count})
               </label>
-              <br></br>
-            </React.Fragment>
+            </div>
           );
 
           if (paramVal) {

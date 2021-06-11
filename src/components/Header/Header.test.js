@@ -8,6 +8,7 @@ import store from "../../store/store";
 
 import Header from "./Header";
 import LandingPage from "../LandingPage/LandingPage";
+import SearchResultPage from "../SearchResultsPage/SearchResultsPage";
 
 const useSelectorMock = jest.spyOn(redux, "useSelector");
 
@@ -21,6 +22,8 @@ beforeEach(() => {
                     <Header />
                     <Switch>
                         <Route path="/" exact component={LandingPage} />
+
+                        <Route path="/search/" component={SearchResultPage} />
                     </Switch>
                 </MemoryRouter>
             </Provider>
@@ -40,7 +43,7 @@ describe("Header", () => {
             render(container);
         });
 
-        screen.getByText("Digital Learning Portal");
+        screen.getByText("DIGITAL LEARNING PORTAL");
         screen.getByText("U.S. Department of Defense");
     });
 
@@ -51,9 +54,41 @@ describe("Header", () => {
             render(container);
         });
         act(() => {
-            fireEvent.click(screen.getByText("Digital Learning Portal"));
+            fireEvent.click(screen.getByText("DIGITAL LEARNING PORTAL"));
         });
         screen.getByText("Enterprise Course Catalog*");
+    });
+
+    test("Does search for courses on search page", () => {
+        let state = { user: null };
+        useSelectorMock.mockReturnValue(state);
+        act(() => {
+            render(container);
+        });
+        fireEvent.change(screen.getByPlaceholderText("Search"), {
+            target: { value: "test" },
+        });
+
+        fireEvent.click(screen.getByTestId("search-button"));
+        screen.getByText("test", { exact: false });
+    });
+
+    test("Does search for courses on enter", () => {
+        let state = { user: null };
+        useSelectorMock.mockReturnValue(state);
+        act(() => {
+            render(container);
+        });
+
+        fireEvent.change(screen.getByPlaceholderText("Search"), {
+            target: { value: "test" },
+        });
+
+        fireEvent.keyPress(screen.getByPlaceholderText("Search"), {
+            key: "Enter",
+            charCode: 13,
+        });
+        screen.getByText("test", { exact: false });
     });
 
     test("Does render sign in button", () => {

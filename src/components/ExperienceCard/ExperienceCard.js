@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-
 const ExperienceCard = (props) => {
   // Random number gen for styling cards
   const generateRandomNumber = (max) => {
@@ -13,7 +12,7 @@ const ExperienceCard = (props) => {
     <div className="col span-1-of-4 box">Error Loading Course Card.</div>
   );
 
-  let courseThumbnail
+  let courseThumbnail;
   // courseThumbnail = no_img;
   const { configuration } = useSelector((state) => state.configuration);
   const backendHost = process.env.REACT_APP_BACKEND_HOST;
@@ -68,7 +67,7 @@ const ExperienceCard = (props) => {
       <div className="col span-1-of-4 box">
         {courseThumbnail ? defaultImg : altImg}
         <div className="card-detail">
-          <div className="row card-title">
+          <div className="row mb-5 font-medium text-base-blue text-lg h-14 space-y-0">
             <b>
               <Link
                 to={{
@@ -87,7 +86,7 @@ const ExperienceCard = (props) => {
           </div>
 
           <div className="icon-section">
-            <div className="icon-block">
+            <div className="icon-block pt-2">
               <ion-icon name="business-outline"></ion-icon>
             </div>
             <div className="course-highlights">
@@ -96,11 +95,14 @@ const ExperienceCard = (props) => {
                 : "N/A"}
             </div>
           </div>
-          <div>
+          <div className="flex flex-row line-clamp-1">
             <div className="icon-block">
               <ion-icon name="archive-outline"></ion-icon>
             </div>
-            <div className="course-highlights">
+            <div
+              className="course-highlights inline-block"
+              title={props.courseObj.Course.DepartmentName}
+            >
               {props.courseObj.Course.DepartmentName
                 ? props.courseObj.Course.DepartmentName
                 : "N/A"}

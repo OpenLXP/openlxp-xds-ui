@@ -18,7 +18,7 @@ import PageWrapper from "../common/PageWrapper";
 
 /* this helper method takes in the location object and returns the keyword 
     parameter */
-const getKeywordParam = (location) => {
+export const getKeywordParam = (location) => {
   const parsedQuery = queryString.parse(location.search);
   return parsedQuery.keyword;
 };
@@ -105,7 +105,7 @@ export const getSearchString = (queryObj) => {
   return result;
 };
 
-const getPage = (location) => {
+export const getPage = (location) => {
   const page = queryString.parse(location.search);
   return page.p;
 };
@@ -120,7 +120,6 @@ const SearchResultPage = (props) => {
     page: 1,
     error: null,
   });
-
   const [filterDropdown, setFilterDropdown] = useState({
     label: "Most Relevant",
     value: "MostRelevant",
@@ -231,13 +230,6 @@ const SearchResultPage = (props) => {
       return { input: keyword };
     });
   }, [keyword]);
-
-  // here we check that the configuration was loaded successfully from redux
-  if (status === "succeeded") {
-    // do something
-  } else if (status === "failed") {
-    // do something
-  }
 
   // Once courses are returned from the API we display them in preview panels
   if (coursesState.coursesObj && !coursesState.isLoading) {
@@ -355,14 +347,15 @@ const SearchResultPage = (props) => {
   let filterDataDropdown = null;
   if (coursesState.coursesObj != null && coursesState.coursesObj.total > 0) {
     filterDataDropdown = (
-      <Dropdown
-        options={options}
-        placeholder="Select an option"
-        onChange={handleDataFilterSelect}
-      />
+      <div className="w-36 py-2 mx-auto">
+        <Dropdown
+          options={options}
+          placeholder="Select an option"
+          onChange={handleDataFilterSelect}
+        />
+      </div>
     );
   }
-
   const handleEnterKey = (event) => {
     // Handles if the the user hits enter and there is data to be searched.
     if ((event.key === "Enter" || event.key === 13) && searchInputState.input) {
@@ -381,22 +374,24 @@ const SearchResultPage = (props) => {
 
   let mainPageContent = (
     <>
-      <div className="px-3">{numResultsContent}</div>
+      <div className="font-semibold text-xl pb-2">{numResultsContent}</div>
       <div className="grid grid-cols-5 space-x-2">
-        <div className="col-span-1 bg-white rounded-md">
-          {aggregations.map((group, idx) => {
-            return (
-              <FilterGroup
-                groupObj={group}
-                key={idx}
-                onChange={(e) => handleFilterSelect(e, group.fieldName)}
-                paramObj={queryString.parse(location.search)}
-              />
-            );
-          })}
+        <div className="col-span-1 ">
+          <div className='bg-white rounded-md'>
+            {aggregations.map((group, idx) => {
+              return (
+                <FilterGroup
+                  groupObj={group}
+                  key={idx}
+                  onChange={(e) => handleFilterSelect(e, group.fieldName)}
+                  paramObj={queryString.parse(location.search)}
+                />
+              );
+            })}
+          </div>
         </div>
         <div className="col-span-4 bg-white rounded-md px-1">
-          <div className="w-80 mx-auto mt-2 space-y-2 mb-9">
+          <div className="w-96 mx-auto mt-4 space-y-2 mb-9">
             <SearchInput
               className="shadow-none"
               queryValue={searchInputState.input}
@@ -409,7 +404,7 @@ const SearchResultPage = (props) => {
             />
             {filterDataDropdown}
           </div>
-          <div className='divide-y'>{expPanelContent}</div>
+          <div className="divide-y">{expPanelContent}</div>
           {pagination}
         </div>
       </div>
@@ -424,7 +419,7 @@ const SearchResultPage = (props) => {
 
   return (
     <PageWrapper className="bg-body-gray">
-      <div className="my-10">
+      <div className="my-4">
         {mainPageContent}
         {coursesState.isLoading === true ? overlay : ""}
       </div>

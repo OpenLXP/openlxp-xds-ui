@@ -8,8 +8,8 @@ import axios from "axios";
 import store from "../../store/store";
 
 import SignIn from "./SignIn";
+import SignUp from "../SignUp/SignUp";
 import LandingPage from "../LandingPage/LandingPage";
-
 
 const useSelectorMock = jest.spyOn(redux, "useSelector");
 jest.mock("axios");
@@ -19,6 +19,7 @@ let container = (
     <Provider store={store}>
       <MemoryRouter initialEntries={["/signin"]}>
         <Route path="/signin" component={SignIn} />
+        <Route path="/signup" component={SignUp} />
         <Route path="/" component={LandingPage} />
       </MemoryRouter>
     </Provider>
@@ -32,6 +33,7 @@ beforeEach(() => {
         <MemoryRouter initialEntries={["/signin"]}>
           <Switch>
             <Route Route path="/signin" component={SignIn} />
+            <Route path="/signup" component={SignUp} />
             <Route path="/" component={LandingPage} />
           </Switch>
         </MemoryRouter>
@@ -65,20 +67,31 @@ describe("SignIn", () => {
       let state = { user: null };
       useSelectorMock.mockReturnValue(state);
       render(container);
-      fireEvent.click(screen.getByText("Login"), {});
     });
+    fireEvent.change(screen.getByPlaceholderText("Password"), {
+      target: { value: "test" },
+    });
+    fireEvent.click(screen.getByText("Login"));
 
+    screen.getByText("This field is required");
+  });
+
+  test("Should render username error; not an email", async () => {
     await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText("Email"), {
-        target: { value: "" },
-      });
-      fireEvent.change(screen.getByPlaceholderText("Password"), {
-        target: { value: "password" },
-      });
-
-      fireEvent.click(screen.getByText("Login"));
+      let state = { user: null };
+      useSelectorMock.mockReturnValue(state);
+      render(container);
     });
-    expect(screen.getAllByText("This field is required").length).toBe(2);
+
+    fireEvent.change(screen.getByPlaceholderText("Email"), {
+      target: { value: "test" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Password"), {
+      target: { value: "test" },
+    });
+    fireEvent.click(screen.getByText("Login"));
+
+    screen.getByText("Username must be an email address.");
   });
 
   test("Should render error for password", async () => {
@@ -88,7 +101,6 @@ describe("SignIn", () => {
       render(container);
       fireEvent.click(screen.getByText("Login"), {});
     });
-    
     await act(async () => {
       fireEvent.change(screen.getByPlaceholderText("Email"), {
         target: { value: "test@example.com" },
@@ -174,12 +186,24 @@ describe("SignIn", () => {
         },
       };
       useSelectorMock.mockReturnValue(state);
-      fireEvent.keyPress(screen.getByPlaceholderText("Password").parentNode, {
+      fireEvent.keyPress(screen.getByPlaceholderText("Password"), {
         key: "Enter",
-        code: 13,
+        charCode: 13,
       });
     });
 
     screen.getByText("Enterprise Course Catalog*");
+  });
+
+  test("should navigate to signup page", async () => {
+    await act(async () => {
+      let state = { user: null };
+      useSelectorMock.mockReturnValue(state);
+      render(container);
+    });
+    await act(async () => {
+      fireEvent.click(screen.getByText("Create an account"));
+    });
+    screen.getByText("Sign up for your account");
   });
 });

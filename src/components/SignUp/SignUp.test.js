@@ -8,22 +8,13 @@ import axios from "axios";
 import store from "../../store/store";
 
 import SignUp from "./SignUp";
+import SignIn from "../SignIn/SignIn";
 import LandingPage from "../LandingPage/LandingPage";
-
 
 const useSelectorMock = jest.spyOn(redux, "useSelector");
 jest.mock("axios");
 
-let container = (
-  <div>
-    <Provider store={store}>
-      <MemoryRouter initialEntries={["/signup"]}>
-        <Route path="/signup" component={SignUp} />
-        <Route path="/" component={LandingPage} />
-      </MemoryRouter>
-    </Provider>
-  </div>
-);
+let container = null;
 
 beforeEach(() => {
   container = (
@@ -32,6 +23,7 @@ beforeEach(() => {
         <MemoryRouter initialEntries={["/signup"]}>
           <Switch>
             <Route Route path="/signup" component={SignUp} />
+            <Route Route path="/signin" component={SignIn} />
             <Route path="/" component={LandingPage} />
           </Switch>
         </MemoryRouter>
@@ -193,41 +185,46 @@ describe("SignUp", () => {
     await act(async () => {
       let state = { user: null };
       useSelectorMock.mockReturnValue(state);
-
-      axios.get.mockResolvedValueOnce({
-        user: {
-          email: "test@test.com",
-          first_name: "test",
-          last_name: "test",
-          token: "tokeneything",
-        },
-      });
-
       render(container);
     });
 
-    await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText("Email"), {
-        target: { value: "test@test.com" },
-      });
-      fireEvent.change(screen.getByPlaceholderText("Password"), {
-        target: { value: "test" },
-      });
-      const state = {
-        user: {
-          email: "test@test.com",
-          first_name: "test",
-          last_name: "test",
-          token: "tokeneything",
-        },
-      };
-      useSelectorMock.mockReturnValue(state);
-      fireEvent.keyPress(screen.getByPlaceholderText("Password").parentNode, {
+    act(() => {
+      fireEvent.keyPress(screen.getByPlaceholderText("Password"), {
         key: "Enter",
-        code: 13,
+        charCode: 13,
       });
     });
 
-    screen.getByText("Enterprise Course Catalog*");
+    expect(screen.getAllByText("This field is required").length).toBe(2);
+  });
+
+  test("Should navigate user to signin page", async () => {
+    await act(async () => {
+      let state = { user: null };
+      useSelectorMock.mockReturnValue(state);
+      render(container);
+    });
+
+    act(() => {
+      fireEvent.click(screen.getByText("Sign in"));
+    });
+
+    screen.getByText("Sign in to your account");
+  });
+  test("Should show error for password being less than 8 chars", async () => {
+    await act(async () => {
+      let state = { user: null };
+      useSelectorMock.mockReturnValue(state);
+      render(container);
+    });
+
+    fireEvent.change(screen.getByPlaceholderText("Password"), {
+      target: { value: "test" },
+    });
+    fireEvent.click(screen.getByText("Create account"));
+
+    screen.getByText("The password must contain at least 8 characters", {
+      exact: false,
+    });
   });
 });

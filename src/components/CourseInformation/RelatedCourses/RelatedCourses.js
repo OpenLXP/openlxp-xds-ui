@@ -7,7 +7,7 @@ const RelatedCourses = (props) => {
   // Returns the list of related courses
   return (
     <div className="row content-panel course-related">
-      <h4>Related</h4>
+      <h4 className="font-bold">Related</h4>
       <div className="row card-section">
         {courses.hits.map((course, index) => {
           return <ExperienceCard courseObj={course} key={index} />;

@@ -1,8 +1,14 @@
-module.exports = {
+ module.exports = {
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+  ],
   purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      fontSize:{
+        '2xs':'.65rem'
+      },
       colors: {
         "base-blue": "#005ea2",
         "bright-blue": "#008cf0",
@@ -21,5 +27,4 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
 };

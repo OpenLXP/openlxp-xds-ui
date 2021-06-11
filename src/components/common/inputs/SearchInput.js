@@ -12,7 +12,11 @@ const SearchInput = (props) => {
   return (
     <div className={style}>
       <div className="cursor-pointer flex items-center">
-        <ion-icon name="search-outline" onClick={props.handleSearch} />
+        <ion-icon
+          name="search-outline"
+          onClick={props.handleSearch}
+          data-testid="search-button"
+        />
       </div>
       <input
         type="text"
@@ -20,6 +24,7 @@ const SearchInput = (props) => {
         placeholder={props.placeholder}
         onChange={props.handleChange}
         onKeyPress={props.handleEnter}
+        // type={props.type}
         className="ml-1 pl-1 w-full focus:outline-none placeholder-gray-400 hover:shadow-sm"
       />
     </div>

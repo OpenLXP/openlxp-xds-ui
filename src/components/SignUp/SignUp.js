@@ -2,11 +2,6 @@ import { useState, useEffect } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { registerNewUser } from "../../store/user";
-
-import InputEmail from "./Inputs/InputEmail";
-import InputName from "./Inputs/InputName";
-import InputPassword from "./Inputs/InputPassword";
-
 import Button from "../common/inputs/Button";
 import PageWrapper from "../common/PageWrapper";
 import ErrorMessage from "../common/messages/ErrorMessage";
@@ -90,22 +85,11 @@ const SignUp = (props) => {
 
   // when a user hits enter
   const handleEnterKey = (event) => {
-    if (event.key === "Enter" || event.key === 13) {
-      handleSubmit();
-    }
+    if (event.key === "Enter" || event.key === 13) handleSubmit();
   };
 
   // On each re-render...
   useEffect(() => {
-    // on update check the username and password
-    // setInputError({
-    //   ...inputError,
-    //   email: testEmail(credentials.email),
-    //   first_name: testName(credentials.first_name),
-    //   last_name: testName(credentials.last_name),
-    //   password: testPassword(credentials.password),
-    // });
-
     // if the user is logged in navigate them away from here.
     if (user) {
       history.push("/");
@@ -118,73 +102,74 @@ const SignUp = (props) => {
 
   return (
     <PageWrapper>
-    <div className="flex flex-col justify-center py-12 text-center">
-      <div className="mx-auto">
-        <h2 className="mt-6 text-center text-2xl font-extrabold text-gray-900">
-          Sign up for your account
-        </h2>
-        <div onClick={handleSignin} className="mt-2 font-medium text-sm">
-          Already have an account?{" "}
-          <a href="#" className=" text-base-blue hover:text-bright-blue">
-            Sign in
-          </a>
+      <div className="flex flex-col justify-center py-12 text-center">
+        <div className="mx-auto">
+          <h2 className="mt-6 text-center text-2xl font-extrabold text-gray-900">
+            Sign up for your account
+          </h2>
+          <div onClick={handleSignin} className="mt-2 font-medium text-sm">
+            Already have an account?{" "}
+            <a href="#" className=" text-base-blue hover:text-bright-blue">
+              Sign in
+            </a>
+          </div>
         </div>
-      </div>
 
-      <div className="mt-8 mx-auto w-80 bg-white py-8 px-4 rounded-lg">
-        <form
-          action="#"
-          className="space-y-6 text-left"
-          onKeyPress={handleEnterKey}>
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email
-            </label>
-            <DefaultInput
-              type="text"
-              placeholder="Email"
-              error={inputError.email}
-              handleChange={handleEmailChange}
-              className=""
-            />
-            <ErrorMessage error={inputError.email} />
-          </div>
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              First Name
-            </label>
-            <DefaultInput
-              type="text"
-              placeholder="Name"
-              error={inputError.first_name}
-              handleChange={handleFnameChange}
-              className=""
-            />
-            <ErrorMessage error={inputError.name} />
-          </div>
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Last Name
-            </label>
-            <DefaultInput
-              type="text"
-              placeholder="Name"
-              error={inputError.last_name}
-              handleChange={handleLnameChange}
-              className=""
-            />
-            <ErrorMessage error={inputError.name} />
-          </div>
-          <div>
+        <div className="mt-8 mx-auto w-80 bg-white py-8 px-4 rounded-lg">
+          <form
+            action="#"
+            className="space-y-6 text-left"
+            onKeyPress={handleEnterKey}
+          >
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email
+              </label>
+              <DefaultInput
+                type="text"
+                placeholder="Email"
+                error={inputError.email}
+                handleChange={handleEmailChange}
+                className=""
+              />
+              <ErrorMessage error={inputError.email} />
+            </div>
+            <div>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                First Name
+              </label>
+              <DefaultInput
+                type="text"
+                placeholder="Name"
+                error={inputError.first_name}
+                handleChange={handleFnameChange}
+                className=""
+              />
+              <ErrorMessage error={inputError.name} />
+            </div>
+            <div>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Last Name
+              </label>
+              <DefaultInput
+                type="text"
+                placeholder="Name"
+                error={inputError.last_name}
+                handleChange={handleLnameChange}
+                className=""
+              />
+              <ErrorMessage error={inputError.name} />
+            </div>
+            <div>
               <label
                 htmlFor="Password"
                 className="block text-sm font-medium text-gray-700"
@@ -200,17 +185,17 @@ const SignUp = (props) => {
               />
               <ErrorMessage error={inputError.password} />
             </div>
-          <div className="font-thin text-xs text-red-500">
-            {inputError.loginError}
-          </div>
-          <Button
+            <div className="font-thin text-xs text-red-500">
+              {inputError.loginError}
+            </div>
+            <Button
               className="w-full py-2 font-semibold"
               onClick={handleSubmit}
               title="Create account"
             />
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
     </PageWrapper>
   );
 };

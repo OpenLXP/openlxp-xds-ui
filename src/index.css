@@ -260,8 +260,8 @@ h5 {
 }
 
 .course-highlights {
-  display: inline-block;
-  font-size: 0.7vw;
+  /* display: inline-block; */
+  font-size: 1vw;
 }
 
 @media screen and (min-width: 1125px) {

@@ -29,11 +29,14 @@ const Header = () => {
       pathname: "/search/",
       search: `?keyword=${query}&p=1`,
     });
+    setQuery("");
   };
 
   // submits the search term on enter
   const handleEnterKey = (event) => {
-    if (event.key === "Enter" || event.key === 13) handleSearch();
+    if (event.key === "Enter" || event.key === 13) {
+      handleSearch();
+    }
   };
 
   // Handles the state of the button
@@ -68,10 +71,10 @@ const Header = () => {
         >
           <img src={logo} alt="" className="" />
           <div>
-            <div className="text-lg -my-1 text-base-blue font-semibold font-serif ">
-              Digital Learning Portal
+            <div className="text-base -my-1 text-base-blue font-semibold font-serif ">
+              DIGITAL LEARNING PORTAL
             </div>
-            <div className="text-sm text-dark-blue font-sans font-normal ">
+            <div className="text-xs text-dark-blue font-serif font-normal">
               U.S. Department of Defense
             </div>
           </div>
@@ -83,8 +86,13 @@ const Header = () => {
               handleSearch={handleSearch}
               handleChange={handleQuery}
               placeholder="Search"
+              queryValue={query}
             />
-            <Button className='my-3' onClick={handleSignInSignUpButton} title={button.title} />
+            <Button
+              className="my-3 mt-0 flex-col"
+              onClick={handleSignInSignUpButton}
+              title={button.title}
+            />
           </div>
           <div className="text-right">{user ? user.email : null}</div>
         </div>
