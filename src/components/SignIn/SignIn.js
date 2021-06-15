@@ -2,7 +2,6 @@ import classes from "./SignIn.module.css";
 import { useState } from "react";
 
 const SignIn = (props) => {
-
   const handleLogin = () => {
     props.history.push("/");
   };
@@ -16,22 +15,27 @@ const SignIn = (props) => {
   return (
     <div className={classes.container}>
       <div className={classes.title}>Sign In</div>
-      <form className={classes.inputWrapper}>
-        <input required className={classes.input} placeholder={" Username/Email"} />
-        <input required className={classes.input} placeholder={" Password"} />
-      </form>
+      <input
+        required
+        className={classes.input}
+        placeholder={"Username/Email"}
+      />
+      <input required className={classes.input} placeholder={"Password"} />
       <div onClick={handleLogin} className={classes.loginBtn}>
         Sign In
-        </div>
-      <div className={classes.text}>or
-            <a onClick={forgotPassword} className={classes.link}>
-          Forgot Password?
-            </a>
       </div>
-      <div className={classes.text}>Don't have an account?
-            <a onClick={handleSignup} className={classes.link}>
+      <div className={classes.text}>
+        or{" "}
+        <a onClick={forgotPassword} className={classes.link}>
+          Forgot Password
+        </a>
+        ?
+      </div>
+      <div className={classes.text}>
+        Don't have an account?{" "}
+        <a onClick={handleSignup} className={classes.link}>
           Sign up
-            </a>
+        </a>
       </div>
     </div>
   );
