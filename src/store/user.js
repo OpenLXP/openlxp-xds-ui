@@ -95,12 +95,7 @@ export const userSlice = createSlice({
         },
         [logoutUser.fulfilled]: (state, action) => {
             state.status = "succeeded";
-            state.user = {
-                email: null,
-                token: null,
-                lastName: null,
-                firstName: null,
-            };
+            state.user = null;
         },
         [logoutUser.rejected]: (state, action) => {
             state.status = "failed";
