@@ -2,12 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-    user: {
-        email: null,
-        token: null,
-        lastName: null,
-        firstName: null,
-    },
+    user: null,
     status: "idle",
     error: null,
 };
@@ -77,12 +72,7 @@ export const userSlice = createSlice({
         },
         [loginUser.pending]: (state, action) => {
             state.status = "loading";
-            state.user = {
-                email: null,
-                token: null,
-                lastName: null,
-                firstName: null,
-            };
+            state.user = null;
             state.error = null;
         },
         [loginUser.fulfilled]: (state, action) => {
@@ -96,6 +86,7 @@ export const userSlice = createSlice({
         },
         [loginUser.rejected]: (state, action) => {
             state.status = "failed";
+            state.user = null;
             state.error = action.error.message;
         },
         [logoutUser.pending]: (state, action) => {
