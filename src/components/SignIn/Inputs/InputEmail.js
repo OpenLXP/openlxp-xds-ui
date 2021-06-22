@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const InputEmail = (props) => {
     const error = props.error || "";
-    const handleChange = props.handleChange;
+    const handleChange = props.handleChange || null;
     const errorMessage = error ? (
         <div className="font-thin text-xs text-red-500 px-2">{error}</div>
     ) : null;
@@ -21,9 +21,10 @@ const InputEmail = (props) => {
             </label>
             <div className="mt-1">
                 <input
-                    onChange={handleChange}
                     required
                     type="text"
+                    placeholder='Email'
+                    onChange={handleChange}
                     className={inputStyle}
                 />
             </div>

@@ -83,7 +83,6 @@ const SignIn = (props) => {
     }
     // if the user is logged in navigate them away from here.
     if (user) {
-      console.log(user);
       history.push("/");
     }
   }, [credentials, user, error]);

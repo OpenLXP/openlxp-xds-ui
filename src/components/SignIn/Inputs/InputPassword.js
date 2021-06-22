@@ -20,10 +20,11 @@ const InputPassword = (props) => {
             </label>
             <div className="mt-1">
                 <input
-                    onChange={handleChange}
                     required
                     type="password"
+                    placeholder="Password"
                     className={inputStyle}
+                    onChange={handleChange}
                 />
             </div>
             {errorMessage}
