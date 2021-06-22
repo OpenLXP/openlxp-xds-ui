@@ -23,6 +23,7 @@ const InputEmail = (props) => {
                 <input
                     onChange={handleChange}
                     required
+                    placeholder='Email'
                     type="text"
                     className={inputStyle}
                 />

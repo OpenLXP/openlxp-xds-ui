@@ -22,6 +22,7 @@ const InputPassword = (props) => {
                 <input
                     onChange={handleChange}
                     required
+                    placeholder= 'Password'
                     type="password"
                     className={inputStyle}
                 />

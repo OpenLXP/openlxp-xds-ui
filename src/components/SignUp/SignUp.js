@@ -92,7 +92,14 @@ const SignUp = (props) => {
 
   // On each re-render...
   useEffect(() => {
-    
+    // on update check the username and password
+    setInputError({
+      ...inputError,
+      email: testEmail(credentials.email),
+      first_name: testName(credentials.first_name),
+      last_name: testName(credentials.last_name),
+      password: testPassword(credentials.password),
+    });
 
     // if the user is logged in navigate them away from here.
     if (user) {
