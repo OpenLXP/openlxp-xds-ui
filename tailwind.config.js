@@ -8,6 +8,9 @@ module.exports = {
         'bright-blue':'#008cf0',
         'dark-blue':'#003a63'
       },
+      fontFamily:{
+        'serif':['Times New Roman']
+      },
       backgroundImage: theme => ({
          'header-img':'url("/src/resources/internal/dodBanner.png")'
         })

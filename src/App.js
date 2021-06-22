@@ -9,7 +9,6 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import SearchResultPage from "./components/SearchResultsPage/SearchResultsPage";
 import CourseInformation from "./components/CourseInformation/CourseInformation";
 import SignIn from "./components/SignIn/SignIn";
-import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import SignUp from "./components/SignUp/SignUp";
 
 function App() {
@@ -25,7 +24,6 @@ function App() {
       <Route path="/signIn" component={SignIn}/>
       <Route path="/course" component={CourseInformation} />
       <Route path="/" exact component={LandingPage} />
-      <Route path="/forgotPassword" component={ForgotPassword} />
       <Route path="/Signup" component={SignUp} />
       <Redirect to="/" />
     </Switch>
