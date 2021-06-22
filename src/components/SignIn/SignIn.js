@@ -87,18 +87,23 @@ const SignIn = (props) => {
     }
   }, [credentials, user, error]);
 
+  const handleSignup = () => {
+    // alert("Sign Up Complete");
+    props.history.push("/Signup");
+  };
+
   return (
     <div className="flex flex-col justify-center py-12 text-center">
       <div className="mx-auto">
         <h2 className="mt-6 text-center text-2xl font-extrabold text-gray-900">
           Sign in to your account
         </h2>
-        <p className="mt-2 font-medium text-sm">
+        <div onClick={handleSignup} className="mt-2 font-medium text-sm">
           or{" "}
           <a href="#" className=" text-base-blue hover:text-bright-blue">
             Create an account
           </a>
-        </p>
+        </div>
       </div>
 
       <div className="mt-8 mx-auto w-80 bg-white py-8 px-4 rounded-lg">
