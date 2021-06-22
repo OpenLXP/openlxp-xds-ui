@@ -61,7 +61,7 @@ const Header = () => {
                 >
                     <img src={logo} alt="" className="" />
                     <div>
-                        <div className="text-lg text-base-blue font-medium">
+                        <div className="text-lg -my-1 text-base-blue font-semibold font-serif ">
                             Digital Learning Portal
                         </div>
                         <div className="text-sm text-dark-blue font-sans font-normal ">
