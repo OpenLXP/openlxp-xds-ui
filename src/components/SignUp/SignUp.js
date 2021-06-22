@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { registerNewUser } from "../../store/user";
 
-import { loginUser } from "../../store/user";
 import InputEmail from "./Inputs/InputEmail";
 import InputName from "./Inputs/InputName";
 import InputPassword from "./Inputs/InputPassword";
@@ -13,24 +13,24 @@ const SignUp = (props) => {
   const history = useHistory();
 
   const [credentials, setCredentials] = useState({
-    username: "",
-    fname: "",
-    lname: "",
+    email: "",
+    first_name: "",
+    last_name: "",
     password: "",
   });
 
   const [inputError, setInputError] = useState({
-    username: null,
-    fname: null,
-    lname: null,
+    email: null,
+    first_name: null,
+    last_name: null,
     password: null,
-    loginError: null,
   });
 
   // tests for the password
   const testPassword = (password) => {
     if (password === "") return "This field is required";
-    if (password.length < 8) return "The password must contain at least 8 characters";
+    if (password.length < 8)
+      return "The password must contain at least 8 characters";
     // No error
     return null;
   };
@@ -41,23 +41,23 @@ const SignUp = (props) => {
     // No error
     return null;
   };
-  
-  // tests for the username
-  const testUsername = (username) => {
-    if (username === "") return "This field is required";
-    if (!username.includes("@")) return "Username must be an email address.";
+
+  // tests for the email
+  const testEmail = (email) => {
+    if (email === "") return "This field is required";
+    if (!email.includes("@")) return "Email must be an email address.";
     // No error
     return null;
   };
 
   const handleEmailChange = (event) => {
-    setCredentials({ ...credentials, username: event.target.value });
+    setCredentials({ ...credentials, email: event.target.value });
   };
   const handleFnameChange = (event) => {
-    setCredentials({ ...credentials, fname: event.target.value });
+    setCredentials({ ...credentials, first_name: event.target.value });
   };
   const handleLnameChange = (event) => {
-    setCredentials({ ...credentials, lname: event.target.value });
+    setCredentials({ ...credentials, last_name: event.target.value });
   };
   const handlePasswordChange = (event) => {
     setCredentials({ ...credentials, password: event.target.value });
@@ -65,17 +65,21 @@ const SignUp = (props) => {
 
   // Submits the form and dispatches a request to the backend
   const handleSubmit = () => {
-    // Tests username and password for specific errors.
+    // Tests email and password for specific errors.
     setInputError({
-      ...inputError,
-      username: testUsername(credentials.username),
-      fname: testName(credentials.fname),
-      lname: testName(credentials.lname),
+      email: testEmail(credentials.email),
+      first_name: testName(credentials.first_name),
+      last_name: testName(credentials.last_name),
       password: testPassword(credentials.password),
     });
 
-    if (!inputError.username && !inputError.password) {
-      dispatch(loginUser(credentials));
+    if (
+      !inputError.email &&
+      !inputError.password &&
+      !inputError.first_name &&
+      !inputError.last_name
+    ) {
+      dispatch(registerNewUser(credentials));
     }
   };
 
@@ -88,31 +92,15 @@ const SignUp = (props) => {
 
   // On each re-render...
   useEffect(() => {
-    // on update check the username and password
-    setInputError({
-      ...inputError,
-      username: testUsername(credentials.username),
-      fname: testName(credentials.fname),
-      lname: testName(credentials.lname),
-      password: testPassword(credentials.password),
-    });
+    
 
-    // if there is an error update the error message for login
-    if (error) {
-      setInputError({
-        ...inputError,
-        loginError: "Incorrect username or password",
-      });
-    }
     // if the user is logged in navigate them away from here.
     if (user) {
-      console.log(user);
       history.push("/");
     }
   }, [credentials, user, error]);
 
   const handleSignin = () => {
-    // alert("Sign Up Complete");
     props.history.push("/Signin");
   };
 
@@ -123,7 +111,7 @@ const SignUp = (props) => {
           Sign up for your account
         </h2>
         <div onClick={handleSignin} className="mt-2 font-medium text-sm">
-          Already have an account? {" "}
+          Already have an account?{" "}
           <a href="#" className=" text-base-blue hover:text-bright-blue">
             Sign in
           </a>
@@ -131,18 +119,22 @@ const SignUp = (props) => {
       </div>
 
       <div className="mt-8 mx-auto w-80 bg-white py-8 px-4 rounded-lg">
-        <form action="#" className="space-y-6 text-left" onKeyPress={handleEnterKey}>
+        <form
+          action="#"
+          className="space-y-6 text-left"
+          onKeyPress={handleEnterKey}
+        >
           <InputEmail
-            error={inputError.username}
+            error={inputError.email}
             handleChange={handleEmailChange}
           />
           <InputName
-            error={inputError.fname}
+            error={inputError.first_name}
             handleChange={handleFnameChange}
             nameType="First Name"
           />
           <InputName
-            error={inputError.lname}
+            error={inputError.last_name}
             handleChange={handleLnameChange}
             nameType="Last Name"
           />
@@ -153,15 +145,12 @@ const SignUp = (props) => {
           <div className="font-thin text-xs text-red-500">
             {inputError.loginError}
           </div>
-          <div className="flex flex-row justify-start text-xs">
-            <div className="font-medium text-base-blue hover:text-bright-blue -mt-3 cursor-pointer">
-              Forgot password?
-            </div>
-          </div>
+
           <div
             onClick={handleSubmit}
-            className="py-2 block font-semibold shadow-md bg-base-blue hover:bg-opacity-95 text-center text-white rounded-md cursor-pointer">
-            Login
+            className="py-2 block font-semibold shadow-md bg-base-blue hover:bg-opacity-95 text-center text-white rounded-md cursor-pointer"
+          >
+            Create account
           </div>
         </form>
       </div>

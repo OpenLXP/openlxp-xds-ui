@@ -49,12 +49,7 @@ export const userSlice = createSlice({
     extraReducers: {
         [registerNewUser.pending]: (state, action) => {
             state.status = "loading";
-            state.user = {
-                email: null,
-                token: null,
-                lastName: null,
-                firstName: null,
-            };
+            state.user = null;
             state.error = null;
         },
         [registerNewUser.fulfilled]: (state, action) => {
@@ -68,6 +63,7 @@ export const userSlice = createSlice({
         },
         [registerNewUser.rejected]: (state, action) => {
             state.status = "failed";
+            state.user = null;
             state.error = action.error.message;
         },
         [loginUser.pending]: (state, action) => {
