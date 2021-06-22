@@ -23,7 +23,7 @@ const Header = () => {
     // Handles the submition of a query
     const handleSearch = () => {
         history.push({
-            pathname: "/search/",
+            pathname: "/search",
             search: `?keyword=${query}&p=1`,
         });
     };
