@@ -116,6 +116,11 @@ const SearchResultPage = (props) => {
         error: null,
     });
 
+    const [filterDropdown, setFilterDropdown] = useState({
+        label: "Most Relevant", 
+        value:"MostRelevant"
+    });
+
     // initial state to track input on the search bar
     const [searchInputState, setSearchInputState] = useState({
         input: "",
@@ -320,8 +325,8 @@ const SearchResultPage = (props) => {
         );
     }
 
-    let options = [{ value: "MostRelevant", label: "Most Relevant" }];
-    if (configuration != null) {
+    let options = [{value:"MostRelevant", label: "Most Relevant"} ];
+    if(configuration!= null){
         for (let param in configuration.search_sort_options) {
             options.push({
                 value: configuration.search_sort_options[param].field_name,
@@ -331,15 +336,14 @@ const SearchResultPage = (props) => {
     }
 
     //sort functionality dropdown
-    let filterDropdown = null;
+    let filterDropdownn = null;
     if (coursesState.coursesObj != null && coursesState.coursesObj.total > 0) {
-        filterDropdown = (
-            <Select
-                options={options}
-                defaultValue={{ label: "Most Relevant", value: "MostRelevant" }}
-                placeholder="Select an option"
-                className="dropdown"
-                onChange={(event) => {
+        filterDropdownn = (
+            <Select 
+                    options={options} value={filterDropdown}
+                    placeholder="Select an option" className='dropdown'
+                    onChange={(event) => {
+                    setFilterDropdown(event);
                     let paramObj = {};
                     //if sort is not in the url, then it is added
                     if (paramObj["sort"] === null) {
@@ -441,7 +445,7 @@ const SearchResultPage = (props) => {
                             </Link>
                         </div>
                     </div>
-                    {filterDropdown}
+                    {filterDropdownn}
                     {expPanelContent}
                     {pagination}
                 </div>
