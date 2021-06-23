@@ -23,6 +23,7 @@ const InputName = (props) => {
                 <input
                     onChange={handleChange}
                     required
+                    placeholder={props.nameType}
                     type="text"
                     className={inputStyle}
                 />

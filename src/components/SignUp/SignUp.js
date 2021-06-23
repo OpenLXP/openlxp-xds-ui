@@ -92,8 +92,6 @@ const SignUp = (props) => {
 
   // On each re-render...
   useEffect(() => {
-    
-
     // if the user is logged in navigate them away from here.
     if (user) {
       history.push("/");
