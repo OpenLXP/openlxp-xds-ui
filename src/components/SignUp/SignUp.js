@@ -129,8 +129,7 @@ const SignUp = (props) => {
         <form
           action="#"
           className="space-y-6 text-left"
-          onKeyPress={handleEnterKey}
-        >
+          onKeyPress={handleEnterKey}>
           <InputEmail
             error={inputError.email}
             handleChange={handleEmailChange}
@@ -155,8 +154,7 @@ const SignUp = (props) => {
 
           <div
             onClick={handleSubmit}
-            className="py-2 block font-semibold shadow-md bg-base-blue hover:bg-opacity-95 text-center text-white rounded-md cursor-pointer"
-          >
+            className="py-2 block font-semibold shadow-md bg-base-blue hover:bg-opacity-95 text-center text-white rounded-md cursor-pointer">
             Create account
           </div>
         </form>

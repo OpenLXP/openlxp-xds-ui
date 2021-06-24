@@ -117,7 +117,7 @@ const CourseInformation = (props) => {
     <div className="content-section">
       <div className="row content-panel course-detail">
         <div className="inner-content">
-          <h4>{courseInfo.title}</h4>
+          <h2>{courseInfo.title}</h2>
           <div className="row">
             <div className="col span-2-of-5">
               <CourseImage img={imgLink} />

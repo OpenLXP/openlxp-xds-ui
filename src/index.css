@@ -261,7 +261,7 @@ h5 {
 
 .course-highlights {
   display: inline-block;
-  font-size: 70%;
+  font-size: 0.7vw;
 }
 
 @media screen and (min-width: 1125px) {
