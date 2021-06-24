@@ -63,7 +63,7 @@ const Header = () => {
     <div className="bg-header-img bg-no-repeat bg-cover px-4 md:px-24 lg:px-32">
       <div className="flex flex-row justify-between items-center">
         <div
-          className="flex flex-row my-1 px-2 rounded-md space-x-2 items-center cursor-pointer hover:bg-gray-300 hover:bg-opacity-20 transition-colors duration-300 ease-in-out"
+          className="flex flex-row my-1 rounded-md space-x-2 items-center cursor-pointer hover:bg-gray-300 hover:bg-opacity-20 transition-colors duration-300 ease-in-out"
           onClick={handleDodButton}
         >
           <img src={logo} alt="" className="" />
@@ -77,7 +77,7 @@ const Header = () => {
           </div>
         </div>
         <div className="flex flex-col justify-right">
-          <div className="flex flex-row space-x-2">
+          <div className="flex md:flex-row lg:flex-row flex-col md:space-x-2 lg:space-x-2 space-y-1">
             <SearchInput
               handleEnter={handleEnterKey}
               handleSearch={handleSearch}
