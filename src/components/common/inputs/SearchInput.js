@@ -4,7 +4,7 @@
  * @param { function } handleEnterKey -  What happens when enter key is pressed
  * @param { function } handleChange -  Updates the query on change
  * @param { string } queryValue - The search value
- * @param { string } placeholder - The placeholder text
+ * @param { string } placeholderText - The placeholder text
  */
 
 const SearchInput = (props) => {
@@ -19,7 +19,6 @@ const SearchInput = (props) => {
         onChange={props.handleChange}
         onKeyPress={props.handleEnter}
         className="ml-1 pl-1 w-full focus:outline-none placeholder-gray-400 hover:shadow-sm"
-        placeholder={props.placeholder}
       />
     </div>
   );
