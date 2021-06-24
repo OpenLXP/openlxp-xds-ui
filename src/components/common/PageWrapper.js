@@ -7,5 +7,3 @@ const PageWrapper = (props) => {
 };
 
 export default PageWrapper;
-
-
