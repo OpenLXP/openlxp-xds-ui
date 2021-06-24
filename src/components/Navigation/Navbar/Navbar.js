@@ -30,12 +30,10 @@ const Navbar = (props) => {
 
   return (
     <>
-      <div className={classes.nav}>
-        <ul className={classes.navMain}>{listItems}</ul>
+      <div className="px-4 md:px-24 lg:px-32 bg-gradient-to-t from-dark-blue to-light-blue">
+        <div className="flex flex-row">{listItems}</div>
       </div>
-      <ul className={classes.nav}>
-        <li className={classes.navItem}></li>
-      </ul>
+      <div className="bg-gradient-to-t from-dark-blue to-light-blue h-5" />
     </>
   );
 };

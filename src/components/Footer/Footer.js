@@ -41,18 +41,20 @@ const footer = (props) => {
 
   const makeExternalLinks = links.map((link, index) => {
     return (
-      <a key={index} className={classes.item} href={link.url}>
+      <a
+        key={index}
+        className="text-center text-white text-xs p-1 hover:bg-light-blue h-auto"
+        href={link.url}
+      >
         {link.name}
       </a>
     );
   });
 
   return (
-    <footer className={classes.footer}>
-      <div className={classes.container}>
-        <div className={classes.sectionWrapper}>
-          <div className={classes.links}>{makeExternalLinks}</div>
-        </div>
+    <footer className="bg-gradient-to-t from-dark-blue to-light-blue py-3">
+      <div className="px-4 md:px-24 lg:px-32 grid grid-cols-3 md:grid-cols-6 lg:grid-cols-6">
+        {makeExternalLinks}
       </div>
     </footer>
   );
