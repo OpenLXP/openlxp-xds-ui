@@ -1,58 +1,49 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-
 /* This component represents a course preview panel for a quick view of course
     search results */
 const ExpPreviewPanel = (props) => {
   let altImg = (
-    <div
-      style={{
-        // Generating a unique linear gradient
-        backgroundImage: `linear-gradient(270deg, #2f6194, 50%, #0b3d70)`,
-        height: "175px",
-        width: "100%",
-        color: "#fff",
-        textAlign: "center",
-        paddingTop: "30%",
-        fontSize: "1rem",
-      }}>
-      No Image Available
+    <div className="flex flex-grow-0 flex-shrink-0  justify-center items-center h-28 w-44 bg-gradient-to-r from-dark-blue to-base-blue text-white text-center relative">
+      <div>No image available</div>
     </div>
   );
 
-  const defaultImg = <img src={props.imgLink} alt="Course thumbnail" />;
+  const defaultImg = (
+    <div className='flex justify-center items-center h-28 w-44 object-cover text-white text-center relative'>
+      <img src={props.imgLink} alt="Course thumbnail" />
+    </div>
+  );
 
   let img = props.imgLink ? defaultImg : altImg;
 
   return (
-    <div className="row exp-panel">
-      <div className="col span-1-of-4">{img}</div>
-      <div className="col span-3-of-4">
-        <div className="row exp-title">
-          <b>
-            <Link
-              to={{
-                pathname: "/course/" + props.expObj.meta.id,
-                state: {
-                  expObj: props.expObj,
-                  imgLink: props.imgLink,
-                },
-              }}
-              data-testid="exp-prev-title"
-              className="btn">
-              {props.expObj.Course.CourseTitle
-                ? props.expObj.Course.CourseTitle
-                : "N/A"}
-            </Link>
-          </b>
+    <div className="flex flex-row py-2 items-start">
+      <div className="">{img}</div>
+      <div className="flex flex-col px-2 h">
+        <div className="font-sans font-medium text-2xl">
+          <Link
+            to={{
+              pathname: "/course/" + props.expObj.meta.id,
+              state: {
+                expObj: props.expObj,
+                imgLink: props.imgLink,
+              },
+            }}
+            data-testid="exp-prev-title"
+            className="">
+            {props.expObj.Course.CourseTitle
+              ? props.expObj.Course.CourseTitle
+              : "N/A"}
+          </Link>
         </div>
-        <div className="row exp-desc" data-testid="exp-prev-desc">
+        <div className="font-sans font-normal" data-testid="exp-prev-desc">
           {props.expObj.Course.CourseShortDescription
             ? props.expObj.Course.CourseShortDescription
             : "N/A"}
         </div>
-        <div className="row exp-provider" data-testid="exp-prev-provider">
+        <div className="font-sans font-thin" data-testid="exp-prev-provider">
           {props.expObj.Course.CourseProviderName
             ? props.expObj.Course.CourseProviderName
             : "N/A"}

@@ -84,7 +84,7 @@ const Header = () => {
               handleChange={handleQuery}
               placeholder="Search"
             />
-            <Button onClick={handleSignInSignUpButton} title={button.title} />
+            <Button className='my-3' onClick={handleSignInSignUpButton} title={button.title} />
           </div>
           <div className="text-right">{user ? user.email : null}</div>
         </div>
