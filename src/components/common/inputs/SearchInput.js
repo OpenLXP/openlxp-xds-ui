@@ -1,19 +1,21 @@
 /**
  *
  * @param { function } handleSearch - What happens when search is clicked
- * @param { function } handleEnterKey -  What happens when enter key is pressed
+ * @param { function } handleEnter -  What happens when enter key is pressed
  * @param { function } handleChange -  Updates the query on change
  * @param { string } queryValue - The search value
  * @param { string } placeholderText - The placeholder text
  */
 
 const SearchInput = (props) => {
+  const style = `flex flex-row bg-white items-center appearance-none block w-full px-3 py-1 border border-gray-300 rounded-md shadow-sm sm:text-sm ${props.className}`;
   return (
-    <div className="flex flex-row bg-white items-center appearance-none block w-full px-3 py-1 border border-gray-300 rounded-md shadow-sm sm:text-sm">
+    <div className={style}>
       <div className="cursor-pointer flex items-center">
         <ion-icon name="search-outline" onClick={props.handleSearch} />
       </div>
       <input
+        type="text"
         value={props.queryValue}
         placeholder={props.placeholder}
         onChange={props.handleChange}
