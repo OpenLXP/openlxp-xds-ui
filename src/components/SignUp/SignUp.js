@@ -6,6 +6,8 @@ import { registerNewUser } from "../../store/user";
 import InputEmail from "./Inputs/InputEmail";
 import InputName from "./Inputs/InputName";
 import InputPassword from "./Inputs/InputPassword";
+import ErrorMessage from "../common/messages/ErrorMessage";
+import DefaultInput from "../common/inputs/DefaultInput";
 
 const SignUp = (props) => {
   const { user, status, error } = useSelector((state) => state.user);
@@ -93,13 +95,13 @@ const SignUp = (props) => {
   // On each re-render...
   useEffect(() => {
     // on update check the username and password
-    setInputError({
-      ...inputError,
-      email: testEmail(credentials.email),
-      first_name: testName(credentials.first_name),
-      last_name: testName(credentials.last_name),
-      password: testPassword(credentials.password),
-    });
+    // setInputError({
+    //   ...inputError,
+    //   email: testEmail(credentials.email),
+    //   first_name: testName(credentials.first_name),
+    //   last_name: testName(credentials.last_name),
+    //   password: testPassword(credentials.password),
+    // });
 
     // if the user is logged in navigate them away from here.
     if (user) {
@@ -130,24 +132,70 @@ const SignUp = (props) => {
           action="#"
           className="space-y-6 text-left"
           onKeyPress={handleEnterKey}>
-          <InputEmail
-            error={inputError.email}
-            handleChange={handleEmailChange}
-          />
-          <InputName
-            error={inputError.first_name}
-            handleChange={handleFnameChange}
-            nameType="First Name"
-          />
-          <InputName
-            error={inputError.last_name}
-            handleChange={handleLnameChange}
-            nameType="Last Name"
-          />
-          <InputPassword
-            error={inputError.password}
-            handleChange={handlePasswordChange}
-          />
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email
+            </label>
+            <DefaultInput
+              type="text"
+              placeholder="Email"
+              error={inputError.email}
+              handleChange={handleEmailChange}
+              className=""
+            />
+            <ErrorMessage error={inputError.email} />
+          </div>
+          <div>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              First Name
+            </label>
+            <DefaultInput
+              type="text"
+              placeholder="Name"
+              error={inputError.first_name}
+              handleChange={handleFnameChange}
+              className=""
+            />
+            <ErrorMessage error={inputError.name} />
+          </div>
+          <div>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Last Name
+            </label>
+            <DefaultInput
+              type="text"
+              placeholder="Name"
+              error={inputError.last_name}
+              handleChange={handleLnameChange}
+              className=""
+            />
+            <ErrorMessage error={inputError.name} />
+          </div>
+          <div>
+              <label
+                htmlFor="Password"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
+              <DefaultInput
+                type="Password"
+                placeholder="Password"
+                error={inputError.password}
+                handleChange={handlePasswordChange}
+                className=""
+              />
+              <ErrorMessage error={inputError.password} />
+            </div>
           <div className="font-thin text-xs text-red-500">
             {inputError.loginError}
           </div>
