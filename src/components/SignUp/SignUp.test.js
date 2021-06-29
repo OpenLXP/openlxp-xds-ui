@@ -12,8 +12,6 @@ import LandingPage from "../LandingPage/LandingPage";
 const useSelectorMock = jest.spyOn(redux, "useSelector");
 jest.mock("axios");
 
-const useDispatchMock = jest.spyOn(redux, "useDispatch");
-
 let container = (
   <div>
     <Provider store={store}>
@@ -61,7 +59,7 @@ describe("SignUp", () => {
       useSelectorMock.mockReturnValue(state);
       render(container);
     });
-    
+
     screen.getByText("First Name");
   });
 
@@ -71,7 +69,7 @@ describe("SignUp", () => {
       useSelectorMock.mockReturnValue(state);
       render(container);
     });
-    
+
     screen.getByText("Last Name");
   });
 
@@ -109,23 +107,26 @@ describe("SignUp", () => {
       let state = { user: null };
       useSelectorMock.mockReturnValue(state);
       render(container);
+      fireEvent.click(screen.getByText("Create account"), {});
     });
 
-    expect(screen.getAllByText("This field is required").length).toBe(4);
+    expect(screen.getAllByText("This field is required").length).toBe(2);
     await act(async () => {
       fireEvent.change(screen.getByPlaceholderText("Email"), {
         target: { value: "test" },
       });
     });
 
-    screen.getByText("Email must be an email address.");
     await act(async () => {
       fireEvent.change(screen.getByPlaceholderText("Email"), {
         target: { value: "test@test.com" },
       });
+
+      fireEvent.click(screen.getByText("Create account"));
     });
 
-    expect(screen.getAllByText("This field is required").length).toBe(3);
+    screen.getByText("Email must be an email address.");
+    expect(screen.getAllByText("This field is required").length).toBe(1);
   });
 
   test("Should render error for password", async () => {
@@ -135,14 +136,16 @@ describe("SignUp", () => {
       render(container);
     });
 
-    expect(screen.getAllByText("This field is required").length).toBe(4);
     await act(async () => {
       fireEvent.change(screen.getByPlaceholderText("Password"), {
-        target: { value: test },
+        target: { value: "" },
       });
-    });
 
-    expect(screen.getAllByText("This field is required").length).toBe(3);
+      fireEvent.click(screen.getByText("Create account"));
+    });
+    // screen.getByText('This field is required.')
+
+    expect(screen.getAllByText("This field is required").length).toBe(2);
   });
 
   test("Should create user", async () => {
