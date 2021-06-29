@@ -45,53 +45,19 @@ afterEach(() => {
 });
 
 describe("SignIn", () => {
-  test("Should render email label", async () => {
+  test("Should render", async () => {
     await act(async () => {
       let state = { user: null };
       useSelectorMock.mockReturnValue(state);
       render(container);
     });
 
-    screen.getByText("Email");
-  });
-
-  test("Should render password label", async () => {
-    await act(async () => {
-      let state = { user: null };
-      useSelectorMock.mockReturnValue(state);
-      render(container);
-    });
-
-    screen.getByText("Password");
-  });
-
-  test("Should render sign in button", async () => {
-    await act(async () => {
-      let state = { user: null };
-      useSelectorMock.mockReturnValue(state);
-      render(container);
-    });
-
-    screen.getByText("Login");
-  });
-
-  test("Should render forgot password button", async () => {
-    await act(async () => {
-      let state = { user: null };
-      useSelectorMock.mockReturnValue(state);
-      render(container);
-    });
-
-    screen.getByText("Forgot password?");
-  });
-
-  test("Should render create button", async () => {
-    await act(async () => {
-      let state = { user: null };
-      useSelectorMock.mockReturnValue(state);
-      render(container);
-    });
+    screen.getByText("Sign in to your account");
     screen.getByText("Create an account");
+    screen.getByText("Email");
+    screen.getByText("Password");
+    screen.getByText("Forgot password?");
+    screen.getByText("Login");
   });
 
   test("Should render error for username", async () => {
@@ -101,21 +67,17 @@ describe("SignIn", () => {
       render(container);
     });
 
+    await act(async () => {
+      fireEvent.change(screen.getByPlaceholderText("Email"), {
+        target: { value: "" },
+      });
+      fireEvent.change(screen.getByPlaceholderText("Password"), {
+        target: { value: "password" },
+      });
+
+      fireEvent.click(screen.getByText("Login"));
+    });
     expect(screen.getAllByText("This field is required").length).toBe(2);
-    await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText("Email"), {
-        target: { value: test },
-      });
-    });
-
-    screen.getByText("Username must be an email address.");
-    await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText("Email"), {
-        target: { value: "test@test.com" },
-      });
-    });
-
-    expect(screen.getAllByText("This field is required").length).toBe(1);
   });
 
   test("Should render error for password", async () => {
@@ -124,15 +86,17 @@ describe("SignIn", () => {
       useSelectorMock.mockReturnValue(state);
       render(container);
     });
-
-    expect(screen.getAllByText("This field is required").length).toBe(2);
     await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText("Password"), {
-        target: { value: test },
+      fireEvent.change(screen.getByPlaceholderText("Email"), {
+        target: { value: "test@example.com" },
       });
-    });
+      fireEvent.change(screen.getByPlaceholderText("Password"), {
+        target: { value: "" },
+      });
 
-    expect(screen.getAllByText("This field is required").length).toBe(1);
+      fireEvent.click(screen.getByText("Login"));
+    });
+    expect(screen.getAllByText("This field is required").length).toBe(2);
   });
 
   test("Should login user", async () => {
