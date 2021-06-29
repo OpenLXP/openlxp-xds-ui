@@ -21,9 +21,7 @@ afterEach(() => {
     container = null;
 });
 
-
 describe("<LandingPage />", () => {
-
     it("should display: header, subheader, and spotlight section", () => {
         act(() => {
             render(
@@ -59,13 +57,14 @@ describe("<LandingPage />", () => {
                 </Provider>,
                 container
             );
-
-            const input = screen.getByTestId("landing-search");
+        });
+        act(() => {
+            const input = screen.getByPlaceholderText("Search for anything");
 
             expect(input.value).toBe("");
             fireEvent.change(input, { target: { value: "Hello" } });
         });
 
-        screen.getByDisplayValue("Hello")
+        screen.getByDisplayValue("Hello");
     });
 });

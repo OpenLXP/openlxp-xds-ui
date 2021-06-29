@@ -106,7 +106,7 @@ const LandingPage = ({ history }) => {
       </div>
       <div className="flex flex-col my-12 items-center w-96 mx-auto space-y-8">
         <SearchInput
-          placeholder="Search"
+          placeholder="Search for anything"
           handleEnter={handleEnterKey}
           handleSearch={handleSubmit}
           handleChange={handleChange}
