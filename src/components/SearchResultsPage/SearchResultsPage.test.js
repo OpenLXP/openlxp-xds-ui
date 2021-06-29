@@ -115,9 +115,9 @@ describe('<SearchResultsPage />', () => {
                 , container);
         });
 
-        await userEvent.type(screen.getByTestId('results-search'),
+        await userEvent.type(screen.getByPlaceholderText('Search for anything'),
             'Hello');
-        const input = screen.getByTestId('results-search');
+        const input = screen.getByPlaceholderText('Search for anything');
         fireEvent.keyPress(input, { key: "Enter", code: 13 });
 
         expect(screen.getByDisplayValue('Hello'))
