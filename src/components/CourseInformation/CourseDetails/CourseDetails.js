@@ -12,9 +12,9 @@ const CourseDetails = (props) => {
   // Individual cols for icons, name, and value
   const detail = (icon, name, value, key) => {
     return (
-      <div key={key}  style={{whiteSpace: "nowrap"}}>
+      <div key={key} style={{ whiteSpace: "nowrap" }}>
         <ion-icon name={icon} />
-        {name}:&nbsp;<span style={{fontStyle: "italic"}}>{value}</span>
+        {name}: <span style={{ fontStyle: "italic" }}>{value}</span>
       </div>
     );
   };

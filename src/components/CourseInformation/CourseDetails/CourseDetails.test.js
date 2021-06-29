@@ -28,9 +28,12 @@ describe("CourseDetails", () => {
       render(<CourseDetails details={testDetails} />);
     });
 
-    screen.getByText("test1: 1", { exact: false });
-    screen.getByText("test2: 2", { exact: false });
-    screen.getByText("test3: 3", { exact: false });
+    screen.getByText("test1:");
+    screen.getByText("1");
+    screen.getByText("test2:");
+    screen.getByText("2");
+    screen.getByText("test3:");
+    screen.getByText("3");
   });
 
   test("should render 2 courses in the first column, 1 in the second", () => {
