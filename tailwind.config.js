@@ -8,6 +8,7 @@ module.exports = {
         "bright-blue": "#008cf0",
         "light-blue": "#2f6194",
         "dark-blue": "#0b3d70",
+        "body-gray": "#f4f4f4",
       },
       fontFamily: {
         serif: ["Times New Roman"],
