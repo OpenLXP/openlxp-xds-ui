@@ -65,6 +65,7 @@ describe("SignIn", () => {
       let state = { user: null };
       useSelectorMock.mockReturnValue(state);
       render(container);
+      fireEvent.click(screen.getByText("Login"), {});
     });
 
     await act(async () => {
@@ -85,7 +86,9 @@ describe("SignIn", () => {
       let state = { user: null };
       useSelectorMock.mockReturnValue(state);
       render(container);
+      fireEvent.click(screen.getByText("Login"), {});
     });
+    
     await act(async () => {
       fireEvent.change(screen.getByPlaceholderText("Email"), {
         target: { value: "test@example.com" },
