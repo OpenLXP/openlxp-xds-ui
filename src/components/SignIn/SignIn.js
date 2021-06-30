@@ -98,12 +98,12 @@ const SignIn = (props) => {
         </h2>
         <div className="mt-2 mx-auto font-medium text-sm flex flex-row">
           or&nbsp;
-          <span
+          <a href="#"
             onClick={handleSignup}
             className="text-base-blue hover:text-bright-blue"
           >
             Create an account
-          </span>
+          </a>
         </div>
 
         <div className="mx-auto bg-white w-80 py-8 px-4 rounded-lg">
