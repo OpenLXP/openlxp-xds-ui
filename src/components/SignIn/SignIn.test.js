@@ -9,10 +9,10 @@ import store from "../../store/store";
 
 import SignIn from "./SignIn";
 import LandingPage from "../LandingPage/LandingPage";
+
+
 const useSelectorMock = jest.spyOn(redux, "useSelector");
 jest.mock("axios");
-
-const useDispatchMock = jest.spyOn(redux, "useDispatch");
 
 let container = (
   <div>

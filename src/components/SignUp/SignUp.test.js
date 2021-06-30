@@ -9,6 +9,8 @@ import store from "../../store/store";
 
 import SignUp from "./SignUp";
 import LandingPage from "../LandingPage/LandingPage";
+
+
 const useSelectorMock = jest.spyOn(redux, "useSelector");
 jest.mock("axios");
 
