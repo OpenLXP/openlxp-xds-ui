@@ -6,6 +6,9 @@ import { registerNewUser } from "../../store/user";
 import InputEmail from "./Inputs/InputEmail";
 import InputName from "./Inputs/InputName";
 import InputPassword from "./Inputs/InputPassword";
+
+import Button from "../common/inputs/Button";
+import PageWrapper from "../common/PageWrapper";
 import ErrorMessage from "../common/messages/ErrorMessage";
 import DefaultInput from "../common/inputs/DefaultInput";
 
@@ -114,6 +117,7 @@ const SignUp = (props) => {
   };
 
   return (
+    <PageWrapper>
     <div className="flex flex-col justify-center py-12 text-center">
       <div className="mx-auto">
         <h2 className="mt-6 text-center text-2xl font-extrabold text-gray-900">
@@ -199,15 +203,15 @@ const SignUp = (props) => {
           <div className="font-thin text-xs text-red-500">
             {inputError.loginError}
           </div>
-
-          <div
-            onClick={handleSubmit}
-            className="py-2 block font-semibold shadow-md bg-base-blue hover:bg-opacity-95 text-center text-white rounded-md cursor-pointer">
-            Create account
-          </div>
+          <Button
+              className="w-full py-2 font-semibold"
+              onClick={handleSubmit}
+              title="Create account"
+            />
         </form>
       </div>
     </div>
+    </PageWrapper>
   );
 };
 
