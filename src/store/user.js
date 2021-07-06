@@ -7,21 +7,6 @@ const initialState = {
     error: null,
 };
 
-// export const setUserStatus = () => {
-//     //   To check if a user should be logged in
-//     try {
-//         const serializedState = localStorage.getItem('state');
-//         if (serializedState === null) {
-//           return null;
-//         }
-//         console.log(localStorage.getItem('state'));
-//         return serializedState;
-//       } catch (err) {
-//         return undefined;
-//       }
-// };
-
-
 export const loginUser = createAsyncThunk("user/loginUser", async (data) => {
     //   The endpoint to login a user
     const url = process.env.REACT_APP_AUTH + "login";
@@ -33,7 +18,6 @@ export const loginUser = createAsyncThunk("user/loginUser", async (data) => {
 
 export const logoutUser = createAsyncThunk("user/logoutUser", async (data) => {
     //  The endpoint to to logout a user
-    console.log(data);
     const url = process.env.REACT_APP_AUTH + "logout/";
     const headers = {
         Authorization: "Token " + data.token,
@@ -68,7 +52,6 @@ export const userSlice = createSlice({
                     state.user = null;
                 }
                 const stateObject = JSON.parse(serializedState); 
-                console.log(stateObject);
                 state.status = "succeeded";
                 state.user = {
                     email: stateObject.user.email,
@@ -111,14 +94,12 @@ export const userSlice = createSlice({
         [loginUser.fulfilled]: (state, action) => {
             state.status = "succeeded";
             localStorage.setItem('state', JSON.stringify(action.payload));
-            console.log(localStorage.getItem('state'));
             state.user = {
                 email: action.payload.user.email,
                 firstName: action.payload.user.first_name,
                 lastName: action.payload.user.last_name,
                 token: action.payload.token,
             };
-            console.log(localStorage);
         },
         [loginUser.rejected]: (state, action) => {
             state.status = "failed";
