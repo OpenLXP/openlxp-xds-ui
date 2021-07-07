@@ -10,6 +10,7 @@ import SearchResultPage from "./components/SearchResultsPage/SearchResultsPage";
 import CourseInformation from "./components/CourseInformation/CourseInformation";
 import SignIn from "./components/SignIn/SignIn";
 import SignUp from "./components/SignUp/SignUp";
+import { setUserStatus } from "./store/user";
 
 function App() {
   const dispatch = useDispatch();
@@ -35,6 +36,10 @@ function App() {
     }
   }, [status, dispatch]);
 
+  useEffect(() => {
+    dispatch(setUserStatus());
+  }, []);
+  
   return (
     <div className="main-container">
       <Layout>{routes}</Layout>

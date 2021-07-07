@@ -18,7 +18,6 @@ export const loginUser = createAsyncThunk("user/loginUser", async (data) => {
 
 export const logoutUser = createAsyncThunk("user/logoutUser", async (data) => {
     //  The endpoint to to logout a user
-    console.log(data);
     const url = process.env.REACT_APP_AUTH + "logout/";
     const headers = {
         Authorization: "Token " + data.token,
@@ -45,7 +44,27 @@ export const registerNewUser = createAsyncThunk(
 export const userSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {},
+    reducers: {
+        setUserStatus: (state) => {
+            try {
+                const serializedState = localStorage.getItem('state');
+                if (serializedState === null) {
+                    state.user = null;
+                }
+                const stateObject = JSON.parse(serializedState); 
+                state.status = "succeeded";
+                state.user = {
+                    email: stateObject.user.email,
+                    firstName: stateObject.user.first_name,
+                    lastName: stateObject.user.last_name,
+                    token: stateObject.token,
+                };
+            } catch (err) {
+                state.status = "idle";
+                state.user = null;
+            }            
+        },
+    },
     extraReducers: {
         [registerNewUser.pending]: (state, action) => {
             state.status = "loading";
@@ -54,6 +73,7 @@ export const userSlice = createSlice({
         },
         [registerNewUser.fulfilled]: (state, action) => {
             state.status = "succeeded";
+            localStorage.setItem('state', JSON.stringify(action.payload));
             state.user = {
                 email: action.payload.user.email,
                 firstName: action.payload.user.first_name,
@@ -73,6 +93,7 @@ export const userSlice = createSlice({
         },
         [loginUser.fulfilled]: (state, action) => {
             state.status = "succeeded";
+            localStorage.setItem('state', JSON.stringify(action.payload));
             state.user = {
                 email: action.payload.user.email,
                 firstName: action.payload.user.first_name,
@@ -92,6 +113,7 @@ export const userSlice = createSlice({
         [logoutUser.fulfilled]: (state, action) => {
             state.status = "succeeded";
             state.user = null;
+            localStorage.removeItem('state');
         },
         [logoutUser.rejected]: (state, action) => {
             state.status = "failed";
@@ -101,6 +123,6 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { userLoaded } = userSlice.actions;
+export const { userLoaded, setUserStatus } = userSlice.actions;
 
 export default userSlice.reducer;
