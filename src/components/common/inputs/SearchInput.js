@@ -11,7 +11,7 @@ const SearchInput = (props) => {
   const style = `flex flex-row bg-white items-center appearance-none block w-full px-3 py-1 border border-gray-300 rounded-md shadow-sm sm:text-sm ${props.className}`;
   return (
     <div className={style}>
-      <div className="cursor-pointer flex items-center">
+      <div className="cursor-pointer flex items-center text-icon-blue">
         <ion-icon
           name="search-outline"
           onClick={props.handleSearch}
