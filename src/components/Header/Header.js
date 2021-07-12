@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../store/user";
 import { useState, useEffect } from "react";
 
+import UserMenu from "./Menu/UserMenu";
+
 import SearchInput from "../common/inputs/SearchInput";
 import Button from "../common/inputs/Button";
 
@@ -17,6 +19,20 @@ const Header = () => {
 
   // Handles the state of the search bar query
   const [query, setQuery] = useState("");
+
+  const userMenuItems = [
+    {
+      title: "Logout",
+      url: "/",
+      icon: "",
+      func: () => {
+        dispatch(logoutUser(user));
+      },
+    },
+    { title: "Profile", url: "/", icon: "" },
+    { title: "Manage Interests", url: "/", icon: "" },
+    { title: "Favorites", url: "/", icon: "" },
+  ];
 
   // Sends user to home page
   const handleDodButton = () => {
@@ -88,13 +104,16 @@ const Header = () => {
               placeholder="Search"
               queryValue={query}
             />
-            <Button
-              className="my-3 mt-0 flex-col"
-              onClick={handleSignInSignUpButton}
-              title={button.title}
-            />
+            {user ? (
+              <UserMenu username={user.email} menuItems={userMenuItems} />
+            ) : (
+              <Button
+                className="my-3 mt-0 flex-col"
+                onClick={handleSignInSignUpButton}
+                title={button.title}
+              />
+            )}
           </div>
-          <div className="text-right">{user ? user.email : null}</div>
         </div>
       </div>
     </div>
