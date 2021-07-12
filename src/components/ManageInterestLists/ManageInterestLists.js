@@ -13,58 +13,6 @@ const ManageInterestLists = (props) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const [lists, setLists] = useState([]);
-  const TestLists = [
-    {
-      title: "Maths",
-      id: 1,
-      owner: "John Doe",
-      updated: "1/12/2022",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis iste assumenda nulla voluptas provident voluptatibus ratione deserunt tempora pariatur perferendis ullam praesentium asperiores hic officia, qui illum commodi laboriosam, labore?",
-      courses: [
-        {
-          title: "Calculus 1A",
-          provider: "Han Solo",
-          id: "1",
-        },
-        {
-          title: "Calculus 1B",
-          provider: "C3P0",
-          id: "2",
-        },
-        {
-          title: "Calculus 1C",
-          provider: "Chewbacca",
-          id: "3",
-        },
-        {
-          title: "Calculus 1E",
-          provider: "Yoda",
-          id: "4",
-        },
-      ],
-    },
-    {
-      title: "Data List",
-      id: 2,
-      owner: "John Doe",
-      updated: "1/12/2022",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis iste assumenda nulla voluptas provident voluptatibus ratione deserunt tempora pariatur perferendis ullam praesentium asperiores hic officia, qui illum commodi laboriosam, labore? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta cupiditate aperiam expedita aliquid nisi illum eligendi deleniti at ipsam, ratione rem molestiae sit officia repellat dolore dolor voluptate consequuntur hic.",
-      courses: [
-        {
-          title: "Data and the world around you",
-          provider: "Yoda",
-          id: "5",
-        },
-        {
-          title: "Informed decision making using data analytics",
-          provider: "Yoda of dagoba",
-          id: "6",
-        },
-      ],
-    },
-  ];
 
   // Handles the removal a list
   const handleDeletingList = (key) => {
@@ -78,14 +26,18 @@ const ManageInterestLists = (props) => {
   // Handles the removal of a course from a specific list
   const handleRemovingCourse = (key) => {
     const newList = lists.map((list, index, array) => {
-      list.courses = list.courses.filter((course) => {
-        return course.id !== key;
-      });
-      return list;
+      const tempList = { ...list };
+
+      const tempCourses = tempList.courses.filter(
+        (course) => course.id !== key
+      );
+      tempList.courses = tempCourses;
+      return tempList;
     });
 
     setLists(newList);
   };
+
   const handleAddingCourse = () => {
     // hit the api backend for a specific course code
   };
@@ -95,7 +47,9 @@ const ManageInterestLists = (props) => {
     if (!user) {
       history.push("/signin");
     }
-    setLists(TestLists);
+    if (user) {
+      setLists(user.userLists);
+    }
   }, user);
 
   // Generating Interest Lists from the user data saved on backend
@@ -148,7 +102,7 @@ const ManageInterestLists = (props) => {
                   handleRemovingCourse={handleRemovingCourse}
                 />
                 <div className="rounded-b-full rounded-t-sm mt-1 p-1 pt-2 hover:shadow-lg max-w-max max-h-max flex items-center justify-center text-3xl text-gray-300 hover:text-gray-500 mx-auto transition duration-300 transform hover:scale-110 ease-in-out cursor-pointer">
-                  <ion-icon name='add-circle-outline'></ion-icon>
+                  <ion-icon name="add-circle-outline"></ion-icon>
                 </div>
               </Transition>
             </Disclosure.Panel>
