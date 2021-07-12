@@ -30,7 +30,14 @@ const Header = () => {
       },
     },
     { title: "Profile", url: "/", icon: "" },
-    { title: "Manage Interests", url: "/", icon: "" },
+    {
+      title: "Manage Interests",
+      url: "/",
+      icon: "",
+      func: () => {
+        history.push("/manageinterestlists");
+      },
+    },
     { title: "Favorites", url: "/", icon: "" },
   ];
 
