@@ -8,6 +8,8 @@ import Layout from "./hoc/Layout/Layout";
 import LandingPage from "./components/LandingPage/LandingPage";
 import SearchResultPage from "./components/SearchResultsPage/SearchResultsPage";
 import CourseInformation from "./components/CourseInformation/CourseInformation";
+import ManageInterestlists from "./components/ManageInterestLists/ManageInterestLists";
+
 import SignIn from "./components/SignIn/SignIn";
 import SignUp from "./components/SignUp/SignUp";
 import { setUserStatus } from "./store/user";
@@ -21,11 +23,12 @@ function App() {
       <Route path="/search/" component={SearchResultPage} />
       <Route path="/about" />
       <Route path="/resources" />
+      <Route path="/manageinterestlists" component={ManageInterestlists} />
       <Route path="/help" />
       <Route path="/signIn" component={SignIn}/>
       <Route path="/course" component={CourseInformation} />
       <Route path="/" exact component={LandingPage} />
-      <Route path="/Signup" component={SignUp} />
+      <Route path="/signup" component={SignUp} />
       <Redirect to="/" />
     </Switch>
   );
