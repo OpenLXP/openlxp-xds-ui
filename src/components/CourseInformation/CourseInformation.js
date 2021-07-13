@@ -95,7 +95,7 @@ const CourseInformation = (props) => {
   // Wait for the configuration to be available.
   if (configuration) {
     // Get the icon to render
-    courseDetails = configuration.course_highlights.map((item, index) => {
+    courseDetails = configuration?.course_highlights.map((item, index) => {
       return {
         icon: getIconNameToUse(item.highlight_icon),
         name: item.display_name,
