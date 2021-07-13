@@ -15,8 +15,10 @@ const ManageInterestLists = (props) => {
   const { user, lists } = useSelector((state) => state);
 
   // states for individual lists
-  const [userLists, setUserLists] = useState([]);
-  const [subscribedLists, setSubscribedLists] = useState([]);
+  const [currentLists, setCurrentLists] = useState({
+    user: [],
+    subscribed: [],
+  });
 
   useEffect(() => {
     // if the user is not logged in redirect to login
@@ -31,8 +33,7 @@ const ManageInterestLists = (props) => {
       }
 
       if (lists.status === "succeeded") {
-        setUserLists(lists.lists?.user || []);
-        setSubscribedLists(lists.lists?.subscribed || []);
+        setCurrentLists(lists?.lists);
       }
     }
 
@@ -52,7 +53,7 @@ const ManageInterestLists = (props) => {
           <div className="bg-white rounded-md px-4 pb-8">
             <h2 className="font-semibold font-sans text-xl py-3">My Lists</h2>
             <div className="space-y-6">
-              {userLists.map((list) => {
+              {currentLists.user.map((list) => {
                 return <InterestLists list={list} />;
               })}
             </div>
@@ -62,7 +63,7 @@ const ManageInterestLists = (props) => {
               Subscibed Lists
             </h2>
             <div className="space-y-6">
-              {subscribedLists.map((list) => {
+              {currentLists.subscribed.map((list) => {
                 return <SubscribedLists list={list} />;
               })}
             </div>
