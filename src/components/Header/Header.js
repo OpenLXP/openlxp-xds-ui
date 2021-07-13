@@ -1,9 +1,11 @@
 import logo from "../../resources/internal/dodLogo.png";
 import { useHistory, NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logoutUser } from "../../store/user";
+
 import { useState, useEffect } from "react";
 
+import { logoutUser } from "../../store/user";
+import { removeLists } from "../../store/lists";
 import UserMenu from "./Menu/UserMenu";
 
 import SearchInput from "../common/inputs/SearchInput";
@@ -27,6 +29,7 @@ const Header = () => {
       icon: "",
       func: () => {
         dispatch(logoutUser(user));
+        dispatch(removeLists());
       },
     },
     { title: "Profile", url: "/", icon: "" },
