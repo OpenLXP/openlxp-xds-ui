@@ -6,12 +6,14 @@ import { useEffect, useState } from "react";
 import { Transition } from "@headlessui/react";
 
 import InterestLists from "./InterestLists/InterestLists";
+import SubscribedLists from "./SubscribedLists/SubscribedLists";
 
 const ManageInterestLists = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { user, status } = useSelector((state) => state.user);
   const [userLists, setUserLists] = useState([]);
+  const [subscribedLists, setSubscribedLists] = useState([]);
 
   useEffect(() => {
     // if the user is not logged in redirect to login
@@ -22,6 +24,7 @@ const ManageInterestLists = (props) => {
     // if the user profile is present
     if (user) {
       setUserLists(user.userLists);
+      setSubscribedLists(user.userLists);
     }
   }, user);
 
@@ -47,6 +50,11 @@ const ManageInterestLists = (props) => {
             <h2 className="font-semibold font-sans text-xl py-3">
               Subscibed Lists
             </h2>
+            <div className="space-y-6">
+              {subscribedLists.map((list) => {
+                return <SubscribedLists list={list} />;
+              })}
+            </div>
           </div>
         </>
       ) : null}

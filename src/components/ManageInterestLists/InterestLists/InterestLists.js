@@ -6,21 +6,30 @@ const InterestLists = (props) => {
   const [list, setList] = useState({});
   const [isEditing, setEditing] = useState(false);
 
+  // sets the editing state of the list
   const handleEdit = () => {
+    // What to do on the click of update
     if (isEditing) {
       console.log("Update this list", list);
-      // Make an api call to update this list
+      // Make a [POST or PATCH] request to update the list
+      // Update the user from the response
     }
     setEditing(!isEditing);
   };
+
+  // updates the current attribute being edited
   const handleChange = (event, key) => {
     setList({ ...list, [key]: event.target.value });
   };
+
+  // handles the removal of a list from the backend
   const handleDelete = () => {
     console.log("Delete this list", list);
-    // Make an api call to delete this list
+    // Make a [DELETE] request to delete the entire list
+    // update the user from the response
   };
 
+  // handles the removal of a course from the backend
   const removeCourse = (key) => {
     setList({
       ...list,
@@ -32,6 +41,7 @@ const InterestLists = (props) => {
     setList(props.list);
   }, []);
 
+  // Creates the list of courses in the list
   const ListTable = (list) => {
     let courses = list.courses || [];
     return (
@@ -88,7 +98,7 @@ const InterestLists = (props) => {
     <Disclosure key={list.id}>
       {({ open }) => (
         <div className={`${open ? "shadow-lg" : "border"} rounded-md`}>
-          <Disclosure.Button className="flex felx-row rounded-md w-full text-left py-2 px-4 justify-between items-center outline-none">
+          <Disclosure.Button className="flex felx-row rounded-md w-full text-left text-xl font-sans py-2 px-4 justify-between items-center outline-none">
             {list.title}
             <ion-icon
               name={open ? "chevron-up-outline" : "chevron-down-outline"}
