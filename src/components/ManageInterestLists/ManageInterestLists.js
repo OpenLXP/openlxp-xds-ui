@@ -5,28 +5,39 @@ import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Transition } from "@headlessui/react";
 
+import { getLists } from "../../store/lists";
 import InterestLists from "./InterestLists/InterestLists";
 import SubscribedLists from "./SubscribedLists/SubscribedLists";
 
 const ManageInterestLists = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { user, status } = useSelector((state) => state.user);
+  const { user, lists } = useSelector((state) => state);
+
+  // states for individual lists
   const [userLists, setUserLists] = useState([]);
   const [subscribedLists, setSubscribedLists] = useState([]);
 
   useEffect(() => {
     // if the user is not logged in redirect to login
-    if (!user && status === "failed") {
+    if (!user.user) {
       history.push("/signin");
     }
 
     // if the user profile is present
-    if (user) {
-      setUserLists(user.userLists);
-      setSubscribedLists(user.userLists);
+    if (user?.user && user.status === "succeeded") {
+      if (!lists?.lists) {
+        dispatch(getLists());
+      }
+
+      if (lists.status === "succeeded") {
+        setUserLists(lists.lists?.user || []);
+        setSubscribedLists(lists.lists?.subscribed || []);
+      }
     }
-  }, user);
+
+    // Re-render if user state changes or if list state changes
+  }, [lists?.lists, user?.user]);
 
   // Generating Interest Lists from the user data saved on backend
   // TODO: Move this to its own component
