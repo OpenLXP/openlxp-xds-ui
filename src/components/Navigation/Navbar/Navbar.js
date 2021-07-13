@@ -30,7 +30,7 @@ const Navbar = (props) => {
 
   return (
     <>
-      <div className="px-4 md:px-24 lg:px-32 bg-gradient-to-t from-dark-blue to-light-blue">
+      <div className="px-4 md:px-24 lg:px-32  xl:px-56 bg-gradient-to-t from-dark-blue to-light-blue">
         <div className="flex flex-row">{listItems}</div>
       </div>
       <div className="bg-gradient-to-t from-dark-blue to-light-blue h-5" />

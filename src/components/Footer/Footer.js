@@ -52,7 +52,7 @@ const footer = (props) => {
 
   return (
     <footer className="bg-gradient-to-t from-dark-blue to-light-blue py-3">
-      <div className="px-4 md:px-24 sm:px-32 grid grid-cols-3 md:grid-cols-6 text-xl font-thin">
+      <div className="px-4 md:px-24 lg:px-32 xl:px-56 grid grid-cols-3 md:grid-cols-6 text-xl font-thin">
         {makeExternalLinks}
       </div>
     </footer>

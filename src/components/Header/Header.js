@@ -86,7 +86,7 @@ const Header = () => {
   };
 
   return (
-    <div className="bg-header-img bg-no-repeat bg-cover px-4 md:px-24 lg:px-32">
+    <div className="bg-header-img bg-no-repeat bg-cover px-4 md:px-24 lg:px-32  xl:px-56">
       <div className="flex flex-row justify-between items-center">
         <div
           className="flex flex-row my-1 rounded-md space-x-2 items-center cursor-pointer hover:bg-gray-300 hover:bg-opacity-20 transition-colors duration-300 ease-in-out"
