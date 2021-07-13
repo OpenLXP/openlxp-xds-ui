@@ -40,6 +40,35 @@ export const getLists = createAsyncThunk("lists/getLists", async (data) => {
               id: "4",
             },
           ],
+        },{
+          title: "Other Classes",
+          id: 1,
+          owner: "John Doe",
+          updated: "1/12/2022",
+          description:
+            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis iste assumenda nulla voluptas provident voluptatibus ratione deserunt tempora pariatur perferendis ullam praesentium asperiores hic officia, qui illum commodi laboriosam, labore?",
+          courses: [
+            {
+              title: "Calculus 1A",
+              provider: "Han Solo",
+              id: "1",
+            },
+            {
+              title: "Calculus 1B",
+              provider: "C3P0",
+              id: "2",
+            },
+            {
+              title: "Calculus 1C",
+              provider: "Chewbacca",
+              id: "3",
+            },
+            {
+              title: "Calculus 1E",
+              provider: "Yoda",
+              id: "4",
+            },
+          ],
         },
         {
           title: "Data List",
