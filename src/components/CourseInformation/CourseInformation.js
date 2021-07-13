@@ -8,6 +8,8 @@ import CourseButton from "./CourseButton/CourseButton";
 import CourseDetails from "./CourseDetails/CourseDetails";
 import CourseDescription from "./CourseDescription/CourseDescription";
 import RelatedCourses from "./RelatedCourses/RelatedCourses";
+import CourseAddToListButton from "./CourseAddToListButton/CourseAddToListButton"
+import InterestGroupPopup from "./InterestGroupPopup/InterestGroupPopup"
 
 const CourseInformation = (props) => {
   // Getting the current location and the data
@@ -113,15 +115,22 @@ const CourseInformation = (props) => {
     };
   }
 
+  //handles click of "Add to List" button
+  // const handleAddToList = () => {
+
+  // }
+
   return (
     <div className="content-section">
       <div className="row content-panel course-detail">
         <div className="inner-content">
           <h2 className="font-bold">{courseInfo.title}</h2>
-          <div className="row">
-            <div className="col span-2-of-5">
+          <div className="row mx-auto">
+            <div className="col span-2-of-5 my-auto justify-center">
               <CourseImage img={imgLink} />
               <CourseButton url={courseInfo.url} />
+              {/* <CourseAddToListButton handleAddToList={handleAddToList}/> */}
+              <InterestGroupPopup></InterestGroupPopup>
             </div>
             <div className="col span-3-of-5">
               <CourseDetails details={courseDetails} />
