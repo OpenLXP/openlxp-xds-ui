@@ -12,21 +12,19 @@ export default function InterestGroupPopup() {
 
   function closeModal() {
     setIsOpen(false);
+    console.log(makingList);
+
   }
 
   function openModal() {
     setIsOpen(true);
+    console.log(makingList);
   }
-
-  let intrestList = [
-    { name: "Interest List 1" },
-    { name: "Interest List 2" },
-    { name: "Interest List 3" },
-  ];
 
   useEffect(() => {
     if (user.user) {
       dispatch(getLists());
+      console.log(makingList);
 
       if (lists?.lists) {
         setUserLists(lists.lists.user);
@@ -88,6 +86,7 @@ export default function InterestGroupPopup() {
 
   return (
     <>
+      {user.user ? 
       <div className="flex items-center justify-center">
         <button
           type="button"
@@ -97,7 +96,7 @@ export default function InterestGroupPopup() {
           Add to List
         </button>
       </div>
-
+      : null}
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -107,14 +106,14 @@ export default function InterestGroupPopup() {
           <div className="min-h-screen px-4 text-center">
             <Transition.Child
               as={Fragment}
-              enter="ease-out duration-300"
+              enter="ease-out duration-50"
               enterFrom="opacity-0"
               enterTo="opacity-100"
               leave="ease-in duration-200"
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0" />
+              <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
             </Transition.Child>
 
             {/* This element is to trick the browser into centering the modal contents. */}
@@ -147,11 +146,13 @@ export default function InterestGroupPopup() {
                   </p>
                 </div>
                 {makingList ? createNewInterestList : null}
+                {makingList}
                 <div
                   className="mt-2 text-lg text-light-blue underline text-middle cursor-pointer"
                   onClick={() => {
-                    if (makingList)
                     setMakingList(!makingList);
+                    console.log(makingList);
+
                   }}
                 >
                   Create new interest list

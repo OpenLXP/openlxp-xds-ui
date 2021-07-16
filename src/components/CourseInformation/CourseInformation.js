@@ -129,8 +129,7 @@ const CourseInformation = (props) => {
             <div className="col span-2-of-5 my-auto justify-center">
               <CourseImage img={imgLink} />
               <CourseButton url={courseInfo.url} />
-              {/* <CourseAddToListButton handleAddToList={handleAddToList}/> */}
-              <InterestGroupPopup></InterestGroupPopup>
+              <InterestGroupPopup/>
             </div>
             <div className="col span-3-of-5">
               <CourseDetails details={courseDetails} />
