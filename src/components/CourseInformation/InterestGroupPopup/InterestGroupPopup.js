@@ -13,7 +13,6 @@ export default function InterestGroupPopup() {
   function closeModal() {
     setIsOpen(false);
     console.log(makingList);
-
   }
 
   function openModal() {
@@ -30,19 +29,21 @@ export default function InterestGroupPopup() {
         setUserLists(lists.lists.user);
       }
     }
-  }, [userLists]);
+  }, [lists?.lists]);
 
-  const makeInterestListCheckboxes = userLists.map((list) => {
-    return (
-      <div class="cols-span-1 flex flex-row items-center border border-light-blue border-opacity-50 px-2 py-1 rounded-md select-none">
-        <input
-          type="checkbox"
-          class="transform scale-150 checked:bg-blue-600 checked:border-transparent"
-        />
-        <span class="ml-2 tracking-wider">{list.title}</span>
-      </div>
-    );
-  });
+  const makeInterestListCheckboxes = () => {
+    return userLists.map((list) => {
+      return (
+        <div class="cols-span-1 flex flex-row items-center border border-light-blue border-opacity-50 px-2 py-1 rounded-md select-none">
+          <input
+            type="checkbox"
+            class="transform scale-150 checked:bg-blue-600 checked:border-transparent"
+          />
+          <span class="ml-2 tracking-wider">{list.title}</span>
+        </div>
+      );
+    });
+  };
 
   const createNewInterestList = (
     <Transition
@@ -86,17 +87,17 @@ export default function InterestGroupPopup() {
 
   return (
     <>
-      {user.user ? 
-      <div className="flex items-center justify-center">
-        <button
-          type="button"
-          onClick={openModal}
-          className="ml- bg-white text-base-blue font-bold underline py-2 px-4 rounded hover:bg-blue-300 hover:bg-opacity-50 transition-colors duration-300 ease-in-out"
-        >
-          Add to List
-        </button>
-      </div>
-      : null}
+      {user.user ? (
+        <div className="flex items-center justify-center">
+          <button
+            type="button"
+            onClick={openModal}
+            className="ml- bg-white text-base-blue font-bold underline py-2 px-4 rounded hover:bg-blue-300 hover:bg-opacity-50 transition-colors duration-300 ease-in-out"
+          >
+            Add to List
+          </button>
+        </div>
+      ) : null}
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -142,7 +143,7 @@ export default function InterestGroupPopup() {
 
                 <div className="mt-2">
                   <p className="grid grid-cols-2 flex-wrap gap-2 py-4 text-md text-black text-middle">
-                    {makeInterestListCheckboxes}
+                    {makeInterestListCheckboxes()}
                   </p>
                 </div>
                 {makingList ? createNewInterestList : null}
@@ -152,7 +153,6 @@ export default function InterestGroupPopup() {
                   onClick={() => {
                     setMakingList(!makingList);
                     console.log(makingList);
-
                   }}
                 >
                   Create new interest list
