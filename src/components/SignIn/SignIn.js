@@ -98,7 +98,8 @@ const SignIn = (props) => {
         </h2>
         <div className="mt-2 mx-auto font-medium text-sm flex flex-row">
           or&nbsp;
-          <a href="#"
+          <a
+            href="#"
             onClick={handleSignup}
             className="text-base-blue hover:text-bright-blue"
           >
@@ -152,11 +153,19 @@ const SignIn = (props) => {
                 Forgot password?
               </div>
             </div>
-            <Button
-              className="w-full py-2 font-semibold"
-              onClick={handleSubmit}
-              title="Login"
-            />
+            {status === "loading" ? (
+              <div className="w-full bg-base-blue h-10 rounded-md flex justify-center items-center text-white">
+                <div className="flex justify-center items-center animate-spin">
+                  <ion-icon name="reload-outline"></ion-icon>
+                </div>
+              </div>
+            ) : (
+              <Button
+                className="w-full py-2 font-semibold"
+                onClick={handleSubmit}
+                title="Login"
+              />
+            )}
           </form>
         </div>
       </div>
