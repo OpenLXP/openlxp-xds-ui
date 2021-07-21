@@ -1,14 +1,17 @@
 import { Dialog, Transition } from "@headlessui/react";
+import axios from "axios";
 import { Fragment, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getLists } from "../../../store/lists";
-export default function InterestGroupPopup() {
+import { getUserLists } from "../../../store/lists";
+export default function InterestGroupPopup(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [userLists, setUserLists] = useState([]);
   const [makingList, setMakingList] = useState(false);
-
   const dispatch = useDispatch();
   const { lists, user } = useSelector((state) => state);
+
+
+  
 
   function closeModal() {
     setIsOpen(false);
@@ -20,26 +23,42 @@ export default function InterestGroupPopup() {
     console.log(makingList);
   }
 
-  useEffect(() => {
-    if (user.user) {
-      dispatch(getLists());
-      console.log(makingList);
+  const handleCreateNewList = () => {
+    const dataToSend = {
+      description: "test description",
+      name: "d",
+    };
+    axios
+      .post(process.env.REACT_APP_INTEREST_LISTS, dataToSend, {
+        headers: {
+          Authorization: "Token " + user.user.token,
+        },
+      })
+      .then((resp) => {
 
-      if (lists?.lists) {
-        setUserLists(lists.lists.user);
-      }
-    }
-  }, [lists?.lists]);
+        dispatch(getUserLists(user.user?.token));
+      })
+      .then(()=>{ setUserLists(lists.lists)})
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    dispatch(getUserLists(user.user?.token));
+    setUserLists(lists.lists);
+
+  }, [user]);
 
   const makeInterestListCheckboxes = () => {
-    return userLists.map((list) => {
+    return userLists?.map((list) => {
       return (
         <div class="cols-span-1 flex flex-row items-center border border-light-blue border-opacity-50 px-2 py-1 rounded-md select-none">
           <input
             type="checkbox"
             class="transform scale-150 checked:bg-blue-600 checked:border-transparent"
           />
-          <span class="ml-2 tracking-wider">{list.title}</span>
+          <span class="ml-2 tracking-wider text-left">{list.name}</span>
         </div>
       );
     });
@@ -53,8 +72,7 @@ export default function InterestGroupPopup() {
       enterTo="opacity-100"
       leave="transition-all transition-opacity duration-300"
       leaveFrom="opacity-100"
-      leaveTo="opacity-0"
-    >
+      leaveTo="opacity-0">
       <div className="mt-4 text-gray-900 text-left">
         <h3 className="tracking-wider">Title</h3>
         <input className="cols-span-1 w-full border rounded-md px-2 py-1 outline-none focus:ring-base-blue focus:ring-2 focus:ring-opacity-80 " />
@@ -64,7 +82,7 @@ export default function InterestGroupPopup() {
             <input
               disabled
               className="cols-span-1 w-full border rounded-md px-2 py-1 outline-none focus:ring-base-blue focus:ring-2 focus:ring-opacity-80"
-              value={user.user?.firstName + " " + user.user?.lastName}
+              value={user.user?.email}
             />
           </div>
           <div>
@@ -92,8 +110,7 @@ export default function InterestGroupPopup() {
           <button
             type="button"
             onClick={openModal}
-            className="ml- bg-white text-base-blue font-bold underline py-2 px-4 rounded hover:bg-blue-300 hover:bg-opacity-50 transition-colors duration-300 ease-in-out"
-          >
+            className="ml- bg-white text-base-blue font-bold underline py-2 px-4 rounded hover:bg-blue-300 hover:bg-opacity-50 transition-colors duration-300 ease-in-out">
             Add to List
           </button>
         </div>
@@ -102,8 +119,7 @@ export default function InterestGroupPopup() {
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={closeModal}
-        >
+          onClose={closeModal}>
           <div className="min-h-screen px-4 text-center">
             <Transition.Child
               as={Fragment}
@@ -112,16 +128,14 @@ export default function InterestGroupPopup() {
               enterTo="opacity-100"
               leave="ease-in duration-200"
               leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
+              leaveTo="opacity-0">
               <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
             </Transition.Child>
 
             {/* This element is to trick the browser into centering the modal contents. */}
             <span
               className="inline-block h-screen align-middle"
-              aria-hidden="true"
-            >
+              aria-hidden="true">
               &#8203;
             </span>
             <Transition.Child
@@ -131,13 +145,11 @@ export default function InterestGroupPopup() {
               enterTo="opacity-100 scale-100"
               leave="ease-in duration-200"
               leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
+              leaveTo="opacity-0 scale-95">
               <div className="inline-block w-full max-w-md p-8 my-8 overflow-hidden align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <Dialog.Title
                   as="h1"
-                  className="py-4 text-lg font-bold leading-6 text-black text-middle border-b-2 border-b-black"
-                >
+                  className="py-4 text-lg font-bold leading-6 text-black text-middle border-b-2 border-b-black">
                   Add Courses to Interest List(s)
                 </Dialog.Title>
 
@@ -146,24 +158,42 @@ export default function InterestGroupPopup() {
                     {makeInterestListCheckboxes()}
                   </p>
                 </div>
-                {makingList ? createNewInterestList : null}
-                {makingList}
-                <div
-                  className="mt-2 text-lg text-light-blue underline text-middle cursor-pointer"
-                  onClick={() => {
-                    setMakingList(!makingList);
-                    console.log(makingList);
-                  }}
-                >
-                  Create new interest list
-                </div>
+
+                {(() => {
+                  if (makingList) {
+                    return createNewInterestList;
+                  }
+                })()}
+
+                {(() => {
+                  if (makingList) {
+                    return (
+                      <div
+                        onClick={() => {
+                          setMakingList(!makingList);
+                          handleCreateNewList();
+                        }}>
+                        test
+                      </div>
+                    );
+                  }
+                  return (
+                    <div
+                      className="mt-2 text-lg text-light-blue underline text-middle cursor-pointer"
+                      onClick={() => {
+                        setMakingList(!makingList);
+                        console.log(makingList);
+                      }}>
+                      Create new interest list
+                    </div>
+                  );
+                })()}
 
                 <div className="mt-4 flex items-center justify-center">
                   <button
                     type="button"
                     className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    onClick={closeModal}
-                  >
+                    onClick={closeModal}>
                     Submit
                   </button>
                 </div>

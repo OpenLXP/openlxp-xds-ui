@@ -8,8 +8,8 @@ import CourseButton from "./CourseButton/CourseButton";
 import CourseDetails from "./CourseDetails/CourseDetails";
 import CourseDescription from "./CourseDescription/CourseDescription";
 import RelatedCourses from "./RelatedCourses/RelatedCourses";
-import CourseAddToListButton from "./CourseAddToListButton/CourseAddToListButton"
-import InterestGroupPopup from "./InterestGroupPopup/InterestGroupPopup"
+import CourseAddToListButton from "./CourseAddToListButton/CourseAddToListButton";
+import InterestGroupPopup from "./InterestGroupPopup/InterestGroupPopup";
 
 const CourseInformation = (props) => {
   // Getting the current location and the data
@@ -129,7 +129,7 @@ const CourseInformation = (props) => {
             <div className="col span-2-of-5 my-auto justify-center">
               <CourseImage img={imgLink} />
               <CourseButton url={courseInfo.url} />
-              <InterestGroupPopup/>
+              <InterestGroupPopup courseId={courseData.meta.id} />
             </div>
             <div className="col span-3-of-5">
               <CourseDetails details={courseDetails} />
