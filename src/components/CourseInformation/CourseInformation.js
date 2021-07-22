@@ -129,6 +129,7 @@ const CourseInformation = (props) => {
             <div className="col span-2-of-5 my-auto justify-center">
               <CourseImage img={imgLink} />
               <CourseButton url={courseInfo.url} />
+
               <InterestGroupPopup courseId={courseData.meta.id} />
             </div>
             <div className="col span-3-of-5">

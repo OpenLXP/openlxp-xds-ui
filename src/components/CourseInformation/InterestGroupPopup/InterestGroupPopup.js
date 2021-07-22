@@ -1,207 +1,190 @@
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog } from "@headlessui/react";
 import axios from "axios";
-import { Fragment, useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { getUserLists } from "../../../store/lists";
-export default function InterestGroupPopup(props) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [userLists, setUserLists] = useState([]);
-  const [makingList, setMakingList] = useState(false);
+
+const InterestGroupPopup = (props) => {
+  const { lists } = useSelector((state) => state.lists);
+  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const { lists, user } = useSelector((state) => state);
 
+  // manages the state of the modal
+  const [isOpen, setIsOpen] = useState(false);
+  const [newListInfo, setNewListInfo] = useState({ description: "", name: "" });
 
-  
+  // manages the selected lists to update
+  const [selectedLists, setSelectedLists] = useState([]);
 
-  function closeModal() {
-    setIsOpen(false);
-    console.log(makingList);
-  }
-
-  function openModal() {
-    setIsOpen(true);
-    console.log(makingList);
-  }
-
-  const handleCreateNewList = () => {
+  const handleSubmit = () => {
     const dataToSend = {
-      description: "test description",
-      name: "d",
+      course: props.courseId,
+      lists: selectedLists,
     };
-    axios
-      .post(process.env.REACT_APP_INTEREST_LISTS, dataToSend, {
-        headers: {
-          Authorization: "Token " + user.user.token,
-        },
-      })
-      .then((resp) => {
+    const header = {
+      Authorization: `Token ${user.token}`,
+    };
 
-        dispatch(getUserLists(user.user?.token));
+    axios
+      .post(process.env.REACT_APP_ADD_COURSE_TO_LISTS, dataToSend, {
+        headers: header,
       })
-      .then(()=>{ setUserLists(lists.lists)})
-      .catch((err) => {
-        console.log(err);
+      .then((response) => {
+        dispatch(getUserLists(user?.token));
       });
   };
+  const handleNewList = () => {
+    const dataToSend = {
+      description: newListInfo.description,
+      name: newListInfo.name,
+    };
+    const header = {
+      Authorization: `Token ${user.token}`,
+    };
 
+    setNewListInfo({ description: "", name: "" });
+    axios
+      .post(process.env.REACT_APP_INTEREST_LISTS, dataToSend, {
+        headers: header,
+      })
+      .then((response) => {
+        dispatch(getUserLists(user?.token));
+      });
+  };
+  const handleSelect = (e, id) => {
+    // if the list is not in the selections then add it
+    if (selectedLists.filter((list) => list === id).length < 1) {
+      const newList = selectedLists;
+      newList.push(id);
+      setSelectedLists(newList);
+    }
+    // remove it
+    else if (!e.target.checked && e.target.checked !== undefined) {
+      setSelectedLists(selectedLists.filter((list) => list !== id));
+    }
+  };
   useEffect(() => {
-    dispatch(getUserLists(user.user?.token));
-    setUserLists(lists.lists);
+    dispatch(getUserLists(user?.token));
 
+    return () => {};
   }, [user]);
 
-  const makeInterestListCheckboxes = () => {
-    return userLists?.map((list) => {
+  const groupButtons = () => {
+    return lists?.map((list) => {
+      const { name, id, courses } = { ...list };
       return (
-        <div class="cols-span-1 flex flex-row items-center border border-light-blue border-opacity-50 px-2 py-1 rounded-md select-none">
+        <label
+          className={`flex flex-row items-center space-x-2 cursor-pointer select-none shadow py-2 px-2 rounded-md hover:shadow-md transition-all duration-100 ease-in-out focus:bg-blue-200`}
+          htmlFor={`group-${id}`}
+          onClick={(e) => {
+            handleSelect(e, id);
+          }}>
           <input
             type="checkbox"
-            class="transform scale-150 checked:bg-blue-600 checked:border-transparent"
+            className="cursor-pointer"
+            name="select-group"
+            id={`group-${id}`}
           />
-          <span class="ml-2 tracking-wider text-left">{list.name}</span>
-        </div>
+          <div className="flex flex-row justify-between w-full">
+            <div className="line-clamp-1">{name}</div>
+            <div className="px-1.5 rounded-md bg-base-blue bg-opacity-10 text-base-blue">
+              {courses.length}
+            </div>
+          </div>
+        </label>
       );
     });
   };
-
-  const createNewInterestList = (
-    <Transition
-      show={makingList}
-      enter="transition-all transition-opacity duration-300"
-      enterFrom="opacity-10"
-      enterTo="opacity-100"
-      leave="transition-all transition-opacity duration-300"
-      leaveFrom="opacity-100"
-      leaveTo="opacity-0">
-      <div className="mt-4 text-gray-900 text-left">
-        <h3 className="tracking-wider">Title</h3>
-        <input className="cols-span-1 w-full border rounded-md px-2 py-1 outline-none focus:ring-base-blue focus:ring-2 focus:ring-opacity-80 " />
-        <div className="grid grid-cols-2 gap-2">
-          <div>
-            <h3 className="tracking-wider">Owner</h3>
-            <input
-              disabled
-              className="cols-span-1 w-full border rounded-md px-2 py-1 outline-none focus:ring-base-blue focus:ring-2 focus:ring-opacity-80"
-              value={user.user?.email}
-            />
-          </div>
-          <div>
-            <h3 className="tracking-wider">Updated</h3>
-            <input
-              disabled
-              className="cols-span-1 w-full border rounded-md px-2 py-1 outline-none focus:ring-base-blue focus:ring-2 focus:ring-opacity-80"
-            />
-          </div>
-        </div>
-        <h3 className="tracking-wider">Description</h3>
-        <textarea
-          name="description"
-          className="w-full border rounded-md px-2 py-1 outline-none focus:ring-base-blue focus:ring-2 focus:ring-opacity-80"
-          rows="3"
-        />
-      </div>
-    </Transition>
-  );
-
   return (
-    <>
-      {user.user ? (
-        <div className="flex items-center justify-center">
-          <button
-            type="button"
-            onClick={openModal}
-            className="ml- bg-white text-base-blue font-bold underline py-2 px-4 rounded hover:bg-blue-300 hover:bg-opacity-50 transition-colors duration-300 ease-in-out">
-            Add to List
-          </button>
+    <div>
+      {user ? (
+        <div
+          className="mx-auto text-center cursor-pointer"
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}>
+          Add to list
         </div>
       ) : null}
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={closeModal}>
-          <div className="min-h-screen px-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-50"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0">
-              <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
-            </Transition.Child>
-
-            {/* This element is to trick the browser into centering the modal contents. */}
-            <span
-              className="inline-block h-screen align-middle"
-              aria-hidden="true">
-              &#8203;
-            </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95">
-              <div className="inline-block w-full max-w-md p-8 my-8 overflow-hidden align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <Dialog.Title
-                  as="h1"
-                  className="py-4 text-lg font-bold leading-6 text-black text-middle border-b-2 border-b-black">
-                  Add Courses to Interest List(s)
-                </Dialog.Title>
-
-                <div className="mt-2">
-                  <p className="grid grid-cols-2 flex-wrap gap-2 py-4 text-md text-black text-middle">
-                    {makeInterestListCheckboxes()}
-                  </p>
-                </div>
-
-                {(() => {
-                  if (makingList) {
-                    return createNewInterestList;
-                  }
-                })()}
-
-                {(() => {
-                  if (makingList) {
-                    return (
-                      <div
-                        onClick={() => {
-                          setMakingList(!makingList);
-                          handleCreateNewList();
-                        }}>
-                        test
-                      </div>
-                    );
-                  }
-                  return (
-                    <div
-                      className="mt-2 text-lg text-light-blue underline text-middle cursor-pointer"
-                      onClick={() => {
-                        setMakingList(!makingList);
-                        console.log(makingList);
-                      }}>
-                      Create new interest list
-                    </div>
-                  );
-                })()}
-
-                <div className="mt-4 flex items-center justify-center">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    onClick={closeModal}>
-                    Submit
-                  </button>
-                </div>
+      <Dialog
+        as="div"
+        className="fixed inset-0 z-10 overflow-y-auto"
+        open={isOpen}
+        onClose={() => {
+          setIsOpen(false);
+        }}>
+        <Dialog.Overlay className="fixed inset-0 bg-black opacity-20" />
+        <div className="flex items-center justify-center h-full">
+          <div className="transform bg-white p-2 rounded-md outline-none border-none w-96">
+            <div className="flex flex-row justify-between border-b p-1">
+              <Dialog.Title>Add to list</Dialog.Title>
+              <button
+                className="cursor-pointer"
+                onClick={() => setIsOpen(false)}>
+                <ion-icon name="close-outline" />
+              </button>
+            </div>
+            <div className="flex flex-col w-full space-y-2 mt-2 p-2 max-h-screen h-96 overflow-y-auto">
+              <div className="flex flex-row justify-between py-2 items-center ">
+                <button
+                  className="bg-base-blue px-2 py-1 rounded-md text-white hover:bg-opacity-90"
+                  onClick={handleSubmit}>
+                  Add
+                </button>
               </div>
-            </Transition.Child>
+              {groupButtons()}
+            </div>
+            <div className="border-2 border-dashed rounded-md flex flex-col items-left px-2 py-2 my=2 space-y-4">
+              <div className="relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-bright-blue focus-within:border-bright-blue">
+                <label
+                  htmlFor=""
+                  className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900 tracking-wider">
+                  List Title
+                </label>
+                <input
+                  value={newListInfo.name}
+                  onChange={(e) => {
+                    setNewListInfo({ ...newListInfo, name: e.target.value });
+                  }}
+                  className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm outline-none"
+                  type="text"
+                  placeholder="New List Title"
+                />
+              </div>
+              <div className="relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-bright-blue focus-within:border-bright-blue">
+                <label
+                  htmlFor=""
+                  className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900 tracking-wider">
+                  List Description
+                </label>
+                <textarea
+                  value={newListInfo.description}
+                  onChange={(e) => {
+                    setNewListInfo({
+                      ...newListInfo,
+                      description: e.target.value,
+                    });
+                  }}
+                  cols={"0"}
+                  className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm outline-none"
+                  type="text"
+                  placeholder="New List Description"
+                />
+              </div>
+              <div>
+                <button
+                  className="bg-base-blue px-2 py-1 rounded-md text-white hover:bg-opacity-90"
+                  onClick={handleNewList}>
+                  Create New List
+                </button>
+              </div>
+            </div>
           </div>
-        </Dialog>
-      </Transition>
-    </>
+        </div>
+      </Dialog>
+    </div>
   );
-}
+};
+
+export default InterestGroupPopup;
