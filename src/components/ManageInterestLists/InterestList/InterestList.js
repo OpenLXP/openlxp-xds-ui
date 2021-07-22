@@ -222,7 +222,7 @@ const InterestList = (props) => {
                             index % 2 === 0 ? null : "bg-gray-50"
                           }`}>
                           <td
-                            className="line-clamp-1 pl-2 pr-6 pt-1"
+                            className="pl-2 pr-6 overflow-ellipsis overflow-hidden"
                             title={courseData.CourseTitle}>
                             {courseData.CourseTitle}
                           </td>
