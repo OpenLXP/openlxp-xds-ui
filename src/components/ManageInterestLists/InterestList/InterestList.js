@@ -74,100 +74,181 @@ const InterestList = (props) => {
 
   return (
     <Disclosure>
-      <Disclosure.Button className="w-full text-left">
-        {list.name}
-      </Disclosure.Button>
-      <Disclosure.Panel className="py-2">
-        <div>
-          {(() => {
-            if (isEditing) {
-              return (
-                <div className="flex flex-row justify-end space-x-2">
-                  <div onClick={handleUpdate}>Update</div>
-                  <div onClick={handleDeleteList}>Delete</div>
-                </div>
-              );
-            }
-            return (
-              <div className="flex flex-row justify-end">
-                <div onClick={handleEditing}>Editing</div>
-              </div>
-            );
-          })()}
-        </div>
-
-        <div className="">
-          <input
-            type="text"
-            placeholder={list.name}
-            onFocus={(e) => (e.target.value = list.name)}
-            onChange={(e) => handleInfoUpdate(e, "name")}
-          />
-          <div className="flex flex-row">
-            <div className="w-full flex flex-col">
-              <label htmlFor="">Owner</label>
-              <input type="text" placeholder={list.owner.email} disabled />
-            </div>
-            <div className="w-full flex flex-col">
-              <label htmlFor="">Updated</label>
-              <input
-                type="text"
-                placeholder={list.modified || list.created}
-                disabled
-              />
-            </div>
-          </div>
-          <div className="w-full flex flex-col">
-            <label htmlFor="">Description</label>
-            <input
-              type="text"
-              placeholder={list.description}
-              disabled={!isEditing}
-              onChange={(e) => handleInfoUpdate(e, "description")}
-            />
-          </div>
-
-          <div className="flex">
-            <table className="min-w-full">
-              <thead className="bg-gray-50">
-                <tr className="text-left">
-                  <th className="tracking-wider pl-2 pr-6 py-2 ">
-                    Course Title
-                  </th>
-                  <th className="tracking-wider pl-2 pr-6 py-2">Provider</th>
-                  <th className="relative pl-2 pr-6 py-2">
-                    <span className="sr-only">remove</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="space-y-2">
-                {courseList?.map((course, index) => {
-                  const courseData = { ...course.Metadata_Ledger.Course };
-                  const courseHash = course.meta.metadata_key_hash;
+      {({ open }) => (
+        <div
+          className={`${
+            open ? "shadow-md" : "border"
+          } px-4 py-2 rounded-md my-4`}>
+          <Disclosure.Button className="w-full text-left flex flex-row items-center justify-between py-2">
+            <div>{list.name}</div>
+            {open ? (
+              <ion-icon name="chevron-up-outline" />
+            ) : (
+              <ion-icon name="chevron-down-outline" />
+            )}
+          </Disclosure.Button>
+          <Disclosure.Panel className="pb-2">
+            <div>
+              {(() => {
+                if (isEditing) {
                   return (
-                    <tr className={``}>
-                      <td
-                        className="max-w-xs line-clamp-1 pl-2 pr-6 pt-1"
-                        title={courseData.CourseTitle}>
-                        {courseData.CourseTitle}
-                      </td>
-                      <td className="px-2">{courseData.CourseProviderName}</td>
-
-                      <td className=" text-red-600">
-                        <div
-                          onClick={() => handleRemoveCourse(courseHash)}
-                          className="cursor-pointer p-1 rounded-md text-center hover:bg-red-200">
-                          remove
-                        </div>
-                      </td>
-                    </tr>
+                    <div className="flex flex-row justify-end space-x-2 mt-2 items-center">
+                      <div
+                        title="Close"
+                        onClick={() => {
+                          setEditing(false);
+                          dispatch(getUserLists(user?.token));
+                        }}
+                        className="flex flex-row items-center space-x-2 bg-gray-200 text-gray-600 hover:bg-gray-400 hover:text-white rounded-md px-2 py-1 cursor-pointer transition-all duration-200 ease-in-out py-2 ">
+                        <ion-icon name="arrow-undo-outline"></ion-icon>
+                      </div>
+                      <div
+                        onClick={handleUpdate}
+                        className="flex flex-row items-center space-x-2 bg-green-200 text-green-600 hover:outline-none hover:bg-green-600 hover:text-white rounded-md px-2 py-1 cursor-pointer transition-all duration-200 ease-in-out">
+                        <ion-icon name="cloud-upload-outline"></ion-icon>
+                        <div>Update</div>
+                      </div>
+                      <div
+                        onClick={handleDeleteList}
+                        className="flex flex-row items-center space-x-2 bg-red-200 text-red-600 hover:bg-red-600 hover:text-white rounded-md px-2 py-1 cursor-pointer transition-all duration-200 ease-in-out">
+                        <ion-icon name="trash-outline" />
+                        <div>Delete</div>
+                      </div>
+                    </div>
                   );
-                })}
-              </tbody>
-            </table>
-          </div>
+                }
+                return (
+                  <div className="flex flex-row justify-end">
+                    <div
+                      onClick={handleEditing}
+                      className="flex flex-row items-center space-x-2 bg-base-blue text-base-blue bg-opacity-20 hover:bg-base-blue hover:bg-opacity-100 hover:text-white rounded-md px-2 py-1 cursor-pointer transition-all duration-200 ease-in-out">
+                      Editing
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
+
+            <div className="space-y-6 mt-2">
+              {isEditing ? (
+                <div className="relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:shadow-md focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
+                  <label
+                    htmlFor="title"
+                    className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900 tracking-wider">
+                    Title
+                  </label>
+                  <input
+                    type="text"
+                    name="Title"
+                    id="title"
+                    className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm outline-none"
+                    placeholder={list.name}
+                    onFocus={(e) => (e.target.value = list.name)}
+                    onChange={(e) => handleInfoUpdate(e, "name")}
+                  />
+                </div>
+              ) : null}
+              <div className="flex flex-row space-x-2 select-none">
+                <div className="w-full relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
+                  <label
+                    htmlFor="name"
+                    className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900">
+                    Owner
+                  </label>
+                  <div
+                    type="text"
+                    name="name"
+                    id="name"
+                    className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                    {list.owner.email}
+                  </div>
+                </div>
+                <div className="w-full relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
+                  <label
+                    htmlFor="name"
+                    className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900">
+                    Updated
+                  </label>
+                  <div
+                    type="text"
+                    name="name"
+                    id="name"
+                    className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                    {list.modified || list.created}
+                  </div>
+                </div>
+              </div>
+              <div className="w-full relative border border-gray-300 rounded-md px-1 py-1 shadow-sm focus-within:shadow-md focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
+                <label
+                  htmlFor="name"
+                  className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900">
+                  Updated
+                </label>
+                <textarea
+                  disabled={!isEditing}
+                  type="text"
+                  name="name"
+                  id="name"
+                  className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm outline-none px-2 py-1 rounded"
+                  placeholder={list.description}
+                  onFocus={(e) => {
+                    e.target.value = list.description;
+                  }}
+                />
+              </div>
+
+              <div className="flex border rounded-md border-gray-300">
+                <table className="min-w-full overflow-hidden rounded-md ">
+                  <thead className="bg-gray-100">
+                    <tr className="text-left">
+                      <th className="tracking-wider pl-2 pr-6 py-2 ">
+                        Course Title
+                      </th>
+                      <th className="tracking-wider pl-2 pr-6 py-2">
+                        Provider
+                      </th>
+                      <th className="relative pl-2 pr-6 py-2">
+                        <span className="sr-only">remove</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="space-y-2">
+                    {courseList?.map((course, index) => {
+                      const courseData = { ...course.Metadata_Ledger.Course };
+                      const courseHash = course.meta.metadata_key_hash;
+                      return (
+                        <tr
+                          className={`${
+                            index % 2 === 0 ? null : "bg-gray-50"
+                          }`}>
+                          <td
+                            className="line-clamp-1 pl-2 pr-6 pt-1"
+                            title={courseData.CourseTitle}>
+                            {courseData.CourseTitle}
+                          </td>
+                          <td className="px-2">
+                            {courseData.CourseProviderName}
+                          </td>
+
+                          <td className="text-red-600">
+                            <div
+                              onClick={() => handleRemoveCourse(courseHash)}
+                              className={`${
+                                isEditing ? "visible" : "invisible"
+                              } cursor-pointer p-1 rounded-md text-center hover:bg-red-200 my-2 mr-2`}>
+                              remove
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </Disclosure.Panel>
         </div>
-      </Disclosure.Panel>
+      )}
     </Disclosure>
   );
 };

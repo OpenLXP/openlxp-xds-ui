@@ -24,8 +24,9 @@ const ManageInterestLists = () => {
   }, []);
 
   return (
-    <PageWrapper>
-      <div className="space-y-8">
+    <PageWrapper className={'my-5 bg-body-gray'}>
+      <h2 className='text-3xl'>Manage Interest List</h2>
+      <div className="my-2 p-4 rounded-md bg-white">
         {lists?.map((list) => {
           return <InterestList list={list} />;
         })}
