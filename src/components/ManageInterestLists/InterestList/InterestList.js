@@ -122,7 +122,7 @@ const InterestList = (props) => {
                     <div
                       onClick={handleEditing}
                       className="flex flex-row items-center space-x-2 bg-base-blue text-base-blue bg-opacity-20 hover:bg-base-blue hover:bg-opacity-100 hover:text-white rounded-md px-2 py-1 cursor-pointer transition-all duration-200 ease-in-out">
-                      Editing
+                      Edit
                     </div>
                   </div>
                 );
