@@ -11,7 +11,6 @@ export const getUserLists = createAsyncThunk(
   "lists/getUserLists",
   async (token) => {
     const url = process.env.REACT_APP_INTEREST_LISTS;
-    console.log(url);
     const response = await axios.get(
       process.env.REACT_APP_INTEREST_LISTS,
       {},
