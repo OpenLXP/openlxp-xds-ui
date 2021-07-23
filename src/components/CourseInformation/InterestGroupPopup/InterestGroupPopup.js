@@ -75,6 +75,7 @@ const InterestGroupPopup = (props) => {
       const { name, id, courses } = { ...list };
       return (
         <label
+          key={id}
           className={`flex flex-row items-center space-x-2 cursor-pointer select-none shadow py-2 px-2 rounded-md hover:shadow-md transition-all duration-100 ease-in-out focus:bg-blue-200`}
           htmlFor={`group-${id}`}
           onClick={(e) => {
