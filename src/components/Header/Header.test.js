@@ -3,148 +3,166 @@ import { unmountComponentAtNode } from "react-dom";
 import { StaticRouter, MemoryRouter, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import * as redux from "react-redux";
+import axios from "axios";
 
 import store from "../../store/store";
-
 import Header from "./Header";
 import LandingPage from "../LandingPage/LandingPage";
 import SearchResultPage from "../SearchResultsPage/SearchResultsPage";
 
 const useSelectorMock = jest.spyOn(redux, "useSelector");
+// const useDipatchMock = jest.spyOn(redux, "useDispatch");
+
+jest.mock("axios");
 
 let container = null;
 
 beforeEach(() => {
-    container = (
-        <div>
-            <Provider store={store}>
-                <MemoryRouter initialEntries={["/signin"]}>
-                    <Header />
-                    <Switch>
-                        <Route path="/" exact component={LandingPage} />
+  container = (
+    <div>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={["/signin"]}>
+          <Header />
+          <Switch>
+            <Route path="/" exact component={LandingPage} />
 
-                        <Route path="/search/" component={SearchResultPage} />
-                    </Switch>
-                </MemoryRouter>
-            </Provider>
-        </div>
-    );
+            <Route path="/search/" component={SearchResultPage} />
+          </Switch>
+        </MemoryRouter>
+      </Provider>
+    </div>
+  );
 });
 
 afterEach(() => {
-    container = null;
+  container = null;
 });
 
 describe("Header", () => {
-    test("Does render icon", () => {
-        let state = { user: null };
-        useSelectorMock.mockReturnValue(state);
-        act(() => {
-            render(container);
-        });
-
-        screen.getByText("DIGITAL LEARNING PORTAL");
-        screen.getByText("U.S. Department of Defense");
+  test("Does render icon", () => {
+    let state = { user: null };
+    useSelectorMock.mockReturnValue(state);
+    act(() => {
+      render(container);
     });
 
-    test("Does navigate to homepage", () => {
-        let state = { user: null };
-        useSelectorMock.mockReturnValue(state);
-        act(() => {
-            render(container);
-        });
-        act(() => {
-            fireEvent.click(screen.getByText("DIGITAL LEARNING PORTAL"));
-        });
-        screen.getByText("Enterprise Course Catalog*");
+    screen.getByText("DIGITAL LEARNING PORTAL");
+    screen.getByText("U.S. Department of Defense");
+  });
+
+  test("Does navigate to homepage", () => {
+    let state = { user: null };
+    useSelectorMock.mockReturnValue(state);
+    axios.get.mockImplementationOnce(() => Promise.reject());
+    act(() => {
+      render(container);
+    });
+    act(() => {
+      fireEvent.click(screen.getByText("DIGITAL LEARNING PORTAL"));
+    });
+    screen.getByText("Enterprise Course Catalog*");
+  });
+
+  test("Does search for courses on search page", () => {
+    let state = { user: null };
+    useSelectorMock.mockReturnValue(state);
+    
+    axios.get.mockImplementationOnce(() => Promise.reject());
+    act(() => {
+      render(container);
+    });
+    fireEvent.change(screen.getByPlaceholderText("Search"), {
+      target: { value: "test" },
     });
 
-    test("Does search for courses on search page", () => {
-        let state = { user: null };
-        useSelectorMock.mockReturnValue(state);
-        act(() => {
-            render(container);
-        });
-        fireEvent.change(screen.getByPlaceholderText("Search"), {
-            target: { value: "test" },
-        });
+    fireEvent.click(screen.getByTestId("search-button"));
+    screen.getByText("test", { exact: false });
+  });
 
-        fireEvent.click(screen.getByTestId("search-button"));
-        screen.getByText("test", { exact: false });
+  test("Does search for courses on enter", () => {
+    let state = { user: null };
+    useSelectorMock.mockReturnValue(state);
+    
+    axios.get.mockImplementationOnce(() => Promise.reject());
+    act(() => {
+      render(container);
     });
 
-    test("Does search for courses on enter", () => {
-        let state = { user: null };
-        useSelectorMock.mockReturnValue(state);
-        act(() => {
-            render(container);
-        });
-
-        fireEvent.change(screen.getByPlaceholderText("Search"), {
-            target: { value: "test" },
-        });
-
-        fireEvent.keyPress(screen.getByPlaceholderText("Search"), {
-            key: "Enter",
-            charCode: 13,
-        });
-        screen.getByText("test", { exact: false });
+    fireEvent.change(screen.getByPlaceholderText("Search"), {
+      target: { value: "test" },
     });
 
-    test("Does render sign in button", () => {
-        let state = { user: null };
-        useSelectorMock.mockReturnValue(state);
-        act(() => {
-            render(container);
-        });
+    fireEvent.keyPress(screen.getByPlaceholderText("Search"), {
+      key: "Enter",
+      charCode: 13,
+    });
+    screen.getByText("test", { exact: false });
+  });
 
-        screen.getByText("Sign in");
+  test("Does render sign in button", () => {
+    let state = { user: null };
+    useSelectorMock.mockReturnValue(state);
+    act(() => {
+      render(container);
     });
 
-    test("Does render sign out button", async () => {
-        let state = { user: { email: "test@test.com" } };
-        useSelectorMock.mockReturnValue(state);
-        act(() => {
-            render(container);
-        });
-        screen.getByText("Sign out");
+    screen.getByText("Sign in");
+  });
+
+  test("Does render user button", async () => {
+    let state = { user: { email: "test@test.com" } };
+    useSelectorMock.mockReturnValue(state);
+    act(() => {
+      render(container);
+    });
+    screen.getByText("test@test.com");
+  });
+
+  test("Does render user info", async () => {
+    let state = { user: { email: "test@test.com" } };
+    useSelectorMock.mockReturnValue(state);
+    act(() => {
+      render(container);
+    });
+    screen.getByText("test@test.com");
+  });
+
+  test("Does render sign in after sign out", async () => {
+    let state = { user: { email: "test@test.com", token: "sometoken" } };
+    useSelectorMock.mockReturnValueOnce(state);
+    await act(async () => {
+      render(container);
     });
 
-    test("Does render user info", async () => {
-        let state = { user: { email: "test@test.com" } };
-        useSelectorMock.mockReturnValue(state);
-        act(() => {
-            render(container);
-        });
-        screen.getByText("test@test.com");
+    act(() => {
+      fireEvent.click(screen.getByText("test@test.com"));
     });
 
-    test("Does render sign in after sign out", async () => {
-        let state = { user: { email: "test@test.com" } };
-        useSelectorMock.mockReturnValue(state);
-        await act(async () => {
-            render(container);
-        });
+    axios.post.mockImplementationOnce(() => Promise.resolve({ data: {} }));
+    useSelectorMock.mockReturnValue({ user: null });
 
-        act(() => {
-            fireEvent.click(screen.getByText("Sign out"));
-        });
-        screen.getByText("Sign in");
+    await act(async () => {
+      fireEvent.click(screen.getByText("Logout"));
     });
 
-    test("Does render search", async () => {
-        let state = { user: { email: "test@test.com" } };
-        useSelectorMock.mockReturnValue(state);
-        await act(async () => {
-            render(container);
-        });
+    // console.log(axios);
 
-        act(() => {
-            fireEvent.change(screen.getByPlaceholderText("Search"), {
-                target: { value: "test" },
-            });
-        });
+    expect(axios.post).toBeCalled();
+  });
 
-        expect(screen.getByPlaceholderText("Search").value).toBe("test");
+  test("Does render search", async () => {
+    let state = { user: { email: "test@test.com" } };
+    useSelectorMock.mockReturnValue(state);
+    await act(async () => {
+      render(container);
     });
+
+    act(() => {
+      fireEvent.change(screen.getByPlaceholderText("Search"), {
+        target: { value: "test" },
+      });
+    });
+
+    expect(screen.getByPlaceholderText("Search").value).toBe("test");
+  });
 });
