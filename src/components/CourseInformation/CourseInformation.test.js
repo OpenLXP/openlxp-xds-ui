@@ -94,7 +94,9 @@ describe("CourseInformation", () => {
             total: 1,
         };
         const resp = { data: data };
-        useSelectorMock.mockReturnValue(state);
+      useSelectorMock.mockReturnValue(state);
+      
+      axios.get.mockImplementationOnce(() => Promise.resolve());
         axios.get.mockResolvedValueOnce(resp);
 
         await act(async () => {

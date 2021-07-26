@@ -118,6 +118,7 @@ describe("SignIn", () => {
     await act(async () => {
       let state = { user: null };
       useSelectorMock.mockReturnValue(state);
+      axios.get.mockImplementationOnce(() => Promise.resolve());
 
       axios.get.mockResolvedValueOnce({
         user: {
@@ -158,6 +159,7 @@ describe("SignIn", () => {
       let state = { user: null };
       useSelectorMock.mockReturnValue(state);
 
+      axios.get.mockImplementationOnce(() => Promise.resolve());
       axios.get.mockResolvedValueOnce({
         user: {
           email: "test@test.com",
