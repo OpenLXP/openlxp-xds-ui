@@ -16,9 +16,6 @@ const Header = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
 
-  // Controls the state of the login button
-  const [button, setButton] = useState({ url: "/signin", title: "Sign in" });
-
   // Handles the state of the search bar query
   const [query, setQuery] = useState("");
 
@@ -67,22 +64,8 @@ const Header = () => {
 
   // Handles the state of the button
   const handleSignInSignUpButton = () => {
-    if (button.title === "Sign out") {
-      dispatch(logoutUser(user));
-      setButton({ url: "/signin", title: "Sign in" });
-    }
-
     history.push("/signin");
   };
-
-  // Update the button on re-render
-  useEffect(() => {
-    // if the use is logged in
-    setButton({ url: "/signin", title: "Sign in" });
-    if (user) {
-      setButton({ url: "/", title: "Sign out" });
-    }
-  }, [user]);
 
   const handleQuery = (event) => {
     setQuery(event.target.value);
@@ -93,8 +76,7 @@ const Header = () => {
       <div className="flex flex-row justify-between items-center">
         <div
           className="flex flex-row my-1 rounded-md space-x-2 items-center cursor-pointer hover:bg-gray-300 hover:bg-opacity-20 transition-colors duration-300 ease-in-out"
-          onClick={handleDodButton}
-        >
+          onClick={handleDodButton}>
           <img src={logo} alt="" className="" />
           <div>
             <div className="text-base -my-1 text-base-blue font-semibold font-serif ">
@@ -120,7 +102,7 @@ const Header = () => {
               <Button
                 className="my-3 mt-0 flex-col"
                 onClick={handleSignInSignUpButton}
-                title={button.title}
+                title={"Sign in"}
               />
             )}
           </div>
