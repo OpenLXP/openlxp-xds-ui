@@ -67,6 +67,7 @@ const InterestList = (props) => {
       axios
         .get(`${process.env.REACT_APP_INTEREST_LISTS}${list.id}`)
         .then((response) => {
+          console.log(response.data)
           setCourseList(response.data.courses);
         });
     }
