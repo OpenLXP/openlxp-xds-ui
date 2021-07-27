@@ -23,7 +23,7 @@ const InterestList = (props) => {
     const objToSend = {
       name: list.name,
       description: list.description,
-      courses: listOfHashIds,
+      experiences: listOfHashIds,
     };
 
     axios
