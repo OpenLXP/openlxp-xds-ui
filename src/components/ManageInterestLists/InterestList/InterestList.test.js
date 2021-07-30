@@ -132,6 +132,7 @@ describe("<InterestList />", () => {
     it("should display: courses ", async () => {
         let state = {user: {email: "test@test.com"}};
         const list = {
+            id: 12,
             name: "Test list",
             courses: {
                 id: "1234",
@@ -159,12 +160,12 @@ describe("<InterestList />", () => {
                 {
                     "Metadata_Ledger": {
                         "Course": {
-                            "CourseURL": "https://jkodirect.jten.mil/html/COI.xhtml?course_prefix=CES&course_number=-103",
-                            "CourseCode": "CES-103",
-                            "CourseType": "SCORM 2004",
-                            "CourseTitle": "Cyber Excepted Service (CES) Department of Defense (DoD) HR Elements (5 hrs)",
-                            "CourseProviderName": "JKO",
-                            "CourseShortDescription": "The Cyber Excepted Service (CES) Department of Defense (DoD) HR Elements Course is a ten-hour interactive module-based course that has been designed to provide HR Practitioners with the knowledge and tools to operationalize the new CES policies and procedures.  Along with providing an overview of key attributes and implementation process for the new personnel system, this course includes the following lesson modules:  Occupational Structure (CES-103-1), Employment and Placement (CES-103-2), Compensation Administration (CES-103-3), Performance Management (CES-103-4), and Performance and Conduct Actions (CES-103-5).  This course will equip the HR Practitioners (HR Officers, Specialists, Personnel Action Processors, and Liaisons) with the requisite knowledge to serve as a CES advisor for leaders, managers/supervisors, and employees in their organizations.",
+                            "CourseURL": "www.test.com",
+                            "CourseCode": "1234",
+                            "CourseType": "Test Type",
+                            "CourseTitle": "Fake Title",
+                            "CourseProviderName": "ECC",
+                            "CourseShortDescription": "Fake desc",
                             "EstimatedCompletionTime": 5
                         }
                     },
@@ -178,8 +179,9 @@ describe("<InterestList />", () => {
                 },
             ]
         };
-        useSelectorMock.mockReturnValue({ courseList: courseList });
-        axios.get.mockReturnValue({ courseList: courseList });
+        const resp = { data: courseList };
+        useSelectorMock.mockReturnValue(state);
+        axios.get.mockResolvedValue(resp);
         await act(async () => {
             render(
                 <Provider store={store}>
@@ -195,8 +197,8 @@ describe("<InterestList />", () => {
             fireEvent.click(screen.getByText("Test list"));
         });
         
-        // screen.getByText("Title");
-        // screen.getByText("DAU");
+        screen.getByText("Fake Title");
+        screen.getByText("ECC");
     }); 
     it("should display: close modal ", async () => {
         let state = {user: {email: "test@test.com"}};
