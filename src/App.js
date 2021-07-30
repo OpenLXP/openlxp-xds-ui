@@ -13,10 +13,12 @@ import ManageInterestlists from "./components/ManageInterestLists/ManageInterest
 import SignIn from "./components/SignIn/SignIn";
 import SignUp from "./components/SignUp/SignUp";
 import { setUserStatus } from "./store/user";
+import axios from "axios";
 
 function App() {
   const dispatch = useDispatch();
   const { status } = useSelector((state) => state.configuration);
+  const { user } = useSelector((state) => state.user);
 
   let routes = (
     <Switch>
@@ -25,7 +27,7 @@ function App() {
       <Route path="/resources" />
       <Route path="/manageinterestlists" component={ManageInterestlists} />
       <Route path="/help" />
-      <Route path="/signIn" component={SignIn}/>
+      <Route path="/signIn" component={SignIn} />
       <Route path="/course" component={CourseInformation} />
       <Route path="/" exact component={LandingPage} />
       <Route path="/signup" component={SignUp} />
@@ -42,7 +44,22 @@ function App() {
   useEffect(() => {
     dispatch(setUserStatus());
   }, []);
-  
+
+  useEffect(() => {
+    if (user) {
+      const url = process.env.REACT_APP_INTEREST_LISTS;
+      // validate with back end
+      axios
+        .get(url, {
+          headers: { Authorization: `Token ${user.token}` },
+        })
+        .then()
+        .catch(() => {
+          localStorage.removeItem("state");
+        });
+    }
+  },[user]);
+
   return (
     <div className="main-container">
       <Layout>{routes}</Layout>
