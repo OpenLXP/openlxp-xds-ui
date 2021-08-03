@@ -109,6 +109,26 @@ test("does open new modal on click", async () => {
   screen.getByText("Create New List");
   screen.getByPlaceholderText("New List Title");
   screen.getByPlaceholderText("New List Description");
+  await act(async () => {
+    const check = screen.getByText("Test List", { exact: false });
+    fireEvent.click(check);
+    fireEvent.click(check);
+  });
+  await act(async () => {
+    let lists = ["1234", "2345"];
+    let user = {
+      email: "test@test.com",
+      first_name: "test",
+      last_name: "test",
+      token: "tokeneything",
+    };
+    let state = { lists: lists, user: user };
+
+    useSelectorMock.mockReturnValue(state);
+    axios.post.mockImplementationOnce(() =>Promise.resolve({data: {}}));
+    axios.get.mockImplementationOnce(() =>Promise.resolve({data: lists}));
+    fireEvent.click(screen.getByText("Add"));
+  });
 });
 
 test("does add new list", async () => {
@@ -154,7 +174,6 @@ test("does add new list", async () => {
     fireEvent.change(screen.getByPlaceholderText("New List Description"), {
       target: { value: "New Title" },
     });
-    // fireEvent.click(screen.getByText("Create New List"));
     let lists = [
       {
         id: 1,
@@ -196,5 +215,10 @@ test("does add new list", async () => {
     let state = { lists: lists, user: user };
     
     useSelectorMock.mockReturnValue(state);
+    axios.post.mockImplementationOnce(() =>Promise.resolve({data: {}}));
+    fireEvent.click(screen.getByText("Create New List"));
+  });
+  await act(async () => {
+    fireEvent.click(screen.getByTestId("listTitle"));
   });
 });

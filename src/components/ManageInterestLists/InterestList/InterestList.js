@@ -49,6 +49,7 @@ const InterestList = (props) => {
   };
   // remove a course from the list
   const handleRemoveCourse = (hashId) => {
+    console.log("test");
     const filteredCourses = courseList.filter(
       (course) => course.meta.metadata_key_hash !== hashId
     );
@@ -233,6 +234,7 @@ const InterestList = (props) => {
 
                           <td className="text-red-600">
                             <div
+                              data-testid="courseRemove"
                               onClick={() => handleRemoveCourse(courseHash)}
                               className={`${
                                 isEditing ? "visible" : "invisible"

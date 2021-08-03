@@ -130,7 +130,7 @@ const InterestGroupPopup = (props) => {
                 className="cursor-pointer"
                 onClick={() => setIsOpen(false)}
               >
-                <ion-icon name="close-outline" />
+                <ion-icon name="close-outline" data-testid="listTitle"/>
               </button>
             </div>
             <div className="flex flex-col w-full space-y-2 mt-2 p-2 max-h-screen h-96 overflow-y-auto">
