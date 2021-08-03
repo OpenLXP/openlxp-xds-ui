@@ -11,3 +11,4 @@ describe("Button", () => {
       screen.getByText("Add to list");
     });
   });
+  
