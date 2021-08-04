@@ -92,7 +92,6 @@ const LandingPage = ({ history }) => {
     spotlightCoursesState.coursesObj &&
     spotlightCoursesState.isLoading === false
   ) {
-    console.log(spotlightCoursesState.coursesObj);
     cardSection = spotlightCoursesState.coursesObj.map((course, idx) => {
       return <ExperienceCard courseObj={course} key={idx} />;
     });
@@ -102,7 +101,7 @@ const LandingPage = ({ history }) => {
     <PageWrapper>
       <div className="text-center pt-10">
         <h2 className="font-semibold text-2xl">{landingHeader}</h2>
-        <h5 className='px-36 mt-4 font-semibold'>{landingSubHeader}</h5>
+        <h5 className="px-36 mt-4 font-semibold">{landingSubHeader}</h5>
       </div>
       <div className="flex flex-col my-12 items-center w-96 mx-auto space-y-8">
         <SearchInput
