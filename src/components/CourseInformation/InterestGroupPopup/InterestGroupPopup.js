@@ -27,7 +27,7 @@ const InterestGroupPopup = (props) => {
 
     axios
       .post(
-        `${process.env.REACT_APP_ADD_COURSE_TO_LISTS}/${props.courseId}/interest-lists`,
+        `${process.env.REACT_APP_ADD_COURSE_TO_LISTS}${props.courseId}/interest-lists`,
         dataToSend,
         {
           headers: header,
@@ -75,7 +75,7 @@ const InterestGroupPopup = (props) => {
 
   const groupButtons = () => {
     return lists?.map((list) => {
-      const { name, id, courses } = { ...list };
+      const { name, id, experiences } = { ...list };
       return (
         <label
           key={id}
@@ -83,8 +83,7 @@ const InterestGroupPopup = (props) => {
           htmlFor={`group-${id}`}
           onClick={(e) => {
             handleSelect(e, id);
-          }}
-        >
+          }}>
           <input
             type="checkbox"
             className="cursor-pointer"
@@ -94,7 +93,7 @@ const InterestGroupPopup = (props) => {
           <div className="flex flex-row justify-between w-full">
             <div className="line-clamp-1">{name}</div>
             <div className="px-1.5 rounded-md bg-base-blue bg-opacity-10 text-base-blue">
-              {courses.length}
+              {experiences?.length}
             </div>
           </div>
         </label>
@@ -108,8 +107,7 @@ const InterestGroupPopup = (props) => {
           className="mx-auto text-center cursor-pointer"
           onClick={() => {
             setIsOpen(!isOpen);
-          }}
-        >
+          }}>
           Add to list
         </div>
       ) : null}
@@ -119,8 +117,7 @@ const InterestGroupPopup = (props) => {
         open={isOpen}
         onClose={() => {
           setIsOpen(false);
-        }}
-      >
+        }}>
         <Dialog.Overlay className="fixed inset-0 bg-black opacity-20" />
         <div className="flex items-center justify-center h-full">
           <div className="transform bg-white p-2 rounded-md outline-none border-none w-96">
@@ -128,17 +125,15 @@ const InterestGroupPopup = (props) => {
               <Dialog.Title>Add to list</Dialog.Title>
               <button
                 className="cursor-pointer"
-                onClick={() => setIsOpen(false)}
-              >
-                <ion-icon name="close-outline" data-testid="listTitle"/>
+                onClick={() => setIsOpen(false)}>
+                <ion-icon name="close-outline" data-testid="listTitle" />
               </button>
             </div>
             <div className="flex flex-col w-full space-y-2 mt-2 p-2 max-h-screen h-96 overflow-y-auto">
               <div className="flex flex-row justify-between py-2 items-center ">
                 <button
                   className="bg-base-blue px-2 py-1 rounded-md text-white hover:bg-opacity-90"
-                  onClick={handleSubmit}
-                >
+                  onClick={handleSubmit}>
                   Add
                 </button>
               </div>
@@ -148,8 +143,7 @@ const InterestGroupPopup = (props) => {
               <div className="relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-bright-blue focus-within:border-bright-blue">
                 <label
                   htmlFor=""
-                  className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900 tracking-wider"
-                >
+                  className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900 tracking-wider">
                   List Title
                 </label>
                 <input
@@ -165,8 +159,7 @@ const InterestGroupPopup = (props) => {
               <div className="relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-bright-blue focus-within:border-bright-blue">
                 <label
                   htmlFor=""
-                  className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900 tracking-wider"
-                >
+                  className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900 tracking-wider">
                   List Description
                 </label>
                 <textarea
@@ -186,8 +179,7 @@ const InterestGroupPopup = (props) => {
               <div>
                 <button
                   className="bg-base-blue px-2 py-1 rounded-md text-white hover:bg-opacity-90"
-                  onClick={handleNewList}
-                >
+                  onClick={handleNewList}>
                   Create New List
                 </button>
               </div>
