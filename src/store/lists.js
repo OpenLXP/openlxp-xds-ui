@@ -13,24 +13,27 @@ export const getUserLists = createAsyncThunk(
     const url = process.env.REACT_APP_INTEREST_LISTS;
     const response = await axios.get(
       process.env.REACT_APP_INTEREST_LISTS,
-      {},
-      { headers: { Authorization: "Token " + token } }
+      { headers: { Authorization: "token " + token } }
     );
     return response.data;
   }
 );
-export const removeLists = createAsyncThunk(
-  "lists/removeLists",
-  async (data) => {
-    const response = { data: {} };
-    return response.data;
-  }
-);
+// export const removeLists = createAsyncThunk(
+//   "lists/removeLists",
+//   async (data) => {
+//     const response = { data: {} };
+//     return response.data;
+//   }
+// );
 
 export const listsSlice = createSlice({
   name: "lists",
   initialState,
-  reducers: {},
+  reducers: {
+    removeLists: (state) => {
+      state.lists = null;
+    },
+  },
   extraReducers: {
     [getUserLists.pending]: (state, action) => {
       state.status = "loading";
@@ -47,23 +50,7 @@ export const listsSlice = createSlice({
       state.lists = null;
       state.error = action.error.message;
     },
-    [removeLists.pending]: (state, action) => {
-      state.status = "loading";
-      state.lists = null;
-      state.error = null;
-    },
-    [removeLists.fulfilled]: (state, action) => {
-      state.status = "succeeded";
-      state.lists = null;
-      state.error = null;
-    },
-    [removeLists.rejected]: (state, action) => {
-      state.status = "failed";
-      state.lists = null;
-      state.error = action.error.message;
-    },
   },
 });
-
-// export const { getLists } = listsSlice.actions;
+export const { removeLists } = listsSlice.actions;
 export default listsSlice.reducer;

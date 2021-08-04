@@ -93,7 +93,7 @@ const InterestGroupPopup = (props) => {
           <div className="flex flex-row justify-between w-full">
             <div className="line-clamp-1">{name}</div>
             <div className="px-1.5 rounded-md bg-base-blue bg-opacity-10 text-base-blue">
-              {experiences?.length}
+              {experiences.length}
             </div>
           </div>
         </label>

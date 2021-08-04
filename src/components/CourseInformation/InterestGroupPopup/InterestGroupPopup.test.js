@@ -46,7 +46,7 @@ test("does render", async () => {
         modified: "2021-07-23T14:40:45.576233Z",
         description: "New Test List Desc",
         name: "Test List",
-        courses: ["4765692fbbeb11a0033cf39aea8ece8f"],
+        experiences: ["4765692fbbeb11a0033cf39aea8ece8f"],
       },
     ];
     let user = {
@@ -81,7 +81,7 @@ test("does open new modal on click", async () => {
         modified: "2021-07-23T14:40:45.576233Z",
         description: "New Test List Desc",
         name: "Test List",
-        courses: ["4765692fbbeb11a0033cf39aea8ece8f"],
+        experiences: ["4765692fbbeb11a0033cf39aea8ece8f"],
       },
     ];
     let user = {
@@ -147,7 +147,7 @@ test("does add new list", async () => {
         modified: "2021-07-23T14:40:45.576233Z",
         description: "New Test List Desc",
         name: "Test List",
-        courses: ["4765692fbbeb11a0033cf39aea8ece8f"],
+        experiences: ["4765692fbbeb11a0033cf39aea8ece8f"],
       },
     ];
     let user = {
@@ -188,7 +188,7 @@ test("does add new list", async () => {
         modified: "2021-07-23T14:40:45.576233Z",
         description: "New Test List Desc",
         name: "Test List",
-        courses: ["4765692fbbeb11a0033cf39aea8ece8f"],
+        experiences: ["4765692fbbeb11a0033cf39aea8ece8f"],
       },
       {
         id: 2,
@@ -203,7 +203,7 @@ test("does add new list", async () => {
         modified: "2021-07-23T14:40:45.576233Z",
         description: "New Test List Desc",
         name: "Test List",
-        courses: [],
+        experiences: [],
       },
     ];
     let user = {

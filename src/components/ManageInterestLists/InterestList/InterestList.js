@@ -66,9 +66,12 @@ const InterestList = (props) => {
   useEffect(() => {
     if (list.id) {
       axios
-        .get(`${process.env.REACT_APP_INTEREST_LISTS}${list.id}`)
+        .get(
+          `${process.env.REACT_APP_INTEREST_LISTS}${list.id}`,
+          { headers: { Authorization: "token " + user.token } }
+        )
         .then((response) => {
-          console.log(response.data)
+          console.log(response.data);
           setCourseList(response.data.experiences);
         });
     }
