@@ -114,10 +114,7 @@ describe("CourseInformation", () => {
                 container
             );
         });
-
-        screen.getByText("Related");
-        expect(screen.getAllByText("Title1").length).toBe(2);
-        expect(screen.getAllByText("Provider1").length).toBe(1);
-        expect(screen.getAllByText("Department1").length).toBe(1);
+      screen.getByText('Title1')
+      screen.getByText("Course Description")
     });
 });

@@ -104,7 +104,7 @@ const InterestGroupPopup = (props) => {
     <div>
       {user ? (
         <div
-          className="mx-auto text-center cursor-pointer"
+          className="mx-auto text-center cursor-pointer underline hover:text-base-blue"
           onClick={() => {
             setIsOpen(!isOpen);
           }}>

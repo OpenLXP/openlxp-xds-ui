@@ -6,16 +6,17 @@ import { useSelector } from "react-redux";
 import CourseImage from "./CourseImage/CourseImage";
 import CourseButton from "./CourseButton/CourseButton";
 import CourseDetails from "./CourseDetails/CourseDetails";
-import CourseDescription from "./CourseDescription/CourseDescription";
 import RelatedCourses from "./RelatedCourses/RelatedCourses";
-import CourseAddToListButton from "./CourseAddToListButton/CourseAddToListButton";
 import InterestGroupPopup from "./InterestGroupPopup/InterestGroupPopup";
+import PageWrapper from "../common/PageWrapper";
 
 const CourseInformation = (props) => {
   // Getting the current location and the data
   const location = useLocation();
   const imgLink = location.state.imgLink;
   const courseData = location.state.expObj;
+
+  const { user } = useSelector((state) => state.user);
 
   // The base url for the back end
   const api_url = process.env.REACT_APP_ES_MLT_API;
@@ -106,45 +107,40 @@ const CourseInformation = (props) => {
     // gets the course information mappings
     const courseDataMappings = configuration.course_information;
     courseInfo = {
-      title: getCourseDataMapping(courseDataMappings.course_title, courseData),
-      url: getCourseDataMapping(courseDataMappings.course_url, courseData),
+      title: getCourseDataMapping(courseDataMappings?.course_title, courseData),
+      url: getCourseDataMapping(courseDataMappings?.course_url, courseData),
       desc: getCourseDataMapping(
         courseDataMappings.course_description,
         courseData
       ),
     };
   }
-
-  //handles click of "Add to List" button
-  // const handleAddToList = () => {
-
-  // }
-
   return (
-    <div className="content-section">
-      <div className="row content-panel course-detail">
-        <div className="inner-content">
-          <h2 className="font-bold">{courseInfo.title}</h2>
-          <div className="row mx-auto">
-            <div className="col span-2-of-5 my-auto justify-center">
-              <CourseImage img={imgLink} />
-              <CourseButton url={courseInfo.url} />
-
-              <InterestGroupPopup courseId={courseData.meta.id} />
-            </div>
-            <div className="col span-3-of-5">
-              <CourseDetails details={courseDetails} />
-            </div>
+    <PageWrapper>
+      <div className="px-2 py-5">
+        <h2 className="font-semibold text-2xl my-2">{courseInfo.title}</h2>
+        <div>
+          <div className="float-left space-y-2 pr-5 pb-1">
+            <CourseImage img={imgLink} />
+            <CourseButton url={courseInfo.url} />
+            {user && <InterestGroupPopup />}
           </div>
-          <CourseDescription desc={courseInfo.desc} />
+          <h3 className="text-left font-semibold mb-1">Course Description</h3>
+          <p className="text-xs">{courseInfo.desc}</p>
         </div>
-        {relatedCourses.data ? (
-          <RelatedCourses data={relatedCourses.data} /> // If the data is not there
-        ) : (
-          <div>Loading...</div>
-        )}
       </div>
-    </div>
+      <div className="border-b my-4 w-full" />
+      <div className="px-2">
+        <div className="flex flex-row flex-wrap justify-start items-baseline">
+          {courseDetails?.map((detail, index) => (
+            <CourseDetails detail={detail} key={index} />
+          ))}
+        </div>
+      </div>
+
+      {relatedCourses.data && <RelatedCourses data={relatedCourses.data} />}
+      {!relatedCourses?.data && <div>Loading...</div>}
+    </PageWrapper>
   );
 };
 
