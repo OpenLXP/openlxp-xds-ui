@@ -18,13 +18,6 @@ export const getUserLists = createAsyncThunk(
     return response.data;
   }
 );
-// export const removeLists = createAsyncThunk(
-//   "lists/removeLists",
-//   async (data) => {
-//     const response = { data: {} };
-//     return response.data;
-//   }
-// );
 
 export const listsSlice = createSlice({
   name: "lists",
