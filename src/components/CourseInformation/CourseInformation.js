@@ -119,7 +119,7 @@ const CourseInformation = (props) => {
     <PageWrapper>
       <div className="px-2 py-5">
         <h2 className="font-semibold text-2xl my-2">{courseInfo.title}</h2>
-        <div>
+        <div className="">
           <div className="float-left space-y-2 pr-5 pb-1">
             <CourseImage img={imgLink} />
             <CourseButton url={courseInfo.url} />
@@ -129,8 +129,8 @@ const CourseInformation = (props) => {
           <p className="text-xs">{courseInfo.desc}</p>
         </div>
       </div>
-      <div className="border-b my-4 w-full" />
-      <div className="px-2">
+      <div className='border-b py-2 clear-both'></div>
+      <div className="px-2 clear-both">
         <div className="flex flex-row flex-wrap justify-start items-baseline">
           {courseDetails?.map((detail, index) => (
             <CourseDetails detail={detail} key={index} />
