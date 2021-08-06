@@ -47,18 +47,14 @@ const ExperienceCard = (props) => {
       <div
         style={{
           // Generating a unique linear gradient
-          backgroundImage: `linear-gradient(${generateRandomNumber(
-            270
-          )}deg, #2f6194 ${generateRandomNumber(50)}%, #0b3d70)
-      `,
+          backgroundImage: `linear-gradient(270deg, #2f6194 50%, #0b3d70)`,
           height: "175px",
           width: "100%",
           color: "#fff",
           textAlign: "center",
           paddingTop: "30%",
           fontSize: "1rem",
-        }}
-      >
+        }}>
         No Image Available
       </div>
     );
@@ -67,7 +63,7 @@ const ExperienceCard = (props) => {
       <div className="col span-1-of-4 box">
         {courseThumbnail ? defaultImg : altImg}
         <div className="card-detail">
-          <div className="row mb-5 font-medium text-base-blue text-lg h-14 space-y-0">
+          <div className="row mb-5 font-medium text-base-blue text-lg h-14 space-y-0 line-clamp-2">
             <b>
               <Link
                 to={{
@@ -76,11 +72,10 @@ const ExperienceCard = (props) => {
                     expObj: props.courseObj,
                     imgLink: courseThumbnail,
                   },
-                }}
-              >
+                }}>
                 {props.courseObj.Course.CourseTitle
                   ? props.courseObj.Course.CourseTitle
-                  : "Missing Course Title"}
+                  : "N/A"}
               </Link>
             </b>
           </div>
@@ -89,20 +84,19 @@ const ExperienceCard = (props) => {
             <div className="icon-block pt-2">
               <ion-icon name="business-outline"></ion-icon>
             </div>
-            <div className="course-highlights">
+            <div className="course-highlights line-clamp-1">
               {props.courseObj.Course.CourseProviderName
                 ? props.courseObj.Course.CourseProviderName
                 : "N/A"}
             </div>
           </div>
-          <div className="flex flex-row line-clamp-1">
+          <div className="flex flex-row ">
             <div className="icon-block">
               <ion-icon name="archive-outline"></ion-icon>
             </div>
             <div
-              className="course-highlights inline-block"
-              title={props.courseObj.Course.DepartmentName}
-            >
+              className="course-highlights inline-block line-clamp-1"
+              title={props.courseObj.Course.DepartmentName}>
               {props.courseObj.Course.DepartmentName
                 ? props.courseObj.Course.DepartmentName
                 : "N/A"}
