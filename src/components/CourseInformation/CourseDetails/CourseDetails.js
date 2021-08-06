@@ -1,5 +1,4 @@
 const CourseDetails = ({ detail }) => {
-  console.log(detail);
   return (
     <div>
       <div className="flex flex-row items-center text-icon-blue gap-1">
