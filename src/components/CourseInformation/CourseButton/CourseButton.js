@@ -1,6 +1,5 @@
 const CourseButton = (props) => {
   const url = props.url;
-  console.log(url);
   return (
     <a
       href={url}
