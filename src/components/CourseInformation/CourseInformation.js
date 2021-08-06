@@ -125,13 +125,13 @@ const CourseInformation = (props) => {
             <CourseButton url={courseInfo.url} />
             {user && <InterestGroupPopup />}
           </div>
-          <h3 className="text-left font-semibold mb-1">Course Description</h3>
+          <h3 className="text-left text-lg font-semibold mb-1">Course Description</h3>
           <p className="text-xs">{courseInfo.desc}</p>
         </div>
       </div>
-      <div className='border-b py-2 clear-both'></div>
+      <div className="border-b py-2 clear-both my-2"></div>
       <div className="px-2 clear-both">
-        <div className="flex flex-row flex-wrap justify-start items-baseline">
+        <div className="flex flex-row flex-wrap justify-start items-baseline gap-2">
           {courseDetails?.map((detail, index) => (
             <CourseDetails detail={detail} key={index} />
           ))}

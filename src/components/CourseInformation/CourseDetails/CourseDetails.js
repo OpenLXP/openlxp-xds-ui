@@ -1,35 +1,15 @@
-const CourseDetails = (props) => {
-  const details = props.details || [];
-
-  let col1 = [];
-  let col2 = [];
-
-  // Splits the items up into each column
-  details.forEach((item, index) => {
-    index % 2 === 0 ? col1.push(item) : col2.push(item);
-  });
-
-  // Individual cols for icons, name, and value
-  const detail = (icon, name, value, key) => {
-    return (
-      <div key={key} style={{ whiteSpace: "nowrap" }}>
-        <ion-icon name={icon} />
-        {name}: <span style={{ fontStyle: "italic" }}>{value}</span>
-      </div>
-    );
-  };
-
+const CourseDetails = ({ detail }) => {
+  console.log(detail);
   return (
-    <div className="row" data-testid="details">
-      <div className="col span-1-of-2">
-        {col1.map((item, index) => {
-          return detail(item.icon, item.name, item.value, index);
-        })}
+    <div>
+      <div className="flex flex-row items-center text-icon-blue gap-1">
+        <ion-icon name={detail.icon}></ion-icon>
+        <h2 className="font-semibold font-sans">
+          {detail.name === "" ? "N/A" : detail.name}
+        </h2>
       </div>
-      <div className="col span-1-of-2">
-        {col2.map((item, index) => {
-          return detail(item.icon, item.name, item.value, index);
-        })}
+      <div className="border rounded-md px-2 py-1 text-sm min-w-full">
+        {detail.value === "" ? "N/A" : detail.value}
       </div>
     </div>
   );
