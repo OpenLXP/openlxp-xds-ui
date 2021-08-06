@@ -63,7 +63,9 @@ const ExperienceCard = (props) => {
       <div className="col span-1-of-4 box">
         {courseThumbnail ? defaultImg : altImg}
         <div className="card-detail">
-          <div className="row mb-5 font-medium text-base-blue text-lg h-14 space-y-0 line-clamp-2">
+          <div
+            className="row mb-5 font-medium text-base-blue text-lg h-14 space-y-0 line-clamp-2"
+            title={props.courseObj.Course.CourseTitle}>
             <b>
               <Link
                 to={{
