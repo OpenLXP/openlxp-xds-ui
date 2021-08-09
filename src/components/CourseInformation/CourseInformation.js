@@ -15,6 +15,8 @@ const CourseInformation = (props) => {
   const location = useLocation();
   const imgLink = location.state.imgLink;
   const courseData = location.state.expObj;
+  const pathnameArray = location.pathname.split("/");
+  const expHash = pathnameArray[pathnameArray.length-1];
 
   const { user } = useSelector((state) => state.user);
 
@@ -44,6 +46,36 @@ const CourseInformation = (props) => {
       )
       .catch((err) => {
         setRelatedCourses({
+          data: null,
+          isLoading: false,
+          error: err,
+        });
+      });
+  }, [courseData.meta.id, api_url]);
+
+  // Inits course information
+  const [coursesInfo, setCoursesInfo] = useState({
+    data: null,
+    isLoading: false,
+    error: null,
+  });
+
+  //  Fetch course information from the backend
+  useEffect(() => {
+    setCoursesInfo({ data: null, isLoading: true, error: null });
+
+    // Making call to back end for course data
+    axios
+      .get(process.env.REACT_APP_ADD_COURSE_TO_LISTS + expHash)
+      .then((resp) =>
+        setCoursesInfo({
+          data: resp.data,
+          isLoading: false,
+          error: null,
+        })
+      )
+      .catch((err) => {
+        setCoursesInfo({
           data: null,
           isLoading: false,
           error: err,
@@ -118,15 +150,15 @@ const CourseInformation = (props) => {
   return (
     <PageWrapper>
       <div className="px-2 py-5">
-        <h2 className="font-semibold text-2xl my-2">{courseInfo.title}</h2>
+        <h2 className="font-semibold text-2xl my-2">{coursesInfo.data?.Course.CourseTitle}</h2>
         <div className="">
           <div className="float-left space-y-2 pr-5 pb-1">
             <CourseImage img={imgLink} />
-            <CourseButton url={courseInfo.url} />
+            <CourseButton url={coursesInfo.data?.Course.CourseURL} />
             {user && <InterestGroupPopup />}
           </div>
           <h3 className="text-left text-lg font-semibold mb-1">Course Description</h3>
-          <p className="text-xs">{courseInfo.desc}</p>
+          <p className="text-xs">{coursesInfo.data?.Course.CourseShortDescription}</p>
         </div>
       </div>
       <div className="border-b py-2 clear-both my-2"></div>
