@@ -15,7 +15,7 @@ import ErrorPage from "../common/ErrorPage";
 const CourseInformation = (props) => {
   // Getting the current location and the data
   const location = useLocation();
-  const imgLink = location.state.imgLink;
+  // const imgLink = location.state.imgLink;
   const courseData = location.state.expObj;
   const { id } = useParams();
   console.log(id);
@@ -164,7 +164,7 @@ const CourseInformation = (props) => {
             </h2>
             <div className="">
               <div className="float-left space-y-2 pr-5 pb-1">
-                <CourseImage img={imgLink} />
+                <CourseImage coursesInfo={coursesInfo} />
                 <CourseButton url={coursesInfo.data?.Course.CourseURL} />
                 {user && <InterestGroupPopup />}
               </div>
