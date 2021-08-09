@@ -28,7 +28,7 @@ function App() {
       <Route path="/manageinterestlists" component={ManageInterestlists} />
       <Route path="/help" />
       <Route path="/signIn" component={SignIn} />
-      <Route path="/course" component={CourseInformation} />
+      <Route path="/course/:id" component={CourseInformation} />
       <Route path="/" exact component={LandingPage} />
       <Route path="/signup" component={SignUp} />
       <Redirect to="/" />

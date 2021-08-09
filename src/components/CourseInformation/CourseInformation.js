@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import CourseImage from "./CourseImage/CourseImage";
 import CourseButton from "./CourseButton/CourseButton";
@@ -15,8 +16,8 @@ const CourseInformation = (props) => {
   const location = useLocation();
   const imgLink = location.state.imgLink;
   const courseData = location.state.expObj;
-  const pathnameArray = location.pathname.split("/");
-  const expHash = pathnameArray[pathnameArray.length-1];
+  const {id} = useParams();
+  console.log(id);
 
   const { user } = useSelector((state) => state.user);
 
@@ -66,7 +67,7 @@ const CourseInformation = (props) => {
 
     // Making call to back end for course data
     axios
-      .get(process.env.REACT_APP_ADD_COURSE_TO_LISTS + expHash)
+      .get(process.env.REACT_APP_ADD_COURSE_TO_LISTS + id)
       .then((resp) =>
         setCoursesInfo({
           data: resp.data,
