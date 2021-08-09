@@ -10,13 +10,14 @@ import CourseDetails from "./CourseDetails/CourseDetails";
 import RelatedCourses from "./RelatedCourses/RelatedCourses";
 import InterestGroupPopup from "./InterestGroupPopup/InterestGroupPopup";
 import PageWrapper from "../common/PageWrapper";
+import ErrorPage from "../common/ErrorPage";
 
 const CourseInformation = (props) => {
   // Getting the current location and the data
   const location = useLocation();
   const imgLink = location.state.imgLink;
   const courseData = location.state.expObj;
-  const {id} = useParams();
+  const { id } = useParams();
   console.log(id);
 
   const { user } = useSelector((state) => state.user);
@@ -149,31 +150,46 @@ const CourseInformation = (props) => {
     };
   }
   return (
-    <PageWrapper>
-      <div className="px-2 py-5">
-        <h2 className="font-semibold text-2xl my-2">{coursesInfo.data?.Course.CourseTitle}</h2>
-        <div className="">
-          <div className="float-left space-y-2 pr-5 pb-1">
-            <CourseImage img={imgLink} />
-            <CourseButton url={coursesInfo.data?.Course.CourseURL} />
-            {user && <InterestGroupPopup />}
+    <>
+      {coursesInfo.error && (
+        <ErrorPage>
+          Error loading course data. Please contact an administrator.
+        </ErrorPage>
+      )}
+      {!coursesInfo.error && coursesInfo.data && (
+        <PageWrapper>
+          <div className="px-2 py-5">
+            <h2 className="font-semibold text-2xl my-2">
+              {coursesInfo.data?.Course.CourseTitle}
+            </h2>
+            <div className="">
+              <div className="float-left space-y-2 pr-5 pb-1">
+                <CourseImage img={imgLink} />
+                <CourseButton url={coursesInfo.data?.Course.CourseURL} />
+                {user && <InterestGroupPopup />}
+              </div>
+              <h3 className="text-left text-lg font-semibold mb-1">
+                Course Description
+              </h3>
+              <p className="text-xs">
+                {coursesInfo.data?.Course.CourseShortDescription}
+              </p>
+            </div>
           </div>
-          <h3 className="text-left text-lg font-semibold mb-1">Course Description</h3>
-          <p className="text-xs">{coursesInfo.data?.Course.CourseShortDescription}</p>
-        </div>
-      </div>
-      <div className="border-b py-2 clear-both my-2"></div>
-      <div className="px-2 clear-both">
-        <div className="flex flex-row flex-wrap justify-start items-baseline gap-2">
-          {courseDetails?.map((detail, index) => (
-            <CourseDetails detail={detail} key={index} />
-          ))}
-        </div>
-      </div>
+          <div className="border-b py-2 clear-both my-2"></div>
+          <div className="px-2 clear-both">
+            <div className="flex flex-row flex-wrap justify-start items-baseline gap-2">
+              {courseDetails?.map((detail, index) => (
+                <CourseDetails detail={detail} key={index} />
+              ))}
+            </div>
+          </div>
 
-      {relatedCourses.data && <RelatedCourses data={relatedCourses.data} />}
-      {!relatedCourses?.data && <div>Loading...</div>}
-    </PageWrapper>
+          {relatedCourses.data && <RelatedCourses data={relatedCourses.data} />}
+          {!relatedCourses?.data && <div>Loading...</div>}
+        </PageWrapper>
+      )}
+    </>
   );
 };
 
