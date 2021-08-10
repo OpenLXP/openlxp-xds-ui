@@ -112,11 +112,11 @@ const CourseInformation = () => {
   if (configuration) {
     const courseDataMappings = configuration.course_information;
     courseDetails = {
-      title: getCourseDataMapping(courseDataMappings?.course_title, courseData),
-      url: getCourseDataMapping(courseDataMappings?.course_url, courseData),
+      title: getCourseDataMapping(courseDataMappings?.course_title, courseInfo.data),
+      url: getCourseDataMapping(courseDataMappings?.course_url, courseInfo.data),
       desc: getCourseDataMapping(
         courseDataMappings.course_description,
-        courseData
+        courseInfo.data
       ),
     };
     courseDetails.supplmentary = configuration?.course_highlights.map((item) => {
