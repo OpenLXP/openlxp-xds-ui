@@ -20,7 +20,7 @@ const CourseInformation = () => {
   const { id } = useParams();
 
   const location = useLocation();
-  const courseData = location.state.expObj;
+  // const courseData = location.state.expObj;
   // const imgLink = location.state.imgLink;
   // const api_url = process.env.REACT_APP_ES_MLT_API;
 
@@ -123,7 +123,7 @@ const CourseInformation = () => {
       return {
         icon: getIconNameToUse(item.highlight_icon),
         name: item.display_name,
-        value: getCourseDataMapping(item.field_name, courseData) || "",
+        value: getCourseDataMapping(item.field_name, courseInfo.data) || "",
       };
     });
   }
