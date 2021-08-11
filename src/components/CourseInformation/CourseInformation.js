@@ -137,7 +137,11 @@ const CourseInformation = () => {
     )
   }
 
-  const configImage = process.env.REACT_APP_BACKEND_HOST + configuration?.course_img_fallback
+  let configImage = null;
+  if(configuration && configuration.course_img_fallback){
+    configImage = process.env.REACT_APP_BACKEND_HOST + configuration?.course_img_fallback;
+  }
+  
   // render if everything is 'ok'
   return (
     <PageWrapper>
