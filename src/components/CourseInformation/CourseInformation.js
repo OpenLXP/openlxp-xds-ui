@@ -137,6 +137,7 @@ const CourseInformation = () => {
     )
   }
 
+  const configImage = process.env.REACT_APP_BACKEND_HOST + configuration?.course_img_fallback
   // render if everything is 'ok'
   return (
     <PageWrapper>
@@ -147,7 +148,7 @@ const CourseInformation = () => {
         <div className="">
           <div className="float-left space-y-2 pr-5 pb-1">
             <CourseImage
-              image={courseInfo.data?.Technical_Information?.Thumbnail}/>
+              image={courseInfo.data?.Technical_Information?.Thumbnail || configImage}/>
             <CourseButton url={courseDetails.url}/>
             {user && <InterestGroupPopup/>}
           </div>
