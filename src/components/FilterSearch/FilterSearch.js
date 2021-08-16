@@ -153,11 +153,12 @@ export default function FilterSearch() {
           type="submit"
           className="px-2 bg-base-blue text-white rounded-md cursor-pointer"
           name="Search"
+          value='Search'
           onClick={handleSubmit}
         />
       </div>
 
-      <div className="my-2 font-sans font-semibold text-lg">
+      <div className="px-2 my-2 font-sans font-semibold text-lg">
         Total: {courses.data?.total}
       </div>
       <div className="flex flex-row justify-end gap-4 pb-8">
@@ -166,17 +167,18 @@ export default function FilterSearch() {
             params.p > 1
               ? "cursor-pointer block hover:bg-bright-blue"
               : "invisible"
-          } bg-base-blue text-white px-2 rounded-md select-none`}
+          } bg-base-blue text-white px-1 rounded-md select-none`}
           onClick={getPreviousPage}>
           Back
         </div>
+        <div className='select-none'>{params.p}</div>
         <div
           className={`${
             params?.p <=
             courses?.data?.total / configuration?.search_results_per_page
               ? "cursor-pointer hover:bg-bright-blue block"
               : "invisible"
-          } bg-base-blue text-white px-2 rounded-md select-none`}
+          } bg-base-blue text-white px-1 rounded-md select-none`}
           onClick={getNextPage}>
           Next
         </div>
