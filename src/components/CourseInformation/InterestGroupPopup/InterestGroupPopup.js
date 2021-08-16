@@ -35,6 +35,9 @@ const InterestGroupPopup = (props) => {
       )
       .then((response) => {
         dispatch(getUserLists(user?.token));
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
   const handleNewList = () => {
@@ -45,16 +48,18 @@ const InterestGroupPopup = (props) => {
     const header = {
       Authorization: `Token ${user.token}`,
     };
+    console.log(user.token);
 
-    setNewListInfo({ description: "", name: "" });
     axios
-      .post(process.env.REACT_APP_INTEREST_LISTS, dataToSend, {
+      .post(process.env.REACT_APP_INTEREST_LISTS_ALL, dataToSend, {
         headers: header,
       })
       .then((response) => {
+        setNewListInfo({ description: "", name: "" });
         dispatch(getUserLists(user?.token));
       });
   };
+
   const handleSelect = (e, id) => {
     // if the list is not in the selections then add it
     if (selectedLists.filter((list) => list === id).length < 1) {
@@ -146,6 +151,7 @@ const InterestGroupPopup = (props) => {
                   className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900 tracking-wider">
                   List Title
                 </label>
+
                 <input
                   value={newListInfo.name}
                   onChange={(e) => {
@@ -156,6 +162,7 @@ const InterestGroupPopup = (props) => {
                   placeholder="New List Title"
                 />
               </div>
+
               <div className="relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-bright-blue focus-within:border-bright-blue">
                 <label
                   htmlFor=""
@@ -176,6 +183,7 @@ const InterestGroupPopup = (props) => {
                   placeholder="New List Description"
                 />
               </div>
+
               <div>
                 <button
                   className="bg-base-blue px-2 py-1 rounded-md text-white hover:bg-opacity-90"
