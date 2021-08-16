@@ -35,7 +35,7 @@ const Header = () => {
       url: "/searchinterestlists",
       icon: "",
       func: () => {
-        history.push('/searchinterestlists')
+        history.push("/searchinterestlists");
       },
     },
     {
@@ -44,6 +44,14 @@ const Header = () => {
       icon: "",
       func: () => {
         history.push("/manageinterestlists");
+      },
+    },
+    {
+      title: "Filter Search",
+      url: "/",
+      icon: "",
+      func: () => {
+        history.push("/filter-search");
       },
     },
     { title: "Favorites", url: "/", icon: "" },

@@ -82,11 +82,11 @@ export default function FilterSearch() {
     history.push({
       path: "filter-search2",
       search: `?Course.CourseTitle=${
-        params["Course.CourseTitle"]
+        params["Course.CourseTitle"] || ""
       }&Course.CourseProviderName=${
-        params["Course.CourseProviderName"]
+        params["Course.CourseProviderName"] || ""
       }&CourseInstance.CourseLevel=${
-        params["CourseInstance.CourseLevel"]
+        params["CourseInstance.CourseLevel"] || ""
       }&p=${1}`,
     });
   };
@@ -100,7 +100,13 @@ export default function FilterSearch() {
     // all new searches default to pg 1
     history.push({
       path: "filter-search2",
-      search: `?Course.CourseTitle=${params["Course.CourseTitle"]}&Course.CourseProviderName=${params["Course.CourseProviderName"]}&CourseInstance.CourseLevel=${params["CourseInstance.CourseLevel"]}&p=${params.p}`,
+      search: `?Course.CourseTitle=${
+        params["Course.CourseTitle"] || ""
+      }&Course.CourseProviderName=${
+        params["Course.CourseProviderName"] || ""
+      }&CourseInstance.CourseLevel=${
+        params["CourseInstance.CourseLevel"] || ""
+      }&p=${params.p}`,
     });
   }, [params.p]);
 
@@ -110,7 +116,7 @@ export default function FilterSearch() {
       <form className="px-2 flex justify-center">
         <div className="flex flex-row w-full flex-wrap gap-2 py-2 ">
           <div className="flex flex-col">
-            <label htmlFor="CourseInstance.CourseLevel">Course Level</label>
+            <label htmlFor="CourseInstance.CourseLevel">Course Title</label>
             <input
               placeholder="Title"
               className="shadow rounded-md border px-2"
@@ -122,7 +128,7 @@ export default function FilterSearch() {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="CourseInstance.CourseLevel">Course Level</label>
+            <label htmlFor="CourseInstance.CourseLevel">Course Provider</label>
             <input
               className="shadow rounded-md border px-2"
               placeholder="Provider Name"
@@ -153,7 +159,7 @@ export default function FilterSearch() {
           type="submit"
           className="px-2 bg-base-blue text-white rounded-md cursor-pointer"
           name="Search"
-          value='Search'
+          value="Search"
           onClick={handleSubmit}
         />
       </div>
@@ -171,7 +177,7 @@ export default function FilterSearch() {
           onClick={getPreviousPage}>
           Back
         </div>
-        <div className='select-none'>{params.p}</div>
+        <div className="select-none">{params.p}</div>
         <div
           className={`${
             params?.p <=
