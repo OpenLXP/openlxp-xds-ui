@@ -6,7 +6,6 @@ import { fetchConfiguration } from "./store/configuration";
 
 import Layout from "./hoc/Layout/Layout";
 import LandingPage from "./components/LandingPage/LandingPage";
-import CustomSearch from "./components/CustomSearch/CustomSearch";
 import SearchResultPage from "./components/SearchResultsPage/SearchResultsPage";
 import CourseInformation from "./components/CourseInformation/CourseInformation";
 import ManageInterestlists from "./components/ManageInterestLists/ManageInterestLists";
@@ -30,8 +29,7 @@ function App() {
       <Route path="/resources" />
       <Route path="/manageinterestlists" component={ManageInterestlists} />
       <Route path="/help" />
-      <Route path="/filter-search/" component={CustomSearch} />
-      <Route path="/filter-search2/" component={FilterSearch} />
+      <Route path="/filter-search/" component={FilterSearch} />
       <Route path="/searchinterestlists/" component={SearchInterestLists} />
       <Route path="/signIn" component={SignIn} />
       <Route path="/course/:id" component={CourseInformation} />
@@ -53,7 +51,7 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      const url = process.env.REACT_APP_INTEREST_LISTS;
+      const url = process.env.REACT_APP_USER_INTEREST_LISTS;
       // validate with back end
       axios
         .get(url, {
