@@ -27,7 +27,7 @@ const InterestList = (props) => {
     };
 
     axios
-      .patch(`${process.env.REACT_APP_INTEREST_LISTS}${list.id}`, objToSend, {
+      .patch(`${process.env.REACT_APP_USER_INTEREST_LISTS}${list.id}`, objToSend, {
         headers: {
           Authorization: "Token " + user.token,
         },
@@ -67,7 +67,7 @@ const InterestList = (props) => {
     if (list.id) {
       axios
         .get(
-          `${process.env.REACT_APP_INTEREST_LISTS}${list.id}`,
+          `${process.env.REACT_APP_USER_INTEREST_LISTS}${list.id}`,
           { headers: { Authorization: "token " + user.token } }
         )
         .then((response) => {

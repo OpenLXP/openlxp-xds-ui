@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import PageWrapper from "../common/PageWrapper";
+import axios from "axios";
 
 const testData = [
   { title: "title 1", owner: "list owner" },
@@ -84,7 +85,16 @@ export default function SearchInterestLists() {
     // chunk the array into parts
     const chunked = chunkArray(filteredArray);
     // set the new interest list
-    setInterestLists(chunked);
+    // setInterestLists(chunked);
+    axios
+      .get(
+        `${process.env.REACT_APP_INTEREST_LISTS_ALL}`,
+      )
+      .then((response) => {
+        console.log(response.data);
+        setInterestLists(response.data.experiences);
+      });
+
   }, [search]);
 
   return (

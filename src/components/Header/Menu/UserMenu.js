@@ -13,7 +13,7 @@ const UserMenu = (props) => {
               active ? "bg-base-blue text-white" : "bg-white text-gray-900"
             } w-full pl-2 py-2 rounded-md cursor-pointer`}
           >
-            {item.title}
+            {item?.title}
           </div>
         )}
       </Menu.Item>
