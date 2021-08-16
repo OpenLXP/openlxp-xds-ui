@@ -3,34 +3,71 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
 import queryString from "query-string";
+import axios from "axios";
 export default function CustomSearch() {
   const location = useLocation();
   const history = useHistory();
 
-  const [searchInfo, setSearchInfo] = useState({
-    CourseLevel: "",
-    CourseProviderName: "",
-    CourseTitle: "",
-    p: 1,
+  const [courses, setCourses] = useState({
+    isLoading: true,
+    error: null,
+    data: null,
   });
 
-  // on load, grab the data from the url
-  useEffect(() => {
-    console.log(queryString.parse(location.search.replace(/Course[.]/g, "")));
+  const [searchInfo, setSearchInfo] = useState({
+    "CourseInstance.CourseLevel": "",
+    "Course.CourseProviderName": "",
+    "Course.CourseTitle": "",
+    "p": 1,
+  });
 
-    // sets the current values to be shown in the search boxes
-    setSearchInfo(queryString.parse(location.search.replace(/Course[.]/g, "")));
-    
-    // make api to ES
-    
-  }, []);
+  // on load....
+  useEffect(() => {
+    // grab data from url
+    setSearchInfo(queryString.parse(location.search));
+
+    // make call to api
+    let url = `${process.env.REACT_APP_ES_API}filter-search${location.search}`;
+    axios
+      .get(url)
+      .then((res) => {
+        setCourses({ isLoading: false, error: null, data: res.data });
+        console.log(courses);
+      })
+      .catch((err) => {
+        setCourses({ isLoading: false, error: err, data: null });
+      });
+  }, [courses.isLoading, location.search]);
 
   const handleChange = (e) => {
     setSearchInfo({ ...searchInfo, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(location.search);
+    history.push({
+      path: "filter-search",
+      search: `?Course.CourseTitle=${
+        searchInfo["Course.CourseTitle"]
+      }&Course.CourseProviderName=${
+        searchInfo["Course.CourseProviderName"]
+      }&CourseInstance.CourseLevel=${
+        searchInfo["CourseInstance.CourseLevel"]
+      }&p=${1}`,
+    });
+  };
+
+  const handlePageChange = () => {
+    console.log(searchInfo);
+    history.push({
+      path: "filter-search",
+      search: `?Course.CourseTitle=${searchInfo["Course.CourseTitle"]}&Course.CourseProviderName=${searchInfo["Course.CourseProviderName"]}&CourseInstance.CourseLevel=${searchInfo["CourseInstance.CourseLevel"]}&p=${searchInfo.p}`,
+    });
+  };
+
   return (
-    <PageWrapper className="bg-body-gray">
+    <PageWrapper>
       <form>
         <div className="flex flex-row bg-white rounded-md p-4 justify-around">
           <div className="flex flex-col">
@@ -38,7 +75,7 @@ export default function CustomSearch() {
               Title
             </label>
             <input
-              value={searchInfo.CourseTitle}
+              value={searchInfo["Course.CourseTitle"]}
               type="text"
               name="Course.CourseTitle"
               id="CourseTitle"
@@ -53,7 +90,7 @@ export default function CustomSearch() {
               Provider
             </label>
             <input
-              value={searchInfo.CourseProviderName}
+              value={searchInfo["Course.CourseProviderName"]}
               type="text"
               name="Course.CourseProviderName"
               id="CourseProviderName"
@@ -66,24 +103,51 @@ export default function CustomSearch() {
               Level
             </label>
             <input
-              value={searchInfo.CourseLevel}
+              value={searchInfo["CourseInstance.CourseLevel"]}
               type="text"
-              name="Course.CourseLevel"
+              name="CourseInstance.CourseLevel"
               id="CourseLevel"
               className="border shadow rounded-md"
               onChange={handleChange}
             />
           </div>
+          <input type="hidden" name="p" value={searchInfo.p} />
           <input
             className="rounded-md bg-base-blue text-white px-2"
             type="submit"
             value="search"
-            onClick
+            onClick={handleSubmit}
           />
-          <input type="hidden" name="p" value={searchInfo.p} />
         </div>
       </form>
-      test
+      <div className="flex flex-row justify-end gap-5 my-2 pb-2">
+        <div
+          className={`${
+            searchInfo.p < 1 && "invisible"
+          } bg-base-blue text-white px-2 rounded-md select-none cursor-pointer`}
+          onClick={() => {
+            setSearchInfo({ ...searchInfo, p: parseInt(searchInfo.p) - 1 });
+          }}>
+          prev
+        </div>
+        <div className="select-none">{parseInt(searchInfo.p)}</div>
+        <div
+          className={`${"block"} bg-base-blue text-white px-2 rounded-md select-none cursor-pointer`}
+          onClick={() => {
+            setSearchInfo({ ...searchInfo, p: parseInt(searchInfo.p) + 1 });
+            handlePageChange();
+          }}>
+          next
+        </div>
+      </div>
+      {courses.isLoading && "Loading..."}
+      {!courses.isLoading && (
+        <div>
+          {courses.data.hits.map((hit) => {
+            return JSON.stringify(hit);
+          })}
+        </div>
+      )}
     </PageWrapper>
   );
 }
