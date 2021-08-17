@@ -20,7 +20,6 @@ export default function SubscriptionList({ list, token }) {
     axios
       .patch(url, {}, { headers: header })
       .then((res) => {
-        console.log(res);
         dispatch(getSubscribedLists(token));
       })
       .catch((err) => {
@@ -28,15 +27,7 @@ export default function SubscriptionList({ list, token }) {
       });
   };
 
-  useEffect(() => {
-    const url = "http://localhost:8100/api/interest-lists/" + id;
-    let header = {
-      Authorization: "token " + token,
-    };
-    axios.get(url, { headers: header }).then((res) => {
-      // console.log(name, res, token);
-    });
-  }, []);
+ 
   return (
     <Disclosure>
       {({ open }) => (
