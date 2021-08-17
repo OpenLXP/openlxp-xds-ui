@@ -27,16 +27,21 @@ const InterestList = (props) => {
     };
 
     axios
-      .patch(`${process.env.REACT_APP_INTEREST_LISTS_ALL}${list.id}`, objToSend, {
-        headers: {
-          Authorization: "Token " + user.token,
-        },
-      })
+      .patch(
+        `${process.env.REACT_APP_INTEREST_LISTS_ALL}${list.id}`,
+        objToSend,
+        {
+          headers: {
+            Authorization: "Token " + user.token,
+          },
+        }
+      )
       .then((response) => {
         dispatch(getUserLists());
-      }).catch(err=>{
-        console.log(err)
-        dispatch(getUserLists())
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(getUserLists());
       });
 
     // axios call
@@ -52,7 +57,6 @@ const InterestList = (props) => {
   };
   // remove a course from the list
   const handleRemoveCourse = (hashId) => {
-    console.log("test");
     const filteredCourses = courseList.filter(
       (course) => course.meta.metadata_key_hash !== hashId
     );
@@ -62,6 +66,17 @@ const InterestList = (props) => {
 
   // get the list id and remove it
   const handleDeleteList = () => {
+    const url = process.env.REACT_APP_INTEREST_LISTS_ALL + list.id;
+    axios
+      .delete(url, { headers: { Authorization: "token " + user.token } })
+      .then((resp) => {
+        console.log(resp);
+        dispatch(getUserLists());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     console.log("delete", list);
   };
 
@@ -69,10 +84,9 @@ const InterestList = (props) => {
   useEffect(() => {
     if (list.id) {
       axios
-        .get(
-          `${process.env.REACT_APP_INTEREST_LISTS_ALL}${list.id}`,
-          { headers: { Authorization: "token " + user.token } }
-        )
+        .get(`${process.env.REACT_APP_INTEREST_LISTS_ALL}${list.id}`, {
+          headers: { Authorization: "token " + user.token },
+        })
         .then((response) => {
           console.log(response.data);
           setCourseList(response.data.experiences);
