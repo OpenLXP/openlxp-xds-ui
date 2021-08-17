@@ -25,8 +25,8 @@ afterEach(() => {
 
 jest.mock("axios");
 
-describe("<InterestList />", () => {
-    it("should display: lists and list data ", async () => {
+describe("<UserMenu />", () => {
+    it("should display: user menu popup ", async () => {
         let state = { user: { email: "test@test.com" } };
         const userMenuItems = [
             {
