@@ -19,11 +19,9 @@ export default function ManageSubscriptions() {
     data: null,
   });
 
-  const getSubscriptions = () => dispatch(getSubscribedLists(user.token));
-
   useEffect(() => {
     if (user) {
-      getSubscriptions();
+      dispatch(getSubscribedLists(user.token));
     } else {
       history.push("/signin");
     }
@@ -34,8 +32,9 @@ export default function ManageSubscriptions() {
       <h2 className="text-3xl">Subscribed Lists</h2>
       <div className="my-2 rounded-md bg-white flex flex-col gap-4 p-4">
         {subs?.map((list) => {
-          console.log(list);
-          return <SubscriptionList list={list} token={user.token} />;
+          return (
+            <SubscriptionList list={list} token={user.token} key={list.id} />
+          );
         })}
       </div>
     </PageWrapper>

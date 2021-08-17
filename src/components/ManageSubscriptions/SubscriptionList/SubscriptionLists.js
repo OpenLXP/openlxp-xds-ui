@@ -46,7 +46,7 @@ export default function SubscriptionList({ list, token }) {
               className={`flex flex-row w-full justify-between items-center py-2 rounded-md px-2 ${
                 !open && "border shadow-sm hover:shadow-md"
               }`}>
-              <div className="text-xl font-sans font-semibold">{name}</div>
+              <div className="text-lg p-2">{name}</div>
             </Disclosure.Button>
             <Disclosure.Panel className={`justify-between px-2 items-center`}>
               <div

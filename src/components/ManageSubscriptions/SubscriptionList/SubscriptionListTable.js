@@ -36,7 +36,9 @@ export default function SubscriptionListTable({ id, token }) {
         {courses?.map(({ Course, meta }, index) => {
           const { CourseTitle, CourseProviderName } = { ...Course };
           return (
-            <tr className={`${index % 2 === 0 ? null : "bg-gray-50"} w-full`}>
+            <tr
+              className={`${index % 2 === 0 ? null : "bg-gray-50"} w-full`}
+              key={index}>
               <td className="pl-2 pr-6 line-clamp-2" title={CourseTitle}>
                 {CourseTitle}
               </td>
