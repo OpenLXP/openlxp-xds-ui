@@ -106,7 +106,7 @@ export default function FilterSearch() {
         params["Course.CourseProviderName"] || ""
       }&CourseInstance.CourseLevel=${
         params["CourseInstance.CourseLevel"] || ""
-      }&p=${params.p}`,
+      }&p=${params.p || 1}`,
     });
   }, [params.p]);
 
