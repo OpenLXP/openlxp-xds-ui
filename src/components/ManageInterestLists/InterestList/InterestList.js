@@ -87,7 +87,7 @@ const InterestList = (props) => {
           className={`${
             open ? "shadow-md" : "border"
           } px-4 py-2 rounded-md my-4`}>
-          <Disclosure.Button className="w-full text-left flex flex-row items-center justify-between py-2">
+          <Disclosure.Button className="w-full text-left flex flex-row items-center justify-between py-2 z-0">
             <div>{list.name}</div>
             {open ? (
               <ion-icon name="chevron-up-outline" />

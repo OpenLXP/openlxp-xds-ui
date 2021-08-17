@@ -21,7 +21,7 @@ const UserMenu = (props) => {
   });
 
   return (
-    <div className=" text-right  top-16">
+    <div className=" text-right  top-16 z-50">
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white rounded-md bg-base-blue hover:bg-dark-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
