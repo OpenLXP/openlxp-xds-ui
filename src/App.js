@@ -16,6 +16,7 @@ import { setUserStatus } from "./store/user";
 import axios from "axios";
 import SearchInterestLists from "./components/SearchInterestLists/SearchInterestLists";
 import FilterSearch from "./components/FilterSearch/FilterSearch";
+import ManageSubscriptions from "./components/ManageSubscriptions/ManageSubscriptions";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ function App() {
       <Route path="/about" />
       <Route path="/resources" />
       <Route path="/manageinterestlists" component={ManageInterestlists} />
+      <Route path="/managesubscriptions" component={ManageSubscriptions} />
       <Route path="/help" />
       <Route path="/filter-search/" component={FilterSearch} />
       <Route path="/searchinterestlists/" component={SearchInterestLists} />

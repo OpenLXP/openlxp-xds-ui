@@ -47,6 +47,14 @@ const Header = () => {
       },
     },
     {
+      title: "Manage Subscriptions",
+      url: "/",
+      icon: "",
+      func: () => {
+        history.push("/managesubscriptions");
+      },
+    },
+    {
       title: "Filter Search",
       url: "/",
       icon: "",
