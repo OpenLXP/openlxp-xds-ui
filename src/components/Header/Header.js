@@ -39,19 +39,19 @@ const Header = () => {
       },
     },
     {
-      title: "Manage Interests",
-      url: "/",
-      icon: "",
-      func: () => {
-        history.push("/manageinterestlists");
-      },
-    },
-    {
       title: "Manage Subscriptions",
       url: "/",
       icon: "",
       func: () => {
         history.push("/managesubscriptions");
+      },
+    },
+    {
+      title: "Manage Interests",
+      url: "/",
+      icon: "",
+      func: () => {
+        history.push("/manageinterestlists");
       },
     },
     {
