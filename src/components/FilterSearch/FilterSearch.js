@@ -110,7 +110,7 @@ export default function FilterSearch() {
     });
   }, [params.p]);
 
-  console.log(params);
+
   return (
     <PageWrapper>
       <form className="px-2 flex justify-center">
@@ -205,7 +205,6 @@ export default function FilterSearch() {
               </div>
               <div
                 onClick={() => {
-                  console.log(course);
                   handleViewCourse(course?.meta?.id);
                 }}
                 className="cursor-pointer hover:text-bright-blue">
