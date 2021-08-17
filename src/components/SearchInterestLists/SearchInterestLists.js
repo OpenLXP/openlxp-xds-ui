@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import PageWrapper from "../common/PageWrapper";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+
+import SearchInput from "../common/inputs/SearchInput";
 import InterestList from "./InterestList/InterestList";
 
 export default function SearchInterestLists() {
@@ -94,16 +96,15 @@ export default function SearchInterestLists() {
 
   return (
     <PageWrapper>
-      <input
-        type="text"
-        className="shadow rounded-md w-full my-2 border-2 px-2"
-        placeholder="search"
-        value={search}
-        onChange={(event) => {
-          setSearch(event.target.value);
-        }}
-      />
-
+      <div className='pt-10'>
+        <SearchInput
+          queryValue={search}
+          placeholder={"Search for interest lists"}
+          handleChange={(event) => {
+            setSearch(event.target.value);
+          }}
+        />
+      </div>
       <div className="flex flex-row justify-end gap-4 my-2 pb-2">
         <div
           className={`${
