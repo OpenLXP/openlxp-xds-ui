@@ -27,13 +27,16 @@ const InterestList = (props) => {
     };
 
     axios
-      .patch(`${process.env.REACT_APP_USER_INTEREST_LISTS}${list.id}`, objToSend, {
+      .patch(`${process.env.REACT_APP_INTEREST_LISTS_ALL}${list.id}`, objToSend, {
         headers: {
           Authorization: "Token " + user.token,
         },
       })
       .then((response) => {
         dispatch(getUserLists());
+      }).catch(err=>{
+        console.log(err)
+        dispatch(getUserLists())
       });
 
     // axios call
@@ -67,7 +70,7 @@ const InterestList = (props) => {
     if (list.id) {
       axios
         .get(
-          `${process.env.REACT_APP_USER_INTEREST_LISTS}${list.id}`,
+          `${process.env.REACT_APP_INTEREST_LISTS_ALL}${list.id}`,
           { headers: { Authorization: "token " + user.token } }
         )
         .then((response) => {
@@ -219,7 +222,7 @@ const InterestList = (props) => {
                   </thead>
                   <tbody className="space-y-2">
                     {courseList?.map((course, index) => {
-                      const courseData = { ...course.Metadata_Ledger.Course };
+                      const courseData = { ...course.Course };
                       const courseHash = course.meta.metadata_key_hash;
                       return (
                         <tr
