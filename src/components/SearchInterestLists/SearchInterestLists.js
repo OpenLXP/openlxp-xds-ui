@@ -39,7 +39,6 @@ export default function SearchInterestLists() {
 
   const filterArray = (origionalArr) => {
     const array = [...origionalArr];
-    // console.log(array)
 
     if (array) {
       return array.filter(
@@ -77,7 +76,6 @@ export default function SearchInterestLists() {
         .then((resp) => {
           // checking if a user is subscribed to this list
           setSubscribedLists(resp.data);
-          console.log(subscribedLists);
         })
         .catch((err) => {
           console.log(err);
