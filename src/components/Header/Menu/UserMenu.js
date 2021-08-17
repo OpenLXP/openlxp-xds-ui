@@ -24,7 +24,7 @@ const UserMenu = (props) => {
     <div className=" text-right  top-16">
       <Menu as="div" className="relative inline-block text-left">
         <div>
-          <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-base-blue hover:bg-dark-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+          <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white rounded-md bg-base-blue hover:bg-dark-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
             <div className="flex flex-row items-center space-x-2">
               <div>{props.username}</div>
 

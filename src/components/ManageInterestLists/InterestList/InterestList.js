@@ -104,7 +104,7 @@ const InterestList = (props) => {
                           setEditing(false);
                           dispatch(getUserLists(user?.token));
                         }}
-                        className="flex flex-row items-center space-x-2 bg-gray-200 text-gray-600 hover:bg-gray-400 hover:text-white rounded-md px-2 py-1 cursor-pointer transition-all duration-200 ease-in-out py-2 ">
+                        className="flex flex-row items-center space-x-2 bg-gray-200 text-gray-600 hover:bg-gray-400 hover:text-white rounded-md px-2 py-1 cursor-pointer transition-all duration-200 ease-in-out">
                         <ion-icon name="arrow-undo-outline"></ion-icon>
                       </div>
                       <div
