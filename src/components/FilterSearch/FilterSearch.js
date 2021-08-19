@@ -4,7 +4,6 @@ import queryString from "query-string";
 import { useLocation, useHistory } from "react-router-dom";
 import axios from "axios";
 import PageWrapper from "../common/PageWrapper";
-import configuration from "../../store/configuration";
 import { useSelector } from "react-redux";
 
 export default function FilterSearch() {
@@ -39,7 +38,6 @@ export default function FilterSearch() {
           data: resp.data,
           error: null,
         });
-        console.log(resp.data);
       })
       .catch((error) => {
         setCourses({
@@ -51,20 +49,14 @@ export default function FilterSearch() {
   };
 
   const getNextPage = () => {
-    // if there are no more pages to navigate to.
-    if (
-      params?.p <=
-      courses?.data?.total / configuration?.search_results_per_page
-    ) {
+    let { search_results_per_page } = { ...configuration };
+
+    params?.p <= courses?.data?.total / search_results_per_page &&
       setParams({ ...params, p: parseInt(params.p) + 1 });
-    }
   };
 
   const getPreviousPage = () => {
-    // if there are no pages to go back to
-    if (params.p > 1) {
-      setParams({ ...params, p: parseInt(params.p) - 1 });
-    }
+    params.p > 1 && setParams({ ...params, p: parseInt(params.p) - 1 });
   };
 
   const handleChange = (e) => {
@@ -82,18 +74,25 @@ export default function FilterSearch() {
     history.push({
       path: "filter-search2",
       search: `?Course.CourseTitle=${
-        params["Course.CourseTitle"] || ""
+        params["Course.CourseTitle"]
       }&Course.CourseProviderName=${
-        params["Course.CourseProviderName"] || ""
+        params["Course.CourseProviderName"]
       }&CourseInstance.CourseLevel=${
-        params["CourseInstance.CourseLevel"] || ""
+        params["CourseInstance.CourseLevel"]
       }&p=${1}`,
     });
   };
 
   // on initial load of the page
   useEffect(() => {
-    callBackend();
+    let isSubscribed = true;
+    if (isSubscribed) {
+      callBackend();
+    }
+
+    return () => {
+      isSubscribed = false;
+    };
   }, [location.search]);
 
   useEffect(() => {
@@ -108,8 +107,7 @@ export default function FilterSearch() {
         params["CourseInstance.CourseLevel"] || ""
       }&p=${params.p || 1}`,
     });
-  }, [params.p]);
-
+  }, [location.search, params.p]);
 
   return (
     <PageWrapper>
@@ -145,7 +143,7 @@ export default function FilterSearch() {
               placeholder="Course Level"
               className="shadow rounded-md border px-2"
               type="text"
-              name="CourseInsance.CourseLevel"
+              name="CourseInstance.CourseLevel"
               id="CourseInstance.CourseLevel"
               value={params["CourseInstance.CourseLevel"]}
               onChange={handleChange}
@@ -192,9 +190,11 @@ export default function FilterSearch() {
       {courses.isLoading && "Loading ..."}
       {!courses.isLoading &&
         courses?.data &&
-        courses?.data.hits.map((course) => {
+        courses?.data.hits.map((course, index) => {
           return (
-            <div className="px-4 py-2 flex flex-row justify-between gap-4">
+            <div
+              className="px-4 py-2 flex flex-row justify-between gap-4"
+              key={index}>
               <div className="flex flex-col">
                 <div className="font-sans font-semibold line-clamp-1">
                   {course.Course.CourseTitle}
