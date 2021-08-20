@@ -17,25 +17,6 @@ afterEach(() => {
 });
 
 describe("CourseDetails", () => {
-  test("should render course details.", () => {
-    act(() => {
-      const testDetails = [
-        { icon: "calendar-outline", name: "test1", value: "1" },
-        { icon: "calendar-outline", name: "test2", value: "2" },
-        { icon: "calendar-outline", name: "test3", value: "3" },
-      ];
-
-      render(<CourseDetails details={testDetails} />);
-    });
-
-    screen.getByText("test1:");
-    screen.getByText("1");
-    screen.getByText("test2:");
-    screen.getByText("2");
-    screen.getByText("test3:");
-    screen.getByText("3");
-  });
-
   test("should render 2 courses in the first column, 1 in the second", () => {
     act(() => {
       const testDetails = [
@@ -44,12 +25,8 @@ describe("CourseDetails", () => {
         { icon: "calendar-outline", name: "test3", value: "3" },
       ];
 
-      render(<CourseDetails details={testDetails} />);
+      render(<CourseDetails detail={testDetails[0]} />);
     });
-
-    const parent = screen.getByTestId("details");
-
-    expect(parent.firstChild.childElementCount).toBe(2);
-    expect(parent.lastChild.childElementCount).toBe(1);
+    screen.getByText('test1')
   });
 });

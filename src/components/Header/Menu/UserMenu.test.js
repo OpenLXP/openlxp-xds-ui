@@ -44,7 +44,7 @@ describe("<UserMenu />", () => {
               url: "/searchinterestlists",
               icon: "",
               func: () => {
-                history.push("/searchinterestlists");
+                // history.push("/searchinterestlists");
               },
             },
             {
@@ -52,7 +52,7 @@ describe("<UserMenu />", () => {
               url: "/",
               icon: "",
               func: () => {
-                history.push("/manageinterestlists");
+                // history.push("/manageinterestlists");
               },
             },
             {
@@ -60,7 +60,7 @@ describe("<UserMenu />", () => {
               url: "/",
               icon: "",
               func: () => {
-                history.push("/filter-search");
+                // history.push("/filter-search");
               },
             },
             { title: "Favorites", url: "/", icon: "" },

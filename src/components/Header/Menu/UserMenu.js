@@ -5,14 +5,13 @@ const UserMenu = (props) => {
   const menuItems = props.menuItems || [];
   const menuButtons = menuItems.map((item, index) => {
     return (
-      <Menu.Item>
+      <Menu.Item key={index}>
         {({ active }) => (
           <div
             onClick={item.func}
             className={`${
               active ? "bg-base-blue text-white" : "bg-white text-gray-900"
-            } w-full pl-2 py-2 rounded-md cursor-pointer`}
-          >
+            } w-full pl-2 py-2 rounded-md cursor-pointer`}>
             {item?.title}
           </div>
         )}

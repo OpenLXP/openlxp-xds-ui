@@ -67,8 +67,7 @@ describe('<ExperienceCard />', () => {
             , container);
         })
 
-        expect(screen.getByText("Missing Course Title")).toBeInTheDocument();
-        expect(screen.getAllByText("N/A").length).toEqual(2);
+        expect(screen.getAllByText("N/A").length).toEqual(3);
     });
 
     it("should display: Error when courseObj prop isn't passed", () => {

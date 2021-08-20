@@ -33,17 +33,17 @@ describe("CourseImage", () => {
     act(() => {
       const img = "testImg";
 
-      render(<CourseImage img={img} />);
+      render(<CourseImage image={img} />);
     });
 
     expect(screen.getByAltText("Course")).toBeInTheDocument();
   });
 
-  test("should render course image", () => {
+  test("should render place holder image", () => {
     act(() => {
       const img = null;
 
-      render(<CourseImage img={img} />);
+      render(<CourseImage image={img} />);
     });
 
     expect(screen.getByTestId("image")).toBeInTheDocument();
