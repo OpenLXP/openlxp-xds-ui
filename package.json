@@ -45,7 +45,8 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "craco eject"
+    "eject": "craco eject",
+    "coverage":"craco test --coverage --watchAll=false --noStackTrace --silent --verbose"
   },
   "eslintConfig": {
     "extends": [
