@@ -126,10 +126,10 @@ export default function SearchInterestLists() {
       </div>
 
       <div className="space-y-6 pb-10">
-        {interestLists[page]?.map((list) => {
+        {interestLists[page]?.map((list,index) => {
           if (!subscribedLists.find((slist) => slist.id === list.id)) {
             return (
-              <InterestList
+              <InterestList key={index}
                 title={list.name}
                 owner={list.owner}
                 desc={list.desc}
