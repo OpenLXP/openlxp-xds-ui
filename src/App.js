@@ -17,6 +17,8 @@ import axios from "axios";
 import SearchInterestLists from "./components/SearchInterestLists/SearchInterestLists";
 import FilterSearch from "./components/FilterSearch/FilterSearch";
 import ManageSubscriptions from "./components/ManageSubscriptions/ManageSubscriptions";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,18 +27,26 @@ function App() {
 
   let routes = (
     <Switch>
+      <Route path="/" exact component={LandingPage} />
       <Route path="/search/" component={SearchResultPage} />
+      <Route path="/course/:id" component={CourseInformation} />
       <Route path="/about" />
       <Route path="/resources" />
-      <Route path="/manageinterestlists" component={ManageInterestlists} />
-      <Route path="/managesubscriptions" component={ManageSubscriptions} />
       <Route path="/help" />
-      <Route path="/filter-search/" component={FilterSearch} />
-      <Route path="/searchinterestlists/" component={SearchInterestLists} />
-      <Route path="/signIn" component={SignIn} />
-      <Route path="/course/:id" component={CourseInformation} />
-      <Route path="/" exact component={LandingPage} />
-      <Route path="/signup" component={SignUp} />
+      {!user && <Route path="/signIn2" component={Login} />}
+      {!user && <Route path="/signIn" component={SignIn} />}
+      {!user && <Route path="/signup" component={SignUp} />}
+      {!user && <Route path="/register" component={Register} />}
+      {user && (
+        <Route path="/manageinterestlists" component={ManageInterestlists} />
+      )}
+      {user && (
+        <Route path="/managesubscriptions" component={ManageSubscriptions} />
+      )}
+      {user && <Route path="/filter-search/" component={FilterSearch} />}
+      {user && (
+        <Route path="/searchinterestlists/" component={SearchInterestLists} />
+      )}
       <Redirect to="/" />
     </Switch>
   );
