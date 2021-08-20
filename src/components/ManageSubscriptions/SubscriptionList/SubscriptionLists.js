@@ -27,7 +27,6 @@ export default function SubscriptionList({ list, token }) {
       });
   };
 
- 
   return (
     <Disclosure>
       {({ open }) => (
@@ -42,7 +41,7 @@ export default function SubscriptionList({ list, token }) {
             <Disclosure.Panel className={`justify-between px-2 items-center`}>
               <div
                 className="px-2 max-w-max bg-red-100 text-red-700 rounded-md hover:bg-red-700 hover:text-white cursor-pointer transition-color duration-150 ease-in-out"
-                onClick={handleUnsubscribe}>
+                onClick={() => handleUnsubscribe()}>
                 Unsubscribe
               </div>
 
@@ -68,7 +67,7 @@ export default function SubscriptionList({ list, token }) {
                   </div>
                 </div>
               </div>
-              <div className='border rounded-md my-4'>
+              <div className="border rounded-md my-4">
                 <SubscriptionListTable token={token} id={id} />
               </div>
             </Disclosure.Panel>

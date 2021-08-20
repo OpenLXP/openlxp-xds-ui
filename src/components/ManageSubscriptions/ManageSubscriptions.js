@@ -25,8 +25,9 @@ export default function ManageSubscriptions() {
     } else {
       history.push("/signin");
     }
-  }, [user]);
-
+  }, [user] );
+  
+  
   return (
     <PageWrapper className={"my-5 bg-body-gray"}>
       <h2 className="text-3xl">Subscribed Lists</h2>
