@@ -49,42 +49,49 @@ const CourseInformation = () => {
   });
 
   useEffect(() => {
-    axios
-      .get(process.env.REACT_APP_ADD_COURSE_TO_LISTS + id)
-      .then((resp) => {
-        setCourseInfo({
-          data: resp.data,
-          isLoading: false,
-          error: null,
-        });
-      })
-      .catch((err) => {
-        setCourseInfo({
-          data: null,
-          isLoading: false,
-          error: err,
-        });
-      });
-
-    if (!courseInfo.error) {
-      // Making call to back end for related courses
+    let isSubscribed = true;
+    if (isSubscribed) {
       axios
-        .get(process.env.REACT_APP_ES_MLT_API + id)
+        .get(process.env.REACT_APP_ADD_COURSE_TO_LISTS + id)
         .then((resp) => {
-          setRelatedCourses({
+          setCourseInfo({
             data: resp.data,
             isLoading: false,
             error: null,
           });
         })
         .catch((err) => {
-          setRelatedCourses({
+          setCourseInfo({
             data: null,
             isLoading: false,
             error: err,
           });
         });
+
+      if (!courseInfo.error) {
+        // Making call to back end for related courses
+        axios
+          .get(process.env.REACT_APP_ES_MLT_API + id)
+          .then((resp) => {
+            setRelatedCourses({
+              data: resp.data,
+              isLoading: false,
+              error: null,
+            });
+          })
+          .catch((err) => {
+            setRelatedCourses({
+              data: null,
+              isLoading: false,
+              error: err,
+            });
+          });
+      }
     }
+
+    return () => {
+      isSubscribed = false;
+    };
   }, [id, courseInfo.error]);
 
   const getCourseDataMapping = (strKey, data) => {
