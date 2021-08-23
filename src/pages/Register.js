@@ -33,7 +33,7 @@ export default function Register() {
   const handleRegister = () => {
     dispatch(registerNewUser(register));
 
-    if (!error && status !== "idle") {
+    if (!error && status !== "idle" && user) {
       history.push("/");
     }
   };

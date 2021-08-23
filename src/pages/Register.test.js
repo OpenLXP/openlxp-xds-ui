@@ -1,184 +1,107 @@
 import { render, act, screen, fireEvent } from "@testing-library/react";
 import { StaticRouter, MemoryRouter, Switch, Route } from "react-router-dom";
+import { unmountComponentAtNode } from "react-dom";
+import { createMemoryHistory } from "history";
 import { Provider } from "react-redux";
 import * as redux from "react-redux";
 import axios from "axios";
 
+import Register from "./Register";
+
 import store from "../store/store";
 
-import SignUp from "./Register";
-import SignIn from "./Login";
-import LandingPage from "./Home";
+const component = (
+  <div>
+    <Provider store={store}>
+      <MemoryRouter initialEntries={['/signup']}>
+        <Register />
+      </MemoryRouter>
+    </Provider>
+  </div>
+);
+let state = { user: null, status: "idle", error: null };
 
+//MOCKS
 const useSelectorMock = jest.spyOn(redux, "useSelector");
 jest.mock("axios");
 
-let container = null;
+// tools to test with
+let { getByText, getByPlaceholderText, queryByText } = screen;
 
+let container = null;
 beforeEach(() => {
-  container = (
-    <div>
-      <Provider store={store}>
-        <MemoryRouter initialEntries={["/signup"]}>
-          <Switch>
-            <Route Route path="/signup" component={SignUp} />
-            <Route Route path="/signin" component={SignIn} />
-            <Route path="/" component={LandingPage} />
-          </Switch>
-        </MemoryRouter>
-      </Provider>
-    </div>
-  );
+  container = document.createElement("div");
+  document.body.appendChild(container);
 });
 
 afterEach(() => {
+  unmountComponentAtNode(container);
+  container.remove();
   container = null;
 });
 
-describe("SignUp", () => {
-  test("Should render email label", async () => {
-    await act(async () => {
-      let state = { user: null };
+describe("Register.js", () => {
+  it("renders correct elements", () => {
+    act(() => {
       useSelectorMock.mockReturnValue(state);
-      render(container);
+      render(component, container);
     });
 
-    screen.getByText("Email");
+    getByText("Sign up for your account");
+    getByText("Already have an accout?");
+    getByText("Sign in");
+    getByText("Email");
+    getByPlaceholderText("Email");
+    getByText("Password");
+    getByPlaceholderText("First Name");
+    getByText("Last Name");
+    getByPlaceholderText("Last Name");
+    getByText("Password");
+    getByPlaceholderText("Password");
+    getByText("Create Account");
   });
-
-  test("Should render First name label", async () => {
-    await act(async () => {
-      let state = { user: null };
+  it("creates a new axios call on create account", async () => {
+    act(() => {
       useSelectorMock.mockReturnValue(state);
-      render(container);
+      render(component, container);
     });
-
-    screen.getByText("First Name");
-  });
-
-  test("Should render Last name label", async () => {
-    await act(async () => {
-      let state = { user: null };
-      useSelectorMock.mockReturnValue(state);
-      render(container);
-    });
-
-    screen.getByText("Last Name");
-  });
-
-  test("Should render password label", async () => {
-    await act(async () => {
-      let state = { user: null };
-      useSelectorMock.mockReturnValue(state);
-      render(container);
-    });
-
-    screen.getByText("Password");
-  });
-
-  test("Should render Sign in button", async () => {
-    await act(async () => {
-      let state = { user: null };
-      useSelectorMock.mockReturnValue(state);
-      render(container);
-    });
-
-    screen.getByText("Sign in");
-  });
-
-  test("Should render create account button", async () => {
-    await act(async () => {
-      let state = { user: null };
-      useSelectorMock.mockReturnValue(state);
-      render(container);
-    });
-    screen.getByText("Create Account");
-  });
-
-  test("Should create user", async () => {
-    await act(async () => {
-      let state = { user: null };
-      useSelectorMock.mockReturnValue(state);
-
-      axios.get.mockResolvedValueOnce({
-        user: {
-          email: "test@test.com",
-          first_name: "test",
-          last_name: "test",
-          token: "tokeneything",
-        },
-      });
-
-      render(container);
-    });
-
-    await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText("Email"), {
+    act(() => {
+      fireEvent.change(getByPlaceholderText("Email"), {
         target: { value: "test@test.com" },
       });
-      fireEvent.change(screen.getByPlaceholderText("Password"), {
-        target: { value: "test" },
+      fireEvent.change(getByPlaceholderText("Password"), {
+        target: { value: "Password" },
       });
-      const state = {
-        user: {
-          email: "test@test.com",
-          first_name: "test",
-          last_name: "test",
-          token: "tokeneything",
-        },
+    });
+    await act(async () => {
+      let localState = {
+        user: { email: "test@test.com" },
+        status: "succeeded",
+        error: null,
       };
-      useSelectorMock.mockReturnValue(state);
-      fireEvent.click(screen.getByText("Create Account"));
+      useSelectorMock.mockReturnValue(localState);
+      axios.post.mockImplementation(() =>
+        Promise.resolve({ data: { user: { email: "test@test.com" } } })
+      );
+      fireEvent.click(getByText("Create Account"));
     });
 
-    screen.getByText("Enterprise Course Catalog*");
-  });
+    expect(axios.post).toHaveBeenCalledTimes(1);
+    expect(!queryByText("Create Account")).toBe(false);
+  } );
+  
+  it("triggers path change", () => {
+    const history = createMemoryHistory();
 
-  test("Should create user on enter", async () => {
-    await act(async () => {
-      let state = { user: null };
+    act(() => {
       useSelectorMock.mockReturnValue(state);
-      render(container);
+      render(component, container);
     });
 
     act(() => {
-      fireEvent.keyPress(screen.getByPlaceholderText("Password"), {
-        key: "Enter",
-        charCode: 13,
-      });
+      fireEvent.click(getByText("Sign in"));
     });
-
-    // expect(screen.getAllByText("This field is required").length).toBe(2);
-  });
-
-  test("Should navigate user to signin page", async () => {
-    await act(async () => {
-      let state = { user: null };
-      useSelectorMock.mockReturnValue(state);
-      render(container);
-    });
-
-    act(() => {
-      fireEvent.click(screen.getByText("Sign in"));
-    });
-
-    screen.getByText("Sign in to your account");
-  });
-  test("Should show error for password being less than 8 chars", async () => {
-    await act(async () => {
-      let state = { user: null };
-      axios.get.mockImplementationOnce(() => Promise.reject({ data: null }));
-      useSelectorMock.mockReturnValue(state);
-      render(container);
-    });
-
-    fireEvent.change(screen.getByPlaceholderText("Password"), {
-      target: { value: "test" },
-    });
-    fireEvent.click(screen.getByText("Create Account"));
-
-    screen.getByText("Enterprise Course Catalog*", {
-      exact: false,
-    });
+    expect(history.length).toBe(1);
+    expect(history.location.pathname).toBe("/");
   });
 });
