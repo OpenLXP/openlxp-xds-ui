@@ -36,7 +36,7 @@ function App() {
       <Route path="/help"/>
       <Route path="/course/:id" component={Course}/>
       {!user && <Route path="/signIn" component={Login}/>}
-      {!user && <Route path="/signup" component={Register}/>}
+      {!user && <Route path="/signUp" component={Register}/>}
       {user && <Route path="/filter-search" component={FilterSearch}/>}
       {user && (
         <Route path="/manageinterestlists" component={ManageInterestLists}/>

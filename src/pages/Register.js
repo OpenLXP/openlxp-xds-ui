@@ -39,7 +39,7 @@ export default function Register() {
   };
   return (
     <PageWrapper>
-      <div className="flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-center items-center my-8">
         <Title title="Sign up for your account" />
         <span className="text-sm select-none">
           Already have an accout?&nbsp;
