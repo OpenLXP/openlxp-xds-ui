@@ -5,7 +5,7 @@ import PageWrapper from "../common/PageWrapper";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
-import SearchInput from "../common/inputs/SearchInput";
+import { SearchField } from "../common/input/inputs";
 import InterestList from "./InterestList/InterestList";
 
 export default function SearchInterestLists() {
@@ -94,14 +94,15 @@ export default function SearchInterestLists() {
 
   return (
     <PageWrapper>
-      <div className='pt-10'>
-        <SearchInput
-          queryValue={search}
-          placeholder={"Search for interest lists"}
-          handleChange={(event) => {
+      <div className="pt-10">
+        <SearchField
+          placeholder="Search for interest lists"
+          onChange={(event) => {
             setSearch(event.target.value);
           }}
+          value={search}
         />
+      
       </div>
       <div className="flex flex-row justify-end gap-4 my-2 pb-2">
         <div
@@ -126,10 +127,11 @@ export default function SearchInterestLists() {
       </div>
 
       <div className="space-y-6 pb-10">
-        {interestLists[page]?.map((list,index) => {
+        {interestLists[page]?.map((list, index) => {
           if (!subscribedLists.find((slist) => slist.id === list.id)) {
             return (
-              <InterestList key={index}
+              <InterestList
+                key={index}
                 title={list.name}
                 owner={list.owner}
                 desc={list.desc}
