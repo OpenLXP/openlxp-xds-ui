@@ -1,15 +1,15 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import PageWrapper from "../components/common/PageWrapper";
-import SearchInput from "../components/common/inputs/SearchInput";
-import Button from "../components/common/inputs/Button";
+import { Button } from "../components/common/button/buttons";
 import SpotlightCourses from "../components/SpotlightCourses/SpotlightCourses";
-import {useHistory} from "react-router-dom";
-import { Title, Section, Link, ErrorText } from "../components/common/text/text";
+import { useHistory } from "react-router-dom";
+import { Title } from "../components/common/text/text";
+import { SearchField } from "../components/common/input/inputs";
 
 export default function Home() {
   // state to keep track of typed input in search bar
 
-  const history = useHistory()
+  const history = useHistory();
   const landingHeader = "Enterprise Course Catalog*";
   const landingSubHeader =
     "This catalog lets you search for all DoD " +
@@ -46,18 +46,17 @@ export default function Home() {
           <Title title={landingHeader} />
           <h5 className="px-36 mt-4 font-semibold">{landingSubHeader}</h5>
         </div>
-        <div
-          className="flex flex-col my-12 items-center w-96 mx-auto space-y-8">
-          <SearchInput
+        <div className="flex flex-col my-12 items-center w-96 mx-auto space-y-8">
+          <SearchField
             placeholder="Search for anything"
-            handleEnter={handleEnterKey}
-            handleSearch={handleSubmit}
-            handleChange={handleChange}
+            onKeyPress={handleEnterKey}
+            onClick={handleSubmit}
+            onChange={handleChange}
           />
-          <Button onClick={handleSubmit} title="Search" className="w-32"/>
+          <Button onClick={handleSubmit} fontWeight='thin'>Search</Button>
         </div>
       </div>
-      <SpotlightCourses/>
+      <SpotlightCourses />
     </PageWrapper>
   );
 }
