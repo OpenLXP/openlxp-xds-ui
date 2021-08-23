@@ -52,7 +52,7 @@ const CourseInformation = () => {
     let isSubscribed = true;
     if (isSubscribed) {
       axios
-        .get(process.env.REACT_APP_ADD_COURSE_TO_LISTS + id)
+        .get(process.env.REACT_APP_EXPERIENCES + id)
         .then((resp) => {
           setCourseInfo({
             data: resp.data,
@@ -169,7 +169,6 @@ const CourseInformation = () => {
               }
             />
             <CourseButton url={courseDetails.url} />
-            {console.log(courseDetails)}
             {user && <InterestGroupPopup courseId={id} />}
           </div>
           <h3 className="text-left text-lg font-semibold mb-1">
