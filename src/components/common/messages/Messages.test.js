@@ -1,13 +1,37 @@
-import { render, act, screen, fireEvent } from "@testing-library/react";
 import { unmountComponentAtNode } from "react-dom";
+import { act, render, screen, fireEvent } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
-import ErrorMessage from "./ErrorMessage";
+import { Loading, Error } from "./messages";
 
-describe("ErrorMessage", () => {
-  test("does render", () => {
+// tools to test with
+let { getByText, getByPlaceholderText } = screen;
+
+let container = null;
+beforeEach(() => {
+  container = document.createElement("div");
+  document.body.appendChild(container);
+});
+
+afterEach(() => {
+  unmountComponentAtNode(container);
+  container.remove();
+  container = null;
+});
+
+describe("Loading.js", () => {
+  it("renders the correct message", () => {
     act(() => {
-      render(<ErrorMessage error="Test Error" />);
+      render(<Loading />, container);
     });
-    screen.getByText("Test Error");
+    getByText("Loading...");
+  });
+});
+describe("Error.js", () => {
+  it("renders the correct message", () => {
+    act(() => {
+      render(<Error>Test Error</Error>, container);
+    });
+    getByText("Test Error");
   });
 });
