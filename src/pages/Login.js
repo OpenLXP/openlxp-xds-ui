@@ -2,24 +2,20 @@
  * Login to an account
  */
 
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { useState } from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useHistory} from "react-router-dom";
+import {useState} from "react";
 
 import PageWrapper from "../components/common/PageWrapper";
-import { ErrorMessage, Header, Link } from "../components/common/text/Text";
-import { Button } from "../components/common/button/Buttons";
-import { InputField } from "../components/common/input/Input";
+import {ErrorMessage, Title, Link} from "src/components/common/text/text";
+import {Button} from "../components/common/button/Buttons";
+import {InputField} from "../components/common/input/Inputs";
+import {loginUser} from "../store/user";
 
-import DefaultInput from "../components/common/inputs/DefaultInput";
-import { loginUser } from "../store/user";
 export default function Login({}) {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { user, status, error } = useSelector((state) => {
-    console.log(state);
-    return state.user;
-  });
+  const { user, status, error } = useSelector((state) => state.user)
 
   const [login, setLogin] = useState({
     username: "",
@@ -50,14 +46,14 @@ export default function Login({}) {
   return (
     <PageWrapper>
       <div className="flex flex-col justify-center items-center">
-        <Header title="Sign in to your account" />
-        <span className="mb-4">
+        <Title title="Sign in to your account"/>
+        <span className="text-sm select-none">
           or&nbsp;
           <Link onClick={handleSignUp}>Create an account</Link>
         </span>
       </div>
 
-      <div className="mx-auto bg-white w-80 rounded-md py-8 px-4 mb-10">
+      <div className="mx-auto bg-white w-80 rounded-md py-8 px-4 my-10">
         <div className="space-y-6 text-left">
           <div className="flex flex-col">
             <label htmlFor="username">Username</label>
