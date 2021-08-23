@@ -76,7 +76,7 @@ export default function Login({}) {
           <Link onClick={handleForgotPassword} size="xs">
             Forgot Password?
           </Link>
-          {error && <ErrorMessage>{error}</ErrorMessage>}
+          {error && <ErrorText>{error}</ErrorText>}
           <Button size="sm" onClick={handleLogin}>
             Login
           </Button>
