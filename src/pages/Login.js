@@ -2,19 +2,20 @@
  * Login to an account
  */
 
-import {useDispatch, useSelector} from "react-redux";
-import {useHistory} from "react-router-dom";
-import {useState} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { useState } from "react";
 
 import PageWrapper from "../components/common/PageWrapper";
-import {ErrorText, Title, Link} from "../components/common/text/text";
-import {InputField} from "../components/common/input/inputs";
-import {loginUser} from "../store/user";
+import { ErrorText, Title, Link } from "../components/common/text/text";
+import { InputField } from "../components/common/input/inputs";
+import { loginUser } from "../store/user";
+import { Button } from "../components/common/button/buttons";
 
 export default function Login() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { user, status, error } = useSelector((state) => state.user)
+  const { user, status, error } = useSelector((state) => state.user);
 
   const [login, setLogin] = useState({
     username: "",
@@ -24,13 +25,13 @@ export default function Login() {
   const handleLogin = () => {
     // validate credentials
     dispatch(loginUser(login));
-    if (!error && status !== "idle") {
+    if (!error && status !== "idle" && user) {
       history.push("/");
     }
   };
 
   const handleSignUp = () => {
-    history.push("/signUp");
+    history.push("/signup");
   };
 
   const handleChange = (e) => {
@@ -45,7 +46,7 @@ export default function Login() {
   return (
     <PageWrapper>
       <div className="flex flex-col justify-center items-center my-8">
-        <Title title="Sign in to your account"/>
+        <Title title="Sign in to your account" />
         <span className="text-sm select-none">
           or&nbsp;
           <Link onClick={handleSignUp}>Create an account</Link>
