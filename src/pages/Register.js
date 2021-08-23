@@ -85,7 +85,7 @@ export default function Register() {
               type="password"
             />
           </div>
-          {error && <ErrorMessage>{error}</ErrorMessage>}
+          {error && <ErrorText>{error}</ErrorText>}
           <Button onClick={handleRegister}>
             {status === "loading" ? "Creating..." : "Create Account"}
           </Button>
