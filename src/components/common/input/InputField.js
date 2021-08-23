@@ -1,7 +1,7 @@
 export default function InputField({ type, name, placeholder, onChange, id }) {
   return (
     <input
-      id={id || name}
+      id={id}
       type={type}
       name={name}
       placeholder={placeholder}

@@ -1,4 +1,5 @@
 import InputField from "./InputField";
 import SearchField from "./SearchField";
+import Dropdown from "./Dropdown";
 
-export { InputField, SearchField };
+export { InputField, SearchField, Dropdown };
