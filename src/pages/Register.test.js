@@ -95,58 +95,6 @@ describe("SignUp", () => {
     screen.getByText("Create Account");
   });
 
-  test("Should render error for username", async () => {
-    await act(async () => {
-      let state = { user: null };
-      axios.get.mockImplementationOnce(() =>
-        Promise.reject({ data: null })
-      );
-      useSelectorMock.mockReturnValue(state);
-      render(container);
-      fireEvent.click(screen.getByText("Create Account"), {});
-    });
-
-    // expect(screen.getAllByText("This field is required").length).toBe(2);
-    await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText("Email"), {
-        target: { value: "test" },
-      });
-    });
-
-    await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText("Email"), {
-        target: { value: "test@test.com" },
-      });
-
-      fireEvent.click(screen.getByText("Create Account"));
-    });
-
-    screen.getByText("Email must be an email address.");
-    // expect(screen.getAllByText("This field is required").length).toBe(1);
-  });
-
-  test("Should render error for password", async () => {
-    await act(async () => {
-      let state = { user: null };
-      axios.get.mockImplementationOnce(() =>
-        Promise.reject({ data: null })
-      );
-      useSelectorMock.mockReturnValue(state);
-      render(container);
-    });
-
-    await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText("Password"), {
-        target: { value: "" },
-      });
-
-      fireEvent.click(screen.getByText("Create Account"));
-    });
-    // screen.getByText('This field is required.')
-
-    // expect(screen.getAllByText("This field is required").length).toBe(2);
-  });
-
   test("Should create user", async () => {
     await act(async () => {
       let state = { user: null };
@@ -219,9 +167,7 @@ describe("SignUp", () => {
   test("Should show error for password being less than 8 chars", async () => {
     await act(async () => {
       let state = { user: null };
-      axios.get.mockImplementationOnce(() =>
-        Promise.reject({ data: null })
-      );
+      axios.get.mockImplementationOnce(() => Promise.reject({ data: null }));
       useSelectorMock.mockReturnValue(state);
       render(container);
     });
@@ -235,4 +181,4 @@ describe("SignUp", () => {
       exact: false,
     });
   });
-})
+});
