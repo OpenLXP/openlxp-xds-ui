@@ -93,7 +93,6 @@ export default function Course() {
     axios
       .get(process.env.REACT_APP_EXPERIENCES + id)
       .then((response) => {
-        console.log("Course Data", response);
         setCourse({
           data: response.data,
           isLoading: false,
@@ -101,7 +100,6 @@ export default function Course() {
         });
       })
       .catch((error) => {
-        console.log(error);
         setCourse({
           data: null,
           isLoading: false,
