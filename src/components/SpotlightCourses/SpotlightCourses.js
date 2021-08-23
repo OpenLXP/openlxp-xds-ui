@@ -62,7 +62,7 @@ const SpotlightCourses = () => {
   }
 
   return (
-    <div className="border-t-2 pt-10 pb-2">
+    <div className="pt-10 pb-2">
       <h2 className="font-semibold text-center">Spotlight</h2>
       <div className="row card-section">{cardSection}</div>
     </div>

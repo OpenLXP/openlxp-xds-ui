@@ -1,11 +1,14 @@
-import React, { useState } from "react";
-import PageWrapper from "../common/PageWrapper";
-import SearchInput from "../common/inputs/SearchInput";
-import Button from "../common/inputs/Button";
-import SpotlightCourses from "../SpotlightCourses/SpotlightCourses";
+import React, {useState} from "react";
+import PageWrapper from "../components/common/PageWrapper";
+import SearchInput from "../components/common/inputs/SearchInput";
+import Button from "../components/common/inputs/Button";
+import SpotlightCourses from "../components/SpotlightCourses/SpotlightCourses";
+import {useHistory} from "react-router-dom";
 
 export default function Home() {
   // state to keep track of typed input in search bar
+
+  const history = useHistory()
   const landingHeader = "Enterprise Course Catalog*";
   const landingSubHeader =
     "This catalog lets you search for all DoD " +
@@ -37,20 +40,23 @@ export default function Home() {
 
   return (
     <PageWrapper>
-      <div className="text-center pt-10">
-        <h2 className="font-semibold text-2xl">{landingHeader}</h2>
-        <h5 className="px-36 mt-4 font-semibold">{landingSubHeader}</h5>
+      <div className="bg-white rounded-md py-8">
+        <div className="text-center pt-10">
+          <h2 className="font-semibold text-2xl">{landingHeader}</h2>
+          <h5 className="px-36 mt-4 font-semibold">{landingSubHeader}</h5>
+        </div>
+        <div
+          className="flex flex-col my-12 items-center w-96 mx-auto space-y-8">
+          <SearchInput
+            placeholder="Search for anything"
+            handleEnter={handleEnterKey}
+            handleSearch={handleSubmit}
+            handleChange={handleChange}
+          />
+          <Button onClick={handleSubmit} title="Search" className="w-32"/>
+        </div>
       </div>
-      <div className="flex flex-col my-12 items-center w-96 mx-auto space-y-8">
-        <SearchInput
-          placeholder="Search for anything"
-          handleEnter={handleEnterKey}
-          handleSearch={handleSubmit}
-          handleChange={handleChange}
-        />
-        <Button onClick={handleSubmit} title="Search" className="w-32" />
-      </div>
-      <SpotlightCourses />
+      <SpotlightCourses/>
     </PageWrapper>
   );
 }
