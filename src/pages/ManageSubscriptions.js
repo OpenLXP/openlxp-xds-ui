@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import {Error, Loading} from "../components/common/messages/messages";
-import {Title} from "../components/common/text/text";
+import { Error, Loading } from "../components/common/messages/messages";
+import { Title } from "../components/common/text/text";
 import { getSubscribedLists } from "../store/lists";
 
 import PageWrapper from "../components/common/PageWrapper";
@@ -20,21 +20,22 @@ const ManageSubscriptions = () => {
     } else {
       history.push("/signin");
     }
-  }, [user] );
-  
-  
+  }, [user]);
+
   return (
     <PageWrapper className={"my-5 bg-body-gray"}>
-      <Title title={"Subscribed"} />
+      <Title title={"Subscribed Lists"} />
       <div className="my-2 rounded-md bg-white flex flex-col gap-4 p-4">
-        {status === "succeeded" && subs?.map((list) => {
-          return (
-            <SubscriptionList list={list} token={user.token} key={list.id} />
-          );
-        })}
-        {status === "loading" && <Loading/>}
-        {status === "rejected" &&
-        <Error error={"Contact a system administrator."}/>}
+        {status === "succeeded" &&
+          subs?.map((list) => {
+            return (
+              <SubscriptionList list={list} token={user.token} key={list.id} />
+            );
+          })}
+        {status === "loading" && <Loading />}
+        {status === "rejected" && (
+          <Error error={"Contact a system administrator."} />
+        )}
       </div>
     </PageWrapper>
   );
