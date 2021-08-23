@@ -3,6 +3,7 @@ import { useLocation, Link, useHistory } from "react-router-dom";
 import queryString from "query-string";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { SearchField, Dropdown } from "../common/input/inputs";
 
 import Loader from "react-loader-spinner";
 import FilterGroup from "./FilterGroup/FilterGroup";
@@ -10,8 +11,6 @@ import ExpPreviewPanel from "./ExpPreviewPanel/ExpPreviewPanel";
 import Pagination from "../Pagination/Pagination";
 import Select from "react-select";
 
-import SearchInput from "../common/inputs/SearchInput";
-import Dropdown from "../common/inputs/Dropdown";
 import PageWrapper from "../common/PageWrapper";
 
 // import dummyJSON from '../../resources/dummy.json';
@@ -377,7 +376,7 @@ const SearchResultPage = (props) => {
       <div className="font-semibold text-xl pb-2">{numResultsContent}</div>
       <div className="grid grid-cols-5 space-x-2">
         <div className="col-span-1 ">
-          <div className='bg-white rounded-md'>
+          <div className="bg-white rounded-md">
             {aggregations.map((group, idx) => {
               return (
                 <FilterGroup
@@ -392,15 +391,14 @@ const SearchResultPage = (props) => {
         </div>
         <div className="col-span-4 bg-white rounded-md px-1">
           <div className="w-96 mx-auto mt-4 space-y-2 mb-9">
-            <SearchInput
-              className="shadow-none"
-              queryValue={searchInputState.input}
-              handleEnter={handleEnterKey}
-              handleSearch={handleSubmit}
-              handleChange={(event) =>
-                setSearchInputState({ input: event.target.value })
-              }
+            <SearchField
               placeholder="Search for anything"
+              onKeyPress={handleEnterKey}
+              onClick={handleSubmit}
+              onChange={(event) => {
+                setSearchInputState({ input: event.target.value });
+              }}
+              value={searchInputState.input}
             />
             {filterDataDropdown}
           </div>
