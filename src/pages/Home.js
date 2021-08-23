@@ -4,6 +4,7 @@ import SearchInput from "../components/common/inputs/SearchInput";
 import Button from "../components/common/inputs/Button";
 import SpotlightCourses from "../components/SpotlightCourses/SpotlightCourses";
 import {useHistory} from "react-router-dom";
+import { Title, Section, Link, ErrorText } from "../components/common/text/text";
 
 export default function Home() {
   // state to keep track of typed input in search bar
@@ -42,7 +43,7 @@ export default function Home() {
     <PageWrapper>
       <div className="bg-white rounded-md py-8">
         <div className="text-center pt-10">
-          <h2 className="font-semibold text-2xl">{landingHeader}</h2>
+          <Title title={landingHeader} />
           <h5 className="px-36 mt-4 font-semibold">{landingSubHeader}</h5>
         </div>
         <div
