@@ -7,8 +7,9 @@ import axios from "axios";
 
 import store from "../../store/store";
 import Header from "./Header";
-import LandingPage from "../LandingPage/LandingPage";
+import Home from '../../pages/Home'
 import SearchResultPage from "../SearchResultsPage/SearchResultsPage";
+import SearchInterestLists from '../SearchInterestLists/SearchInterestLists'
 
 const useSelectorMock = jest.spyOn(redux, "useSelector");
 // const useDipatchMock = jest.spyOn(redux, "useDispatch");
@@ -24,7 +25,8 @@ beforeEach(() => {
         <MemoryRouter initialEntries={["/signin"]}>
           <Header />
           <Switch>
-            <Route path="/" exact component={LandingPage} />
+            <Route path="/" exact component={Home} />
+            <Route path="/searchinterestlists" exact component={SearchInterestLists} />
 
             <Route path="/search/" component={SearchResultPage} />
           </Switch>
@@ -164,5 +166,24 @@ describe("Header", () => {
     });
 
     expect(screen.getByPlaceholderText("Search").value).toBe("test");
+  });
+
+  test("does navigate to Search Interest Lists", async () => {
+    let state = { user: { email: "test@test.com" } };
+    useSelectorMock.mockReturnValue(state);
+    await act(async () => {
+      render(container);
+    });
+
+    act(() => {
+      fireEvent.click(screen.getByText("test@test.com"));
+    });
+
+    act(()=>{
+      fireEvent.click(screen.getByText('Search Interest Lists'))
+    })
+
+    screen.getByPlaceholderText("Search")
+
   });
 });

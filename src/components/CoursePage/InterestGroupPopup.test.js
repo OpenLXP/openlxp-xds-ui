@@ -4,7 +4,7 @@ import * as redux from "react-redux";
 import axios from "axios";
 
 import InterestGroupPopup from "./InterestGroupPopup";
-import store from "../store/store";
+import store from "../../store/store";
 
 const useSelectorMock = jest.spyOn(redux, "useSelector");
 jest.mock("axios");
