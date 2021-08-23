@@ -17,7 +17,7 @@ import SearchInterestLists
   from "./components/SearchInterestLists/SearchInterestLists";
 import FilterSearch from "./pages/FilterSearch";
 import ManageSubscriptions
-  from "./components/ManageSubscriptions/ManageSubscriptions";
+  from "./pages/ManageSubscriptions";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Course from "./pages/Course";

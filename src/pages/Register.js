@@ -3,9 +3,9 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { InputField } from "../components/common/input/inputs";
 import { Link, ErrorText, Title } from "../components/common/text/text";
-import { Button } from "../components/common/button/buttons";
 import PageWrapper from "../components/common/PageWrapper";
 import { registerNewUser } from "../store/user";
+import { Button } from "../components/common/button/buttons";
 
 /**
  * Register an account
