@@ -11,7 +11,6 @@ import {ErrorText, Title, Link} from "../components/common/text/text";
 import {Button} from "../components/common/button/buttons";
 import {InputField} from "../components/common/input/inputs";
 import {loginUser} from "../store/user";
-import {Button} from "../components/common/button/buttons";
 
 export default function Login() {
   const history = useHistory();
