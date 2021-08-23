@@ -2,7 +2,7 @@ const CourseDetails = ({ detail }) => {
   return (
     <div>
       <div className="flex flex-row items-center text-icon-blue gap-1">
-        <ion-icon name={detail.icon}></ion-icon>
+        <ion-icon name={detail.icon}/>
         <h2 className="font-semibold font-sans">
           {detail.name === "" ? "N/A" : detail.name}
         </h2>

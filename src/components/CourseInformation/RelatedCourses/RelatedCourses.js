@@ -1,8 +1,7 @@
 import ExperienceCard from "../../ExperienceCard/ExperienceCard";
 
-const RelatedCourses = (props) => {
+const RelatedCourses = ({ courses }) => {
   // Expects an array of courses
-  const courses = props.data;
 
   // Returns the list of related courses
   return (
