@@ -40,7 +40,7 @@ describe("RelatedCourses", () => {
       render(
         <Provider store={store}>
           <MemoryRouter>
-            <RelatedCourses data={testRelatedCourses} />
+            <RelatedCourses courses={testRelatedCourses} />
           </MemoryRouter>
         </Provider>
       );
@@ -81,7 +81,7 @@ describe("RelatedCourses", () => {
       render(
         <Provider store={store}>
           <MemoryRouter>
-            <RelatedCourses data={testRelatedCourses} />
+            <RelatedCourses courses={testRelatedCourses} />
           </MemoryRouter>
         </Provider>
       );
