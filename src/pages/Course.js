@@ -1,20 +1,20 @@
 import axios from "axios";
-import {useState, useEffect, useCallback} from "react";
-import {useSelector} from "react-redux";
-import {useParams} from "react-router-dom";
-import {ActionButton} from "../components/common/button/Buttons";
-import {Error, Loading} from "../components/common/messages/messages";
-import Section from "../components/common/text/Section";
-import {Title} from "../components/common/text/text";
-import RelatedCourses
-  from "../components/CourseInformation/RelatedCourses/RelatedCourses";
+import { useState, useEffect, useCallback } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { ActionButton } from "../components/common/button/buttons";
+import { Error, Loading } from "../components/common/messages/messages";
+import { Title, Section  } from "../components/common/text/text";
+import RelatedCourses from "../components/CourseInformation/RelatedCourses/RelatedCourses";
 import CourseDetail from "../components/CoursePage/CourseDetails";
 import CourseImage from "../components/CoursePage/CourseImage";
 import PlaceholderImage from "../components/CoursePage/PlaceholderImage";
+import InterestGroupPopup from "../components/CoursePage/InterestGroupPopup";
 import PageWrapper from "../components/common/PageWrapper";
 
 export default function Course() {
   const { configuration } = useSelector((state) => state.configuration);
+  const { user } = useSelector((state) => state.user);
   const { id } = useParams();
 
   const [course, setCourse] = useState({
@@ -25,14 +25,14 @@ export default function Course() {
   const [related, setRelated] = useState({
     isLoading: false,
     data: null,
-    error: null
-  })
+    error: null,
+  });
   const [configData, setConfigData] = useState({
     title: null,
     url: null,
     description: null,
-    details: null
-  })
+    details: null,
+  });
 
   // Functions to render data
   const getConfigurationDataFromMapping = (strKey, data) => {
@@ -52,34 +52,37 @@ export default function Course() {
     return valueToReturn;
   };
   const getConfigurationMappings = () => {
-    const courseInformation = configuration?.course_information
-    let {
-      course_title,
-      course_url,
-      course_description
-    } = { ...courseInformation }
+    const courseInformation = configuration?.course_information;
+    let { course_title, course_url, course_description } = {
+      ...courseInformation,
+    };
 
     setConfigData({
       url: getConfigurationDataFromMapping(course_url, course.data),
       title: getConfigurationDataFromMapping(course_title, course.data),
-      description: getConfigurationDataFromMapping(course_description, course.data),
-      details: configuration?.course_highlights
-    })
-  }
+      description: getConfigurationDataFromMapping(
+        course_description,
+        course.data
+      ),
+      details: configuration?.course_highlights,
+    });
+  };
   const getCourseImage = () => {
-    const technicalInformation = course.data?.Technical_Information
-    const { Thumbnail } = { ...technicalInformation }
+    const technicalInformation = course.data?.Technical_Information;
+    const { Thumbnail } = { ...technicalInformation };
 
     // if there is a thumbnail from the data
     if (Thumbnail) {
-      setConfigData({ ...configData, image: Thumbnail })
+      setConfigData({ ...configData, image: Thumbnail });
     } else if (configuration?.course_img_fallback) {
       setConfigData({
         ...configData,
-        image: process.env.REACT_APP_BACKEND_HOST + configuration?.course_img_fallback
-      })
+        image:
+          process.env.REACT_APP_BACKEND_HOST +
+          configuration?.course_img_fallback,
+      });
     }
-  }
+  };
   const getCourseData = useCallback(() => {
     setCourse({
       data: null,
@@ -105,30 +108,30 @@ export default function Course() {
           error: error,
         });
       });
-  }, [id])
+  }, [id]);
   const getRelatedCourses = () => {
     setRelated({
       isLoading: true,
       data: null,
-      error: null
-    })
+      error: null,
+    });
     axios
       .get(process.env.REACT_APP_ES_API + "more-like-this/" + id)
       .then((response) => {
         setRelated({
           isLoading: false,
           data: response.data,
-          error: null
-        })
+          error: null,
+        });
       })
       .catch((error) => {
         setRelated({
           isLoading: false,
           data: null,
-          error: error
-        })
+          error: error,
+        });
       });
-  }
+  };
 
   // Get the data
   useEffect(() => {
@@ -139,46 +142,53 @@ export default function Course() {
   useEffect(() => {
     // Gets the data mappings from the backend
     if (configuration) {
-      getConfigurationMappings()
-      getCourseImage()
+      getConfigurationMappings();
+      getCourseImage();
     }
     // if there is a course to find related for.
     if (!course.error) {
       getRelatedCourses();
     }
-  }, [course.data, course.error])
+  }, [course.data, course.error]);
 
-  return <PageWrapper className="mb-8">
-    <div className="bg-white rounded-md my-10 px-2 py-4">
-      <div className="pb-5">
-        <Title title={configData.title}/>
-      </div>
-      <div className="float-left pr-5 pt-1.5">
-        {!configData?.image && <PlaceholderImage/>}
-        {configData.image && <CourseImage/>}
-        <div className="py-2">
-          <ActionButton href={configData.url} title={"View Course"}/>
+  return (
+    <PageWrapper className="mb-8">
+      <div className="bg-white rounded-md my-10 px-2 py-4">
+        <div className="pb-5">
+          <Title title={configData.title} />
+        </div>
+        <div className="float-left pr-5 pt-1.5">
+          {!configData?.image && <PlaceholderImage />}
+          {configData.image && <CourseImage />}
+          <div className="py-2 space-y-1">
+            <ActionButton href={configData.url} title={"View Course"} />
+            {user && <InterestGroupPopup />}
+          </div>
+        </div>
+        <Section title={"Course Description"} />
+        <p className="text-sm">{configData.description}</p>
+        <div className="border-b py-2 clear-both my-2" />
+        <Section title={"Course Details"} />
+        <div className="flex flex-row flex-wrap justify-start items-baseline gap-2 mt-2">
+          {configData?.details?.map((detail) => {
+            return (
+              <CourseDetail
+                value={getConfigurationDataFromMapping(
+                  detail.field_name,
+                  course.data
+                )}
+                icon={detail.highlight_icon}
+                label={detail.display_name}
+              />
+            );
+          })}
         </div>
       </div>
-      <Section title={"Course Description"}/>
-      <p className="text-sm">
-        {configData.description}
-      </p>
-      <div className="border-b py-2 clear-both my-2"/>
-      <Section title={"Course Details"}/>
-      <div
-        className="flex flex-row flex-wrap justify-start items-baseline gap-2 mt-2">
-        {configData?.details?.map((detail) => {
-          return <CourseDetail
-            value={getConfigurationDataFromMapping(detail.field_name, course.data)}
-            icon={detail.highlight_icon}
-            label={detail.display_name}/>
-        })}
-      </div>
-    </div>
-    {related?.data && !related?.error &&
-    <RelatedCourses courses={related.data}/>}
-    {related.isLoading && <Loading/>}
-    {related.error && <Error/>}
-  </PageWrapper>;
+      {related?.data && !related?.error && (
+        <RelatedCourses courses={related.data} />
+      )}
+      {related.isLoading && <Loading />}
+      {related.error && <Error />}
+    </PageWrapper>
+  );
 }
