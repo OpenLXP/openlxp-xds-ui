@@ -1,5 +1,5 @@
 import Title from "./Title";
 import Link from "./Link";
-import ErrorMessage from "./ErrorMessage";
+import ErrorText from "./ErrorText";
 
-export { Title, Link, ErrorMessage };
+export { Title, Link, ErrorText };

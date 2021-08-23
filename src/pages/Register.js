@@ -2,11 +2,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { InputField } from "../components/common/input/Inputs";
-import {
-  Link,
-  ErrorMessage,
-  Title
-} from "../components/common/text/text";
+import { Link, ErrorText, Title } from "../components/common/text/text";
 import { Button } from "../components/common/button/Buttons";
 import PageWrapper from "../components/common/PageWrapper";
 import { registerNewUser } from "../store/user";

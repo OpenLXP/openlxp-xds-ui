@@ -7,7 +7,7 @@ import {useHistory} from "react-router-dom";
 import {useState} from "react";
 
 import PageWrapper from "../components/common/PageWrapper";
-import {ErrorMessage, Title, Link} from "../components/common/text/text";
+import {ErrorText, Title, Link} from "../components/common/text/text";
 import {Button} from "../components/common/button/Buttons";
 import {InputField} from "../components/common/input/Inputs";
 import {loginUser} from "../store/user";
