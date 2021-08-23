@@ -25,7 +25,7 @@ const SearchInput = (props) => {
         onChange={props.handleChange}
         onKeyPress={props.handleEnter}
         // type={props.type}
-        className="ml-1 pl-1 w-full focus:outline-none placeholder-gray-400 hover:shadow-sm"
+        className="ml-1 pl-1 w-full focus:outline-none placeholder-gray-400"
       />
     </div>
   );
