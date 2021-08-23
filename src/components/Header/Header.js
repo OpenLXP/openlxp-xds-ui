@@ -1,6 +1,8 @@
 import logo from "../../resources/internal/dodLogo.png";
 import { useHistory, NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { Button } from "../common/button/buttons";
+import { SearchField } from "../common/input/inputs";
 
 import { useState, useEffect } from "react";
 
@@ -8,8 +10,6 @@ import { logoutUser } from "../../store/user";
 import { removeLists } from "../../store/lists";
 import UserMenu from "./Menu/UserMenu";
 
-import SearchInput from "../common/inputs/SearchInput";
-import Button from "../common/inputs/Button";
 
 const Header = () => {
   const history = useHistory();
@@ -111,25 +111,21 @@ const Header = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col justify-right">
-          <div className="flex md:flex-row lg:flex-row flex-col md:space-x-2 lg:space-x-2 space-y-1">
-            <SearchInput
-              handleEnter={handleEnterKey}
-              handleSearch={handleSearch}
-              handleChange={handleQuery}
-              placeholder="Search"
-              queryValue={query}
-            />
-            {user ? (
-              <UserMenu username={user.email} menuItems={userMenuItems} />
-            ) : (
-              <Button
-                className="my-3 mt-0 flex-col"
-                onClick={handleSignInSignUpButton}
-                title={"Sign in"}
-              />
-            )}
-          </div>
+        <div className="flex md:flex-row gap-2">
+          <SearchField
+            placeholder="Search"
+            onKeyPress={handleEnterKey}
+            onClick={handleSearch}
+            onChange={handleQuery}
+            value={query}
+          />
+          {user ? (
+            <UserMenu username={user.email} menuItems={userMenuItems} />
+          ) : (
+            <Button onClick={handleSignInSignUpButton} fontWeight="thin">
+              Sign in
+            </Button>
+          )}
         </div>
       </div>
     </div>
