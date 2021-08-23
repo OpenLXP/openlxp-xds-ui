@@ -31,13 +31,16 @@ export default function SubscriptionList({ list, token }) {
     <Disclosure>
       {({ open }) => (
         <>
-          <div className={`${open && "shadow-md py-2 rounded"}`}>
-            <Disclosure.Button
-              className={`flex flex-row w-full justify-between items-center py-2 rounded-md px-2 ${
-                !open && "border shadow-sm hover:shadow-md"
-              }`}>
-              <div className="text-lg p-2">{name}</div>
-            </Disclosure.Button>
+          <div className={`${open ? "shadow-md" : "border"
+          } px-4 py-2 rounded-md my-4`}>
+          <Disclosure.Button className="w-full text-left flex flex-row items-center justify-between py-2 z-0">
+            <div>{name}</div>
+            {open ? (
+              <ion-icon name="chevron-up-outline" />
+            ) : (
+              <ion-icon name="chevron-down-outline" />
+            )}
+          </Disclosure.Button>
             <Disclosure.Panel className={`justify-between px-2 items-center`}>
               <div
                 className="px-2 max-w-max bg-red-100 text-red-700 rounded-md hover:bg-red-700 hover:text-white cursor-pointer transition-color duration-150 ease-in-out"
