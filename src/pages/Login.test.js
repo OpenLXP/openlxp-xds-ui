@@ -1,6 +1,7 @@
 import { unmountComponentAtNode } from "react-dom";
 import { act, render, screen, fireEvent } from "@testing-library/react";
 import { StaticRouter } from "react-router-dom";
+import { createMemoryHistory } from "history";
 import * as redux from "react-redux";
 import axios from "axios";
 import { Provider } from "react-redux";
@@ -31,7 +32,7 @@ afterEach(() => {
 });
 
 describe("Login", () => {
-  it("renders elements", () => {
+  it("renders correct elements", () => {
     act(() => {
       useSelectorMock.mockReturnValue(state);
       render(
@@ -129,5 +130,26 @@ describe("Login", () => {
 
     expect(axios.post).toHaveBeenCalledTimes(1);
     expect(!queryByText("Sign in to your account")).toBe(false);
+  });
+  it("triggers path change", () => {
+    const history = createMemoryHistory();
+
+    act(() => {
+      useSelectorMock.mockReturnValue(state);
+      render(
+        <Provider store={store}>
+          <StaticRouter>
+            <Login />
+          </StaticRouter>
+        </Provider>,
+        container
+      );
+    });
+
+    act(() => {
+      fireEvent.click(getByText("Login"));
+    });
+    expect(history.length).toBe(1);
+    expect(history.location.pathname).toBe("/");
   });
 });
