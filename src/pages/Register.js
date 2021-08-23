@@ -6,7 +6,7 @@ import {
   Link,
   ErrorMessage,
   Title
-} from "src/components/common/text/text";
+} from "../components/common/text/text";
 import { Button } from "../components/common/button/Buttons";
 import PageWrapper from "../components/common/PageWrapper";
 import { registerNewUser } from "../store/user";

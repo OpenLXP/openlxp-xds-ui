@@ -1,8 +1,8 @@
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
-import {Error, Loading} from "src/components/common/messages/messages";
-import {Title} from "src/components/common/text/text";
+import {Error, Loading} from "../components/common/messages/messages";
+import {Title} from "../components/common/text/text";
 
 import {getUserLists} from "../store/lists"
 import PageWrapper from "../components/common/PageWrapper";

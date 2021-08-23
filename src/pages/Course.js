@@ -2,15 +2,15 @@ import axios from "axios";
 import {useState, useEffect, useCallback} from "react";
 import {useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
-import {ActionButton} from "src/components/common/button/Buttons";
-import {Error, Loading} from "src/components/common/messages/messages";
-import Section from "src/components/common/text/Section";
-import {Title} from "src/components/common/text/text";
+import {ActionButton} from "../components/common/button/Buttons";
+import {Error, Loading} from "../components/common/messages/messages";
+import Section from "../components/common/text/Section";
+import {Title} from "../components/common/text/text";
 import RelatedCourses
-  from "src/components/CourseInformation/RelatedCourses/RelatedCourses";
-import CourseDetail from "src/components/CoursePage/CourseDetails";
-import CourseImage from "src/components/CoursePage/CourseImage";
-import PlaceholderImage from "src/components/CoursePage/PlaceholderImage";
+  from "../components/CourseInformation/RelatedCourses/RelatedCourses";
+import CourseDetail from "../components/CoursePage/CourseDetails";
+import CourseImage from "../components/CoursePage/CourseImage";
+import PlaceholderImage from "../components/CoursePage/PlaceholderImage";
 import PageWrapper from "../components/common/PageWrapper";
 
 export default function Course() {
