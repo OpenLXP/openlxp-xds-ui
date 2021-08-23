@@ -10,7 +10,6 @@ import PageWrapper from "../components/common/PageWrapper";
 import {ErrorText, Title, Link} from "../components/common/text/text";
 import {InputField} from "../components/common/input/inputs";
 import {loginUser} from "../store/user";
-import {Button} from "../components/common/button/buttons";
 
 export default function Login() {
   const history = useHistory();
