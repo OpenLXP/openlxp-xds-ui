@@ -31,7 +31,7 @@ export default function Login() {
   };
 
   const handleSignUp = () => {
-    history.push("/register");
+    history.push("/signUp");
   };
 
   const handleChange = (e) => {
