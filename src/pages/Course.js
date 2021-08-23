@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { ActionButton } from "../components/common/button/buttons";
 import { Error, Loading } from "../components/common/messages/messages";
-import { Title, Section  } from "../components/common/text/text";
+import { Title, Section } from "../components/common/text/text";
 import RelatedCourses from "../components/CourseInformation/RelatedCourses/RelatedCourses";
 import CourseDetail from "../components/CoursePage/CourseDetails";
 import CourseImage from "../components/CoursePage/CourseImage";
@@ -188,7 +188,7 @@ export default function Course() {
         <RelatedCourses courses={related.data} />
       )}
       {related.isLoading && <Loading />}
-      {related.error && <Error />}
+      {related.error && <Error>Contact an administrator</Error>}
     </PageWrapper>
   );
 }

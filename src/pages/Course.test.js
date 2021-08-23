@@ -116,7 +116,9 @@ describe("Course", () => {
   it("renders the an error when api fails", async () => {
     await act(async () => {
       useSelectorMock.mockReturnValue(state);
-      axios.get.mockImplementation(() => Promise.reject({ data: courseData }));
+      axios.get.mockImplementation(() =>
+        Promise.reject({ error: "Contact an administrator" })
+      );
 
       render(
         <Provider store={store}>
