@@ -12,7 +12,7 @@ import {Button} from "../components/common/button/Buttons";
 import {InputField} from "../components/common/input/Inputs";
 import {loginUser} from "../store/user";
 
-export default function Login({}) {
+export default function Login() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { user, status, error } = useSelector((state) => state.user)
@@ -45,7 +45,7 @@ export default function Login({}) {
 
   return (
     <PageWrapper>
-      <div className="flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-center items-center my-8">
         <Title title="Sign in to your account"/>
         <span className="text-sm select-none">
           or&nbsp;
