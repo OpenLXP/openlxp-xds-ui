@@ -8,7 +8,7 @@ import {useState} from "react";
 
 import PageWrapper from "../components/common/PageWrapper";
 import {ErrorText, Title, Link} from "../components/common/text/text";
-import {Button} from "../components/common/button/Buttons";
+import {Button} from "../components/common/button/buttons";
 import {InputField} from "../components/common/input/Inputs";
 import {loginUser} from "../store/user";
 
