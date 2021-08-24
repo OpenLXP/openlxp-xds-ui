@@ -6,7 +6,7 @@ import { Title } from "../components/common/text/text";
 import { getSubscribedLists } from "../store/lists";
 
 import PageWrapper from "../components/common/PageWrapper";
-import SubscriptionList from "../components/ManageSubscriptions/SubscriptionList/SubscriptionLists";
+import SubscriptionList from "../components/ManageSubscriptionsPage/SubscriptionLists";
 
 const ManageSubscriptions = () => {
   const history = useHistory();
@@ -33,7 +33,7 @@ const ManageSubscriptions = () => {
             );
           })}
         {status === "loading" && <Loading />}
-        {status === "rejected" && (
+        {status === "failed" && (
           <Error error={"Contact a system administrator."} />
         )}
       </div>

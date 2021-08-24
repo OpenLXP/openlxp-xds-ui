@@ -6,7 +6,7 @@ import { Title } from "../components/common/text/text";
 
 import { getUserLists } from "../store/lists";
 import PageWrapper from "../components/common/PageWrapper";
-import InterestList from "../components/ManageInterestLists/InterestList/InterestList";
+import InterestList from "../components/ManageInterestListsPage/InterestList";
 
 export default function ManageInterestLists() {
   const dispatch = useDispatch();
