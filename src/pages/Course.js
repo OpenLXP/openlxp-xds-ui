@@ -28,7 +28,7 @@ export default function Course() {
     error: null,
   });
   const [configData, setConfigData] = useState({
-    title: null,
+    title: "test",
     url: null,
     description: null,
     details: null,
@@ -53,43 +53,54 @@ export default function Course() {
   };
   const getConfigurationMappings = () => {
     const courseInformation = configuration?.course_information;
-    let { course_title, course_url, course_description } = {
-      ...courseInformation,
-    };
-
-    setConfigData({
-      url: getConfigurationDataFromMapping(course_url, course.data),
-      title: getConfigurationDataFromMapping(course_title, course.data),
-      description: getConfigurationDataFromMapping(
-        course_description,
-        course.data
-      ),
-      details: configuration?.course_highlights,
-    });
-  };
-  const getCourseImage = () => {
+    let { course_title, course_url, course_description } = courseInformation;
     const technicalInformation = course.data?.Technical_Information;
     const { Thumbnail } = { ...technicalInformation };
 
     // if there is a thumbnail from the data
     if (Thumbnail) {
-      setConfigData({ ...configData, image: Thumbnail });
+      setConfigData({
+        url: getConfigurationDataFromMapping(course_url, course.data),
+        title: getConfigurationDataFromMapping(course_title, course.data),
+        description: getConfigurationDataFromMapping(
+          course_description,
+          course.data
+        ),
+        details: configuration?.course_highlights,
+        image: Thumbnail
+      });
+  
     } else if (configuration?.course_img_fallback) {
       setConfigData({
-        ...configData,
+        url: getConfigurationDataFromMapping(course_url, course.data),
+        title: getConfigurationDataFromMapping(course_title, course.data),
+        description: getConfigurationDataFromMapping(
+          course_description,
+          course.data
+        ),
+        details: configuration?.course_highlights,
         image:
           process.env.REACT_APP_BACKEND_HOST +
           configuration?.course_img_fallback,
       });
+    } else{
+      setConfigData({
+        url: getConfigurationDataFromMapping(course_url, course.data),
+        title: getConfigurationDataFromMapping(course_title, course.data),
+        description: getConfigurationDataFromMapping(
+          course_description,
+          course.data
+        ),
+        details: configuration?.course_highlights,
+      });
     }
   };
-  const getCourseData = useCallback(() => {
+  const getCourseData = () => {
     setCourse({
       data: null,
       isLoading: true,
       error: null,
     });
-
     axios
       .get(process.env.REACT_APP_EXPERIENCES + id)
       .then((response) => {
@@ -106,7 +117,7 @@ export default function Course() {
           error: error,
         });
       });
-  }, [id]);
+  };
   const getRelatedCourses = () => {
     setRelated({
       isLoading: true,
@@ -134,14 +145,15 @@ export default function Course() {
   // Get the data
   useEffect(() => {
     getCourseData();
-  }, [getCourseData, id]);
+  }, [id]);
 
   // Re-render the data on data update, or error
   useEffect(() => {
     // Gets the data mappings from the backend
     if (configuration) {
+      console.log(course);
       getConfigurationMappings();
-      getCourseImage();
+      // getCourseImage();
     }
     // if there is a course to find related for.
     if (!course.error) {
@@ -149,6 +161,7 @@ export default function Course() {
     }
   }, [course.data, course.error]);
 
+  console.log("data", configData);
   return (
     <PageWrapper className="mb-8">
       <div className="bg-white rounded-md my-10 px-2 py-4">
@@ -157,7 +170,7 @@ export default function Course() {
         </div>
         <div className="float-left pr-5 pt-1.5">
           {!configData?.image && <PlaceholderImage />}
-          {configData.image && <CourseImage />}
+          {configData.image && <CourseImage image={configData.image}/>}
           <div className="py-2 space-y-1">
             <ActionButton href={configData.url} title={"View Course"} />
             {user && <InterestGroupPopup />}
