@@ -19,7 +19,6 @@ afterEach(() => {
 });
 
 describe("RelatedCourses", () => {
-  
   test("should render related course when given data", () => {
     act(() => {
       const testRelatedCourses = {
@@ -32,6 +31,9 @@ describe("RelatedCourses", () => {
             },
             Technical_Information: {
               Thumbnail: "Test",
+            },
+            meta: {
+              id: "testid",
             },
           },
         ],
@@ -64,6 +66,9 @@ describe("RelatedCourses", () => {
             Technical_Information: {
               Thumbnail: "Test",
             },
+            meta: {
+              id:'testid'
+            }
           },
           {
             Course: {
@@ -73,6 +78,9 @@ describe("RelatedCourses", () => {
             },
             Technical_Information: {
               Thumbnail: "Test",
+            },
+            meta: {
+              id: "testid",
             },
           },
         ],

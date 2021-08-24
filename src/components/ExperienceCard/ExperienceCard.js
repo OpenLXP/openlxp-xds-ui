@@ -69,7 +69,7 @@ const ExperienceCard = (props) => {
             <b>
               <Link
                 to={{
-                  pathname: "/course/" + props.courseObj.meta.id,
+                  pathname: "/course/" + props.courseObj.meta?.id,
                   state: {
                     expObj: props.courseObj,
                     imgLink: courseThumbnail,
