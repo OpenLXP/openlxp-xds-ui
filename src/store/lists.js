@@ -70,7 +70,7 @@ export const listsSlice = createSlice({
       state.error = null;
     },
     [getSubscribedLists.rejected]: (state, action) => {
-      state.status = "rejected";
+      state.status = "failed";
       state.subs = null;
       state.error = action.error.message;
     },
