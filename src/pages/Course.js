@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { ActionButton } from "../components/common/button/buttons";
 import { Error, Loading } from "../components/common/messages/messages";
 import { Title, Section } from "../components/common/text/text";
-import RelatedCourses from "../components/CourseInformation/RelatedCourses/RelatedCourses";
+import RelatedCourses from "../components/CoursePage/RelatedCourses";
 import CourseDetail from "../components/CoursePage/CourseDetails";
 import CourseImage from "../components/CoursePage/CourseImage";
 import PlaceholderImage from "../components/CoursePage/PlaceholderImage";
