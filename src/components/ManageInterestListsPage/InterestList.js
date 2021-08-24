@@ -40,7 +40,7 @@ const InterestList = (props) => {
         dispatch(getUserLists());
       })
       .catch((err) => {
-        console.log(err);
+        console.log("error");
         dispatch(getUserLists());
       });
 

@@ -346,4 +346,105 @@ describe("<InterestList />", () => {
       fireEvent.click(screen.getByText("Update"));
     });
   });
+
+  it("On reject console.logs error", async () => {
+    let state = { user: { email: "test@test.com" } };
+    const list = {
+      name: "Test list",
+      description: "Course description",
+      courses: {
+        id: "1234",
+        CourseTitle: "Title",
+        CourseProviderName: "DAU",
+      },
+      owner: {
+        email: "test@test.com",
+      },
+      modified: "01/01/2021",
+    };
+    const data = {
+      name: "test",
+      despription: "test desc",
+      experiences: [
+        {
+          Metadata_Ledger: {
+            Course: {
+              CourseURL: "www.test.com",
+              CourseCode: "1234",
+              CourseType: "Test Type",
+              CourseTitle: "Fake Title",
+              CourseProviderName: "ECC",
+              CourseShortDescription: "Fake desc",
+              EstimatedCompletionTime: 5,
+            },
+          },
+          Supplemental_Ledger: {
+            Instance: 1733998,
+          },
+          meta: {
+            id: "000e893d-5741-4c07-8dd8-2e3d9fa4b862",
+            metadata_key_hash: "7580c14f18ef647d99bbe9094e2fd35b",
+          },
+        },
+        {
+          Metadata_Ledger: {
+            Course: {
+              CourseURL: "www.test.com",
+              CourseCode: "12345",
+              CourseType: "Test Type",
+              CourseTitle: "Fake Title 2",
+              CourseProviderName: "ECC",
+              CourseShortDescription: "Fake desc",
+              EstimatedCompletionTime: 5,
+            },
+          },
+          Supplemental_Ledger: {
+            Instance: 1733998,
+          },
+          meta: {
+            id: "123test",
+            metadata_key_hash: "test123",
+          },
+        },
+      ],
+    };
+    const resp = { data: data };
+    useSelectorMock.mockReturnValue(state);
+    axios.get.mockResolvedValue(resp);
+    await act(async () => {
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <InterestList list={list} />
+          </MemoryRouter>
+        </Provider>,
+        container
+      );
+    });
+    expect(screen.getByText("Test list")).toBeInTheDocument();
+    await act(async () => {
+      fireEvent.click(screen.getByText("Test list"));
+    });
+    await act(async () => {
+      fireEvent.click(screen.getByText("Edit"));
+    });
+
+    console.log = jest.fn();
+    await act(async () => {
+      let user = {
+        email: "test@test.com",
+      };
+      const data = {
+        name: "test",
+        despription: "test desc",
+        experiences: [],
+      };
+      let state = { user: user, list: list };
+      useSelectorMock.mockReturnValue(state);
+      axios.patch.mockImplementationOnce(() => Promise.reject());
+      fireEvent.click(screen.getByText("Update"));
+    });
+
+    expect(console.log).toHaveBeenCalled();
+  });
 });
