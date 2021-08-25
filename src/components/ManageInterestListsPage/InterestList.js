@@ -70,7 +70,6 @@ const InterestList = (props) => {
     axios
       .delete(url, { headers: { Authorization: "token " + user.token } })
       .then((resp) => {
-        console.log(resp);
         dispatch(getUserLists());
       })
       .catch((err) => {
