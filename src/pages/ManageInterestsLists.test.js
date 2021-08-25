@@ -2,7 +2,13 @@ import axios from "axios";
 import * as redux from "react-redux";
 import { Provider } from "react-redux";
 import { unmountComponentAtNode } from "react-dom";
-import { act, render, screen, fireEvent } from "@testing-library/react";
+import {
+  act,
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react";
 import { MemoryRouter, Route, StaticRouter } from "react-router-dom";
 
 import store from "../store/store";
@@ -288,7 +294,7 @@ afterEach(() => {
 });
 
 describe("ManageInterestLists.js", () => {
-  it("renders the list provided", async () => {
+  it("renders the title", async () => {
     await act(async () => {
       useSelectorMock.mockReturnValue(state);
       axios.get.mockImplementation(() => Promise.resolve({ data: userLists }));
@@ -306,5 +312,146 @@ describe("ManageInterestLists.js", () => {
     });
 
     getByText("Manage Interest Lists");
+  });
+  it("renders the lists provided", async () => {
+    await act(async () => {
+      useSelectorMock.mockReturnValueOnce({ user: { token: 1234 } });
+      useSelectorMock.mockReturnValueOnce({
+        lists: [
+          {
+            id: 1,
+            owner: {
+              id: 1,
+              email: "admin@example.com",
+              first_name: "",
+              last_name: "",
+            },
+            subscribers: [
+              {
+                id: 1,
+                email: "admin@example.com",
+                first_name: "",
+                last_name: "",
+              },
+            ],
+            created: "2021-08-19T14:19:41.006330Z",
+            modified: "2021-08-20T20:32:21.857470Z",
+            description: "Test List 1",
+            name: "Test List 1",
+            experiences: [
+              "9921bdb80770cb47f9d5da70dd4061a5",
+              "e17827f4238c43da520ebf281a4196f3",
+              "eba3cbb19108922e9ec7cb4c3fdd15ff",
+            ],
+          },
+          {
+            id: 2,
+            owner: {
+              id: 1,
+              email: "admin@example.com",
+              first_name: "",
+              last_name: "",
+            },
+            subscribers: [
+              {
+                id: 1,
+                email: "admin@example.com",
+                first_name: "",
+                last_name: "",
+              },
+            ],
+            created: "2021-08-20T16:42:34.372432Z",
+            modified: "2021-08-20T20:32:22.481365Z",
+            description: "Test desc",
+            name: "Test List 2",
+            experiences: [],
+          },
+          {
+            id: 3,
+            owner: {
+              id: 1,
+              email: "admin@example.com",
+              first_name: "",
+              last_name: "",
+            },
+            subscribers: [],
+            created: "2021-08-20T16:42:44.330661Z",
+            modified: "2021-08-20T16:42:44.330661Z",
+            description: "Test Desc 3",
+            name: "Test List 3",
+            experiences: [],
+          },
+        ],
+        subs: null,
+        status: "idle",
+        error: null,
+      });
+      axios.get.mockImplementation(() => Promise.resolve({ data: courseData }));
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <ManageInterestLists />
+          </MemoryRouter>
+        </Provider>,
+        container
+      );
+    });
+
+    await act(async () => {
+      axios.get.mockImplementation(() => Promise.resolve(courseData));
+    });
+    await waitFor(() => {
+      expect(getByText("Test List 1")).toBeInTheDocument();
+    });
+  });
+  it("renders the loading component", async () => {
+    await act(async () => {
+      useSelectorMock.mockReturnValueOnce({ user: { token: 1234 } });
+      useSelectorMock.mockReturnValueOnce({
+        lists: null,
+        subs: null,
+        status: "loading",
+        error: null,
+      });
+      axios.get.mockImplementation(() => Promise.resolve({ data: courseData }));
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <ManageInterestLists />
+          </MemoryRouter>
+        </Provider>,
+        container
+      );
+    });
+
+    await act(async () => {
+      axios.get.mockImplementation(() => Promise.resolve(courseData));
+    });
+    expect(getByText("Loading...")).toBeInTheDocument();
+  });
+  it("renders the error component", async () => {
+    await act(async () => {
+      useSelectorMock.mockReturnValueOnce({ user: { token: 1234 } });
+      useSelectorMock.mockReturnValueOnce({
+        lists: null,
+        subs: null,
+        status: "failed",
+        error: "failed",
+      });
+      axios.get.mockImplementation(() => Promise.resolve({ data: courseData }));
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <ManageInterestLists />
+          </MemoryRouter>
+        </Provider>,
+        container
+      );
+    });
+
+    await act(async () => {
+      axios.get.mockImplementation(() => Promise.resolve(courseData));
+    });
+    expect(getByText("Contact a system administrator.")).toBeInTheDocument();
   });
 });
