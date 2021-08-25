@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { ActionButton } from "../components/common/button/buttons";
@@ -151,7 +151,6 @@ export default function Course() {
   useEffect(() => {
     // Gets the data mappings from the backend
     if (configuration) {
-      console.log(course);
       getConfigurationMappings();
     }
     // if there is a course to find related for.
@@ -160,7 +159,7 @@ export default function Course() {
     }
   }, [course.data, course.error]);
 
-  console.log("data", configData);
+  console.log("data", course.data);
   return (
     <PageWrapper className="mb-8">
       <div className="bg-white rounded-md my-10 px-2 py-4">
@@ -172,7 +171,7 @@ export default function Course() {
           {configData.image && <CourseImage image={configData.image} />}
           <div className="py-2 space-y-1">
             <ActionButton href={configData.url} title={"View Course"} />
-            {user && <InterestGroupPopup />}
+            {user && <InterestGroupPopup courseId={course?.data?.meta.id} />}
           </div>
         </div>
         <Section title={"Course Description"} />
