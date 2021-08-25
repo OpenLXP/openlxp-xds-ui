@@ -36,7 +36,6 @@ export default function Login() {
 
   const handleChange = (e) => {
     setLogin({ ...login, [e.target.name]: e.target.value });
-    console.log(login);
   };
 
   const handleForgotPassword = (e) => {
