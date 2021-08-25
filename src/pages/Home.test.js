@@ -131,17 +131,74 @@ describe("<Home />", () => {
       );
     });
     axios.get.mockResolvedValueOnce({ data: data });
-    await act(async () => {
+    act(() => {
       const input = screen.getByPlaceholderText("Search for anything");
 
       fireEvent.change(input, { target: { value: "test value" } });
-
+    });
+    act(() => {
       fireEvent.keyPress(screen.getByPlaceholderText("Search for anything"), {
         key: "Enter",
-        charCode: 13,
       });
     });
+    expect(
+      screen
+        .getAllByPlaceholderText("Search for anything")
+        .find((val) => val.value === "test value")
+    ).toBeTruthy();
+  });
 
-    screen.getByDisplayValue("test value");
+  it("should show search on enter", async () => {
+    axios.get.mockResolvedValueOnce({ data: spotlightRes });
+
+    let data = {
+      hits: [
+        {
+          Course: {
+            CourseTitle: "test",
+            CourseProviderName: "Provider1",
+            DepartmentName: "Department1",
+          },
+          Technical_Information: {
+            Thumbnail: "Test",
+          },
+          meta: {
+            index: "test-index",
+            id: "1",
+            score: 1,
+            doc_type: "_doc",
+          },
+        },
+      ],
+      total: 1,
+    };
+
+    await act(async () => {
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <Route path="/" component={LandingPage} />
+            <Route path="/search/" component={SearchResultPage} />
+          </MemoryRouter>
+        </Provider>,
+        container
+      );
+    });
+    axios.get.mockResolvedValueOnce({ data: data });
+    act(() => {
+      const input = screen.getByPlaceholderText("Search for anything");
+
+      fireEvent.change(input, { target: { value: "test value" } });
+    });
+    act(() => {
+      fireEvent.keyPress(screen.getByPlaceholderText("Search for anything"), {
+        charCode: "13",
+      });
+    });
+    expect(
+      screen
+        .getAllByPlaceholderText("Search for anything")
+        .find((val) => val.value === "test value")
+    ).toBeTruthy();
   });
 });
