@@ -11,7 +11,7 @@ import ManageInterestLists from "./pages/ManageInterestsLists";
 
 import { setUserStatus } from "./store/user";
 import axios from "axios";
-import SearchInterestLists from "./components/SearchInterestLists/SearchInterestLists";
+import SearchInterestLists from "./pages/SearchInterestLists";
 import FilterSearch from "./pages/FilterSearch";
 import ManageSubscriptions from "./pages/ManageSubscriptions";
 import Login from "./pages/Login";

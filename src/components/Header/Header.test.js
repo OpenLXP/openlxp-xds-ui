@@ -9,7 +9,7 @@ import store from "../../store/store";
 import Header from "./Header";
 import Home from '../../pages/Home'
 import SearchResultPage from "../SearchResultsPage/SearchResultsPage";
-import SearchInterestLists from '../SearchInterestLists/SearchInterestLists'
+import SearchInterestLists from '../../pages/SearchInterestLists'
 
 const useSelectorMock = jest.spyOn(redux, "useSelector");
 // const useDipatchMock = jest.spyOn(redux, "useDispatch");
