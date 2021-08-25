@@ -8,7 +8,7 @@ import axios from "axios";
 
 import store from "../store/store";
 import LandingPage from "./Home";
-import SearchResultPage from "../components/SearchResultsPage/SearchResultsPage";
+import SearchResultPage from "./SearchResults";
 
 let container = null;
 let spotlightRes = null;
@@ -134,7 +134,7 @@ describe("<Home />", () => {
     await act(async () => {
       const input = screen.getByPlaceholderText("Search for anything");
 
-      fireEvent.change(input, { target: { value: "test" } });
+      fireEvent.change(input, { target: { value: "test value" } });
 
       fireEvent.keyPress(screen.getByPlaceholderText("Search for anything"), {
         key: "Enter",
@@ -142,6 +142,6 @@ describe("<Home />", () => {
       });
     });
 
-    screen.getByDisplayValue("test");
+    screen.getByDisplayValue("test value");
   });
 });
