@@ -12,14 +12,10 @@ const ManageSubscriptions = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
-  const { subs, status } = useSelector((state) => state.lists);
+  const { subs, status, error } = useSelector((state) => state.lists);
 
   useEffect(() => {
-    if (user) {
-      dispatch(getSubscribedLists(user.token));
-    } else {
-      history.push("/signin");
-    }
+    dispatch(getSubscribedLists(user.token));
   }, [user]);
 
   return (
@@ -34,7 +30,7 @@ const ManageSubscriptions = () => {
           })}
         {status === "loading" && <Loading />}
         {status === "failed" && (
-          <Error error={"Contact a system administrator."} />
+          <Error>{"Contact a system administrator."}</Error>
         )}
       </div>
     </PageWrapper>

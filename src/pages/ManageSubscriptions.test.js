@@ -130,9 +130,8 @@ let container = null;
 let component = (
   <div>
     <Provider store={store}>
-      <MemoryRouter initialEntries={["/managesubscriptions"]}>
-        <Route path="/managesubscriptions" component={ManageSubscriptions} />
-        <Route path="/signin" component={Login} />
+      <MemoryRouter>
+        <ManageSubscriptions />
       </MemoryRouter>
     </Provider>
   </div>
@@ -152,13 +151,118 @@ afterEach(() => {
 describe("Manage Subscriptions", () => {
   it("renders title", async () => {
     await act(async () => {
-      useSelectorMock.mockReturnValue(state);
-      axios.get.mockImplementationOnce(() =>
-        Promise.resolve({ data: userLists })
-      );
-
+      useSelectorMock.mockReturnValueOnce({ user: { token: 1234 } });
+      useSelectorMock.mockReturnValueOnce({
+        lists: null,
+        subs: null,
+        status: "failed",
+        error: "failed",
+      });
       render(component, container);
     });
     getByText("Subscribed Lists");
+  });
+  it("renders error message", async () => {
+    await act(async () => {
+      useSelectorMock.mockReturnValueOnce({ user: { token: 1234 } });
+      useSelectorMock.mockReturnValueOnce({
+        lists: null,
+        subs: null,
+        status: "failed",
+        error: "failed",
+      });
+      render(component, container);
+    });
+    getByText("Contact a system administrator.");
+  });
+  it("renders loading message", async () => {
+    await act(async () => {
+      useSelectorMock.mockReturnValueOnce({ user: { token: 1234 } });
+      useSelectorMock.mockReturnValueOnce({
+        lists: null,
+        subs: null,
+        status: "loading",
+        error: null,
+      });
+      render(component, container);
+    });
+    getByText("Loading...");
+  });
+  it("renders courses passed to component", async () => {
+    await act(async () => {
+      useSelectorMock.mockReturnValueOnce({ user: { token: 1234 } });
+      useSelectorMock.mockReturnValueOnce({
+        lists: null,
+        subs: [
+          {
+            id: 1,
+            owner: {
+              id: 1,
+              email: "admin@example.com",
+              first_name: "",
+              last_name: "",
+            },
+            subscribers: [
+              {
+                id: 1,
+                email: "admin@example.com",
+                first_name: "",
+                last_name: "",
+              },
+            ],
+            created: "2021-08-19T14:19:41.006330Z",
+            modified: "2021-08-20T20:32:21.857470Z",
+            description: "Test List 1",
+            name: "Test List 1",
+            experiences: [
+              "9921bdb80770cb47f9d5da70dd4061a5",
+              "e17827f4238c43da520ebf281a4196f3",
+              "eba3cbb19108922e9ec7cb4c3fdd15ff",
+            ],
+          },
+          {
+            id: 2,
+            owner: {
+              id: 1,
+              email: "admin@example.com",
+              first_name: "",
+              last_name: "",
+            },
+            subscribers: [
+              {
+                id: 1,
+                email: "admin@example.com",
+                first_name: "",
+                last_name: "",
+              },
+            ],
+            created: "2021-08-20T16:42:34.372432Z",
+            modified: "2021-08-20T20:32:22.481365Z",
+            description: "Test desc",
+            name: "Test List 2",
+            experiences: [],
+          },
+          {
+            id: 3,
+            owner: {
+              id: 1,
+              email: "admin@example.com",
+              first_name: "",
+              last_name: "",
+            },
+            subscribers: [],
+            created: "2021-08-20T16:42:44.330661Z",
+            modified: "2021-08-20T16:42:44.330661Z",
+            description: "Test Desc 3",
+            name: "Test List 3",
+            experiences: [],
+          },
+        ],
+        status: "succeeded",
+        error: null,
+      });
+      render(component, container);
+    });
+    getByText("Test List 1");
   });
 });
