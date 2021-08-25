@@ -71,6 +71,7 @@ export default function Course() {
         image: Thumbnail,
       });
     } else if (configuration?.course_img_fallback) {
+      //if there is a fallback image uploaded in the configurations
       setConfigData({
         url: getConfigurationDataFromMapping(course_url, course.data),
         title: getConfigurationDataFromMapping(course_title, course.data),
@@ -84,6 +85,7 @@ export default function Course() {
           configuration?.course_img_fallback,
       });
     } else {
+      //sets configurations data based on specified mappings
       setConfigData({
         url: getConfigurationDataFromMapping(course_url, course.data),
         title: getConfigurationDataFromMapping(course_title, course.data),
