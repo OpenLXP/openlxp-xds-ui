@@ -1,10 +1,10 @@
 import logo from "../../resources/internal/dodLogo.png";
-import { useHistory, NavLink } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "../common/button/buttons";
 import { SearchField } from "../common/input/inputs";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { logoutUser } from "../../store/user";
 import { removeLists } from "../../store/lists";

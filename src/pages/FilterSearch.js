@@ -71,7 +71,7 @@ export default function FilterSearch() {
 
     // all new searches default to pg 1
     history.push({
-      path: "filter-search2",
+      path: "filter-search",
       search: `?Course.CourseTitle=${
         params["Course.CourseTitle"]
       }&Course.CourseProviderName=${
@@ -97,7 +97,7 @@ export default function FilterSearch() {
   useEffect(() => {
     // all new searches default to pg 1
     history.push({
-      path: "filter-search2",
+      path: "filter-search",
       search: `?Course.CourseTitle=${
         params["Course.CourseTitle"] || ""
       }&Course.CourseProviderName=${
@@ -110,9 +110,9 @@ export default function FilterSearch() {
 
   return (
     <PageWrapper>
-      <div className="bg-white rounded-md my-8 px-2">
+      <div className="bg-white rounded-md my-8">
         <form className="flex justify-center">
-          <div className="flex flex-row w-full flex-wrap gap-2 py-2 ">
+          <div className="flex flex-row w-full gap-2 p-2">
             <div className="flex flex-col">
               <label htmlFor="CourseInstance.CourseLevel">Course Title</label>
               <input
