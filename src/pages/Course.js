@@ -28,7 +28,7 @@ export default function Course() {
     error: null,
   });
   const [configData, setConfigData] = useState({
-    title: "test",
+    title: null,
     url: null,
     description: null,
     details: null,
@@ -54,6 +54,7 @@ export default function Course() {
   const getConfigurationMappings = () => {
     const courseInformation = configuration?.course_information;
     let { course_title, course_url, course_description } = courseInformation;
+
     const technicalInformation = course.data?.Technical_Information;
     const { Thumbnail } = { ...technicalInformation };
 
@@ -67,9 +68,8 @@ export default function Course() {
           course.data
         ),
         details: configuration?.course_highlights,
-        image: Thumbnail
+        image: Thumbnail,
       });
-  
     } else if (configuration?.course_img_fallback) {
       setConfigData({
         url: getConfigurationDataFromMapping(course_url, course.data),
@@ -83,7 +83,7 @@ export default function Course() {
           process.env.REACT_APP_BACKEND_HOST +
           configuration?.course_img_fallback,
       });
-    } else{
+    } else {
       setConfigData({
         url: getConfigurationDataFromMapping(course_url, course.data),
         title: getConfigurationDataFromMapping(course_title, course.data),
@@ -153,7 +153,6 @@ export default function Course() {
     if (configuration) {
       console.log(course);
       getConfigurationMappings();
-      // getCourseImage();
     }
     // if there is a course to find related for.
     if (!course.error) {
@@ -170,7 +169,7 @@ export default function Course() {
         </div>
         <div className="float-left pr-5 pt-1.5">
           {!configData?.image && <PlaceholderImage />}
-          {configData.image && <CourseImage image={configData.image}/>}
+          {configData.image && <CourseImage image={configData.image} />}
           <div className="py-2 space-y-1">
             <ActionButton href={configData.url} title={"View Course"} />
             {user && <InterestGroupPopup />}
