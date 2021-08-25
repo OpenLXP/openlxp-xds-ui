@@ -48,6 +48,7 @@ export default function FilterSearch() {
   };
 
   const getNextPage = () => {
+    //navigated to next page
     let { search_results_per_page } = { ...configuration };
 
     params?.p <= courses?.data?.total / search_results_per_page &&
@@ -55,6 +56,7 @@ export default function FilterSearch() {
   };
 
   const getPreviousPage = () => {
+    //navigate to previous page
     params.p > 1 && setParams({ ...params, p: parseInt(params.p) - 1 });
   };
 
@@ -63,6 +65,7 @@ export default function FilterSearch() {
   };
 
   const handleViewCourse = (id) => {
+    //navigate to course page
     history.push(`/course/${id}`);
   };
 

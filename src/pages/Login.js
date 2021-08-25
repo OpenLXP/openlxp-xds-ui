@@ -31,10 +31,12 @@ export default function Login() {
   };
 
   const handleSignUp = () => {
+    //navigte to register page
     history.push("/signup");
   };
 
   const handleChange = (e) => {
+    //set user as loged in
     setLogin({ ...login, [e.target.name]: e.target.value });
   };
 
