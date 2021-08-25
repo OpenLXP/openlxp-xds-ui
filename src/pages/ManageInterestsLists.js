@@ -12,11 +12,10 @@ export default function ManageInterestLists() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { user } = useSelector((state) => state.user);
-  const { lists, status } = useSelector((state) => state.lists);
-
+  const { lists, status, error } = useSelector((state) => state.lists);
+  // console.log(lists)
   // handles the state of the lists
   useEffect(() => {
-    // updates the redux state with an array of lists.
     dispatch(getUserLists(user?.token));
   }, [user.token]);
 
@@ -25,11 +24,14 @@ export default function ManageInterestLists() {
       <Title title={"Manage Interest Lists"} />
       <div className="my-2 p-2 rounded-md bg-white">
         {status === "loading" && <Loading />}
-        {status === "failed" && (
-          <Error error={"Contact a system administrator."} />
+        {status === "failed" && error && (
+          <Error>{"Contact a system administrator."}</Error>
         )}
-        {status === "succeeded" &&
-          lists?.map((list) => <InterestList list={list} />)}
+        {!error &&
+          lists?.length > 0 &&
+          lists?.map((list, index) => (
+            <InterestList list={list} token={user.token} key={index} />
+          ))}
       </div>
     </PageWrapper>
   );

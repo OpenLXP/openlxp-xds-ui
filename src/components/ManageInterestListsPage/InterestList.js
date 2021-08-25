@@ -5,7 +5,6 @@ import axios from "axios";
 import { getUserLists } from "../../store/lists";
 
 const InterestList = (props) => {
-  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [list, setList] = useState(props.list);
   const [courseList, setCourseList] = useState([]);
@@ -32,7 +31,7 @@ const InterestList = (props) => {
         objToSend,
         {
           headers: {
-            Authorization: "Token " + user.token,
+            Authorization: "Token " + props.token,
           },
         }
       )
@@ -68,7 +67,7 @@ const InterestList = (props) => {
   const handleDeleteList = () => {
     const url = process.env.REACT_APP_INTEREST_LISTS_ALL + list.id;
     axios
-      .delete(url, { headers: { Authorization: "token " + user.token } })
+      .delete(url, { headers: { Authorization: "token " + props.token } })
       .then((resp) => {
         dispatch(getUserLists());
       })
@@ -84,7 +83,7 @@ const InterestList = (props) => {
     if (list.id) {
       axios
         .get(`${process.env.REACT_APP_INTEREST_LISTS_ALL}${list.id}`, {
-          headers: { Authorization: "token " + user.token },
+          headers: { Authorization: "token " + props.token },
         })
         .then((response) => {
           setCourseList(response.data.experiences);
@@ -98,7 +97,8 @@ const InterestList = (props) => {
         <div
           className={`${
             open ? "shadow-md" : "border"
-          } px-4 py-2 rounded-md my-4`}>
+          } px-4 py-2 rounded-md my-4`}
+        >
           <Disclosure.Button className="w-full text-left flex flex-row items-center justify-between py-2 z-0">
             <div>{list.name}</div>
             {open ? (
@@ -117,20 +117,23 @@ const InterestList = (props) => {
                         title="Close"
                         onClick={() => {
                           setEditing(false);
-                          dispatch(getUserLists(user?.token));
+                          dispatch(getUserLists(props?.token));
                         }}
-                        className="flex flex-row items-center space-x-2 bg-gray-200 text-gray-600 hover:bg-gray-400 hover:text-white rounded-md px-2 py-1 cursor-pointer transition-all duration-200 ease-in-out">
+                        className="flex flex-row items-center space-x-2 bg-gray-200 text-gray-600 hover:bg-gray-400 hover:text-white rounded-md px-2 py-1 cursor-pointer transition-all duration-200 ease-in-out"
+                      >
                         <ion-icon name="arrow-undo-outline"></ion-icon>
                       </div>
                       <div
                         onClick={handleUpdate}
-                        className="flex flex-row items-center space-x-2 bg-green-200 text-green-600 hover:outline-none hover:bg-green-600 hover:text-white rounded-md px-2 py-1 cursor-pointer transition-all duration-200 ease-in-out">
+                        className="flex flex-row items-center space-x-2 bg-green-200 text-green-600 hover:outline-none hover:bg-green-600 hover:text-white rounded-md px-2 py-1 cursor-pointer transition-all duration-200 ease-in-out"
+                      >
                         <ion-icon name="cloud-upload-outline"></ion-icon>
                         <div>Update</div>
                       </div>
                       <div
                         onClick={handleDeleteList}
-                        className="flex flex-row items-center space-x-2 bg-red-200 text-red-600 hover:bg-red-600 hover:text-white rounded-md px-2 py-1 cursor-pointer transition-all duration-200 ease-in-out">
+                        className="flex flex-row items-center space-x-2 bg-red-200 text-red-600 hover:bg-red-600 hover:text-white rounded-md px-2 py-1 cursor-pointer transition-all duration-200 ease-in-out"
+                      >
                         <ion-icon name="trash-outline" />
                         <div>Delete</div>
                       </div>
@@ -141,7 +144,8 @@ const InterestList = (props) => {
                   <div className="flex flex-row justify-end">
                     <div
                       onClick={handleEditing}
-                      className="flex flex-row items-center space-x-2 bg-base-blue text-base-blue bg-opacity-20 hover:bg-base-blue hover:bg-opacity-100 hover:text-white rounded-md px-2 py-1 cursor-pointer transition-all duration-200 ease-in-out">
+                      className="flex flex-row items-center space-x-2 bg-base-blue text-base-blue bg-opacity-20 hover:bg-base-blue hover:bg-opacity-100 hover:text-white rounded-md px-2 py-1 cursor-pointer transition-all duration-200 ease-in-out"
+                    >
                       Edit
                     </div>
                   </div>
@@ -154,7 +158,8 @@ const InterestList = (props) => {
                 <div className="relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:shadow-md focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
                   <label
                     htmlFor="title"
-                    className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900 tracking-wider">
+                    className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900 tracking-wider"
+                  >
                     Title
                   </label>
                   <input
@@ -172,28 +177,32 @@ const InterestList = (props) => {
                 <div className="w-full relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
                   <label
                     htmlFor="name"
-                    className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900">
+                    className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900"
+                  >
                     Owner
                   </label>
                   <div
                     type="text"
                     name="name"
                     id="name"
-                    className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                    className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                  >
                     {list.owner.email}
                   </div>
                 </div>
                 <div className="w-full relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
                   <label
                     htmlFor="name"
-                    className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900">
+                    className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900"
+                  >
                     Updated
                   </label>
                   <div
                     type="text"
                     name="name"
                     id="name"
-                    className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                    className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                  >
                     {list.modified || list.created}
                   </div>
                 </div>
@@ -201,7 +210,8 @@ const InterestList = (props) => {
               <div className="w-full relative border border-gray-300 rounded-md px-1 py-1 shadow-sm focus-within:shadow-md focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
                 <label
                   htmlFor="name"
-                  className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900">
+                  className="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900"
+                >
                   Updated
                 </label>
                 <textarea
@@ -238,12 +248,13 @@ const InterestList = (props) => {
                       const courseHash = course.meta.metadata_key_hash;
                       return (
                         <tr
-                          className={`${
-                            index % 2 === 0 ? null : "bg-gray-50"
-                          }`}>
+                          key={index}
+                          className={`${index % 2 === 0 ? null : "bg-gray-50"}`}
+                        >
                           <td
                             className="pl-2 pr-6 overflow-ellipsis overflow-hidden"
-                            title={courseData.CourseTitle}>
+                            title={courseData.CourseTitle}
+                          >
                             {courseData.CourseTitle}
                           </td>
                           <td className="px-2">
@@ -256,7 +267,8 @@ const InterestList = (props) => {
                               onClick={() => handleRemoveCourse(courseHash)}
                               className={`${
                                 isEditing ? "visible" : "invisible"
-                              } cursor-pointer p-1 rounded-md text-center hover:bg-red-200 my-2 mr-2`}>
+                              } cursor-pointer p-1 rounded-md text-center hover:bg-red-200 my-2 mr-2`}
+                            >
                               remove
                             </div>
                           </td>
