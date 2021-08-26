@@ -30,38 +30,38 @@ describe("<UserMenu />", () => {
         let state = { user: { email: "test@test.com" } };
         const userMenuItems = [
             {
-              title: "Logout",
-              url: "/",
-              icon: "",
-              func: () => {
-                dispatch(logoutUser(user));
-                dispatch(removeLists());
-              },
+                title: "Logout",
+                url: "/",
+                icon: "",
+                func: () => {
+                    dispatch(logoutUser(user));
+                    dispatch(removeLists());
+                },
             },
             { title: "Profile", url: "/", icon: "" },
             {
-              title: "Search Interest Lists",
-              url: "/searchinterestlists",
-              icon: "",
-              func: () => {
-                // history.push("/searchinterestlists");
-              },
+                title: "Search Interest Lists",
+                url: "/searchinterestlists",
+                icon: "",
+                func: () => {
+                    // history.push("/searchinterestlists");
+                },
             },
             {
-              title: "Manage Interests",
-              url: "/",
-              icon: "",
-              func: () => {
-                // history.push("/manageinterestlists");
-              },
+                title: "Manage Interests",
+                url: "/",
+                icon: "",
+                func: () => {
+                    // history.push("/manageinterestlists");
+                },
             },
             {
-              title: "Filter Search",
-              url: "/",
-              icon: "",
-              func: () => {
-                // history.push("/filter-search");
-              },
+                title: "Filter Search",
+                url: "/",
+                icon: "",
+                func: () => {
+                    // history.push("/filter-search");
+                },
             },
             { title: "Favorites", url: "/", icon: "" },
         ];
@@ -71,7 +71,10 @@ describe("<UserMenu />", () => {
             render(
                 <Provider store={store}>
                     <MemoryRouter>
-                        <UserMenu username={state.user.email} menuItems={userMenuItems} />
+                        <UserMenu
+                            username={state.user.email}
+                            menuItems={userMenuItems}
+                        />
                     </MemoryRouter>
                 </Provider>,
                 container
@@ -85,12 +88,14 @@ describe("<UserMenu />", () => {
         expect(screen.getByText("Logout")).toBeInTheDocument();
         expect(screen.getByText("Profile")).toBeInTheDocument();
         expect(screen.getByText("Manage Interests")).toBeInTheDocument();
+        expect(screen.getByText("Search Interest Lists")).toBeInTheDocument();
         expect(screen.getByText("Filter Search")).toBeInTheDocument();
         expect(screen.getByText("Favorites")).toBeInTheDocument();
         await act(async () => {
-            const click = screen.getByText("Manage Interests", { exact: false });
+            const click = screen.getByText("Manage Interests", {
+                exact: false,
+            });
             fireEvent.click(click);
         });
     });
-    
 });

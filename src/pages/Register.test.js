@@ -13,7 +13,7 @@ import store from "../store/store";
 const component = (
   <div>
     <Provider store={store}>
-      <MemoryRouter initialEntries={['/signup']}>
+      <MemoryRouter initialEntries={["/signup"]}>
         <Register />
       </MemoryRouter>
     </Provider>
@@ -88,8 +88,8 @@ describe("Register.js", () => {
 
     expect(axios.post).toHaveBeenCalledTimes(1);
     expect(!queryByText("Create Account")).toBe(false);
-  } );
-  
+  });
+
   it("triggers path change", () => {
     const history = createMemoryHistory();
 
@@ -103,5 +103,30 @@ describe("Register.js", () => {
     });
     expect(history.length).toBe(1);
     expect(history.location.pathname).toBe("/");
+  });
+
+  it("renders the loading state when redux state is loading", () => {
+    let localState = {
+      user: { email: "test@test.com" },
+      status: "loading",
+      error: null,
+    };
+    act(() => {
+      useSelectorMock.mockReturnValue(localState);
+      render(component, container);
+    });
+    expect(queryByText('Create Account')).not.toBeInTheDocument()
+  });
+  it("renders the error state when redux state is loading", () => {
+    let localState = {
+      user: { email: "test@test.com" },
+      status: "failed",
+      error: 'test error',
+    };
+    act(() => {
+      useSelectorMock.mockReturnValue(localState);
+      render(component, container);
+    });
+    expect(queryByText('test error')).toBeInTheDocument()
   });
 });
