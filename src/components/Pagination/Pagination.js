@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './Pagination.module.css';
 import { Link, useLocation } from 'react-router-dom'
 import { getSearchString, getUpdatedSearchQuery }
-  from '../SearchResultsPage/SearchResultsPage';
+  from '../../pages/SearchResults';
 
 //Shows page number bar at the bottom of the screen
 const Pagination = (props) => {

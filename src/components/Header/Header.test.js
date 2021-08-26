@@ -8,7 +8,7 @@ import axios from "axios";
 import store from "../../store/store";
 import Header from "./Header";
 import Home from '../../pages/Home'
-import SearchResultPage from "../SearchResultsPage/SearchResultsPage";
+import SearchResultPage from "../../pages/SearchResults";
 import SearchInterestLists from '../../pages/SearchInterestLists'
 
 const useSelectorMock = jest.spyOn(redux, "useSelector");
