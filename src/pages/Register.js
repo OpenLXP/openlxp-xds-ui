@@ -87,7 +87,17 @@ export default function Register() {
           </div>
           {error && <ErrorText>{error}</ErrorText>}
           <Button onClick={handleRegister}>
-            {status === "loading" ? "Creating..." : "Create Account"}
+            {status === "loading" ? (
+              <div className="flex flex-row justify-center items-center">
+                <div className="animate-spin">
+                  <ion-icon name="refresh-outline" />
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-row justify-center items-center gap-2">
+                Create Account
+              </div>
+            )}
           </Button>
         </div>
       </div>

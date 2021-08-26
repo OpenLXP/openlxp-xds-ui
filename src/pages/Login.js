@@ -6,11 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
 
-import PageWrapper from "../components/common/PageWrapper";
 import { ErrorText, Title, Link } from "../components/common/text/text";
 import { InputField } from "../components/common/input/inputs";
 import { loginUser } from "../store/user";
 import { Button } from "../components/common/button/buttons";
+import PageWrapper from "../components/common/PageWrapper";
 
 export default function Login() {
   const history = useHistory();
@@ -77,9 +77,20 @@ export default function Login() {
           <Link onClick={handleForgotPassword} size="xs">
             Forgot Password?
           </Link>
-          {error && <ErrorText>{error}</ErrorText>}
+          <ErrorText>{error || <div>&nbsp;</div>}</ErrorText>
           <Button size="sm" onClick={handleLogin}>
-            Login
+            {status === "loading" ? (
+              <div className="flex flex-row justify-center items-center">
+                <div className="animate-spin">
+                  <ion-icon name="refresh-outline" />
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-row justify-center items-center gap-2">
+                <ion-icon name="log-in-outline" />
+                Login
+              </div>
+            )}
           </Button>
         </div>
       </div>
