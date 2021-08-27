@@ -161,7 +161,6 @@ export default function Course() {
     }
   }, [course.data, course.error]);
 
-  console.log("data", course.data);
   return (
     <PageWrapper className="mb-8">
       <div className="bg-white rounded-md my-10 px-2 py-4">

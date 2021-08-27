@@ -18,7 +18,6 @@ export default function SubscriptionListTable({ id, token }) {
       })
       .then((response) => {
         setCourses( response.data.experiences );
-        console.log(response)
       });
   }, []);
 

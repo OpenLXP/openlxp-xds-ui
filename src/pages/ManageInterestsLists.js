@@ -13,7 +13,6 @@ export default function ManageInterestLists() {
   const history = useHistory();
   const { user } = useSelector((state) => state.user);
   const { lists, status, error } = useSelector((state) => state.lists);
-  // console.log(lists)
   // handles the state of the lists
   useEffect(() => {
     dispatch(getUserLists(user?.token));

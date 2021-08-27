@@ -48,7 +48,6 @@ const InterestGroupPopup = (props) => {
     const header = {
       Authorization: `Token ${user.token}`,
     };
-    console.log(user.token);
 
     axios
       .post(process.env.REACT_APP_INTEREST_LISTS_ALL, dataToSend, {
