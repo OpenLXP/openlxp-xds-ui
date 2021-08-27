@@ -7,9 +7,9 @@ import axios from "axios";
 
 import store from "../../store/store";
 import Header from "./Header";
-import Home from '../../pages/Home'
+import Home from "../../pages/Home";
 import SearchResultPage from "../SearchResultsPage/SearchResultsPage";
-import SearchInterestLists from '../../pages/SearchInterestLists'
+import SearchInterestLists from "../../pages/SearchInterestLists";
 
 const useSelectorMock = jest.spyOn(redux, "useSelector");
 // const useDipatchMock = jest.spyOn(redux, "useDispatch");
@@ -26,7 +26,11 @@ beforeEach(() => {
           <Header />
           <Switch>
             <Route path="/" exact component={Home} />
-            <Route path="/searchinterestlists" exact component={SearchInterestLists} />
+            <Route
+              path="/searchinterestlists"
+              exact
+              component={SearchInterestLists}
+            />
 
             <Route path="/search/" component={SearchResultPage} />
           </Switch>
@@ -68,7 +72,7 @@ describe("Header", () => {
   test("Does search for courses on search page", () => {
     let state = { user: null };
     useSelectorMock.mockReturnValue(state);
-    
+
     axios.get.mockImplementationOnce(() => Promise.reject());
     act(() => {
       render(container);
@@ -84,7 +88,7 @@ describe("Header", () => {
   test("Does search for courses on enter", () => {
     let state = { user: null };
     useSelectorMock.mockReturnValue(state);
-    
+
     axios.get.mockImplementationOnce(() => Promise.reject());
     act(() => {
       render(container);
@@ -179,11 +183,10 @@ describe("Header", () => {
       fireEvent.click(screen.getByText("test@test.com"));
     });
 
-    act(()=>{
-      fireEvent.click(screen.getByText('Search Interest Lists'))
-    })
+    act(() => {
+      fireEvent.click(screen.getByText("Search Interest Lists"));
+    });
 
-    screen.getByPlaceholderText("Search")
-
+    screen.getByPlaceholderText("Search");
   });
 });
