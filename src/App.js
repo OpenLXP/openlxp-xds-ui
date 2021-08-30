@@ -60,19 +60,18 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (user) {
-      const url = process.env.REACT_APP_USER_INTEREST_LISTS;
+    if (user?.token) {
+      const url = process.env.REACT_APP_USER_SUBSCRIPTION_LISTS;
       // validate with back end
       axios
         .get(url, {
-          headers: { Authorization: `Token ${user.token}` },
+          headers: { Authorization: `Token ${user?.token}` },
         })
-        .then()
         .catch(() => {
           localStorage.removeItem("state");
         });
     }
-  }, [user]);
+  }, [user?.token]);
 
   return (
     <div className="main-container">
