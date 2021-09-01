@@ -12,13 +12,13 @@ export default function SavedSearchCard({
   const handleEdit = () => {
     console.log(id);
     history.push({
-      pathname: "/edit-filter-search",
+      pathname: "/filter-search",
       search: query,
       state: { name, id },
     });
   };
   const handleView = () => {
-    history.push("/edit-filter-search?" + query);
+    history.push("/filter-search?" + query);
   };
   const handleDelete = () => {
     const url = process.env.REACT_APP_BACKEND_HOST + "/api/saved-filters/" + id;
