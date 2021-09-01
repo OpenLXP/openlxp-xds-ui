@@ -25,7 +25,7 @@ export default function Login() {
   const handleLogin = () => {
     // validate credentials
     dispatch(loginUser(login));
-    if (!error && status !== "idle" && user) {
+    if (status === "succeeded") {
       history.push("/");
     }
   };
