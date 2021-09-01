@@ -10,7 +10,6 @@ import { logoutUser } from "../../store/user";
 import { removeLists } from "../../store/lists";
 import UserMenu from "./Menu/UserMenu";
 
-
 const Header = () => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -67,7 +66,11 @@ const Header = () => {
       url: "/",
       icon: "",
       func: () => {
-        history.push("/filter-search");
+        history.push({
+          pathname: "/filter-search",
+          search:
+            "Course.CourseProviderName=&Course.CourseTitle=&CourseInstance.CourseLevel=&p=1",
+        });
       },
     },
     { title: "Favorites", url: "/", icon: "" },
