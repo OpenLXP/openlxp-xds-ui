@@ -58,44 +58,30 @@ export default function Course() {
     const technicalInformation = course.data?.Technical_Information;
     const { Thumbnail } = { ...technicalInformation };
 
+    let obj = {
+      url: getConfigurationDataFromMapping(course_url, course.data),
+      title: getConfigurationDataFromMapping(course_title, course.data),
+      description: getConfigurationDataFromMapping(
+        course_description,
+        course.data
+      ),
+      details: configuration?.course_highlights,
+    };
     // if there is a thumbnail from the data
     if (Thumbnail) {
-      setConfigData({
-        url: getConfigurationDataFromMapping(course_url, course.data),
-        title: getConfigurationDataFromMapping(course_title, course.data),
-        description: getConfigurationDataFromMapping(
-          course_description,
-          course.data
-        ),
-        details: configuration?.course_highlights,
-        image: Thumbnail,
-      });
+      obj.image = Thumbnail;
     } else if (configuration?.course_img_fallback) {
       //if there is a fallback image uploaded in the configurations
-      setConfigData({
-        url: getConfigurationDataFromMapping(course_url, course.data),
-        title: getConfigurationDataFromMapping(course_title, course.data),
-        description: getConfigurationDataFromMapping(
-          course_description,
-          course.data
-        ),
-        details: configuration?.course_highlights,
-        image:
-          process.env.REACT_APP_BACKEND_HOST +
-          configuration?.course_img_fallback,
-      });
+      obj.image =
+        process.env.REACT_APP_BACKEND_HOST + configuration?.course_img_fallback;
     } else {
       //sets configurations data based on specified mappings
-      setConfigData({
-        url: getConfigurationDataFromMapping(course_url, course.data),
-        title: getConfigurationDataFromMapping(course_title, course.data),
-        description: getConfigurationDataFromMapping(
-          course_description,
-          course.data
-        ),
-        details: configuration?.course_highlights,
-      });
+      obj.details = configuration?.course_highlights;
     }
+    console.log("course", course);
+    console.log("config", configuration);
+    console.log(obj);
+    setConfigData(obj);
   };
   const getCourseData = () => {
     setCourse({
