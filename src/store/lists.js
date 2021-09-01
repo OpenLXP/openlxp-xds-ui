@@ -13,7 +13,7 @@ export const getUserLists = createAsyncThunk(
   async (token) => {
     const url = process.env.REACT_APP_USER_INTEREST_LISTS;
     const response = await axios.get(url, {
-      headers: { Authorization: "token " + token },
+      headers: { Authorization: "Token " + token },
     });
     return response.data;
   }
