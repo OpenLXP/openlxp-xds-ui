@@ -39,6 +39,14 @@ const Header = () => {
       },
     },
     {
+      title: "Saved Search",
+      url: "/saved-searches",
+      icon: "",
+      func: () => {
+        history.push("/saved-searches");
+      },
+    },
+    {
       title: "Manage Subscriptions",
       url: "/",
       icon: "",
