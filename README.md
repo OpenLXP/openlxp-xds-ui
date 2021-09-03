@@ -12,14 +12,25 @@
 ## Table of content
 
 - [**Installation**](#installation)
+  - [Clone Project](#clone-project)
 - [**Getting started**](#getting-started)
-  - [Environment Variables](#variables)
-    - [_1_](#endpoint-1)
-    - [_2_](#endpoint-2)
-    - [_3_](#endpoint-3)
-  - [Creating a local env](#creating-a-local-env)
+  - [Installation](#installation)
+    - [_Clone Project_](#clone-project)
+    - [_Install Project Dependencies_](#install-project-dependencies)
+  - [Environment Variables](#environment-variables)
+    - [_REACT_APP_BACKEND_HOST_](#react-app-backend-host)
+    - [_REACT_APP_ES_API_](#react-app-es-api)
+    - [_REACT_APP_ES_MULT_API_](#react-app-es-mult_api)
+    - [_REACT_APP_AUTH_](#react-app-auth)
+    - [_REACT_APP_CONFIGURATION_API_](#react-app-configuration-api)
+    - [_REACT_APP_EXPERIENCES_](#react-app-experiences)
+    - [_REACT_APP_ADD_COURSE_TO_LISTS_](#react-app-add-course-to-lists)
+    - [_REACT_APP_INTEREST_LISTS_ALL_](#react-app-interest-lists-all)
+    - [_REACT_APP_USER_SUBSCRIPTION_LISTS_](#react-app-user-subscription-lists)
+    - [_REACT_APP_USER_INTEREST_LISTS_](#react-app-user-interest-lists)
+  - [Creating a local env](#creating-a-local-environment-file)
     - [_Walk through_](#walk-through)
-    - [_Template_](#template)
+    - [_Template_](#env-template)
   - [Important Notes](#important-notes)
 - [**Available Scripts**](#available-scripts)
   - [yarn start](#yarn-start)
@@ -31,27 +42,53 @@
 
 ## Installation
 
-Set Yarn version and run installation
-    yarn set version 1.22.1
-    yarn install
+### Clone Project
+
+```bash
+git clone git@github.com:OpenLXP/openlxp-xds-ui.git
+```
+
+### Install Project Dependencies
+
+Start off by verifying that you have `yarn` installed.
+
+```ps1
+yarn -version
+```
+
+If `yarn` is not installed use the following command to install it. This will install the `yarn` package manager globally on your system.
+
+_**global install**_
+
+```ps1
+npm install yarn -g
+```
+
+_**local install**_
+
+```ps1
+npm install yarn
+```
+
+Once yarn has been installed you will need to install the project dependencies. Using the following command we will manually set your yarn version for this project.
+
+```ps1
+yarn set version 1.22.1
+```
+
+After the version has been installed and set we will install the dependencies. Using the following command we will install all the project dependencies.
+
+```bash
+yarn install package.json
+```
+
 ---
 
 ## Getting started
 
-Clone the repository
-    git clone https://github.com/your_username_/Project-Name.git
-Install Yarn ppackages
-    yarn set version 1.22.1
-    yarn install
-Run the project
-
 ### Environment Variables
 
-To define permanent environment variables, create a file called .env in the root of your project.
-Follow the .env template provided below.
-
-To define temorary enviroment variables use the following command.
-set REACT_APP_SECRET_CODE=abcdef && yarn start
+This project makes use of globally available environment variables. Below are the required environment variables required for this project.
 
 #### **Endpoint Name**
 
@@ -101,15 +138,33 @@ Description of the endpoint
 http://<YOUR_BACKEND_ENDPOINT>/
 ```
 
-### Creating a local env
-
-Create a file called .env in the root of your project. Add in variable as shown in the template below.
+### Creating a local environment file
 
 #### **Walk through**
 
+Let's create a local `.env.local` file. If you are in a code editor you can right click and create new file.
+
+![vscode create new file](./readme-assets/vscode-create-new-file.png)
+
+If you are using the terminal use the following command to create a new file.
+
+_**bash command**_
+
+```bash
+touch <PATH_TO_YOUR_PROJECT_ROOT>/.env.local
+```
+
+_**powershell**_
+
+```ps1
+New-Item -Path <PATH_TO_YOUR_PROJECT_ROOT>\.env.local -ItemType File
+```
+
+Navigate to the newly created file and paste the template (_below_) into the file. Replace `<YOUR_BACKEND_ENDPOINT>` with your localhost setup **or** your live endpoint.
+
 #### **.env Template**
 
-```html
+```text
 REACT_APP_BACKEND_HOST=<YOUR_BACKEND_ENDPOINT>
 REACT_APP_ES_API=<YOUR_BACKEND_ENDPOINT>/es-api/
 REACT_APP_MLT_API=<YOUR_BACKEND_ENDPOINT>/es-api/more-like-this/
@@ -122,11 +177,19 @@ REACT_APP_USER_SUBSCRIPTION_LISTS=<YOUR_BACKEND_ENDPOINT>/api/interest-lists/sub
 REACT_APP_USER_INTEREST_LISTS=<YOUR_BACKEND_ENDPOINT>/api/interest-lists/owned
 ```
 
+### Important Notes
+
+To use this piece of code without any issues you will need the XDS component too.
+
+[OpenLXP XDS](https://github.com/OpenLXP/openlxp-xds)
+
+### **You're all set! Explore the commands below to run, build, or test the app.**
+
 ---
 
 ## Available Scripts
 
-In the project directory, you can run:
+In the project directory, you can run the following.
 
 ### `yarn start`
 
@@ -192,39 +255,39 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 Basic Configurations
 XDS Configurations:
-    Enter target metadata api (ex:http://openlxp-xis:8020/api/metadata/)
+Enter target metadata api (ex:http://openlxp-xis:8020/api/metadata/)
 Xdsui configurations:
-    Enter Search results per page (ex:10)
-    Select XDS Configuration from previous step (ex:1)
-    optional - Add course image to display on every course image
+Enter Search results per page (ex:10)
+Select XDS Configuration from previous step (ex:1)
+optional - Add course image to display on every course image
 Course information mapping: Course details page mapping
-    Enter course title corresponding to elastic search (ex:Course.CourseTitle)
-    Enter course description corresponding to elastic search (ex:Course.CourseShortDescription)
-    Enter course url corresponding to elastic search (ex:CourseInstance.CourseURL)
-    Select XDS UI Configuration from previous step (ex:1)
+Enter course title corresponding to elastic search (ex:Course.CourseTitle)
+Enter course description corresponding to elastic search (ex:Course.CourseShortDescription)
+Enter course url corresponding to elastic search (ex:CourseInstance.CourseURL)
+Select XDS UI Configuration from previous step (ex:1)
 
 Optional Configurations
 Course detail highlights: configure details to display pertaining to each course
-    Enter display name (ex:End Date)
-    Enter field name as correlating to elastic search (ex: General_Information.EndDate)
-    Select XDS UI Configuration from previous step (ex:1)
-    Select highlight icon (ex:calendar)
-    Enter rank for display order
+Enter display name (ex:End Date)
+Enter field name as correlating to elastic search (ex: General_Information.EndDate)
+Select XDS UI Configuration from previous step (ex:1)
+Select highlight icon (ex:calendar)
+Enter rank for display order
 Course spotlights: spotlight courses to show up on home page
-    Enter course id from search engine or url of course page (ex:0b89c4f7ba43c5e076cf621d0e567c60)
-    Reciever email configurations:
-    Add email address of people to recieve log data
-Search filter: on search results page, set filters to search by
-    Enter a display name (ex:Provider)
-    Enter a field name from elastic search (ex:Course.CourseProviderName)
-    Select XDS UI Configuration from previous step (ex:1)
-    Select filter type (ex:Checkbox)
-Search sort options:
-    Enter a display name (ex:Description)
-    Enter a field name from elastic search (ex:Course.CourseShortDescription)
-    Select XDS UI Configuration from previous step (ex:1)
+Enter course id from search engine or url of course page (ex:0b89c4f7ba43c5e076cf621d0e567c60)
 Reciever email configurations:
-    Add email address to send log data from
+Add email address of people to recieve log data
+Search filter: on search results page, set filters to search by
+Enter a display name (ex:Provider)
+Enter a field name from elastic search (ex:Course.CourseProviderName)
+Select XDS UI Configuration from previous step (ex:1)
+Select filter type (ex:Checkbox)
+Search sort options:
+Enter a display name (ex:Description)
+Enter a field name from elastic search (ex:Course.CourseShortDescription)
+Select XDS UI Configuration from previous step (ex:1)
+Reciever email configurations:
+Add email address to send log data from
 
 Other Configurations - usually not to be edited
 Expereinces: list of courses that have been added to any interest list
