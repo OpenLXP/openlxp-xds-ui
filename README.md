@@ -20,6 +20,7 @@
   - [Creating a local env](#creating-a-local-env)
     - [_Walk through_](#walk-through)
     - [_Template_](#template)
+  - [Important Notes](#important-notes)
 - [**Available Scripts**](#available-scripts)
   - [yarn start](#yarn-start)
   - [yarn test](#yarn-test)
@@ -92,15 +93,30 @@ http://<YOUR_BACKEND_ENDPOINT>/
 
 ```html
 REACT_APP_BACKEND_HOST=<YOUR_BACKEND_ENDPOINT>
-REACT_APP_ES_API=<YOUR_BACKEND_ENDPOINT>/es-api/
-REACT_APP_MLT_API=<YOUR_BACKEND_ENDPOINT>/es-api/more-like-this/
-REACT_APP_AUTH=<YOUR_BACKEND_ENDPOINT>/api/auth
-REACT_APP_CONFIGURATION_API=<YOUR_BACKEND_ENDPOINT>/api/configuration
-REACT_APP_EXPERIENCES=<YOUR_BACKEND_ENDPOINT>/api/experiences/
-REACT_APP_ADD_COURSE_TO_LISTS=<YOUR_BACKEND_ENDPOINT>/api/experiences/
-REACT_APP_INTEREST_LISTS_ALL=<YOUR_BACKEND_ENDPOINT>/api/interest-lists/
-REACT_APP_USER_SUBSCRIPTION_LISTS=<YOUR_BACKEND_ENDPOINT>/api/interest-lists/subscriptions
-REACT_APP_USER_INTEREST_LISTS=<YOUR_BACKEND_ENDPOINT>/api/interest-lists/owned
+  REACT_APP_ES_API=<YOUR_BACKEND_ENDPOINT
+    >/es-api/ REACT_APP_MLT_API=<YOUR_BACKEND_ENDPOINT
+      >/es-api/more-like-this/ REACT_APP_AUTH=<YOUR_BACKEND_ENDPOINT
+        >/api/auth REACT_APP_CONFIGURATION_API=<YOUR_BACKEND_ENDPOINT
+          >/api/configuration REACT_APP_EXPERIENCES=<YOUR_BACKEND_ENDPOINT
+            >/api/experiences/
+            REACT_APP_ADD_COURSE_TO_LISTS=<YOUR_BACKEND_ENDPOINT
+              >/api/experiences/
+              REACT_APP_INTEREST_LISTS_ALL=<YOUR_BACKEND_ENDPOINT
+                >/api/interest-lists/
+                REACT_APP_USER_SUBSCRIPTION_LISTS=<YOUR_BACKEND_ENDPOINT
+                  >/api/interest-lists/subscriptions
+                  REACT_APP_USER_INTEREST_LISTS=<YOUR_BACKEND_ENDPOINT
+                    >/api/interest-lists/owned</YOUR_BACKEND_ENDPOINT
+                  ></YOUR_BACKEND_ENDPOINT
+                ></YOUR_BACKEND_ENDPOINT
+              ></YOUR_BACKEND_ENDPOINT
+            ></YOUR_BACKEND_ENDPOINT
+          ></YOUR_BACKEND_ENDPOINT
+        ></YOUR_BACKEND_ENDPOINT
+      ></YOUR_BACKEND_ENDPOINT
+    ></YOUR_BACKEND_ENDPOINT
+  ></YOUR_BACKEND_ENDPOINT
+>
 ```
 
 ---
