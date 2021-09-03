@@ -38,6 +38,12 @@ Set Yarn version and run installation
 
 ## Getting started
 
+Clone the repository
+    git clone https://github.com/your_username_/Project-Name.git
+Install Yarn ppackages
+    yarn set version 1.22.1
+    yarn install
+Run the project
 
 ### Environment Variables
 
