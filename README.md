@@ -68,3 +68,50 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `yarn build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+### Core Configurations in Django admin console
+
+Basic Configurations
+XDS Configurations: 
+    Enter target metadata api (ex:http://openlxp-xis:8020/api/metadata/)
+Xdsui configurations: 
+    Enter Search results per page (ex:10)
+    Select XDS Configuration from previous step (ex:1)
+    optional - Add course image to display on every course image
+Course information mapping: Course details page mapping
+    Enter course title corresponding to elastic search (ex:Course.CourseTitle) 
+    Enter course description corresponding to elastic search (ex:Course.CourseShortDescription) 
+    Enter course url corresponding to elastic search (ex:CourseInstance.CourseURL) 
+    Select XDS UI Configuration from previous step (ex:1)
+
+
+Optional Configurations
+Course detail highlights: configure details to display pertaining to each course
+    Enter display name (ex:End Date)
+    Enter field name as correlating to elastic search (ex: General_Information.EndDate)
+    Select XDS UI Configuration from previous step (ex:1)
+    Select highlight icon (ex:calendar)
+    Enter rank for display order
+Course spotlights: spotlight courses to show up on home page
+    Enter course id from search engine or url of course  page (ex:0b89c4f7ba43c5e076cf621d0e567c60)
+Reciever email configurations:
+    Add email address of people to recieve log data
+Search filter: on search results page, set filters to search by
+    Enter a display name (ex:Provider)
+    Enter a field name from elastic search (ex:Course.CourseProviderName)
+    Select XDS UI Configuration from previous step (ex:1)
+    Select filter type (ex:Checkbox)
+Search sort options:
+    Enter a display name (ex:Description)
+    Enter a field name from elastic search (ex:Course.CourseShortDescription)
+    Select XDS UI Configuration from previous step (ex:1)
+Reciever email configurations:
+    Add email address to send log data from
+
+
+Other Configurations - usually not to be edited
+Expereinces: list of courses that have been added to any interest list
+Interest Lists: list of interest lists by owner and list names
+Saved Filters: list of saved filter searches
+Users: List of users with personal information, can make a staff member setting change here
