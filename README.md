@@ -31,11 +31,21 @@
 
 ## Installation
 
+Set Yarn version and run installation
+    yarn set version 1.22.1
+    yarn install
 ---
 
 ## Getting started
 
+
 ### Environment Variables
+
+To define permanent environment variables, create a file called .env in the root of your project.
+Follow the .env template provided below.
+
+To define temorary enviroment variables use the following command.
+set REACT_APP_SECRET_CODE=abcdef && yarn start
 
 #### **Endpoint Name**
 
@@ -86,6 +96,8 @@ http://<YOUR_BACKEND_ENDPOINT>/
 ```
 
 ### Creating a local env
+
+Create a file called .env in the root of your project. Add in variable as shown in the template below.
 
 #### **Walk through**
 
