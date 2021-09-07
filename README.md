@@ -179,7 +179,7 @@ REACT_APP_USER_INTEREST_LISTS=<YOUR_BACKEND_ENDPOINT>/api/interest-lists/owned
 
 ### Important Notes
 
-To use this piece of code without any issues you will need the XDS component too.
+To use this piece of code without any issues you will need the XDS component to accompany it.
 
 [OpenLXP XDS](https://github.com/OpenLXP/openlxp-xds)
 
