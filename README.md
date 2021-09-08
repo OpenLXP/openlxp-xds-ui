@@ -146,12 +146,28 @@ This endpoint is responsible for getting custom experiences set up by the system
 http://<YOUR_BACKEND_ENDPOINT>/api/experiences/
 ```
 
-#### **REACT_APP_EXPERIENCES**
+#### **REACT_APP_INTEREST_LISTS_ALL**
 
-This endpoint is responsible for getting custom experiences set up by the system administrator.
+This endpoint is responsible for getting all interest lists.
 
 ```yaml
-http://<YOUR_BACKEND_ENDPOINT>/api/experiences/
+http://<YOUR_BACKEND_ENDPOINT>/api/interest-lists/
+```
+
+#### **REACT_APP_USER_SUBSCRIPTION_LISTS**
+
+This endpoint is responsible for getting all interest lists that a user is subscribed to.
+
+```yaml
+http://<YOUR_BACKEND_ENDPOINT>/api/interest-lists/subscriptions
+```
+
+#### **REACT_APP_USER_INTEREST_LISTS**
+
+This endpoint is responsible for getting all interest lists a user has created.
+
+```yaml
+http://<YOUR_BACKEND_ENDPOINT>/api/interest-lists/owned
 ```
 
 ### Creating a local environment file
