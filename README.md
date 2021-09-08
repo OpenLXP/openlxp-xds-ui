@@ -90,52 +90,68 @@ yarn install package.json
 
 This project makes use of globally available environment variables. Below are the required environment variables required for this project.
 
-#### **Endpoint Name**
+#### **REACT_APP_BACKEND_HOST**
 
-Description of the endpoint
-
-```yaml
-http://<YOUR_BACKEND_ENDPOINT>/
-```
-
-#### **Endpoint Name**
-
-Description of the endpoint
+This is the root API endpoint used by the application.
 
 ```yaml
 http://<YOUR_BACKEND_ENDPOINT>/
 ```
 
-#### **Endpoint Name**
+#### **REACT_APP_ES_API**
 
-Description of the endpoint
+This is the endpoint for elasticsearch.
 
 ```yaml
-http://<YOUR_BACKEND_ENDPOINT>/
+http://<YOUR_BACKEND_ENDPOINT>/es-api/
 ```
 
-#### **Endpoint Name**
+#### **REACT_APP_ES_MLT_API**
 
-Description of the endpoint
+This endpoint is responsible for getting more courses like the one given to the api.
 
 ```yaml
-http://<YOUR_BACKEND_ENDPOINT>/
+http://<YOUR_BACKEND_ENDPOINT>/es-api/more-like-this/
 ```
 
-#### **Endpoint Name**
+#### **REACT_APP_AUTH**
 
-Description of the endpoint
+This is the authentication endpoint used
 
 ```yaml
-http://<YOUR_BACKEND_ENDPOINT>/
+http://<YOUR_BACKEND_ENDPOINT>/api/auth/
 ```
 
-#### **Endpoint Name**
+#### **REACT_APP_CONFIGURATION_API**
 
-Description of the endpoint
+This is the application configuration API. This endpoint delivers the necessary configurations required by the application.
 
 ```yaml
-http://<YOUR_BACKEND_ENDPOINT>/
+http://<YOUR_BACKEND_ENDPOINT>/api/configuration
+```
+
+#### **REACT_APP_EXPERIENCES**
+
+This endpoint is responsible for getting custom experiences set up by the system administrator.
+
+```yaml
+http://<YOUR_BACKEND_ENDPOINT>/api/experiences/
+```
+
+#### **REACT_APP_ADD_COURSE_TO_LISTS**
+
+This endpoint is responsible for getting custom experiences set up by the system administrator.
+
+```yaml
+http://<YOUR_BACKEND_ENDPOINT>/api/experiences/
+```
+
+#### **REACT_APP_EXPERIENCES**
+
+This endpoint is responsible for getting custom experiences set up by the system administrator.
+
+```yaml
+http://<YOUR_BACKEND_ENDPOINT>/api/experiences/
 ```
 
 ### Creating a local environment file
@@ -251,48 +267,29 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ---
 
-### Core Configurations in Django admin console
+## Color Guide
 
-Basic Configurations
-XDS Configurations:
-Enter target metadata api (ex:http://openlxp-xis:8020/api/metadata/)
-Xdsui configurations:
-Enter Search results per page (ex:10)
-Select XDS Configuration from previous step (ex:1)
-optional - Add course image to display on every course image
-Course information mapping: Course details page mapping
-Enter course title corresponding to elastic search (ex:Course.CourseTitle)
-Enter course description corresponding to elastic search (ex:Course.CourseShortDescription)
-Enter course url corresponding to elastic search (ex:CourseInstance.CourseURL)
-Select XDS UI Configuration from previous step (ex:1)
+[![base-blue](https://img.shields.io/badge/base_blue-005ea2-005ea2)](https://github.com/OpenLXP/openlxp-xds-ui)
 
-Optional Configurations
-Course detail highlights: configure details to display pertaining to each course
-Enter display name (ex:End Date)
-Enter field name as correlating to elastic search (ex: General_Information.EndDate)
-Select XDS UI Configuration from previous step (ex:1)
-Select highlight icon (ex:calendar)
-Enter rank for display order
-Course spotlights: spotlight courses to show up on home page
-Enter course id from search engine or url of course page (ex:0b89c4f7ba43c5e076cf621d0e567c60)
-Reciever email configurations:
-Add email address of people to recieve log data
-Search filter: on search results page, set filters to search by
-Enter a display name (ex:Provider)
-Enter a field name from elastic search (ex:Course.CourseProviderName)
-Select XDS UI Configuration from previous step (ex:1)
-Select filter type (ex:Checkbox)
-Search sort options:
-Enter a display name (ex:Description)
-Enter a field name from elastic search (ex:Course.CourseShortDescription)
-Select XDS UI Configuration from previous step (ex:1)
-Reciever email configurations:
-Add email address to send log data from
+[![bright-blue](https://img.shields.io/badge/bright_blue-008cf0-008cf0)](https://github.com/OpenLXP/openlxp-xds-ui)
 
-Other Configurations - usually not to be edited
-Expereinces: list of courses that have been added to any interest list
-Interest Lists: list of interest lists by owner and list names
-Saved Filters: list of saved filter searches
-Users: List of users with personal information, can make a staff member setting change here
+[![light-blue](https://img.shields.io/badge/light_blue-2f6194-2f6194)](https://github.com/OpenLXP/openlxp-xds-ui)
+
+[![dark-blue](https://img.shields.io/badge/dark_blue-0b3d70-0b3d70)](https://github.com/OpenLXP/openlxp-xds-ui)
+
+[![icon-blue](https://img.shields.io/badge/icon_blue-337ab7-337ab7)](https://github.com/OpenLXP/openlxp-xds-ui)
+
+[![body-gray](https://img.shields.io/badge/body_gray-f4f4f4-f4f4f4)](https://github.com/OpenLXP/openlxp-xds-ui)
+
+---
+
+## Core Configurations Checklist
+
+These configurations are required.
+
+- [ ] XDS Configurations
+- [ ] XDS UI Configurations
+- [ ] Course Detail Highlights
+- [ ] Course Information Mappings
 
 ---
