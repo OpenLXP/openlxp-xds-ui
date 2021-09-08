@@ -7,7 +7,7 @@
 [![react](https://img.shields.io/badge/react-17.0.1-61dafb)](https://reactjs.org/)
 [![redux](https://img.shields.io/badge/redux-4.0.5-764abc)](https://redux-toolkit.js.org/)
 [![router](https://img.shields.io/badge/router-5.2.0-red)](https://reactrouter.com/web/guides/quick-start)
-[![tailwind](https://img.shields.io/badge/tailwind-2.2.2-22d3ee)](https://redux-toolkit.js.org/)
+[![tailwind](https://img.shields.io/badge/tailwind-2.2.2-22d3ee)](https://tailwindcss.com/)
 
 ## Table of content
 
