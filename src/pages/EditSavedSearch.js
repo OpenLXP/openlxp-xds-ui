@@ -37,6 +37,11 @@ export default function EditSavedSearch() {
   const handleQueryNameChange = (event) => {
     setQueryInfo({ ...queryInfo, [event.target.name]: event.target.value });
   };
+
+  const viewCourse = (id) => {
+    history.push("/course/" + id);
+  };
+
   const callBackend = () => {
     // state of the axios call
     setResults({
@@ -206,7 +211,9 @@ export default function EditSavedSearch() {
               <ResultsCard
                 title={CourseTitle}
                 provider={CourseProviderName}
-                id={id}
+                viewCourse={() => {
+                  viewCourse(id);
+                }}
               />
             );
           })}
