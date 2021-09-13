@@ -69,7 +69,7 @@ export default function EditSavedSearch() {
     event.preventDefault();
 
     let locationOBJ = {
-      pathname: "edit-filter-search",
+      pathname: "filter-search",
       search: `?Course.CourseTitle=${
         params["Course.CourseTitle"] || ""
       }&Course.CourseProviderName=${
@@ -78,6 +78,8 @@ export default function EditSavedSearch() {
         params["CourseInstance.CourseLevel"] || ""
       }&p=${1}`,
     };
+
+    // if the user is logged in and there is a state to ref
     if (location.state && user) {
       locationOBJ.state = location.state;
     }
@@ -120,7 +122,7 @@ export default function EditSavedSearch() {
         setIsUpdating(false);
       });
     history.replace({
-      path: "edit-filter-search?",
+      path: "filter-search?",
       search: queryString.stringify({ ...params, p: parseInt(params.p) }),
       state: queryInfo,
     });
@@ -142,7 +144,6 @@ export default function EditSavedSearch() {
     axios
       .patch(url, data, { headers: headers })
       .then((response) => {
-        console.log("YOU DID IT!");
         setIsUpdating(false);
       })
       .catch((err) => {
@@ -160,7 +161,6 @@ export default function EditSavedSearch() {
       isMounted = false;
     };
   }, [location.search]);
-  console.log(location);
   return (
     <PageWrapper>
       <div className="flex flex-row justify-between items-center mt-8 mb-2">
