@@ -192,7 +192,7 @@ export default function EditSavedSearch() {
       <ControlsBar
         total={total}
         page={params.p}
-        numberResutlsPerPage={configuration?.search_results_per_page}
+        numberResultsPerPage={configuration?.search_results_per_page}
         onClickNext={getNextPage}
         onClickBack={getPreviousPage}
       />

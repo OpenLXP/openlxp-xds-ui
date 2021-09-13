@@ -1,16 +1,16 @@
 export default function ControlsBar({
   total,
   page,
-  numberResutlsPerPage,
+  numberResultsPerPage: numberResultsPerPage,
   onClickNext,
   onClickBack,
 }) {
-  console.log(Math.floor(total / numberResutlsPerPage));
+  console.log(Math.floor(total / numberResultsPerPage));
 
   let buttonStyle =
     "flex justify-center items-center gap-1 bg-base-blue hover:bg-dark-blue transition-colors duration-150 ease-in-out text-white cursor-pointer rounded-md";
   let getNumberOfPages = () => {
-    return Math.floor(total / numberResutlsPerPage);
+    return Math.floor(total / numberResultsPerPage);
   };
   return (
     <div className="flex flex-row justify-between my-4">
