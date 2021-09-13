@@ -5,8 +5,6 @@ export default function ControlsBar({
   onClickNext,
   onClickBack,
 }) {
-  console.log(Math.floor(total / numberResultsPerPage));
-
   let buttonStyle =
     "flex justify-center items-center gap-1 bg-base-blue hover:bg-dark-blue transition-colors duration-150 ease-in-out text-white cursor-pointer rounded-md";
   let getNumberOfPages = () => {
