@@ -1,6 +1,6 @@
 import { useHistory } from "react-router-dom";
 
-export default function ResultsCard({ title, provider = null, viewCourse }) {
+export default function ResultsCard({ title, provider, viewCourse }) {
   const history = useHistory();
 
   return (
