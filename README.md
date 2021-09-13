@@ -13,10 +13,8 @@
 
 - [**Installation**](#installation)
   - [Clone Project](#clone-project)
+  - [_Install Project Dependencies_](#install-project-dependencies)
 - [**Getting started**](#getting-started)
-  - [Installation](#installation)
-    - [_Clone Project_](#clone-project)
-    - [_Install Project Dependencies_](#install-project-dependencies)
   - [Environment Variables](#environment-variables)
   - [Creating a local env](#creating-a-local-environment-file)
     - [_Walk through_](#walk-through)
