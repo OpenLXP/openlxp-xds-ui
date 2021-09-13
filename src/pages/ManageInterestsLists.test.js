@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as redux from "react-redux";
-import { Provider } from "react-redux";
-import { unmountComponentAtNode } from "react-dom";
+import {Provider} from "react-redux";
+import {unmountComponentAtNode} from "react-dom";
 import {
   act,
   render,
@@ -9,7 +9,7 @@ import {
   fireEvent,
   waitFor,
 } from "@testing-library/react";
-import { MemoryRouter, Route, StaticRouter } from "react-router-dom";
+import {MemoryRouter, Route, StaticRouter} from "react-router-dom";
 
 import store from "../store/store";
 import ManageInterestLists from "./ManageInterestsLists";
@@ -301,7 +301,7 @@ describe("ManageInterestLists.js", () => {
       render(
         <Provider store={store}>
           <MemoryRouter>
-            <ManageInterestLists />
+            <ManageInterestLists/>
           </MemoryRouter>
         </Provider>,
         container
@@ -383,14 +383,14 @@ describe("ManageInterestLists.js", () => {
           },
         ],
         subs: null,
-        status: "idle",
+        status: "succeeded",
         error: null,
       });
       axios.get.mockImplementation(() => Promise.resolve({ data: courseData }));
       render(
         <Provider store={store}>
           <MemoryRouter>
-            <ManageInterestLists />
+            <ManageInterestLists/>
           </MemoryRouter>
         </Provider>,
         container
@@ -417,7 +417,7 @@ describe("ManageInterestLists.js", () => {
       render(
         <Provider store={store}>
           <MemoryRouter>
-            <ManageInterestLists />
+            <ManageInterestLists/>
           </MemoryRouter>
         </Provider>,
         container
@@ -442,7 +442,7 @@ describe("ManageInterestLists.js", () => {
       render(
         <Provider store={store}>
           <MemoryRouter>
-            <ManageInterestLists />
+            <ManageInterestLists/>
           </MemoryRouter>
         </Provider>,
         container
