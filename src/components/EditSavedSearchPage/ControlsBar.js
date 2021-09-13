@@ -1,7 +1,7 @@
 export default function ControlsBar({
   total,
   page,
-  numberResultsPerPage: numberResultsPerPage,
+  numberResultsPerPage,
   onClickNext,
   onClickBack,
 }) {
