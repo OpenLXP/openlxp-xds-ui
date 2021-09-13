@@ -49,7 +49,7 @@ function App() {
       {user && (
         <Route path="/searchinterestlists/" component={SearchInterestLists} />
       )}
-      {/* <Redirect to="/" /> */}
+      <Redirect to="/" />
     </Switch>
   );
 
