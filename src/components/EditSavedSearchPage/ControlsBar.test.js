@@ -2,11 +2,6 @@ import ControlsBar from "./ControlsBar";
 import React from "react";
 import { unmountComponentAtNode } from "react-dom";
 import { act, render, screen, fireEvent } from "@testing-library/react";
-import { MemoryRouter, Route } from "react-router-dom";
-import userEvent from "@testing-library/user-event";
-import { Provider } from "react-redux";
-import axios from "axios";
-import * as redux from "react-redux";
 
 // tools to use
 let { getByText, queryByText } = screen;
