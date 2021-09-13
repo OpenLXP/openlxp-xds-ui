@@ -2,7 +2,7 @@ import { Title } from "../common/text/text";
 
 export default function SearchForm({ params, handleChange, handleSubmit }) {
   return (
-    <form className="">
+    <form>
       <div className="bg-white rounded-md p-2">
         <div className=" flex justify-center gap-2 my-2 items-center">
           <div className="flex flex-col">
@@ -14,6 +14,7 @@ export default function SearchForm({ params, handleChange, handleSubmit }) {
               id="Course.CourseTitle"
               value={params["Course.CourseTitle"]}
               onChange={handleChange}
+              placeholder="Title"
             />
           </div>
           <div className="flex flex-col">
@@ -25,6 +26,7 @@ export default function SearchForm({ params, handleChange, handleSubmit }) {
               id="Course.CourseProviderName"
               value={params["Course.CourseProviderName"]}
               onChange={handleChange}
+              placeholder="Provider"
             />
           </div>
           <div className="flex flex-col">
@@ -36,6 +38,7 @@ export default function SearchForm({ params, handleChange, handleSubmit }) {
               id="CourseInstance.CourseLevel"
               value={params["CourseInstance.CourseLevel"]}
               onChange={handleChange}
+              placeholder="Level"
             />
           </div>
           <div
