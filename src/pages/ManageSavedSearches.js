@@ -1,4 +1,3 @@
-import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Title } from "../components/common/text/text";
@@ -7,7 +6,6 @@ import SavedSearchCard from "../components/SavedSearchesPage/SavedSearchCard";
 import axios from "axios";
 
 export default function ManageSavedSearches() {
-  const history = useHistory();
   const { user } = useSelector((state) => state.user);
   const [searches, setSearches] = useState([]);
 
