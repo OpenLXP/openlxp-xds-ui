@@ -93,14 +93,14 @@ export default function EditSavedSearch() {
   };
   const getNextPage = () => {
     history.replace({
-      path: "edit-filter-search?",
+      path: "filter-search?",
       search: queryString.stringify({ ...params, p: parseInt(params.p) + 1 }),
       state: location.state,
     });
   };
   const getPreviousPage = () => {
     history.replace({
-      path: "edit-filter-search?",
+      path: "filter-search?",
       search: queryString.stringify({ ...params, p: parseInt(params.p) - 1 }),
       state: location.state,
     });
@@ -204,11 +204,12 @@ export default function EditSavedSearch() {
       {results.isLoading && "Loading..."}
       {!results.isLoading && !results.error && (
         <div className="flex flex-col gap-2 rounded-md mb-8">
-          {results.data?.hits?.map((course) => {
+          {results.data?.hits?.map((course, idx) => {
             let { id } = course.meta;
             let { CourseTitle, CourseProviderName } = course.Course;
             return (
               <ResultsCard
+                key={idx}
                 title={CourseTitle}
                 provider={CourseProviderName}
                 viewCourse={() => {
