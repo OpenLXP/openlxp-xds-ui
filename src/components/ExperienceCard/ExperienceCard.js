@@ -3,11 +3,6 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const ExperienceCard = (props) => {
-  // Random number gen for styling cards
-  const generateRandomNumber = (max) => {
-    return Math.round(Math.random() * max);
-  };
-
   let result = (
     <div className="col span-1-of-4 box">Error Loading Course Card.</div>
   );
