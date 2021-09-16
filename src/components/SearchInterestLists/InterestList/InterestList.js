@@ -1,8 +1,6 @@
 import axios from "axios";
-import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 
 export default function InterestList({ title, owner, description, id }) {
   const { user } = useSelector((state) => state.user);

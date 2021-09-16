@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { Error, Loading } from "../components/common/messages/messages";
 import { Title } from "../components/common/text/text";
 import { getSubscribedLists } from "../store/lists";
@@ -9,10 +8,9 @@ import PageWrapper from "../components/common/PageWrapper";
 import SubscriptionList from "../components/ManageSubscriptionsPage/SubscriptionLists";
 
 const ManageSubscriptions = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
-  const { subs, status, error } = useSelector((state) => state.lists);
+  const { subs, status } = useSelector((state) => state.lists);
 
   useEffect(() => {
     dispatch(getSubscribedLists(user.token));
