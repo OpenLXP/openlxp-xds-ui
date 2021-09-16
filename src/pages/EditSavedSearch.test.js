@@ -175,4 +175,99 @@ describe( "EditSavedSearch", () => {
     });
     expect(axios.patch).toHaveBeenCalledTimes(1);
   });
+
+  it("does changes title text and makes axios get call", async () => {
+    await act(async () => {
+      useSelectorMock.mockReturnValue(state);
+      axios.get.mockImplementationOnce(() =>
+        Promise.resolve({ data: testData })
+      );
+      render(
+        <Provider store={store}>
+          <MemoryRouter
+            initialEntries={[
+              {
+                pathname: "/filter-search",
+                state: { name: "Test List", id: 1 },
+              },
+            ]}>
+            <EditSavedSearch />
+          </MemoryRouter>
+        </Provider>,
+        container
+      );
+    });
+
+    await act(async () => {
+      useSelectorMock.mockReturnValue(state);
+      axios.get.mockResolvedValueOnce({});
+      fireEvent.click(getByText("Search"));
+    });
+    expect(axios.get).toHaveBeenCalledTimes(2);
+    getByText("Update");
+
+    act(() => {
+      fireEvent.change(screen.getByPlaceholderText("Title"), {
+        target: { value: "test" },
+      });
+    });
+
+  }); 
+
+  it("Create button trigger", async () => {
+    await act(async () => {
+      useSelectorMock.mockReturnValue(state);
+      axios.get.mockImplementationOnce(() =>
+        Promise.resolve({ data: testData })
+      );
+      render(
+        <Provider store={store}>
+          <MemoryRouter
+            initialEntries={[
+              {
+                pathname: "/filter-search",
+                // state: { name: "Test List", id: 1 },
+              },
+            ]}>
+            <EditSavedSearch />
+          </MemoryRouter>
+        </Provider>,
+        container
+      );
+    });
+    getByText("Create");
+
+    await act(async () => {
+      useSelectorMock.mockReturnValue(state);
+      axios.get.mockResolvedValueOnce({});
+      useSelectorMock.mockReturnValue(state);
+      axios.post.mockResolvedValueOnce({});
+      fireEvent.click(getByText("Create"));
+    });
+  }); 
+
+  it("axios error catching", async () => {
+    await act(async () => {
+      useSelectorMock.mockReturnValue(state);
+      axios.get.mockImplementation(() =>
+        Promise.reject({ error: "Contact an administrator" })
+      );
+      render(
+        <Provider store={store}>
+          <MemoryRouter
+            initialEntries={[
+              {
+                pathname: "/filter-search",
+                // state: { name: "Test List", id: 1 },
+              },
+            ]}>
+            <EditSavedSearch />
+          </MemoryRouter>
+        </Provider>,
+        container
+      );
+    });
+    
+  });
+
 });
