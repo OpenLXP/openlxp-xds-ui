@@ -39,17 +39,17 @@ export default function SavedSearchCard({
       <div className="flex flex-row items-center gap-2">
         <div
           className="flex items-center transition-colors duration-150 ease-in-out justify-center p-2 rounded-md bg-base-blue bg-opacity-10 text-base-blue hover:text-dark-blue hover:bg-opacity-20 cursor-pointer"
-          onClick={handleView}>
+          onClick={handleView}  data-testid="view-button">
           <ion-icon name="eye-outline" />
         </div>
         <div
           className="flex items-center transition-colors duration-150 ease-in-out justify-center p-2 rounded-md bg-gray-100 text-gray-600 hover:text-gray-800 hover:bg-gray-200 cursor-pointer"
-          onClick={handleEdit}>
+          onClick={handleEdit} data-testid="edit-button">
           <ion-icon name="create-outline" />
         </div>
         <div
           className="flex items-center transition-colors duration-150 ease-in-out justify-center p-2 rounded-md bg-red-100 text-red-600 hover:text-red-800 hover:bg-red-200 cursor-pointer"
-          onClick={handleDelete}>
+          onClick={handleDelete} data-testid="delete-button">
           <ion-icon name="trash-outline" />
         </div>
       </div>
