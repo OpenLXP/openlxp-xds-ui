@@ -80,83 +80,12 @@ This project makes use of globally available environment variables. Below are th
 
 #### **REACT_APP_BACKEND_HOST**
 
-This is the root API endpoint used by the application.
+This is the root API endpoint used by the config file to dynamically generate the various endpoints.
 
 ```yaml
 http://<YOUR_BACKEND_ENDPOINT>/
 ```
 
-#### **REACT_APP_ES_API**
-
-This is the endpoint for elasticsearch.
-
-```yaml
-http://<YOUR_BACKEND_ENDPOINT>/es-api/
-```
-
-#### **REACT_APP_ES_MLT_API**
-
-This endpoint is responsible for getting more courses like the one given to the api.
-
-```yaml
-http://<YOUR_BACKEND_ENDPOINT>/es-api/more-like-this/
-```
-
-#### **REACT_APP_AUTH**
-
-This is the authentication endpoint used
-
-```yaml
-http://<YOUR_BACKEND_ENDPOINT>/api/auth/
-```
-
-#### **REACT_APP_CONFIGURATION_API**
-
-This is the application configuration API. This endpoint delivers the necessary configurations required by the application.
-
-```yaml
-http://<YOUR_BACKEND_ENDPOINT>/api/configuration
-```
-
-#### **REACT_APP_EXPERIENCES**
-
-This endpoint is responsible for getting custom experiences set up by the system administrator.
-
-```yaml
-http://<YOUR_BACKEND_ENDPOINT>/api/experiences/
-```
-
-#### **REACT_APP_ADD_COURSE_TO_LISTS**
-
-This endpoint is responsible for getting custom experiences set up by the system administrator.
-
-```yaml
-http://<YOUR_BACKEND_ENDPOINT>/api/experiences/
-```
-
-#### **REACT_APP_INTEREST_LISTS_ALL**
-
-This endpoint is responsible for getting all interest lists.
-
-```yaml
-http://<YOUR_BACKEND_ENDPOINT>/api/interest-lists/
-```
-
-#### **REACT_APP_USER_SUBSCRIPTION_LISTS**
-
-This endpoint is responsible for getting all interest lists that a user is subscribed to.
-
-```yaml
-http://<YOUR_BACKEND_ENDPOINT>/api/interest-lists/subscriptions
-```
-
-#### **REACT_APP_USER_INTEREST_LISTS**
-
-This endpoint is responsible for getting all interest lists a user has created.
-
-```yaml
-http://<YOUR_BACKEND_ENDPOINT>/api/interest-lists/owned
-```
 
 ### Creating a local environment file
 
@@ -186,15 +115,6 @@ Navigate to the newly created file and paste the template (_below_) into the fil
 
 ```text
 REACT_APP_BACKEND_HOST=<YOUR_BACKEND_ENDPOINT>
-REACT_APP_ES_API=<YOUR_BACKEND_ENDPOINT>/es-api/
-REACT_APP_MLT_API=<YOUR_BACKEND_ENDPOINT>/es-api/more-like-this/
-REACT_APP_AUTH=<YOUR_BACKEND_ENDPOINT>/api/auth
-REACT_APP_CONFIGURATION_API=<YOUR_BACKEND_ENDPOINT>/api/configuration
-REACT_APP_EXPERIENCES=<YOUR_BACKEND_ENDPOINT>/api/experiences/
-REACT_APP_ADD_COURSE_TO_LISTS=<YOUR_BACKEND_ENDPOINT>/api/experiences/
-REACT_APP_INTEREST_LISTS_ALL=<YOUR_BACKEND_ENDPOINT>/api/interest-lists/
-REACT_APP_USER_SUBSCRIPTION_LISTS=<YOUR_BACKEND_ENDPOINT>/api/interest-lists/subscriptions
-REACT_APP_USER_INTEREST_LISTS=<YOUR_BACKEND_ENDPOINT>/api/interest-lists/owned
 ```
 
 ### Important Notes
