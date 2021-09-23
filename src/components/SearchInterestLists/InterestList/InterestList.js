@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { userAllLists } from "../../../config/config";
 
 export default function InterestList({ title, owner, description, id }) {
   const { user } = useSelector((state) => state.user);
   const [subscribed, setSubscribed] = useState(false);
 
-
   const handleSubscribe = () => {
-    const url = `${process.env.REACT_APP_INTEREST_LISTS_ALL}${id}/subscribe`;
+    const url = `${userAllLists}${id}/subscribe`;
     let header = {
       Authorization: "Token " + user.token,
     };
@@ -23,7 +23,7 @@ export default function InterestList({ title, owner, description, id }) {
       });
   };
   const handleUnsubscribe = () => {
-    const url = `${process.env.REACT_APP_INTEREST_LISTS_ALL}${id}/unsubscribe`;
+    const url = `${userAllLists}${id}/unsubscribe`;
     let header = {
       Authorization: "Token " + user.token,
     };

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { backendHost } from "../../config/config";
 
 export default function SavedSearchCard({
   savedSearch,
@@ -21,7 +22,7 @@ export default function SavedSearchCard({
     history.push("/filter-search?" + query);
   };
   const handleDelete = () => {
-    const url = process.env.REACT_APP_BACKEND_HOST + "/api/saved-filters/" + id;
+    const url = backendHost + "/api/saved-filters/" + id;
     const headers = {
       Authorization: "Token " + userToken,
     };

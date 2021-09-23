@@ -4,6 +4,7 @@ import {useSelector} from "react-redux";
 import {useLocation, useHistory} from "react-router-dom";
 import axios from "axios";
 import PageWrapper from "../components/common/PageWrapper"
+import { elasticSearchApi } from "../config/config";
 
 export default function FilterSearch() {
   const location = useLocation();
@@ -28,7 +29,7 @@ export default function FilterSearch() {
     });
 
     // hitting the backend with the location search params
-    let url = `${process.env.REACT_APP_ES_API}filter-search${location.search}`;
+    let url = `${elasticSearchApi}filter-search${location.search}`;
     axios
       .get(url)
       .then((resp) => {

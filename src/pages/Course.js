@@ -11,6 +11,7 @@ import CourseImage from "../components/CoursePage/CourseImage";
 import PlaceholderImage from "../components/CoursePage/PlaceholderImage";
 import InterestGroupPopup from "../components/CoursePage/InterestGroupPopup";
 import PageWrapper from "../components/common/PageWrapper";
+import { backendHost, courseApi, elasticSearchApi, elasticSearchMoreLikeThisApi } from "../config/config";
 
 export default function Course() {
   const { configuration } = useSelector((state) => state.configuration);
@@ -73,7 +74,7 @@ export default function Course() {
     } else if (configuration?.course_img_fallback) {
       //if there is a fallback image uploaded in the configurations
       obj.image =
-        process.env.REACT_APP_BACKEND_HOST + configuration?.course_img_fallback;
+        backendHost + configuration?.course_img_fallback;
     } else {
       //sets configurations data based on specified mappings
       obj.details = configuration?.course_highlights;
@@ -90,7 +91,7 @@ export default function Course() {
       error: null,
     });
     axios
-      .get(process.env.REACT_APP_EXPERIENCES + id)
+      .get(courseApi + id)
       .then((response) => {
         setCourse({
           data: response.data,
@@ -113,7 +114,7 @@ export default function Course() {
       error: null,
     });
     axios
-      .get(process.env.REACT_APP_ES_API + "more-like-this/" + id)
+      .get(elasticSearchMoreLikeThisApi + id)
       .then((response) => {
         setRelated({
           isLoading: false,

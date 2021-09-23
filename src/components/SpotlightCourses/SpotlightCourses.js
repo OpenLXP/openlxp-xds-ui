@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
 import ExperienceCard from "../ExperienceCard/ExperienceCard";
+import { spotlightCoursesApi } from "../../config/config";
 
 const SpotlightCourses = () => {
-  const api_url = process.env.REACT_APP_SPOTLIGHT_COURSES;
+  const api_url = spotlightCoursesApi;
 
   // state to keep track of all the related course found
   const [spotlightCoursesState, setSpotlightCoursesState] = useState({

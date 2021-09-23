@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { authenticationApi } from "../config/config";
 
 const initialState = {
   user: null,
@@ -9,7 +10,7 @@ const initialState = {
 
 export const loginUser = createAsyncThunk("user/loginUser", async (data) => {
   //   The endpoint to login a user
-  const url = process.env.REACT_APP_AUTH + "login";
+  const url = authenticationApi + "login";
 
   const response = await axios.post(url, data);
 
@@ -18,7 +19,7 @@ export const loginUser = createAsyncThunk("user/loginUser", async (data) => {
 
 export const logoutUser = createAsyncThunk("user/logoutUser", async (data) => {
   //  The endpoint to to logout a user
-  const url = process.env.REACT_APP_AUTH + "logout/";
+  const url = authenticationApi + "logout/";
   const headers = {
     Authorization: "Token " + data.token,
   };
@@ -31,7 +32,7 @@ export const registerNewUser = createAsyncThunk(
   "user/registerNewUser",
   async (data) => {
     // The endpoint url
-    const url = process.env.REACT_APP_AUTH + "register";
+    const url = authenticationApi + "register";
 
     // Requesting the creation of a new user
     const response = await axios.post(url, data);

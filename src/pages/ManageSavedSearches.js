@@ -4,13 +4,14 @@ import { Title } from "../components/common/text/text";
 import PageWrapper from "../components/common/PageWrapper";
 import SavedSearchCard from "../components/SavedSearchesPage/SavedSearchCard";
 import axios from "axios";
+import { backendHost } from "../config/config";
 
 export default function ManageSavedSearches() {
   const { user } = useSelector((state) => state.user);
   const [searches, setSearches] = useState([]);
 
   const getSavedSearches = () => {
-    const url = process.env.REACT_APP_BACKEND_HOST + "/api/saved-filters/owned";
+    const url = backendHost + "/api/saved-filters/owned";
     const headers = {
       Authorization: "Token " + user?.token,
     };

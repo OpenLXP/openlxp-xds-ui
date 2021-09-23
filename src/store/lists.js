@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { userOwnedLists, userSubscribedLists } from "../config/config";
 
 const initialState = {
   lists: null,
@@ -11,7 +12,7 @@ const initialState = {
 export const getUserLists = createAsyncThunk(
   "lists/getUserLists",
   async (token) => {
-    const url = process.env.REACT_APP_USER_INTEREST_LISTS;
+    const url = userOwnedLists;
     const response = await axios.get(url, {
       headers: { Authorization: "Token " + token },
     });
@@ -22,7 +23,7 @@ export const getUserLists = createAsyncThunk(
 export const getSubscribedLists = createAsyncThunk(
   "lists/getSubscribedLists",
   async (token) => {
-    const url = `${process.env.REACT_APP_USER_SUBSCRIPTION_LISTS}`;
+    const url = `${userSubscribedLists}`;
     let header = {
       Authorization: "Token " + token,
     };

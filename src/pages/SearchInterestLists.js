@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 
 import { SearchField } from "../components/common/input/inputs";
 import InterestList from "../components/SearchInterestLists/InterestList/InterestList";
+import { userAllLists, userSubscribedLists } from "../config/config";
 
 export default function SearchInterestLists() {
   const history = useHistory();
@@ -55,7 +56,7 @@ export default function SearchInterestLists() {
     if (user) {
       // get all the lists from the backend
       axios
-        .get(process.env.REACT_APP_INTEREST_LISTS_ALL)
+        .get(userAllLists)
         .then((resp) => {
           // saving the data
           setOriginalInterestLists(resp.data);
@@ -67,7 +68,8 @@ export default function SearchInterestLists() {
           console.log(err);
         });
 
-      const url = `${process.env.REACT_APP_USER_SUBSCRIPTION_LISTS}`;
+      // get all the lists the user is subscribed to
+      const url = `${userSubscribedLists}`;
       let header = {
         Authorization: "Token " + user.token,
       };
@@ -102,7 +104,6 @@ export default function SearchInterestLists() {
           }}
           value={search}
         />
-      
       </div>
       <div className="flex flex-row justify-end gap-4 my-2 pb-2">
         <div

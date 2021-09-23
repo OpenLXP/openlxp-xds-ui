@@ -11,6 +11,7 @@ import SearchForm from "../components/EditSavedSearchPage/SearchForm";
 import UpdateButton from "../components/EditSavedSearchPage/UpdateButton";
 import TitleInput from "../components/EditSavedSearchPage/TitleInput";
 import CreateButton from "../components/EditSavedSearchPage/CreateButton";
+import { backendHost, elasticSearchApi } from "../config/config";
 
 export default function EditSavedSearch() {
   const { configuration } = useSelector((state) => state.configuration);
@@ -50,7 +51,7 @@ export default function EditSavedSearch() {
       error: null,
     });
     // hitting the backend with the location search params
-    let url = `${process.env.REACT_APP_ES_API}filter-search${location.search}`;
+    let url = `${elasticSearchApi}filter-search${location.search}`;
     axios
       .get(url)
       .then((resp) => {
@@ -107,7 +108,7 @@ export default function EditSavedSearch() {
   };
 
   const handleCreateNewList = () => {
-    let url = process.env.REACT_APP_BACKEND_HOST + "/api/saved-filters";
+    let url = backendHost + "/api/saved-filters";
 
     let headers = {
       Authorization: "Token " + user?.token,
@@ -133,10 +134,7 @@ export default function EditSavedSearch() {
     });
   };
   const handleUpdate = () => {
-    let url =
-      process.env.REACT_APP_BACKEND_HOST +
-      "/api/saved-filters/" +
-      location.state.id;
+    let url = backendHost + "/api/saved-filters/" + location.state.id;
 
     let headers = {
       Authorization: "Token " + user?.token,

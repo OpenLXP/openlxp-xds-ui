@@ -13,7 +13,7 @@ export default function ManageInterestLists() {
   const { lists, status, error } = useSelector((state) => state.lists);
   // handles the state of the lists
   useEffect(() => {
-    dispatch(getUserLists(user?.token));
+    dispatch(getUserLists(user.token));
   }, [user]);
 
   return (

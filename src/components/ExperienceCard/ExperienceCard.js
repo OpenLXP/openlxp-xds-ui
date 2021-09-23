@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { backendHost } from "../../config/config";
 
 const ExperienceCard = (props) => {
   let result = (
@@ -10,7 +11,6 @@ const ExperienceCard = (props) => {
   let courseThumbnail;
   // courseThumbnail = no_img;
   const { configuration } = useSelector((state) => state.configuration);
-  const backendHost = process.env.REACT_APP_BACKEND_HOST;
   // default style if no image is provided
   let style = {
     backgroundColor: "rgb(243 243 243)",

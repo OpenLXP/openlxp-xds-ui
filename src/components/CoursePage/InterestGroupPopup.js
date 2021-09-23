@@ -2,6 +2,7 @@ import { Dialog } from "@headlessui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { addCourseToList, userAllLists } from "../../config/config";
 
 import { getUserLists } from "../../store/lists";
 
@@ -27,7 +28,7 @@ const InterestGroupPopup = (props) => {
 
     axios
       .post(
-        `${process.env.REACT_APP_ADD_COURSE_TO_LISTS}${props.courseId}/interest-lists`,
+        `${addCourseToList}${props.courseId}/interest-lists`,
         dataToSend,
         {
           headers: header,
@@ -48,9 +49,8 @@ const InterestGroupPopup = (props) => {
     const header = {
       Authorization: `Token ${user.token}`,
     };
-
     axios
-      .post(process.env.REACT_APP_INTEREST_LISTS_ALL, dataToSend, {
+      .post(userAllLists, dataToSend, {
         headers: header,
       })
       .then((response) => {

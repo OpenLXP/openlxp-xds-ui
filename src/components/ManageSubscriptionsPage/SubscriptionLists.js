@@ -1,6 +1,7 @@
 import { Disclosure } from "@headlessui/react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import { userAllLists } from "../../config/config";
 import { getSubscribedLists } from "../../store/lists";
 
 import SubscriptionListTable from "../ManageSubscriptionsPage/SubscriptionListTable";
@@ -11,7 +12,7 @@ export default function SubscriptionList({ list, token }) {
   let { id, owner, description, name } = list;
 
   const handleUnsubscribe = () => {
-    const url = `${process.env.REACT_APP_INTEREST_LISTS_ALL}${id}/unsubscribe`;
+    const url = `${userAllLists}${id}/unsubscribe`;
     let header = {
       Authorization: "Token " + token,
     };

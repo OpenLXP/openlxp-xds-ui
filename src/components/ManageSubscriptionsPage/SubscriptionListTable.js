@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { userAllLists } from "../../config/config";
 
 export default function SubscriptionListTable({ id, token }) {
   const [courses, setCourses] = useState([]);
@@ -13,7 +14,7 @@ export default function SubscriptionListTable({ id, token }) {
   // on mount
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_INTEREST_LISTS_ALL}${id}`, {
+      .get(`${userAllLists}${id}`, {
         headers: { Authorization: "token " + token },
       })
       .then((response) => {

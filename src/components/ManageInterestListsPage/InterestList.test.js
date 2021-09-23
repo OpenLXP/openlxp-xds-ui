@@ -266,7 +266,7 @@ describe("<InterestList />", () => {
     };
     const data = {
       name: "test",
-      despription: "test desc",
+      description: "test desc",
       experiences: [
         {
           Metadata_Ledger: {
@@ -337,7 +337,7 @@ describe("<InterestList />", () => {
       };
       const data = {
         name: "test",
-        despription: "test desc",
+        description: "test desc",
         experiences: [],
       };
       let state = { user: user, list: list };
@@ -347,7 +347,8 @@ describe("<InterestList />", () => {
     });
   });
 
-  it("On reject console.logs error", async () => {
+  it( "On reject console.logs error", async () => {
+    console.log = jest.fn()
     let state = { user: { email: "test@test.com" } };
     const list = {
       name: "Test list",
@@ -364,7 +365,7 @@ describe("<InterestList />", () => {
     };
     const data = {
       name: "test",
-      despription: "test desc",
+      description: "test desc",
       experiences: [
         {
           Metadata_Ledger: {
@@ -436,7 +437,7 @@ describe("<InterestList />", () => {
       };
       const data = {
         name: "test",
-        despription: "test desc",
+        description: "test desc",
         experiences: [],
       };
       let state = { user: user, list: list };
@@ -445,6 +446,6 @@ describe("<InterestList />", () => {
       fireEvent.click(screen.getByText("Update"));
     });
 
-    expect(console.log).toHaveBeenCalled();
+    expect( console.log).toHaveBeenCalled();
   });
 });

@@ -20,11 +20,13 @@ import Course from "./pages/Course";
 import SearchResults from "./pages/SearchResults";
 import ManageSavedSearches from "./pages/ManageSavedSearches";
 import EditSavedSearch from "./pages/EditSavedSearch";
+import { userSubscribedLists } from "./config/config";
 
 function App() {
   const dispatch = useDispatch();
   const { status } = useSelector((state) => state.configuration);
   const { user } = useSelector((state) => state.user);
+
 
   let routes = (
     <Switch>
@@ -65,7 +67,7 @@ function App() {
 
   useEffect(() => {
     if (user?.token) {
-      const url = process.env.REACT_APP_USER_SUBSCRIPTION_LISTS;
+      const url = userSubscribedLists;
       // validate with back end
       axios
         .get(url, {

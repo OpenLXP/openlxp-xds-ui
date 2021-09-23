@@ -11,6 +11,7 @@ import ExpPreviewPanel from "../components/SearchResultsPage/ExpPreviewPanel/Exp
 import Pagination from "../components/Pagination/Pagination";
 
 import PageWrapper from "../components/common/PageWrapper";
+import { backendHost, elasticSearchApi } from "../config/config";
 
 // import dummyJSON from '../../resources/dummy.json';
 
@@ -130,11 +131,10 @@ const SearchResultPage = (props) => {
   let location = useLocation();
   let history = useHistory();
   // TODO: get this url from configuration
-  const api_url = process.env.REACT_APP_ES_API;
+  const api_url = elasticSearchApi;
   const keyword = getKeywordParam(location);
   const pageNum = getPage(location);
   const placeholderText = "Search for anything";
-  const backendHost = process.env.REACT_APP_BACKEND_HOST;
 
   // TODO: remove placeholder images when data comes in with images
 
