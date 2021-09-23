@@ -32,7 +32,7 @@ export const registerNewUser = createAsyncThunk(
   "user/registerNewUser",
   async (data) => {
     // The endpoint url
-    const url = authenticationApi + "register";
+    const url = authenticationApi + "/register";
 
     // Requesting the creation of a new user
     const response = await axios.post(url, data);
