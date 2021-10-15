@@ -8,6 +8,8 @@ export const authLogin = `${backendHost}${api}auth/login`;
 export const authRegister = `${backendHost}${api}auth/register`;
 export const authLogout = `${backendHost}${api}auth/logout`;
 
+// configuration url
+export const configUrl = `${backendHost}${api}ui-configuration/`;
 
 //
 export const interestLists = `${backendHost}${api}interest-lists/`;
