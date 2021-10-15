@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { authLogin, authRegister, interestLists } from 'config/endpoints';
+import { authLogin, authRegister, interestLists } from '../config/endpoints';
 import { useRouter } from 'next/dist/client/router';
 import { createContext, useContext, useEffect, useState } from 'react';
 
