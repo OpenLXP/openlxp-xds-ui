@@ -1,5 +1,6 @@
 import { Menu, Transition } from '@headlessui/react';
 import { useState, Fragment } from 'react';
+import { ChevronDownIcon } from '@heroicons/react/solid';
 
 export default function SelectList({
   options,
@@ -14,10 +15,11 @@ export default function SelectList({
       <div className='flex flex-col gap-2'>
         <Menu.Button className='text-gray-800 items-center gap-2 inline-flex  justify-between w-36 bg-white shadow-md px-2 py-1 rounded-md focus:ring-2 ring-blue-400 transform transition-all duration-150 ease-in-out outline-none'>
           <div className='line-clamp-1'>{selected || keyName}</div>
-          {/* <FaChevronDown className='text-gray-500' /> */}
+          <ChevronDownIcon className='h-4 w-4 text-gray-600' />
         </Menu.Button>
         <div className='flex justify-end'>
           <button
+            id={options?.field_name}
             className='w-min text-gray-600 hover:text-blue-400 cursor-pointer text-xs text-right my-2 px-2 hover:underline focus:ring-2 ring-blue-300 outline-none rounded-full -mt-1 focus:text-blue-300 focus-text-shadow'
             onClick={() => {
               onClear(options?.field_name);
