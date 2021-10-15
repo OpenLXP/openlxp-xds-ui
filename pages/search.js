@@ -1,16 +1,19 @@
-import SearchResult from '@/components/cards/SearchResult';
-import SelectList from '@/components/inputs/SelectList';
 import axios from 'axios';
-import DefaultLayout from 'components/layouts/DefaultLayout';
-import { searchUrl } from 'config/endpoints';
-import useUrl from 'hooks/useUrl';
-import { useRouter } from 'next/dist/client/router';
-import { useEffect, useState } from 'react';
-import { dehydrate, QueryClient } from 'react-query';
 import { URLSearchParams } from 'url';
-import SearchBar from '../components/inputs/SearchBar';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/dist/client/router';
+import { dehydrate, QueryClient } from 'react-query';
+
+import useUrl from '../hooks/useUrl';
+import useConfig from '../hooks/useConfig';
+import useSearch from '../hooks/useSearch';
+import { searchUrl } from 'config/endpoints';
 import { tenMinutes } from '../config/timeConstants';
-import { useSearch } from '../hooks/useSearch';
+import SearchBar from '../components/inputs/SearchBar';
+import SelectList from '../components/inputs/SelectList';
+import { Pagination } from '../components/buttons/Pagination';
+import SearchResult from '../components/cards/SearchResult';
+import DefaultLayout from 'components/layouts/DefaultLayout';
 
 // Server Side Generation
 export async function getServerSideProps({ query }) {
@@ -36,11 +39,12 @@ export async function getServerSideProps({ query }) {
 }
 
 export default function Search({ query }) {
-  const router = useRouter();
-
   const [params, setParams] = useState(query);
   const [url, setUrl] = useUrl(query);
-  const { data, refetch, isError, isSuccess } = useSearch(url);
+
+  const router = useRouter();
+  const config = useConfig();
+  const { data, refetch, isError, isSuccess, isLoading } = useSearch(url);
 
   function handleChange(event) {
     setParams((previous) => ({
@@ -50,7 +54,7 @@ export default function Search({ query }) {
   }
 
   function handleClear(key) {
-    if (params[key]) {
+    if (params[key] && params.keyword && params.keyword !== '') {
       const modified = { ...params };
       delete modified[key];
       delete modified['undefined'];
@@ -59,17 +63,19 @@ export default function Search({ query }) {
       setParams(modified);
       setUrl(modified);
 
-      router.replace({ pathname: '/search/', query: modified });
+      router.push({ pathname: '/search/', query: modified });
     }
   }
 
   function handleListSelect(event) {
-    const modified = { ...params };
-    modified[event.target.name] = event.target.value;
+    if (params.keyword && params.keyword !== '') {
+      const modified = { ...params };
+      modified[event.target.name] = event.target.value;
 
-    setUrl(modified);
-    setParams(modified);
-    router.replace({ pathname: '/search/', query: modified });
+      setUrl(modified);
+      setParams(modified);
+      router.push({ pathname: '/search/', query: modified });
+    }
   }
 
   function handleReset(key) {
@@ -84,12 +90,30 @@ export default function Search({ query }) {
       const modified = { ...params };
       // setting the page to 1
       modified.p = 1;
+      if (data?.aggregations) {
+        Object.keys(data.aggregations).map((key) => {});
+      }
 
       setParams(modified);
       setUrl(modified);
 
-      router.replace({ pathname: '/search/', query: modified });
+      router.push({ pathname: '/search', query: modified });
     }
+  }
+
+  function handlePrevious() {
+    const modified = { ...params };
+    modified.p = parseInt(params.p) - 1;
+    setParams(modified);
+    setUrl(modified);
+    router.push({ pathname: '/search', query: modified }, undefined, {});
+  }
+  function handelNext() {
+    const modified = { ...params };
+    modified.p = parseInt(params.p) + 1;
+    setParams(modified);
+    setUrl(modified);
+    router.push({ pathname: '/search', query: modified }, undefined, {});
   }
 
   function createLists() {
@@ -117,30 +141,55 @@ export default function Search({ query }) {
   useEffect(() => {
     refetch();
   }, [url]);
+
   return (
     <DefaultLayout>
-      <div className={'flex flex-col pt-28 pb-8 w-2/3'}>
-        <a id={'save-this-search'} className={'self-end pr-6 pb-1 text-sm'}>
-          Save this search
-        </a>
-        <SearchBar
-          parameters={params}
-          onChange={handleChange}
-          onReset={handleReset}
-          onClick={handleSearch}
-        />
-        <div className='flex gap-2 pl-6 pt-2'>{data && createLists()}</div>
-      </div>
-      {data && (
-        <span className={'text-gray-400 italic mt-8 font-sans'}>
-          About {data.total} results for "{params.keyword}"
-        </span>
-      )}
-      <div className={'grid grid-cols-3 pt-2'}>
-        <div id='search-results' className={'col-span-2 grid gap-8'}>
-          {data?.hits?.map((course) => (
-            <SearchResult result={course} />
-          ))}
+      <div className='pt-28 pb-8'>
+        <div
+          className={
+            'flex flex-col pb-2 mb-4 w-3/4 sticky top-0 z-20 bg-gray-50'
+          }
+        >
+          <button
+            id={'save-this-search'}
+            className={
+              'self-end pr-6 pb-1 text-sm italic font-sans text-blue-400 hover:text-blue-300 hover:underline'
+            }
+          >
+            Save this search
+          </button>
+          <SearchBar
+            parameters={params}
+            onChange={handleChange}
+            onReset={handleReset}
+            onClick={handleSearch}
+          />
+          {data && !isLoading && (
+            <div className='flex gap-2 pl-6 pt-2'>{data && createLists()}</div>
+          )}
+        </div>
+        {data && (
+          <span className={'text-gray-400 italic pt-12 font-sans px-px'}>
+            About {data.total} results
+          </span>
+        )}
+        <div className={'grid grid-cols-8 pt-2 '}>
+          <div id='search-results' className={'col-span-6 grid gap-8 relative'}>
+            {data &&
+              data?.hits?.map((course) => <SearchResult result={course} />)}
+            <div className='py-8 sticky bottom-0 bg-gradient-to-t from-gray-50 '>
+              {!isLoading && data && (
+                <Pagination
+                  totalPages={
+                    data?.total / config?.data?.search_results_per_page
+                  }
+                  currentPage={parseInt(params.p)}
+                  onNext={handelNext}
+                  onPrevious={handlePrevious}
+                />
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </DefaultLayout>
