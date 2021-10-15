@@ -1,13 +1,23 @@
 import axios from 'axios';
-import queryString from 'query-string';
-import { useQuery } from 'react-query';
-import { searchUrl } from '../config/endpoints';
-import { fiveMinutes, tenMinutes } from '../config/timeConstants';
+import { useQuery, useQueryClient } from 'react-query';
+import { oneHour, tenMinutes } from '../config/timeConstants';
 
-export function useSearch(url) {
+export default function useSearch(url) {
+  const queryClient = useQueryClient();
   return useQuery(
     ['search', url],
     () => axios.get(url).then((res) => res.data),
-    { staleTime: tenMinutes }
+    {
+      staleTime: tenMinutes,
+      onSuccess: () => {
+        const queryData = queryClient.getQueryData(['search', url]);
+        queryData?.hits?.map((course) => {
+          queryClient.setQueryData(['course', course.meta.id], course);
+          queryClient.setQueryDefaults(['course', course.meta.id], {
+            staleTime: oneHour,
+          });
+        });
+      },
+    }
   );
 }
