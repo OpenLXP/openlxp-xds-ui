@@ -14,5 +14,8 @@ export const configUrl = `${backendHost}${api}ui-configuration/`;
 //
 export const interestLists = `${backendHost}${api}interest-lists/`;
 
+// course url
+export const courseUrl = `${backendHost}${api}experiences/`
+
 // search url
 export const searchUrl = `${backendHost}${elasticApi}`;
