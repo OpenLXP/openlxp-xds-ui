@@ -95,7 +95,11 @@ export default function Login() {
               Login
             </div>
           </Link>
-          <p className={'mt-5'}>-------- Or continue with --------</p>
+          <p className={'my-8 relative border-b-2 w-full'}>
+            <span className='absolute top-1/2 left-1/2 transform text-center -translate-x-1/2 -translate-y-1/2 bg-white px-2 w-max'>
+              or continue with
+            </span>
+          </p>
           <Link href={'/sso'}>
             <a
               id={'sso-button'}
