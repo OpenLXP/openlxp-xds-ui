@@ -1,4 +1,4 @@
-import Header from "components/Header";
+import Header from "../Header";
 
 export default function DefaultLayout({ children }) {
   return (
@@ -7,7 +7,7 @@ export default function DefaultLayout({ children }) {
       <div className={"max-w-7xl mx-auto px-4 sm:px-4 lg:px-8"}>
         {children}
       </div>
-      <div className={"absolute bottom-0"}>test</div>
+      <div className={"fixed bottom-0"}>test</div>
     </div>
   );
 }
