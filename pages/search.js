@@ -8,12 +8,13 @@ import useUrl from '../hooks/useUrl';
 import useConfig from '../hooks/useConfig';
 import useSearch from '../hooks/useSearch';
 import { searchUrl } from 'config/endpoints';
-import { tenMinutes } from '../config/timeConstants';
+import { oneHour, tenMinutes } from '../config/timeConstants';
 import SearchBar from '../components/inputs/SearchBar';
 import SelectList from '../components/inputs/SelectList';
 import { Pagination } from '../components/buttons/Pagination';
 import SearchResult from '../components/cards/SearchResult';
 import DefaultLayout from 'components/layouts/DefaultLayout';
+import { useAuth } from '../contexts/AuthContext';
 
 // Server Side Generation
 export async function getServerSideProps({ query }) {
@@ -28,7 +29,7 @@ export async function getServerSideProps({ query }) {
   await queryClient.prefetchQuery(
     ['search', url],
     () => axios.get(url).then((res) => res.data),
-    { staleTime: tenMinutes }
+    { staleTime: oneHour, cacheTime: oneHour }
   );
   return {
     props: {
@@ -45,6 +46,7 @@ export default function Search({ query }) {
   const router = useRouter();
   const config = useConfig();
   const { data, refetch, isError, isSuccess, isLoading } = useSearch(url);
+  const { user } = useAuth();
 
   function handleChange(event) {
     setParams((previous) => ({
@@ -150,14 +152,16 @@ export default function Search({ query }) {
             'flex flex-col pb-2 mb-4 w-3/4 sticky top-0 z-20 bg-gray-50'
           }
         >
-          <button
-            id={'save-this-search'}
-            className={
-              'self-end pr-6 pb-1 text-sm italic font-sans text-blue-400 hover:text-blue-300 hover:underline'
-            }
-          >
-            Save this search
-          </button>
+          {user && (
+            <button
+              id={'save-this-search'}
+              className={
+                'self-end pr-6 pb-1 text-sm italic font-sans text-blue-400 hover:text-blue-300 hover:underline'
+              }
+            >
+              Save this search
+            </button>
+          )}
           <SearchBar
             parameters={params}
             onChange={handleChange}
