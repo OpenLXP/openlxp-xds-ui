@@ -1,5 +1,5 @@
-import UserMenu from "components/menus/UserMenu";
-import {useAuth} from "contexts/AuthContext";
+import UserMenu from "../components/menus/UserMenu";
+import {useAuth} from "../contexts/AuthContext";
 import {useRouter} from "next/dist/client/router";
 import Image from "next/image"
 import Link from "next/link"
@@ -9,7 +9,7 @@ import logo from "../public/United_States_Department_of_Defense_Seal.svg.png"
 
 const buttonLinks = [
   { title: "Home", path: "/" },
-  { title: "Search Lists", path: "/search" },
+  { title: "Search Lists", path: "/search/lists" },
 ]
 
 
@@ -17,7 +17,7 @@ export default function Header({}) {
   const { user } = useAuth()
   const router = useRouter()
   return (
-    <header className={"sticky top-0 bg-white w-full shadow z-50"}>
+    <header className={"absolute top-0 bg-white w-full shadow z-50"}>
       <nav className={"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"}
            aria-label={"Top"}>
         <div className={"w-full py-4 inline-flex items-center justify-between"}>
