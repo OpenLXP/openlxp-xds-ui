@@ -20,9 +20,9 @@ export default function useTimeout(ms) {
     };
   });
 
-  function handleShow() {
+  function show() {
     setState(true);
   }
-  
-  return [state, handleShow];
+
+  return { state, show };
 }
