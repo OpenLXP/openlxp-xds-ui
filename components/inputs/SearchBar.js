@@ -2,7 +2,7 @@ import { SearchIcon, XIcon } from '@heroicons/react/solid';
 
 export default function SearchBar({ parameters, onChange, onClick, onReset }) {
   const handleEnterKey = (event) => {
-    if (event.key === 'Enter' || event.key === '13') onClick();
+    if (event.key === 'Enter') onClick();
   };
 
   return (
@@ -25,6 +25,7 @@ export default function SearchBar({ parameters, onChange, onClick, onReset }) {
       <div className={'inline-flex'}>
         <button
           id={'reset'}
+          title='reset'
           onClick={() => onReset('keyword')}
           className='outline-none focus:bg-gray-100 p-2 mr-2 text-gray-400 hover:text-blue-400 hover:text-shadow cursor-pointer rounded-full hover:bg-gray-100 w-min'
         >
@@ -33,6 +34,7 @@ export default function SearchBar({ parameters, onChange, onClick, onReset }) {
         <div className={'border-l'} />
         <button
           id={'search'}
+          title={'search'}
           onClick={onClick}
           className='outline-none rounded-full ml-2 mr-4 p-2 focus:bg-gray-100 text-gray-400 hover:text-blue-400 hover:text-shadow cursor-pointer'
         >
