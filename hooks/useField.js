@@ -1,20 +1,18 @@
 import { useState } from 'react';
 
 export default function useField(initialValue) {
-  const [state, setState] = useState(() => initialValue);
+  const [fields, setField] = useState(() => initialValue);
 
-  function handleChange(event) {
-    setState(previous => ({
-        ...previous, [event.target.name]: event.target.value
-      })
-    );
+  function updateKeyValuePair(key, value) {
+    setField((previous) => ({ ...previous, [key]: value }));
   }
 
-  function resetValue(key) {
-    const modified = { ...state };
+  function resetKey(key) {
+    const modified = { ...fields };
     modified[key] = '';
-    setState(modified);
+    setField(modified);
   }
+  
 
-  return [state, handleChange, resetValue];
+  return { fields, updateKeyValuePair, resetKey };
 }
