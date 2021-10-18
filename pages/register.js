@@ -1,4 +1,3 @@
-import DefaultLayout from 'components/layouts/DefaultLayout';
 import { useAuth } from 'contexts/AuthContext';
 import useField from 'hooks/useField';
 import React from 'react';
@@ -8,17 +7,43 @@ import Link from 'next/link';
 import logo from '../public/United_States_Department_of_Defense_Seal.svg.png';
 
 export default function Register() {
-  const [credentials, setCredentials] = useField({
+  const { fields: credentials, updateKeyValuePair: setCredential } = useField({
     email: '',
     password: '',
     first_name: '',
     last_name: '',
   });
+
+  const setCredentials = (event) => {
+    setCredential(event.target.name, event.target.value);
+  };
+
+  const { fields: error, updateKeyValuePair: setError } = useField({
+    message: '',
+  });
+
   const { register } = useAuth();
 
+  const doRegister = () => {
+    if (
+      credentials.email === '' ||
+      credentials.password === '' ||
+      credentials.first_name === '' ||
+      credentials.last_name === ''
+    ) {
+      setError('message', 'Please enter a First Name/Last Name/Email/Password');
+    } else if (!credentials.email.includes('@')) {
+      setError('message', 'Must be a valid email');
+    } else if (credentials.password.length < 8) {
+      setError('message', 'Password must be a minimum of 8 characters');
+    } else {
+      register(credentials);
+    }
+  };
+
   return (
-    <DefaultLayout>
-      <div className={"py-20"}>
+    <>
+      <div className={'py-20'}>
         <div
           className={'mt-10 mx-52 flex flex-col items-center justify-between'}
         >
@@ -43,6 +68,7 @@ export default function Register() {
             'px-8 pt-20 pb-8 mt-4 mb-10 mx-96 bg-white flex flex-col items-center justify-between shadow-md rounded'
           }
         >
+          <p className={'text-red-600'}>{error.message}</p>
           <input
             type={'text'}
             className={
@@ -80,32 +106,34 @@ export default function Register() {
             onChange={(event) => setCredentials(event)}
           />
 
-          <Link href={'/'}>
-            <div
-              className={
-                'bg-blue-100 py-2 px-4 mt-6 rounded border border-blue-600 shadow-md inline-flex text-blue-500 hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'
-              }
-              onClick={() => register(credentials)}
-              id={'login-button'}
+          <div
+            className={
+              'items-center inline-flex gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white pl-2 pr-4 py-2 mt-4 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300'
+            }
+            onClick={() => doRegister()}
+            id={'create-account-button'}
+          >
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              className='h-6 w-6'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'
             >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='h-6 w-6'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z'
-                />
-              </svg>
-              Create
-            </div>
-          </Link>
-          <p className={'mt-5'}>-------- Or continue with --------</p>
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth={2}
+                d='M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z'
+              />
+            </svg>
+            Create
+          </div>
+          <p className={'my-8 relative border-b-2 w-full'}>
+            <span className='absolute top-1/2 left-1/2 transform text-center -translate-x-1/2 -translate-y-1/2 bg-white px-2 w-max'>
+              or continue with
+            </span>
+          </p>
           <Link href={'/sso'}>
             <a
               id={'sso-button'}
@@ -119,6 +147,6 @@ export default function Register() {
           </Link>
         </div>
       </div>
-    </DefaultLayout>
+    </>
   );
 }

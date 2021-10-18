@@ -1,4 +1,3 @@
-import DefaultLayout from 'components/layouts/DefaultLayout';
 import { useAuth } from 'contexts/AuthContext';
 import useField from 'hooks/useField';
 import React from 'react';
@@ -9,13 +8,25 @@ import logo from '../public/United_States_Department_of_Defense_Seal.svg.png';
 
 export default function Login() {
   const { login } = useAuth();
-  const [credentials, setCredentials] = useField({
+  const {fields:credentials, updateKeyValuePair} = useField({
     username: '',
     password: '',
   });
+  const setCredentials = (event) => {
+    updateKeyValuePair(event.target.name, event.target.value)
+}
+  const {fields:error, updateKeyValuePair:setError} = useField(false);
+
+  const doLogin = () => {
+    if (credentials.username === '' || credentials.password === '') {
+      setError(true);
+    } else {
+      login(credentials);
+    }
+  };
 
   return (
-    <DefaultLayout>
+    <>
       <div className={'py-20'}>
         <div
           className={'mt-10 mx-52 flex flex-col items-center justify-between'}
@@ -40,6 +51,9 @@ export default function Login() {
             'px-8 pt-20 pb-8 mt-4 mb-10 mx-96 bg-white flex flex-col items-center justify-between shadow-md rounded'
           }
         >
+          {error && (
+            <p className={'text-red-600'}>Please enter a username/password</p>
+          )}
           <input
             type={'text'}
             className={
@@ -70,31 +84,29 @@ export default function Login() {
               Forgot Password
             </p>
           </Link>
-          <Link href={'/register'}>
-            <div
-              className={
-                'bg-blue-100 py-2 px-4 mt-6 rounded border border-blue-600 shadow-md inline-flex text-blue-500 hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'
-              }
-              onClick={() => login(credentials)}
-              id={'login-button'}
+          <div
+            className={
+              'items-center inline-flex gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white pl-2 pr-4 py-2 mt-4 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300'
+            }
+            onClick={() => doLogin()}
+            id={'login-button'}
+          >
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              className='h-6 w-6'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'
             >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='h-6 w-6'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1'
-                />
-              </svg>
-              Login
-            </div>
-          </Link>
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth={2}
+                d='M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1'
+              />
+            </svg>
+            Login
+          </div>
           <p className={'my-8 relative border-b-2 w-full'}>
             <span className='absolute top-1/2 left-1/2 transform text-center -translate-x-1/2 -translate-y-1/2 bg-white px-2 w-max'>
               or continue with
@@ -113,6 +125,6 @@ export default function Login() {
           </Link>
         </div>
       </div>
-    </DefaultLayout>
+    </>
   );
 }
