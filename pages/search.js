@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { dehydrate, QueryClient } from 'react-query';
 
-import useUrl from '../hooks/useUrl';
+import useSearchUrl from '../hooks/useSearchUrl';
 import useConfig from '../hooks/useConfig';
 import useSearch from '../hooks/useSearch';
 import { searchUrl } from 'config/endpoints';
@@ -41,7 +41,7 @@ export async function getServerSideProps({ query }) {
 
 export default function Search({ query }) {
   const [params, setParams] = useState(query);
-  const [url, setUrl] = useUrl(query);
+  const {url, setUrl} = useSearchUrl(query);
 
   const router = useRouter();
   const config = useConfig();
@@ -145,11 +145,11 @@ export default function Search({ query }) {
   }, [url]);
 
   return (
-    <DefaultLayout>
+    <>
       <div className='pt-28 pb-8'>
         <div
           className={
-            'flex flex-col pb-2 mb-4 w-3/4 sticky top-0 z-20 bg-gray-50'
+            'flex flex-col py-2 mb-4 w-3/4 sticky top-0 z-20 bg-gray-50'
           }
         >
           {user && (
@@ -196,6 +196,6 @@ export default function Search({ query }) {
           </div>
         </div>
       </div>
-    </DefaultLayout>
+    </>
   );
 }
