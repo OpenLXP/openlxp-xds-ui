@@ -1,7 +1,8 @@
-import { AuthProvider } from 'contexts/AuthContext';
 import React, { useState } from 'react';
+import { AuthProvider } from 'contexts/AuthContext';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import DefaultLayout from '../components/layouts/DefaultLayout';
 import '../styles/globals.css';
 
 export default function MyApp({ Component, pageProps }) {
@@ -12,7 +13,9 @@ export default function MyApp({ Component, pageProps }) {
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps['dehydratedState']}>
-          <Component {...pageProps} />
+          <DefaultLayout>
+            <Component {...pageProps} />
+          </DefaultLayout>
           <ReactQueryDevtools />
         </Hydrate>
       </QueryClientProvider>
