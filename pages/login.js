@@ -1,5 +1,5 @@
-import { useAuth } from 'contexts/AuthContext';
-import useField from 'hooks/useField';
+import { useAuth } from '../contexts/AuthContext';
+import useField from '../hooks/useField';
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
