@@ -1,11 +1,25 @@
 import { act, screen, render, fireEvent } from '@testing-library/react';
 import ShareBtn from '../../../components/buttons/ShareBtn';
 
+Object.assign(navigator, {
+  clipboard: {
+    writeText: () => {},
+  },
+});
+jest.useFakeTimers();
 describe('ShareBtn', () => {
   it('has an id', () => {
-    render(<ShareBtn />);
+    const { container } = render(<ShareBtn />);
 
     expect(screen.getByRole('button').id).not.toBeNull();
   });
-  it.skip('has shows copied message when clicked', () => {});
+  it('has shows copied message when clicked', () => {
+    const { container } = render(<ShareBtn />);
+    jest.spyOn(navigator.clipboard, 'writeText');
+    act(() => {
+      fireEvent.click(screen.getByRole('button'));
+      jest.advanceTimersByTime(500);
+    });
+    expect(screen.getByText('Copied!')).toBeInTheDocument();
+  });
 });
