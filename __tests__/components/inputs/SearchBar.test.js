@@ -45,6 +45,20 @@ describe('SearchBar', () => {
     expect(console.log).toHaveBeenCalledTimes(1);
   });
 
+  it('should not execute on click, on any other key', () => {
+    render(
+      <SearchBar
+        parameters={{ keyword: 'test' }}
+        onClick={() => console.log('tada')}
+        onChange={() => {}}
+      />
+    );
+
+    act(() => {
+      fireEvent.keyPress(screen.getByPlaceholderText('Search the catalog'), {});
+    });
+  });
+
   it('should execute reset fn', () => {
     console.log = jest.fn();
 
