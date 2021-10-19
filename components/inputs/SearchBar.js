@@ -2,7 +2,7 @@ import { SearchIcon, XIcon } from '@heroicons/react/solid';
 
 export default function SearchBar({ parameters, onChange, onClick, onReset }) {
   const handleEnterKey = (event) => {
-    if (event.key === 'Enter') onClick();
+    event.key === 'Enter' && onClick();
   };
 
   return (
