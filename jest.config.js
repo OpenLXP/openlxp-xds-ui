@@ -3,8 +3,14 @@
 module.exports = {
   collectCoverageFrom: [
     '**/*.{js,jsx,ts,tsx}',
+    '!**/{!(postcss.config)}.{js,jsx,ts,tsx}',
+    '!**/{!(tailwind.config)}.{js,jsx,ts,tsx}',
     '!**/*.d.ts',
     '!**/node_modules/**',
+    '!<rootDir>/jest.config.js',
+    '!**/.old/**',
+    '!**/coverage/**',
+    '!**/.next/**',
   ],
   moduleNameMapper: {
     /* Handle CSS imports (with CSS modules)
@@ -21,6 +27,10 @@ module.exports = {
     //imports for @ imports
     '^components/(.*)$': '<rootDir>/components/$1',
     '^hooks/(.*)$': '<rootDir>/hooks/$1',
+    '^contexts/(.*)$': '<rootDir>/contexts/$1',
+    '^pages/(.*)$': '<rootDir>/pages/$1',
+    '^public/(.*)$': '<rootDir>/public/$1',
+    '^config/(.*)$': '<rootDir>/config/$1',
   },
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
