@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { URLSearchParams } from 'url';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { dehydrate, QueryClient } from 'react-query';
 
@@ -14,7 +14,7 @@ import SelectList from '../components/inputs/SelectList';
 import { Pagination } from '../components/buttons/Pagination';
 import SearchResult from '../components/cards/SearchResult';
 import DefaultLayout from 'components/layouts/DefaultLayout';
-import { useAuth } from '../contexts/AuthContext';
+import { AuthContext, useAuth } from '../contexts/AuthContext';
 
 // Server Side Generation
 export async function getServerSideProps({ query }) {
@@ -40,13 +40,13 @@ export async function getServerSideProps({ query }) {
 }
 
 export default function Search({ query }) {
-  const [params, setParams] = useState(query);
-  const {url, setUrl} = useSearchUrl(query);
-
   const router = useRouter();
   const config = useConfig();
+  const [params, setParams] = useState(query);
+  const { url, setUrl } = useSearchUrl(query);
+
   const { data, refetch, isError, isSuccess, isLoading } = useSearch(url);
-  const { user } = useAuth();
+  const { user } = useContext(AuthContext);
 
   function handleChange(event) {
     setParams((previous) => ({
