@@ -1,9 +1,8 @@
-import SearchBar from '../components/inputs/SearchBar';
-import DefaultLayout from '../components/layouts/DefaultLayout';
-import useField from '../hooks/useField';
+import SearchBar from 'components/inputs/SearchBar';
+import useField from 'hooks/useField';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import logo from '../public/United_States_Department_of_Defense_Seal.svg.png';
+import logo from 'public/United_States_Department_of_Defense_Seal.svg.png';
 import React from 'react';
 
 export default function Home() {
