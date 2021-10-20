@@ -7,6 +7,7 @@ import { UserAddIcon } from '@heroicons/react/outline';
 
 import logo from '../public/United_States_Department_of_Defense_Seal.svg.png';
 import InputField from '../components/inputs/InputField';
+import ActionButton from '../components/buttons/ActionButton';
 
 export default function Register() {
   const { fields: credentials, updateKeyValuePair: setCredential } = useField({
@@ -90,15 +91,14 @@ export default function Register() {
             onChange={(event) => setCredentials(event)}
           />
           <p className='text-red-600'>{error.message}</p>
-          <button
-            className='items-center inline-flex gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white pl-2 pr-4 py-2 mt-4 transform transition-all duration-150 ease-in-out border-blue-400 border-2 outline-none focus:ring-2 ring-blue-400'
+          <ActionButton
             onClick={() => doRegister()}
             id='create-account-button'
             alt='create account'
           >
             <UserAddIcon className='h-5 w-5' />
             Create
-          </button>
+          </ActionButton>
           <p className={'my-8 relative border-b-2 w-full'}>
             <span className='absolute top-1/2 left-1/2 transform text-center -translate-x-1/2 -translate-y-1/2 bg-white px-2 w-max'>
               or continue with
