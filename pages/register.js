@@ -94,7 +94,6 @@ export default function Register() {
           <ActionButton
             onClick={() => doRegister()}
             id='create-account-button'
-            alt='create account'
           >
             <UserAddIcon className='h-5 w-5' />
             Create
