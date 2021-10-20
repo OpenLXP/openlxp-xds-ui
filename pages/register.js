@@ -3,8 +3,10 @@ import useField from '../hooks/useField';
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { UserAddIcon } from '@heroicons/react/outline';
 
 import logo from '../public/United_States_Department_of_Defense_Seal.svg.png';
+import InputField from '../components/inputs/InputField';
 
 export default function Register() {
   const { fields: credentials, updateKeyValuePair: setCredential } = useField({
@@ -60,60 +62,41 @@ export default function Register() {
             </p>
           </Link>
         </div>
-        <div className='w-2/6 p-8 mx-auto mt-10 bg-white flex flex-col items-center justify-between shadow-md rounded-md'>
-          <input
+        <div className='w-1/3 p-8 mx-auto mt-10 bg-white flex flex-col items-center justify-between shadow-md rounded-md'>
+          <InputField
             type='text'
-            className='flex shadow-md mb-5 text-gray-600 p-2 px-3 border rounded-r w-full'
-            placeholder='First Name'
+            required={true}
             name='first_name'
+            placeholder='First Name'
             onChange={(event) => setCredentials(event)}
-            required
           />
-          <input
-            type={'text'}
-            className='flex shadow-md mb-5 text-gray-600 p-2 px-3 border rounded-r w-full'
-            placeholder={'Last Name'}
-            name={'last_name'}
+          <InputField
+            type='text'
+            required={true}
+            name='last_name'
             onChange={(event) => setCredentials(event)}
-            required
+            placeholder='Last Name'
           />
-          <input
+          <InputField
             type={'text'}
-            className='flex shadow-md mb-5 text-gray-600 p-2 px-3 border rounded-r w-full'
             placeholder={'Email'}
             name={'email'}
             onChange={(event) => setCredentials(event)}
           />
-          <input
+          <InputField
             type={'password'}
-            className='flex shadow-md mb-5 text-gray-600 p-2 px-3 border rounded-r w-full'
             placeholder={'Password'}
             name={'password'}
             onChange={(event) => setCredentials(event)}
           />
-
           <p className='text-red-600'>{error.message}</p>
           <button
-            className={
-              'items-center inline-flex gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white pl-2 pr-4 py-2 mt-4 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300'
-            }
+            className='items-center inline-flex gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white pl-2 pr-4 py-2 mt-4 transform transition-all duration-150 ease-in-out border-blue-400 border-2 outline-none focus:ring-2 ring-blue-400'
             onClick={() => doRegister()}
-            id={'create-account-button'}
+            id='create-account-button'
+            alt='create account'
           >
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-6 w-6'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth={2}
-                d='M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z'
-              />
-            </svg>
+            <UserAddIcon className='h-5 w-5' />
             Create
           </button>
           <p className={'my-8 relative border-b-2 w-full'}>
@@ -124,11 +107,8 @@ export default function Register() {
           <Link href={'/sso'}>
             <a
               id={'sso-button'}
-              className={
-                'bg-blue-500 py-2 px-4 mt-5 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'
-              }
+              className='bg-blue-500 py-2 px-4 mt-5 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'
             >
-              {' '}
               Single Sign On
             </a>
           </Link>
