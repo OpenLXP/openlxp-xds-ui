@@ -116,7 +116,7 @@ describe('Register Page actions', () => {
     });
 
     expect(
-      screen.getByText(/Please enter a First Name\/Last Name\/Email\/Password/i)
+      screen.getByText(/All fields are required/i)
     ).toBeInTheDocument();
   });
 
