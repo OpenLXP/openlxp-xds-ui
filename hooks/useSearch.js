@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useQuery, useQueryClient } from 'react-query';
 import { oneHour, tenMinutes } from '../config/timeConstants';
-import { getDeeplyNestedData } from '../utils/getDeeplyNestedData';
 
 export default function useSearch(url) {
   const queryClient = useQueryClient();
