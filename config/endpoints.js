@@ -1,5 +1,5 @@
 // local host endpoint from .env
-const backendHost = process.env.NEXT_PUBLIC_BACKEND_HOST;
+export const backendHost = process.env.NEXT_PUBLIC_BACKEND_HOST;
 const api = 'api/';
 const elasticApi = 'es-api/';
 
