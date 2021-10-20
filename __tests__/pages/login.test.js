@@ -6,7 +6,7 @@ import { AuthContextWrapper } from '../../__mocks__/authContextMock';
 describe('should render the title', () => {
   it('should render the Login screen title, input fields, and buttons', () => {
     render(<Login />);
-    expect(screen.getByText(`Sign in to your account`)).toBeInTheDocument();
+    expect(screen.getByText(/Sign in to your account/i)).toBeInTheDocument();
     expect(screen.getByText(`Create an Account`)).toBeInTheDocument();
     expect(screen.getByText(`Forgot Password`)).toBeInTheDocument();
     expect(screen.getByText(`Login`)).toBeInTheDocument();
