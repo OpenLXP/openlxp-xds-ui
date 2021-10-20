@@ -49,19 +49,20 @@ export default function Register() {
   return (
     <>
       <div className={'pt-32'}>
-        <div
-          className={'mt-10 mx-52 flex flex-col items-center justify-between'}
-        >
+        <div className='mt-10 mx-52 flex flex-col items-center justify-between'>
           <Image src={logo} alt={'home'} height={'100'} width={'100'} />
           <p className='mt-2 text-2xl font-extrabold'>Create your account</p>
-          <Link href={'/login'}>
-            <p
-              id='login-button'
-              className='text-blue-600 text-base underline hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out'
-            >
-              Sign in to your Account
-            </p>
-          </Link>
+          <span>
+            or &nbsp;
+            <Link href={'/login'}>
+              <button
+                id={'create-account-button'}
+                className='text-blue-400 hover:underline hover:text-blue-500 cursor-pointer transition-all duration-150 ease-in-out'
+              >
+                Sign in to your account
+              </button>
+            </Link>
+          </span>
         </div>
         <div className='w-1/3 p-8 mx-auto mt-10 bg-white flex flex-col items-center justify-between shadow-md rounded-md'>
           <InputField
@@ -91,10 +92,7 @@ export default function Register() {
             onChange={(event) => setCredentials(event)}
           />
           <p className='text-red-600'>{error.message}</p>
-          <ActionButton
-            onClick={() => doRegister()}
-            id='create-account-button'
-          >
+          <ActionButton onClick={() => doRegister()} id='create-account-button'>
             <UserAddIcon className='h-5 w-5' />
             Create
           </ActionButton>
