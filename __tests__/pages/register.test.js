@@ -6,7 +6,7 @@ describe('Register Page', () => {
   it('should render the Register screen title, input fields, and buttons', () => {
     render(<Register />);
     expect(screen.getByText(`Create your account`)).toBeInTheDocument();
-    expect(screen.getByText(`Sign in to your Account`)).toBeInTheDocument();
+    expect(screen.getByText(/Sign in to your Account/i)).toBeInTheDocument();
     expect(screen.getByText(`Create`)).toBeInTheDocument();
     expect(screen.getByText(`or continue with`)).toBeInTheDocument();
     expect(screen.getByText(`Single Sign On`)).toBeInTheDocument();
@@ -115,9 +115,7 @@ describe('Register Page actions', () => {
       fireEvent.click(button);
     });
 
-    expect(
-      screen.getByText(/All fields are required/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/All fields are required/i)).toBeInTheDocument();
   });
 
   it.skip('should show an error message for valid empty attributes', () => {

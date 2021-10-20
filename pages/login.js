@@ -1,6 +1,6 @@
 import { useAuth } from '../contexts/AuthContext';
 import useField from '../hooks/useField';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { LoginIcon } from '@heroicons/react/outline';
@@ -18,15 +18,32 @@ export default function Login() {
   const setCredentials = (event) => {
     updateKeyValuePair(event.target.name, event.target.value);
   };
-  const { fields: error, updateKeyValuePair: setError } = useField(false);
+  const [errorMsg, setErrorMsg] = useState();
 
+  const validateUsername = (username) => {
+    if (username.includes('@')) {
+      return true;
+    }
+    return false;
+  };
   const doLogin = () => {
     if (credentials.username === '' || credentials.password === '') {
-      setError(true);
+      setErrorMsg('All fields required');
+    } else if (!validateUsername(credentials.username)) {
+      setErrorMsg('Username must be an email');
     } else {
-      login(credentials);
+      login(credentials)
+      setErrorMsg(null);
     }
   };
+
+  // const doLogin = () => {
+  //   if (credentials.username === '' || credentials.password === '') {
+  //     setError(true);
+  //   } else {
+  //     login(credentials);
+  //   }
+  // };
 
   return (
     <>
@@ -64,15 +81,15 @@ export default function Login() {
             onChange={(event) => setCredentials(event)}
           />
           <Link href={'/forgotPassword'}>
-            <p
+            <button
               id={'forgot-password-button'}
               className='text-blue-400 hover:text-blue-500 hover:underline text-left self-start -mt-2 mb-2 ml-1 transform transition-all duration-150 ease-in-out cursor-pointer'
             >
               Forgot Password
-            </p>
+            </button>
           </Link>
-          {error && (
-            <p className={'text-red-600'}>Please enter a username/password</p>
+          {errorMsg && (
+            <p className={ 'text-red-600' }>{errorMsg }</p>
           )}
           <ActionButton onClick={() => doLogin()} id={'login-button'}>
             <LoginIcon className='w-5 h-5' />
