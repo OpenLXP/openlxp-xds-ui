@@ -3,6 +3,12 @@ export default {
     {
       display_name: 'Course Code',
       field_name: 'Course.CourseCode',
+      active: true,
+    },
+    {
+      display_name: 'Course Code',
+      field_name: 'Course.CourseCode',
+      active: false,
     },
   ],
   course_information: {
@@ -10,4 +16,5 @@ export default {
     course_description: 'Course.CourseShortDescription',
     course_url: 'Course.CourseURL',
   },
+  course_img_fallback: 'some/fallback',
 };
