@@ -1,50 +1,100 @@
 import { render, act, screen, fireEvent } from '@testing-library/react';
-import { QueryClientWrapper } from '../../__mocks__/queryClientMock';
 
-import Search from 'pages/search';
+import { useAuth } from '../../contexts/AuthContext';
+import { useSearchUrl } from '../../hooks/useSearchUrl';
+import searchData from '../../__mocks__/data/search.data';
+import { useConfig } from '../../hooks/useConfig';
+import { useSearch } from '../../hooks/useSearch';
+import Search from '../../pages/search';
+import courseData from '../../__mocks__/data/course.data';
+import aggregationsData from '../../__mocks__/data/aggregations.data';
+
+jest.mock('../../hooks/useSearchUrl', () => ({
+  useSearchUrl: jest.fn(),
+}));
+jest.mock('../../hooks/useConfig', () => ({
+  useConfig: jest.fn(),
+}));
+jest.mock('../../hooks/useSearch', () => ({
+  useSearch: jest.fn(),
+}));
+jest.mock('../../contexts/AuthContext', () => ({
+  useAuth: jest.fn(),
+}));
 
 describe('Search Page', () => {
   beforeEach(() => {
-    render(
-      <QueryClientWrapper>
-        <Search query={{ keyword: 'test value' }} />
-      </QueryClientWrapper>
-    );
+    useConfig.mockImplementation(() => ({
+      data: { search_results_per_page: 10 },
+    }));
+    useSearchUrl.mockImplementation(() => ({ url: 'test.url' }));
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  describe('static content', () => {
+    it('should render search bar with keyword', () => {
+      useAuth.mockImplementation(() => ({ user: null }));
+      useSearch.mockImplementation(() => ({ refetch: jest.fn() }));
+      render(<Search query={{ keyword: 'test' }} />);
+
+      expect(screen.getByPlaceholderText(/search the catalog/i).value).toBe(
+        'test'
+      );
+    });
   });
 
-  it('should render the search bar', () => {
-    expect(
-      screen.getByPlaceholderText('Search the catalog')
-    ).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Search the catalog').value).toBe(
-      'test value'
-    );
+  describe('with user', () => {
+    it('should show save this search', () => {
+      useAuth.mockImplementation(() => ({
+        user: { user: { email: 'value' } },
+      }));
+      useSearch.mockImplementation(() => ({
+        refetch: jest.fn(),
+      }));
+      const { getByText } = render(
+        <Search query={{ keyword: 'test query' }} />
+      );
+
+      expect(getByText(/save this search/i)).toBeInTheDocument();
+    });
   });
 
-  it('should reset keyword value on reset', () => {
-    act(() => {
-      const button = screen.getByTitle('reset');
-      fireEvent.click(button);
+  describe('with data', () => {
+    it('should render results', () => {
+      useAuth.mockImplementation(() => ({
+        user: { user: { email: 'value' } },
+      }));
+      useSearch.mockImplementation(() => ({
+        data: {
+          hits: [courseData],
+          aggregations: [aggregationsData],
+        },
+        refetch: jest.fn(),
+      }));
+      const { getByText } = render(
+        <Search query={{ keyword: 'test query' }} />
+      );
+
+      expect(getByText(/test course title/i)).toBeInTheDocument();
+      expect(getByText(/short description/i)).toBeInTheDocument();
     });
 
-    expect(screen.getByPlaceholderText('Search the catalog').value).toBe('');
-  });
-
-  it('should update values when typed', () => {
-    act(() => {
-      const input = screen.getByPlaceholderText('Search the catalog');
-      fireEvent.change(input, { target: { value: 'test' } });
+    it('should render select lists', () => {
+      useAuth.mockImplementation(() => ({
+        user: { user: { email: 'value' } },
+      }));
+      useSearch.mockImplementation(() => ({
+        data: {
+          hits: [courseData],
+          aggregations: aggregationsData,
+        },
+        refetch: jest.fn(),
+      }));
+      const { getByText } = render(
+        <Search query={{ keyword: 'test query' }} />
+      );
+      expect(getByText(/course type/i)).toBeInTheDocument();
     });
-
-    expect(screen.getByPlaceholderText('Search the catalog').value).toBe(
-      'test'
-    );
   });
-});
-
-describe('Search Page', () => {
-  it.todo('should render the select list');
-  it.todo('should render the results');
-  it.todo('should show the save button if a user is logged in');
-  it.todo('should show the save this search button if a user is logged in');
 });
