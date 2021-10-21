@@ -1,5 +1,39 @@
 import React from 'react';
 
 export default function Footer() {
-  return <div>Footer</div>;
+  const leftLinks = [
+    { name: 'Home', url: 'https://dodcio.defense.gov/' },
+    { name: 'About DOD', url: 'https://dodcio.defense.gov/About-DoD-CIO/' },
+    { name: "Web Policy", url: "https://dodcio.defense.gov/DoD-Web-Policy/" },
+  ];
+  const rightLinks = [
+    {
+      name: "Privacy",
+      url: "https://dodcio.defense.gov/Home/Privacy-Policy.aspx",
+    },
+    { name: 'Contact US', url: 'https://dodcio.defense.gov/Contact/' },
+  ];
+
+  const makeExternalLinks = (links) => links.map((link, index) => {
+    return (
+      <a
+        key={index}
+        className='text-center text-gray-600 text-base p-1 hover:text-gray-900 hover:shadow-lg h-auto'
+        href={link.url}
+      >
+        {link.name}
+      </a>
+    );
+  });
+
+  return (
+    <div className='absolute bottom-0 bg-gray-200 w-full h-16 shadow z-50'>
+      <nav className={'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'}>
+        <div className={'w-full py-4 inline-flex items-center justify-between'}>
+          <div className={'flex items-center gap-4'}>{makeExternalLinks(leftLinks)}</div>
+          <div className={'flex items-right gap-4'}>{makeExternalLinks(rightLinks)}</div>
+        </div>
+      </nav>
+    </div>
+  );
 }
