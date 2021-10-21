@@ -1,5 +1,5 @@
 const { renderHook, act } = require('@testing-library/react-hooks');
-const { default: useSearchUrl } = require('../../hooks/useSearchUrl');
+import { useSearchUrl } from '../../hooks/useSearchUrl';
 
 describe('useUrl', () => {
   it('creates query string from an object', () => {
