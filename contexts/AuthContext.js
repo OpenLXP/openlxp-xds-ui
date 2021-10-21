@@ -1,7 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { authLogin, authRegister, interestLists } from '../config/endpoints';
 import { useRouter } from 'next/dist/client/router';
-import axios from 'axios';
 import { useLocalStorage } from '../hooks/useStorage';
 export const AuthContext = createContext({});
 
