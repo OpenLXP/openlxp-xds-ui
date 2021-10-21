@@ -41,7 +41,7 @@ export default function SelectList({
       >
         <Menu.Items className='absolute left-0 top-10 w-44 origin-top-left bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-2 ring-blue-300 outline-none line-clamp-1'>
           <div className='p-1'>
-            {options?.buckets.map((group) => {
+            {options?.buckets?.map((group) => {
               return (
                 <Menu.Item key={group.key}>
                   {({ active }) => (
