@@ -23,16 +23,10 @@ export default function Login() {
   };
   const [errorMsg, setErrorMsg] = useState();
 
-  const validateUsername = (username) => {
-    if (username.includes('@')) {
-      return true;
-    }
-    return false;
-  };
   const doLogin = () => {
     if (credentials.username === '' || credentials.password === '') {
       setErrorMsg('All fields required');
-    } else if (!validateUsername(credentials.username)) {
+    } else if (!credentials.username.includes('@')) {
       setErrorMsg('Username must be an email');
     } else {
       axios
