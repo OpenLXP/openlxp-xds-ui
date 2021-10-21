@@ -1,6 +1,6 @@
 import { Menu, Transition } from '@headlessui/react';
 import { useState, Fragment } from 'react';
-import { ChevronDownIcon, LoginIcon } from '@heroicons/react/outline';
+import { ChevronDownIcon, LogoutIcon } from '@heroicons/react/outline';
 import { useAuth } from '../../contexts/AuthContext';
 import { AdjustmentsIcon, PencilIcon, UserIcon } from '@heroicons/react/solid';
 
@@ -42,7 +42,7 @@ export default function UserMenu() {
                   onClick={() => logout()}
                   className={`hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2`}
                 >
-                  <LoginIcon className='h-4 w-4' />
+                  <LogoutIcon className='h-4 w-4' />
                   Logout
                 </button>
               )}
