@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import logo from 'public/United_States_Department_of_Defense_Seal.svg.png';
 import React from 'react';
-import '../styles/Scroll.module.css';
 import DefaultLayout from '../components/layouts/DefaultLayout';
 
 export default function Home() {
