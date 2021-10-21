@@ -11,6 +11,7 @@ import ActionButton from '../components/buttons/ActionButton';
 import axios from 'axios';
 import { authLogin } from '../config/endpoints';
 import router from 'next/router';
+import DefaultLayout from '../components/layouts/DefaultLayout';
 
 export default function Login() {
   const { login, logout } = useAuth();
@@ -53,7 +54,7 @@ export default function Login() {
   // };
 
   return (
-    <>
+    <DefaultLayout footerLocation='absolute'>
       <div className={'py-32'}>
         <div className='mt-10 mx-52 flex flex-col items-center justify-between'>
           <Image src={logo} alt={'home'} height={'100'} width={'100'} />
@@ -118,6 +119,6 @@ export default function Login() {
           </Link>
         </div>
       </div>
-    </>
+    </DefaultLayout>
   );
 }

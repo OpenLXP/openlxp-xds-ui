@@ -13,9 +13,7 @@ export default function MyApp({ Component, pageProps }) {
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps['dehydratedState']}>
-          <DefaultLayout>
-            <Component {...pageProps} />
-          </DefaultLayout>
+          <Component {...pageProps} />
           <ReactQueryDevtools />
         </Hydrate>
       </QueryClientProvider>

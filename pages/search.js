@@ -145,7 +145,7 @@ export default function Search({ query }) {
   }, [url]);
 
   return (
-    <>
+    <DefaultLayout>
       <div className='pt-28 pb-8'>
         <div
           className={
@@ -198,6 +198,6 @@ export default function Search({ query }) {
           </div>
         </div>
       </div>
-    </>
+    </DefaultLayout>
   );
 }

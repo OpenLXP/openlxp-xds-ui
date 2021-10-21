@@ -11,6 +11,7 @@ import ActionButton from '../components/buttons/ActionButton';
 import axios from 'axios';
 import { authRegister } from '../config/endpoints';
 import { useRouter } from 'next/router';
+import DefaultLayout from "../components/layouts/DefaultLayout";
 
 export default function Register() {
   const router = useRouter();
@@ -61,7 +62,7 @@ export default function Register() {
   };
 
   return (
-    <>
+    <DefaultLayout footerLocation='absolute'>
       <div className={'pt-32'}>
         <div className='mt-10 mx-52 flex flex-col items-center justify-between'>
           <Image src={logo} alt={'home'} height={'100'} width={'100'} />
@@ -125,6 +126,6 @@ export default function Register() {
           </Link>
         </div>
       </div>
-    </>
+    </DefaultLayout>
   );
 }
