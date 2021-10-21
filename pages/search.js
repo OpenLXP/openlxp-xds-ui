@@ -4,9 +4,9 @@ import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { dehydrate, QueryClient } from 'react-query';
 
-import useSearchUrl from '../hooks/useSearchUrl';
-import useConfig from '../hooks/useConfig';
-import useSearch from '../hooks/useSearch';
+import { useSearchUrl } from '../hooks/useSearchUrl';
+import { useConfig } from '../hooks/useConfig';
+import { useSearch } from '../hooks/useSearch';
 import { searchUrl } from 'config/endpoints';
 import { oneHour, tenMinutes } from '../config/timeConstants';
 import SearchBar from '../components/inputs/SearchBar';
@@ -46,7 +46,7 @@ export default function Search({ query }) {
   const { url, setUrl } = useSearchUrl(query);
 
   const { data, refetch, isError, isSuccess, isLoading } = useSearch(url);
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   function handleChange(event) {
     setParams((previous) => ({
@@ -180,7 +180,9 @@ export default function Search({ query }) {
         <div className={'grid grid-cols-8 pt-2 '}>
           <div id='search-results' className={'col-span-6 grid gap-8 relative'}>
             {data &&
-              data?.hits?.map((course) => <SearchResult result={course} />)}
+              data?.hits?.map((course) => (
+                <SearchResult result={course} key={course.meta.id} />
+              ))}
             <div className='py-8 sticky bottom-0 bg-gradient-to-t from-gray-50 '>
               {!isLoading && data && (
                 <Pagination

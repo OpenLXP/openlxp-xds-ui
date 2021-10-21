@@ -2,7 +2,7 @@ import { useRouter } from 'next/dist/client/router';
 import { useQuery, useQueryClient } from 'react-query';
 import React, { useEffect, useState } from 'react';
 import useCourse from '../../hooks/useCourse';
-import useConfig from '../../hooks/useConfig';
+import { useConfig } from '../../hooks/useConfig';
 import usePrepareCourseData from 'hooks/usePrepareCourseData';
 
 export default function Course() {

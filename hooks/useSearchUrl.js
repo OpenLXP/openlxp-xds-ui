@@ -6,7 +6,7 @@ function makePath(params) {
   return `${searchUrl}?${queryString.stringify(params)}`;
 }
 
-export default function useSearchUrl(initialQuery) {
+export function useSearchUrl(initialQuery) {
   const [url, setNewUrl] = useState(() => makePath(initialQuery));
 
   const setUrl = (params) => {

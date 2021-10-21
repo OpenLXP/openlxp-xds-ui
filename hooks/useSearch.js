@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useQuery, useQueryClient } from 'react-query';
 import { oneHour, tenMinutes } from '../config/timeConstants';
 
-export default function useSearch(url) {
+export function useSearch(url) {
   const queryClient = useQueryClient();
   return useQuery(
     ['search', url],
