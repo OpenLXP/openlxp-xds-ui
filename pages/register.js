@@ -8,8 +8,13 @@ import { UserAddIcon } from '@heroicons/react/outline';
 import logo from '../public/United_States_Department_of_Defense_Seal.svg.png';
 import InputField from '../components/inputs/InputField';
 import ActionButton from '../components/buttons/ActionButton';
+import axios from 'axios';
+import { authRegister } from '../config/endpoints';
+import { useRouter } from 'next/router';
 
 export default function Register() {
+  const router = useRouter();
+
   const { fields: credentials, updateKeyValuePair: setCredential } = useField({
     email: '',
     password: '',
@@ -25,7 +30,7 @@ export default function Register() {
     setCredential(event.target.name, event.target.value);
   };
 
-  const { register } = useAuth();
+  const { register, logout } = useAuth();
 
   // TODO: Should rename to validateRegistration
   const doRegister = () => {
@@ -42,7 +47,16 @@ export default function Register() {
     } else if (credentials.password.length < 8) {
       setError('message', 'Password must be a minimum of 8 characters');
     } else {
-      register(credentials);
+      axios
+        .post(authRegister, credentials)
+        .then((res) => {
+          register(res.data);
+          router.push('/');
+        })
+        .catch((error) => {
+          logout();
+          setError('message', 'There was an error during registration');
+        });
     }
   };
 

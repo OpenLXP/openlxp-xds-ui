@@ -8,9 +8,12 @@ import { LoginIcon } from '@heroicons/react/outline';
 import logo from '../public/United_States_Department_of_Defense_Seal.svg.png';
 import InputField from '../components/inputs/InputField';
 import ActionButton from '../components/buttons/ActionButton';
+import axios from 'axios';
+import { authLogin } from '../config/endpoints';
+import router from 'next/router';
 
 export default function Login() {
-  const { login } = useAuth();
+  const { login, logout } = useAuth();
   const { fields: credentials, updateKeyValuePair } = useField({
     username: '',
     password: '',
@@ -32,8 +35,18 @@ export default function Login() {
     } else if (!validateUsername(credentials.username)) {
       setErrorMsg('Username must be an email');
     } else {
-      login(credentials)
-      setErrorMsg(null);
+      axios
+        .post(authLogin, credentials)
+        .then((res) => {
+          login(res.data);
+          router.push('/');
+        })
+        .catch((error) => {
+          logout();
+          setErrorMsg('Invalid credentials');
+        });
+      // login(credentials);
+      // setErrorMsg(null);
     }
   };
 
@@ -88,9 +101,7 @@ export default function Login() {
               Forgot Password
             </button>
           </Link>
-          {errorMsg && (
-            <p className={ 'text-red-600' }>{errorMsg }</p>
-          )}
+          {errorMsg && <p className={'text-red-600'}>{errorMsg}</p>}
           <ActionButton onClick={() => doLogin()} id={'login-button'}>
             <LoginIcon className='w-5 h-5' />
             Login
