@@ -4,7 +4,7 @@ import useTimeout from '../../hooks/useTimeout';
 jest.useFakeTimers();
 jest.spyOn(global, 'setTimeout');
 describe('useTimeout', () => {
-  beforeEach(() => {
+  afterEach(() => {
     jest.clearAllTimers();
   });
 
