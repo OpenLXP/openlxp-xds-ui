@@ -10,7 +10,6 @@ export default function useSearch(url) {
     {
       staleTime: tenMinutes,
       onSuccess: (data) => {
-        console.log(data);
         data?.hits.map((course) => {
           queryClient.setQueryData(['course', course.meta.id], course);
           queryClient.setQueryDefaults(['course', course.meta.id], {
