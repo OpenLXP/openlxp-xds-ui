@@ -7,7 +7,7 @@ describe('usePrepareCourseData', () => {
     const data = usePrepareCourseData(uiConfigData, courseData);
 
     expect(data).toEqual({
-      courseDescription: null,
+      courseDescription: "Short Description",
       courseDetails: [
         {
           displayName: 'Course Code',
@@ -55,7 +55,7 @@ describe('usePrepareCourseData', () => {
     const data = usePrepareCourseData(uiConfigData, modifiedCourseData);
 
     expect(data).toEqual({
-      courseDescription: null,
+      courseDescription: 'Short Description',
       courseDetails: [
         {
           displayName: 'Course Code',
