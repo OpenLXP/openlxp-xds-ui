@@ -1,10 +1,20 @@
 import { render, screen, act, fireEvent } from '@testing-library/react';
 import React from 'react';
 import Login from '../../pages/login';
-import { AuthContextWrapper } from '../../__mocks__/authContextMock';
+import { useAuth } from '../../contexts/AuthContext';
+import axios from 'axios';
+import MockAxios from 'jest-mock-axios';
+
+jest.mock('../../contexts/AuthContext', () => ({
+  useAuth: jest.fn(),
+}));
 
 describe('Login Page', () => {
   it('should render the Login screen title, input fields, and buttons', () => {
+    useAuth.mockImplementation(() => ({
+      login: jest.fn(),
+      logout: jest.fn(),
+    }));
     render(<Login />);
     expect(screen.getByText(/Sign in to your account/i)).toBeInTheDocument();
     expect(screen.getByText(`Create an Account`)).toBeInTheDocument();
@@ -16,6 +26,10 @@ describe('Login Page', () => {
 
   describe('Actions', () => {
     beforeEach(() => {
+      useAuth.mockImplementation(() => ({
+        login: jest.fn(),
+        logout: jest.fn(),
+      }));
       render(<Login />);
     });
 
@@ -65,9 +79,46 @@ describe('Login Page', () => {
         fireEvent.click(button);
       });
 
-      expect(screen.getByText(/Username must be an email/i))
-    } );
+      expect(screen.getByText(/Username must be an email/i));
+    });
 
-    it.todo('should log a user in.')
+    it('should log a user in.', async () => {
+      MockAxios.post.mockImplementation(() =>
+        Promise.resolve({ data: { user: {} } })
+      );
+
+      const username = screen.getByPlaceholderText('Username');
+      const password = screen.getByPlaceholderText('Password');
+      await act(() => {
+        fireEvent.change(username, { target: { value: 'username@test.com' } });
+        fireEvent.change(password, { target: { value: 'password' } });
+      });
+
+      await act(() => {
+        const button = screen.getByText(/Login/i);
+        fireEvent.click(button);
+      });
+      expect(MockAxios.post).toHaveBeenCalled();
+    });
+    it('should show invalid credentials message.', async () => {
+      MockAxios.post.mockImplementation(() =>
+        Promise.resolve({ data: { user: {} } })
+      );
+
+      const username = screen.getByPlaceholderText('Username');
+      const password = screen.getByPlaceholderText('Password');
+      await act(() => {
+        fireEvent.change(username, { target: { value: 'username@test.com' } });
+        fireEvent.change(password, { target: { value: 'password' } });
+      });
+
+      await act(() => {
+        const button = screen.getByText(/Login/i);
+        fireEvent.click(button);
+      });
+      act(() => {});
+      expect(MockAxios.post).toHaveBeenCalled();
+      expect(screen.getByText(/invalid credentials/i)).toBeInTheDocument();
+    });
   });
 });

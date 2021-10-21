@@ -1,7 +1,20 @@
 import { render, screen, act, fireEvent } from '@testing-library/react';
 import React from 'react';
 import Register from '../../pages/register';
+import { useAuth } from '../../contexts/AuthContext';
+import MockAxios from 'jest-mock-axios';
 
+jest.mock('../../contexts/AuthContext', () => ({
+  useAuth: jest.fn(),
+}));
+const mockRegister = jest.fn();
+const logout = jest.fn();
+beforeEach(() => {
+  useAuth.mockImplementation(() => ({
+    register: mockRegister,
+    logout: logout,
+  }));
+});
 describe('Register Page', () => {
   it('should render the Register screen title, input fields, and buttons', () => {
     render(<Register />);
@@ -118,7 +131,7 @@ describe('Register Page actions', () => {
     expect(screen.getByText(/All fields are required/i)).toBeInTheDocument();
   });
 
-  it.skip('should show an error message for valid empty attributes', () => {
+  it('should register a user', () => {
     const firstName = screen.getByPlaceholderText('First Name');
     const lastName = screen.getByPlaceholderText('Last Name');
     const email = screen.getByPlaceholderText('Email');
@@ -126,14 +139,25 @@ describe('Register Page actions', () => {
 
     act(() => {
       fireEvent.change(firstName, { target: { value: 'valid' } });
+    });
+    act(() => {
       fireEvent.change(lastName, { target: { value: 'name' } });
+    });
+    act(() => {
       fireEvent.change(email, { target: { value: 'test@email.com' } });
+    });
+    act(() => {
       fireEvent.change(password, { target: { value: 'minimums' } });
     });
 
     act(() => {
+      MockAxios.post.mockImplementation(() =>
+        Promise.resolve({ data: { user: {} } })
+      );
       const button = screen.getByText('Create');
       fireEvent.click(button);
     });
+    expect(MockAxios.post).toHaveBeenCalled();
+    expect(useAuth).toHaveBeenCalled();
   });
 });
