@@ -31,16 +31,15 @@ body {
   }
 }
 
-
 .custom-scroll::-webkit-scrollbar {
   width: 10px;
 }
 .custom-scroll::-webkit-scrollbar-track {
-  @apply bg-gray-100 mx-2;
+  @apply bg-gray-200 mx-1 rounded-full;
 }
 .custom-scroll::-webkit-scrollbar-thumb {
-  @apply bg-gray-200 rounded-full mx-2;
+  @apply bg-gray-300 rounded-full;
 }
 .custom-scroll::-webkit-scrollbar-thumb {
-  @apply hover:bg-gray-300;
+  @apply hover:bg-gray-400;
 }
