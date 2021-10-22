@@ -1,21 +1,19 @@
 import axios from 'axios';
+import { moreLikeThisUrl } from '../config/endpoints';
 import { useQuery, useQueryClient } from 'react-query';
-import { spotlightCourses } from '../config/endpoints';
 import { oneHour } from '../config/timeConstants';
 
-// getter for useQuery
-const getSpotlightCourses = () => {
-  return () => axios.get(spotlightCourses).then((res) => res.data);
+const getMoreCoursesLikeThis = (id) => {
+  return () => axios.get(`${moreLikeThisUrl}${id}/`).then((res) => res.data);
 };
 
-export default function useSpotlightCourses() {
+export default function useMoreCoursesLikeThis(id) {
   const queryClient = useQueryClient();
-  return useQuery('spotlight-courses', getSpotlightCourses(), {
-    staleTime: oneHour,
+  return useQuery(['more-like-this', id], getMoreCoursesLikeThis(id), {
     onSuccess: (data) => {
-      data?.map((course) => {
+      data?.hits?.map((course) => {
         queryClient.setQueryData(
-          ['course', course.meta.metadata_key_hash],
+          ['course', course.meta.id],
           course
         );
         queryClient.setQueryDefaults(['course', course.meta.id], {

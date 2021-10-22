@@ -11,11 +11,17 @@ export const authLogout = `${backendHost}${api}auth/logout`;
 // configuration url
 export const configUrl = `${backendHost}${api}ui-configuration/`;
 
-//
+// spotlight courses url
+export const spotlightCourses = `${backendHost}${api}spotlight-courses`;
+
+// all the interest lists
 export const interestLists = `${backendHost}${api}interest-lists/`;
 
 // course url
-export const courseUrl = `${backendHost}${api}experiences/`
+export const courseUrl = `${backendHost}${api}experiences/`;
 
 // search url
 export const searchUrl = `${backendHost}${elasticApi}`;
+
+// More like this
+export const moreLikeThisUrl = `${backendHost}${elasticApi}more-like-this/`;

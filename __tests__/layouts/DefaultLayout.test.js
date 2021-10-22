@@ -2,6 +2,7 @@ import { render, act, fireEvent, screen } from '@testing-library/react';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import mockRouter from 'next-router-mock';
+jest.mock('next/dist/client/router', () => require('next-router-mock'));
 
 const Wrapper = ({ children }) => {
   const queryClient = new QueryClient();
@@ -10,7 +11,6 @@ const Wrapper = ({ children }) => {
   );
 };
 
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
 describe('Default Layout', () => {
   beforeEach(() => {
     mockRouter.setCurrentUrl('/');

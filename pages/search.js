@@ -8,13 +8,13 @@ import { useSearchUrl } from '../hooks/useSearchUrl';
 import { useConfig } from '../hooks/useConfig';
 import { useSearch } from '../hooks/useSearch';
 import { searchUrl } from 'config/endpoints';
-import { oneHour, tenMinutes } from '../config/timeConstants';
+import { oneHour } from '../config/timeConstants';
 import SearchBar from '../components/inputs/SearchBar';
 import SelectList from '../components/inputs/SelectList';
 import { Pagination } from '../components/buttons/Pagination';
 import SearchResult from '../components/cards/SearchResult';
 import DefaultLayout from 'components/layouts/DefaultLayout';
-import { AuthContext, useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 
 // Server Side Generation
 export async function getServerSideProps({ query }) {
@@ -151,17 +151,11 @@ export default function Search({ query }) {
   return (
     <DefaultLayout footerLocation='absolute'>
       <div className='pt-28 pb-8'>
-        <div
-          className={
-            'flex flex-col py-2 mb-4 w-3/4 sticky top-0 z-20 bg-gray-50'
-          }
-        >
+        <div className='flex flex-col py-2 mb-4 w-3/4 sticky top-0 z-20 bg-gray-50'>
           {user && (
             <button
               id={'save-this-search'}
-              className={
-                'self-end pr-6 pb-1 text-sm italic font-sans text-blue-400 hover:text-blue-300 hover:underline'
-              }
+              className='self-end pr-6 pb-1 text-sm italic font-sans text-blue-400 hover:text-blue-300 hover:underline'
             >
               Save this search
             </button>
