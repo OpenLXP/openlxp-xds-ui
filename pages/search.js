@@ -108,14 +108,18 @@ export default function Search({ query }) {
     modified.p = parseInt(params.p) - 1;
     setParams(modified);
     setUrl(modified);
-    router.push({ pathname: '/search', query: modified }, undefined, {});
+    router.push({ pathname: '/search', query: modified }, undefined, {
+      scroll: false,
+    });
   }
   function handelNext() {
     const modified = { ...params };
     modified.p = parseInt(params.p) + 1;
     setParams(modified);
     setUrl(modified);
-    router.push({ pathname: '/search', query: modified }, undefined, {});
+    router.push({ pathname: '/search', query: modified }, undefined, {
+      scroll: false,
+    });
   }
 
   function createLists() {
@@ -145,7 +149,7 @@ export default function Search({ query }) {
   }, [url]);
 
   return (
-    <DefaultLayout>
+    <DefaultLayout footerLocation='absolute'>
       <div className='pt-28 pb-8'>
         <div
           className={
@@ -183,7 +187,7 @@ export default function Search({ query }) {
               data?.hits?.map((course) => (
                 <SearchResult result={course} key={course.meta.id} />
               ))}
-            <div className='py-8 sticky bottom-0 bg-gradient-to-t from-gray-50 '>
+            <div className='py-8 sticky bottom-0 bg-gradient-to-t from-gray-50 mb-8'>
               {!isLoading && data && (
                 <Pagination
                   totalPages={
