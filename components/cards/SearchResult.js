@@ -14,14 +14,13 @@ export default function SearchResult({ result }) {
     <div>
       <div className='inline-flex gap-2 justify-between items-center w-full'>
         <Link href={'/course/' + id}>
-          <button>
-            <h1
-              className='text-xl font-semibold line-clamp-1 hover:underline hover:text-blue-400 cursor-pointer hover:text-shadow'
-              title={CourseTitle}
-            >
-              {CourseTitle}
-            </h1>
-          </button>
+          <h2
+            id='link-to-course'
+            className='text-xl font-semibold line-clamp-1 hover:underline hover:text-blue-400 cursor-pointer hover:text-shadow'
+            title={CourseTitle}
+          >
+            {CourseTitle}
+          </h2>
         </Link>
         <div className='inline-flex gap-2'>
           <ViewBtn id={id} />
