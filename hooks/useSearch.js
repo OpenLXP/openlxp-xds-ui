@@ -11,7 +11,10 @@ export function useSearch(url) {
       staleTime: tenMinutes,
       onSuccess: (data) => {
         data?.hits.map((course) => {
-          queryClient.setQueryData(['course', course.meta.id], course);
+          queryClient.setQueryData(['course', course.meta.id], {
+            ...course,
+            meta: { metadata_key_hash: course.meta.id },
+          });
           queryClient.setQueryDefaults(['course', course.meta.id], {
             staleTime: oneHour,
             cacheTime: oneHour,
