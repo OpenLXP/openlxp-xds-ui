@@ -3,16 +3,8 @@ import { Fragment } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { LogoutIcon } from '@heroicons/react/outline';
 import { Menu, Transition } from '@headlessui/react';
-import {
-  AdjustmentsIcon,
-  UserIcon,
-  CollectionIcon,
-  SaveAsIcon,
-} from '@heroicons/react/solid';
-import {
-  CollectionIcon as OutlineCollectionIcon,
-  BookmarkIcon,
-} from '@heroicons/react/outline';
+import { AdjustmentsIcon, UserIcon } from '@heroicons/react/solid';
+import { CollectionIcon, BookmarkIcon } from '@heroicons/react/outline';
 
 export default function UserMenu() {
   const {
@@ -23,8 +15,8 @@ export default function UserMenu() {
   } = useAuth();
   return (
     <Menu as='div' className='relative inline-block text-left mt-0.5 max-w-min'>
-      <div className='flex flex-col gap-2'>
-        <Menu.Button className='inline-flex justify-end items-center max-w-md  bg-blue-500 hover:bg-opacity-95 hover:shadow transform transition-all ease-in-out duration-150 px-2 py-1 text-white gap-2 font-semibold rounded-md outline-none focus:ring-2 ring-blue-400'>
+      <div className=''>
+        <Menu.Button className='inline-flex justify-end items-center max-w-md  bg-blue-500 hover:bg-opacity-95 hover:shadow transform transition-all ease-in-out duration-150 px-2 py-1 text-white gap-2 font-semibold rounded-md outline-none focus:ring-4 ring-blue-400'>
           <div className='line-clamp-1'>{email}</div>
           <div
             id='avatar'
@@ -44,14 +36,14 @@ export default function UserMenu() {
         leaveFrom='transform opacity-100 scale-100'
         leaveTo='transform opacity-0 scale-95'
       >
-        <Menu.Items className='absolute left-0 top-14 origin-top-left w-48 bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-2 ring-gray-50 outline-none'>
+        <Menu.Items className='absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
           <div className='p-1 text-gray-700'>
             <Menu.Item>
               {({ active }) => (
                 <button
                   id='logout-button'
                   onClick={() => logout()}
-                  className={`hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2`}
+                  className={`ring-red-200 hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2`}
                 >
                   <LogoutIcon className='h-4 w-4' />
                   Logout
@@ -75,7 +67,7 @@ export default function UserMenu() {
                     id={'my-lists'}
                     className={`hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2`}
                   >
-                    <OutlineCollectionIcon className='h-4 w-4' />
+                    <CollectionIcon className='h-4 w-4' />
                     My Lists
                   </button>
                 </Link>
