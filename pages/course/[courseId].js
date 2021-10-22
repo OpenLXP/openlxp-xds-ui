@@ -1,7 +1,6 @@
-import { useRouter } from 'next/dist/client/router';
-import { useQuery, useQueryClient } from 'react-query';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import useCourse from '../../hooks/useCourse';
+import { useRouter } from 'next/dist/client/router';
 import { useConfig } from '../../hooks/useConfig';
 import usePrepareCourseData from 'hooks/usePrepareCourseData';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
