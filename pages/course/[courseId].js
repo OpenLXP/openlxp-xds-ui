@@ -24,8 +24,8 @@ export default function Course() {
     // if there is a course thumbnail
   }
   if (moreLikeThis.isSuccess) {
-    if (course.data.Technical_Information?.Thumbnail) {
-      thumbnail = Technical_Information.Thumbnail;
+    if (course?.data?.Technical_Information?.Thumbnail) {
+      thumbnail = Technical_Information?.Thumbnail;
     } else if (config.data.course_img_fallback) {
       thumbnail = `${backendHost}${config.data.course_img_fallback}`;
     }
