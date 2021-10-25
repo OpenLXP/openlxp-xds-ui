@@ -113,7 +113,6 @@ export default function Login() {
                 'bg-blue-500 py-2 px-4 mt-5 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'
               }
             >
-              {' '}
               Single Sign On
             </a>
           </Link>
