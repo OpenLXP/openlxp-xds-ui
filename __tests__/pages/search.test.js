@@ -9,6 +9,10 @@ import Search from '../../pages/search';
 import courseData from '../../__mocks__/data/course.data';
 import aggregationsData from '../../__mocks__/data/aggregations.data';
 
+import mockRouter from 'next-router-mock';
+import { QueryClientWrapper } from '../../__mocks__/queryClientMock';
+jest.mock('next/dist/client/router', () => require('next-router-mock'));
+
 jest.mock('../../hooks/useSearchUrl', () => ({
   useSearchUrl: jest.fn(),
 }));
@@ -23,6 +27,7 @@ jest.mock('../../contexts/AuthContext', () => ({
 }));
 
 describe('Search Page', () => {
+  mockRouter.setCurrentUrl('/search');
   beforeEach(() => {
     useConfig.mockImplementation(() => ({
       data: { search_results_per_page: 10 },
@@ -36,7 +41,12 @@ describe('Search Page', () => {
     it('should render search bar with keyword', () => {
       useAuth.mockImplementation(() => ({ user: null }));
       useSearch.mockImplementation(() => ({ refetch: jest.fn() }));
-      render(<Search query={{ keyword: 'test' }} />);
+
+      render(
+        <QueryClientWrapper>
+          <Search query={{ keyword: 'test' }} />
+        </QueryClientWrapper>
+      );
 
       expect(screen.getByPlaceholderText(/search the catalog/i).value).toBe(
         'test'
@@ -53,7 +63,9 @@ describe('Search Page', () => {
         refetch: jest.fn(),
       }));
       const { getByText } = render(
-        <Search query={{ keyword: 'test query' }} />
+        <QueryClientWrapper>
+          <Search query={{ keyword: 'test' }} />
+        </QueryClientWrapper>
       );
 
       expect(getByText(/save this search/i)).toBeInTheDocument();
@@ -73,7 +85,9 @@ describe('Search Page', () => {
         refetch: jest.fn(),
       }));
       const { getByText } = render(
-        <Search query={{ keyword: 'test query' }} />
+        <QueryClientWrapper>
+          <Search query={{ keyword: 'test' }} />
+        </QueryClientWrapper>
       );
 
       expect(getByText(/test course title/i)).toBeInTheDocument();
@@ -92,7 +106,9 @@ describe('Search Page', () => {
         refetch: jest.fn(),
       }));
       const { getByText } = render(
-        <Search query={{ keyword: 'test query' }} />
+        <QueryClientWrapper>
+          <Search query={{ keyword: 'test' }} />
+        </QueryClientWrapper>
       );
       expect(getByText(/course type/i)).toBeInTheDocument();
     });

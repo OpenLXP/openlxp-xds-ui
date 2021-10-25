@@ -2,9 +2,15 @@ import { render, screen, act, fireEvent } from '@testing-library/react';
 import React from 'react';
 import Login from '../../pages/login';
 import { useAuth } from '../../contexts/AuthContext';
-import axios from 'axios';
 import MockAxios from 'jest-mock-axios';
 
+import mockRouter from 'next-router-mock';
+import { QueryClientWrapper } from '../../__mocks__/queryClientMock';
+jest.mock('next/dist/client/router', () => require('next-router-mock'));
+
+beforeEach(() => {
+  mockRouter.setCurrentUrl('/login');
+});
 jest.mock('../../contexts/AuthContext', () => ({
   useAuth: jest.fn(),
 }));
@@ -15,7 +21,11 @@ describe('Login Page', () => {
       login: jest.fn(),
       logout: jest.fn(),
     }));
-    render(<Login />);
+    render(
+      <QueryClientWrapper>
+        <Login />
+      </QueryClientWrapper>
+    );
     expect(screen.getByText(/Sign in to your account/i)).toBeInTheDocument();
     expect(screen.getByText(`Create an Account`)).toBeInTheDocument();
     expect(screen.getByText(`Forgot Password`)).toBeInTheDocument();
@@ -30,7 +40,11 @@ describe('Login Page', () => {
         login: jest.fn(),
         logout: jest.fn(),
       }));
-      render(<Login />);
+      render(
+        <QueryClientWrapper>
+          <Login />
+        </QueryClientWrapper>
+      );
     });
 
     it('should change values on input: Username', () => {
@@ -102,7 +116,7 @@ describe('Login Page', () => {
     });
     it('should show invalid credentials message.', async () => {
       MockAxios.post.mockImplementation(() =>
-        Promise.resolve({ data: { user: {} } })
+        Promise.reject({ data: { user: {} } })
       );
 
       const username = screen.getByPlaceholderText('Username');
@@ -116,7 +130,6 @@ describe('Login Page', () => {
         const button = screen.getByText(/Login/i);
         fireEvent.click(button);
       });
-      act(() => {});
       expect(MockAxios.post).toHaveBeenCalled();
       expect(screen.getByText(/invalid credentials/i)).toBeInTheDocument();
     });

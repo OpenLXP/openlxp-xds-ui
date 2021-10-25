@@ -4,20 +4,30 @@ import Register from '../../pages/register';
 import { useAuth } from '../../contexts/AuthContext';
 import MockAxios from 'jest-mock-axios';
 
+import mockRouter from 'next-router-mock';
+import { QueryClientWrapper } from '../../__mocks__/queryClientMock';
+jest.mock('next/dist/client/router', () => require('next-router-mock'));
+
 jest.mock('../../contexts/AuthContext', () => ({
   useAuth: jest.fn(),
 }));
+
 const mockRegister = jest.fn();
 const logout = jest.fn();
 beforeEach(() => {
+  mockRouter.setCurrentUrl('/login');
   useAuth.mockImplementation(() => ({
     register: mockRegister,
     logout: logout,
   }));
+  render(
+    <QueryClientWrapper>
+      <Register />
+    </QueryClientWrapper>
+  );
 });
 describe('Register Page', () => {
   it('should render the Register screen title, input fields, and buttons', () => {
-    render(<Register />);
     expect(screen.getByText(`Create your account`)).toBeInTheDocument();
     expect(screen.getByText(/Sign in to your Account/i)).toBeInTheDocument();
     expect(screen.getByText(`Create`)).toBeInTheDocument();
@@ -27,10 +37,6 @@ describe('Register Page', () => {
 });
 
 describe('Register Page actions', () => {
-  beforeEach(() => {
-    render(<Register />);
-  });
-
   it('should change values on input: First Name', () => {
     const input = screen.getByPlaceholderText('First Name');
 
