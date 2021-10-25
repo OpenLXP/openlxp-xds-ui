@@ -16,6 +16,7 @@ export const spotlightCourses = `${backendHost}${api}spotlight-courses`;
 
 // all the interest lists
 export const interestLists = `${backendHost}${api}interest-lists/`;
+export const userOwnedLists =  `${backendHost}${api}interest-lists/owned`
 
 // course url
 export const courseUrl = `${backendHost}${api}experiences/`;
@@ -25,3 +26,5 @@ export const searchUrl = `${backendHost}${elasticApi}`;
 
 // More like this
 export const moreLikeThisUrl = `${backendHost}${elasticApi}more-like-this/`;
+
+// user lists
