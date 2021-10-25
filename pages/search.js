@@ -74,7 +74,7 @@ export default function Search({ query }) {
     if (params.keyword && params.keyword !== '') {
       const modified = { ...params };
       modified[event.target.name] = event.target.value;
-
+      modified.p = 1;
       setUrl(modified);
       setParams(modified);
       router.push({ pathname: '/search/', query: modified });
