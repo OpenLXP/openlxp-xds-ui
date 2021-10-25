@@ -15,6 +15,7 @@ import { Pagination } from '../components/buttons/Pagination';
 import SearchResult from '../components/cards/SearchResult';
 import DefaultLayout from 'components/layouts/DefaultLayout';
 import { useAuth } from '../contexts/AuthContext';
+import MoreLikeThis from '../components/cards/MoreLikeThis';
 
 // Server Side Generation
 export async function getServerSideProps({ query }) {
@@ -151,7 +152,7 @@ export default function Search({ query }) {
   return (
     <DefaultLayout footerLocation='absolute'>
       <div className='pt-28 pb-8'>
-        <div className='flex flex-col py-2 mb-4 w-3/4 sticky top-0 z-20 bg-gray-50'>
+        <div className='flex flex-col py-2 mb-4 w-8/12 sticky top-0 z-20 bg-gray-50'>
           {user && (
             <button
               id={'save-this-search'}
@@ -175,8 +176,8 @@ export default function Search({ query }) {
             About {data.total} results
           </span>
         )}
-        <div className={'grid grid-cols-8 pt-2 '}>
-          <div id='search-results' className={'col-span-6 grid gap-8 relative'}>
+        <div className={'grid grid-cols-12 pt-2 gap-12 '}>
+          <div id='search-results' className={'col-span-8 grid gap-8 relative'}>
             {data &&
               data?.hits?.map((course) => (
                 <SearchResult result={course} key={course.meta.id} />
@@ -192,6 +193,11 @@ export default function Search({ query }) {
                   onPrevious={handlePrevious}
                 />
               )}
+            </div>
+          </div>
+          <div className='relative col-span-4'>
+            <div className='sticky top-48'>
+              {data && data?.hits && <MoreLikeThis course={data?.hits[0]} />}
             </div>
           </div>
         </div>
