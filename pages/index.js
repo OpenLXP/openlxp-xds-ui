@@ -52,9 +52,9 @@ export default function Home() {
         </div>
         <div
           id='course-carousel'
-          className='absolute bottom-20 left-0 w-full overflow-x-hidden'
+          className='absolute flex justify-center bottom-20 left-0 w-full overflow-x-auto custom-scroll'
         >
-          <div className='flex overflow-x-auto px-2 gap-2 py-5 custom-scroll '>
+          <div className='inline-flex overflow-x-auto px-2 gap-2 py-5 custom-scroll '>
             {spotlight.isSuccess &&
               spotlight.data.length > 0 &&
               spotlight.data.map((course) => {
