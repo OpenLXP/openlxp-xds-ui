@@ -35,9 +35,9 @@ export default function Header({}) {
               </a>
             </Link>
             {user &&
-              buttonLinks.map((button) => {
+              buttonLinks.map( ( button ) => {
                 return (
-                  <Link href={button.path}>
+                  <Link href={ button.path } key={button.title}>
                     <a
                       id={
                         button.title.toLowerCase().replace(' ', '-') +
