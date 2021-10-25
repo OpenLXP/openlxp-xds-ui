@@ -152,7 +152,7 @@ export default function Search({ query }) {
   return (
     <DefaultLayout footerLocation='absolute'>
       <div className='pt-28 pb-8'>
-        <div className='flex flex-col py-2 mb-4 w-8/12 sticky top-0 z-20 bg-gray-50'>
+        <div className='flex flex-col py-2 mb-4 w-8/12 sticky top-0 z-10 bg-gray-50'>
           {user && (
             <button
               id={'save-this-search'}
