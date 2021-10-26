@@ -15,37 +15,13 @@ const updateUserList = ({ id, listData }, token) => {
 export default function useUpdateUserList(token) {
   const queryClient = useQueryClient();
   return useMutation((values) => updateUserList(values, token), {
-    onMutate: ({ listData, id }) => {
-      // Optimistically updating the list
-      const old = queryClient.getQueryData(['user-list', id]);
-      queryClient.setQueryData(['user-list', id], listData);
-
-      // returning the snapshot of the old data in the event that there is an error.
-      return old;
-    },
+    onMutate: () => {},
     onSuccess: (newList) => {
-      // short circuiting the refetch
-      queryClient.setQueryData(['user-list', newList.id], newList.id);
-      queryClient.setQueryData(['user-owned-lists'], (old = []) => {
-        // if there is a collection of data otherwise undefined
-        return old?.map((d) => {
-          // replace the old list with the new post we created
-          if (d.id === newList.id) {
-            return newList;
-          }
-          return d;
-        });
-      });
+      // refetching the data once a res.ok response is confirmed
+      queryClient.refetchQueries(['user-owned-list'], {});
+      queryClient.refetchQueries(['user-list', newList.id], {});
     },
-    onError: (value, newValue, oldValue) => {
-      console.log(oldValue);
-      queryClient.invalidateQueries(
-        ['user-list', oldValue.id],
-        oldValue.listData
-      );
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries(['user-owned-lists']);
-    },
+    onError: () => {},
+    onSettled: () => {},
   });
 }
