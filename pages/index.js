@@ -58,7 +58,7 @@ export default function Home() {
             {spotlight.isSuccess &&
               spotlight.data.length > 0 &&
               spotlight.data.map((course) => {
-                return <CourseSpotlight course={course} />;
+                return <CourseSpotlight course={course} key={course.meta.id} />;
               })}
           </div>
         </div>
