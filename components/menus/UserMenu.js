@@ -53,36 +53,42 @@ export default function UserMenu() {
             <Menu.Item>
               {({ active }) => (
                 <Link href='/profile'>
-                  <button className='hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2'>
-                    <AdjustmentsIcon className='h-4 w-4' />
-                    Profile
-                  </button>
+                  <a>
+                    <button className='hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2'>
+                      <AdjustmentsIcon className='h-4 w-4' />
+                      Profile
+                    </button>
+                  </a>
                 </Link>
               )}
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
                 <Link href='/lists/owned'>
-                  <button
-                    id={'my-lists'}
-                    className={`hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2`}
-                  >
-                    <CollectionIcon className='h-4 w-4' />
-                    My Lists
-                  </button>
+                  <a>
+                    <button
+                      id={'my-lists'}
+                      className={`hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2`}
+                    >
+                      <CollectionIcon className='h-4 w-4' />
+                      My Lists
+                    </button>
+                  </a>
                 </Link>
               )}
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
                 <Link href='/lists/subscribed'>
-                  <button
-                    id={'subscribed-lists'}
-                    className={`hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2`}
-                  >
-                    <BookmarkIcon className='h-4 w-4' />
-                    Subscribed Lists
-                  </button>
+                  <a>
+                    <button
+                      id={'subscribed-lists'}
+                      className={`hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2`}
+                    >
+                      <BookmarkIcon className='h-4 w-4' />
+                      Subscribed Lists
+                    </button>
+                  </a>
                 </Link>
               )}
             </Menu.Item>
