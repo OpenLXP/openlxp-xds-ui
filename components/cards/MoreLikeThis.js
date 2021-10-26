@@ -1,17 +1,22 @@
 import React, { useEffect } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 import { useConfig } from '../../hooks/useConfig';
 import useMoreCoursesLikeThis from '../../hooks/useMoreCoursesLikeThis';
 import useTimeout from '../../hooks/useTimeout';
+import SaveBtn from '../buttons/SaveBtn';
+import ShareBtn from '../buttons/ShareBtn';
+import ViewBtn from '../buttons/ViewBtn';
 
 export default function MoreLikeThis({ course }) {
   const { data, isLoading } = useMoreCoursesLikeThis(course?.meta.id);
   const config = useConfig();
+  const { user } = useAuth();
   const { state: view, show } = useTimeout(500);
 
   useEffect(() => {
     show();
-  }, [] );
-  
+  }, []);
+
   // if loading
   if (isLoading) {
     return (
@@ -86,6 +91,13 @@ export default function MoreLikeThis({ course }) {
           <span className='font-semibold'>Course Provider:&nbsp;</span>
           {data.hits[0].Course.CourseProviderName}
         </div>
+      </div>
+      <div className='flex justify-between mt-10'>
+        <div className='flex gap-2'>
+          <ShareBtn id={data.hits[0].meta.id} />
+          <ViewBtn id={data.hits[0].meta.id} />
+        </div>
+        {user && <SaveBtn id={data.hits[0].meta.id} />}
       </div>
     </div>
   );
