@@ -20,7 +20,11 @@ export default function Header({}) {
         <div className={'w-full py-4 inline-flex items-center justify-between'}>
           <div className={'flex items-center gap-4'}>
             <Link href={'/'}>
-              <a title='home' id={'homepage-button'} className={'cursor-pointer'}>
+              <a
+                title='home'
+                id={'homepage-button'}
+                className={'cursor-pointer'}
+              >
                 <Image src={logo} alt={'home'} height={'60'} width={'60'} />
               </a>
             </Link>
@@ -35,9 +39,9 @@ export default function Header({}) {
               </a>
             </Link>
             {user &&
-              buttonLinks.map( ( button ) => {
+              buttonLinks.map((button) => {
                 return (
-                  <Link href={ button.path } key={button.title}>
+                  <Link href={button.path} key={button.title}>
                     <a
                       id={
                         button.title.toLowerCase().replace(' ', '-') +
@@ -59,20 +63,12 @@ export default function Header({}) {
           {!user && (
             <div className={'space-x-4'}>
               <Link href={'/login'}>
-                <a
-                  className={
-                    'bg-blue-500 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'
-                  }
-                >
+                <a className='bg-blue-500 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
                   Sign in
                 </a>
               </Link>
               <Link href={'/register'}>
-                <a
-                  className={
-                    'bg-blue-300 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'
-                  }
-                >
+                <a className='bg-blue-300 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
                   Sign up
                 </a>
               </Link>
