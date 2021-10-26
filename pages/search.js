@@ -9,13 +9,13 @@ import { useConfig } from '../hooks/useConfig';
 import { useSearch } from '../hooks/useSearch';
 import { searchUrl } from 'config/endpoints';
 import { oneHour } from '../config/timeConstants';
+import { useAuth } from '../contexts/AuthContext';
+import { Pagination } from '../components/buttons/Pagination';
 import SearchBar from '../components/inputs/SearchBar';
 import SelectList from '../components/inputs/SelectList';
-import { Pagination } from '../components/buttons/Pagination';
 import SearchResult from '../components/cards/SearchResult';
-import DefaultLayout from 'components/layouts/DefaultLayout';
-import { useAuth } from '../contexts/AuthContext';
 import MoreLikeThis from '../components/cards/MoreLikeThis';
+import DefaultLayout from 'components/layouts/DefaultLayout';
 
 // Server Side Generation
 export async function getServerSideProps({ query }) {

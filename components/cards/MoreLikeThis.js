@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useConfig } from '../../hooks/useConfig';
-import useMoreCoursesLikeThis from '../../hooks/useMoreCoursesLikeThis';
+import { useMoreCoursesLikeThis } from '../../hooks/useMoreCoursesLikeThis';
 import useTimeout from '../../hooks/useTimeout';
 import SaveBtn from '../buttons/SaveBtn';
 import ShareBtn from '../buttons/ShareBtn';
