@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { useLocalStorage } from '../hooks/useStorage';
+import axios from 'axios';
+import { userOwnedLists } from '../config/endpoints';
 export const AuthContext = createContext({});
 
 export function useAuth() {
@@ -10,9 +12,9 @@ export function AuthProvider({ children }) {
   const router = useRouter();
   // const [nothing, setUser] = useState(null);
   const [error, setError] = useState(null);
-  const [user, setLocal, removeLocal] = useLocalStorage('user', undefined);
+  const [user, setLocal, removeLocal] = useLocalStorage('user', null);
 
-  // useEffect(() => checkUserLoggedIn(), []);
+  useEffect(() => checkUserLoggedIn(), []);
 
   // Register user
   const register = (userData) => {
@@ -34,15 +36,17 @@ export function AuthProvider({ children }) {
   // // Check if user is logged in
   const checkUserLoggedIn = async () => {
     if (typeof window !== 'undefined') {
-      axios
-        .get(interestLists + 'owned', {
-          headers: { Authorization: 'Token ' + userData.token },
-        })
-        .then((res) => {})
-        .catch((error) => {
-          removeLocal();
-          router.push('/');
-        });
+      if (user) {
+        axios
+          .get(userOwnedLists, {
+            headers: { Authorization: 'Token ' + user?.token },
+          })
+          .then(() => {})
+          .catch((error) => {
+            removeLocal();
+            router.push('/');
+          });
+      }
     }
   };
 
