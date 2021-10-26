@@ -1,8 +1,7 @@
 import { render, act, screen, fireEvent } from '@testing-library/react';
-
+import singletonRouter from 'next/router'
 import { useAuth } from '../../contexts/AuthContext';
 import { useSearchUrl } from '../../hooks/useSearchUrl';
-import searchData from '../../__mocks__/data/search.data';
 import { useConfig } from '../../hooks/useConfig';
 import { useSearch } from '../../hooks/useSearch';
 import { useMoreCoursesLikeThis } from '../../hooks/useMoreCoursesLikeThis';
@@ -264,10 +263,11 @@ describe('Search Page', () => {
           fireEvent.click(selection);
         });
 
-        expect(queryByText(/course type/i)).not.toBeInTheDocument();
+        expect( queryByText( /course type/i ) ).not.toBeInTheDocument();
+
       });
-      it.skip('should clear selection from select dropdown', () => {
-        const { getByText, queryByText, getByTitle } = renderer(
+      it('should clear selection from select dropdown', () => {
+        const { getByText, queryByText, getAllByTitle } = renderer(
           <Search query={{ keyword: '' }} />
         );
 
@@ -280,15 +280,18 @@ describe('Search Page', () => {
           fireEvent.click(selection);
         });
         act(() => {
-          const clear = getByTitle(/clear selection/i);
-          fireEvent.click(clear);
+          const button = getAllByTitle(/clear selection/i)[0];
+          fireEvent.click(button);
         });
-        expect(queryByText(/test bucket 1/i)).not.toBeInTheDocument();
-        expect(queryByText(/course type/i)).toBeInTheDocument();
+        expect( queryByText( /course type/i ) ).toBeInTheDocument();
+        expect(singletonRouter).toMatchObject(({asPath:'/search'}))
       });
     });
-    describe('save modal', () => {
-      it.todo('should show menu for save');
+    
+    describe('pagination', () => {
+      it.todo('next updates the url of the page n+1');
+      it.todo('back updates the url of the page n-1')
+      it.todo('')
     });
   });
 });
