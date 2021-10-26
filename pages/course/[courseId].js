@@ -5,7 +5,7 @@ import { useConfig } from '../../hooks/useConfig';
 import usePrepareCourseData from 'hooks/usePrepareCourseData';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import { backendHost } from '../../config/endpoints';
-import useMoreCoursesLikeThis from '../../hooks/useMoreCoursesLikeThis';
+import { useMoreCoursesLikeThis } from '../../hooks/useMoreCoursesLikeThis';
 import CourseSpotlight from '../../components/cards/CourseSpotlight';
 
 export default function Course() {
