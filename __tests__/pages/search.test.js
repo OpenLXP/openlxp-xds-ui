@@ -1,5 +1,5 @@
 import { render, act, screen, fireEvent } from '@testing-library/react';
-import singletonRouter from 'next/router'
+import singletonRouter from 'next/router';
 import { useAuth } from '../../contexts/AuthContext';
 import { useSearchUrl } from '../../hooks/useSearchUrl';
 import { useConfig } from '../../hooks/useConfig';
@@ -263,8 +263,7 @@ describe('Search Page', () => {
           fireEvent.click(selection);
         });
 
-        expect( queryByText( /course type/i ) ).not.toBeInTheDocument();
-
+        expect(queryByText(/course type/i)).not.toBeInTheDocument();
       });
       it('should clear selection from select dropdown', () => {
         const { getByText, queryByText, getAllByTitle } = renderer(
@@ -283,15 +282,15 @@ describe('Search Page', () => {
           const button = getAllByTitle(/clear selection/i)[0];
           fireEvent.click(button);
         });
-        expect( queryByText( /course type/i ) ).toBeInTheDocument();
-        expect(singletonRouter).toMatchObject(({asPath:'/search'}))
+        expect(queryByText(/course type/i)).toBeInTheDocument();
+        expect(singletonRouter).toMatchObject({ asPath: '/search' });
       });
     });
-    
+
     describe('pagination', () => {
       it.todo('next updates the url of the page n+1');
-      it.todo('back updates the url of the page n-1')
-      it.todo('')
+      it.todo('back updates the url of the page n-1');
+      it.todo('');
     });
   });
 });

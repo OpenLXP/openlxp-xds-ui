@@ -12,13 +12,13 @@ const updateUserList = ({ id, listData }, token) => {
     .then((res) => res.data);
 };
 
-export default function useUpdateUserList(token) {
+export function useUpdateUserList(token) {
   const queryClient = useQueryClient();
   return useMutation((values) => updateUserList(values, token), {
     onMutate: () => {},
     onSuccess: (newList) => {
       // refetching the data once a res.ok response is confirmed
-      queryClient.refetchQueries(['user-owned-list'], {});
+      queryClient.refetchQueries(['user-owned-lists'], {});
       queryClient.refetchQueries(['user-list', newList.id], {});
     },
     onError: () => {},

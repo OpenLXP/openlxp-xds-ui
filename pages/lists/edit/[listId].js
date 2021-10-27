@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import ActionButton from '../../../components/buttons/ActionButton';
 import UserListResult from '../../../components/cards/UserListEditResult';
 import DefaultLayout from '../../../components/layouts/DefaultLayout';
 import { useAuth } from '../../../contexts/AuthContext';
-import useUpdateUserList from '../../../hooks/useUpdateUserList';
-import useUserList from '../../../hooks/useUserList';
+import { useUpdateUserList } from '../../../hooks/useUpdateUserList';
+import { useUserList } from '../../../hooks/useUserList';
 import prepareListDataToSend from '../../../utils/prepListDataToSend';
 import {
   CheckCircleIcon,
@@ -25,17 +25,18 @@ export default function EditList() {
   // single source of truth for editing
   const [currentListInfo, setCurrentListInfo] = useState({});
 
-  // when the data updates update the data found in the fields
-  useEffect(() => {
+  // when the state of the data updates
+  const memoData = useMemo(() => {
     // if success populate the data
     if (list.isSuccess) {
       setCurrentListInfo({
         name: list?.data.name,
-        description: list?.data.description,
+        description: list?.data?.description,
         experiences: list?.data?.experiences,
       });
     }
-  }, [list.data]);
+  }, [list.isSuccess]);
+
   const handleChange = (event) => {
     setCurrentListInfo((prev) => ({
       ...prev,
@@ -62,17 +63,22 @@ export default function EditList() {
           {list?.data?.name}
         </h1>
         <input
+          placeholder='List Name'
           className='w-1/2 border outline-none rounded-md shadow focus:shadow-md p-2 my-4 focus:ring-4 ring-blue-400 transform transition-all duration-150'
           name='name'
-          value={currentListInfo.name}
+          value={currentListInfo.name || ''}
           onChange={handleChange}
         />
         <div className='relative mb-4 mt-2'>
           <textarea
+            placeholder='List Description...'
             name='description'
             id='description'
-            rows={Math.max(currentListInfo.description?.length / 72, 4)}
-            value={currentListInfo.description}
+            rows={Math.max(
+              currentListInfo.description?.length / 72,
+              4
+            ).toString()}
+            value={currentListInfo.description || ''}
             onChange={handleChange}
             className='w-full border outline-none rounded-md shadow focus:shadow-md p-2 focus:ring-4 ring-blue-400 transform transition-all duration-150'
           />
