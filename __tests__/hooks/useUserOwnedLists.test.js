@@ -2,7 +2,7 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import mockAxios from 'jest-mock-axios';
 
-import useUserOwnedLists from '../../hooks/useUserOwnedLists';
+import {useUserOwnedLists} from '../../hooks/useUserOwnedLists';
 import userOwnedListsData from '../../__mocks__/data/userOwnedLists.data';
 
 const queryClient = new QueryClient();

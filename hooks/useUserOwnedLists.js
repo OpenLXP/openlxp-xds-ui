@@ -13,7 +13,7 @@ const getUserLists = (token) => {
       .then((res) => res.data);
 };
 
-export default function useUserOwnedLists(token) {
+export function useUserOwnedLists(token) {
   const queryClient = useQueryClient();
   return useQuery(['user-owned-lists'], getUserLists(token), {
     staleTime: oneMinute,

@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Fragment, useState, useEffect } from 'react';
-import useUserOwnedLists from '../../hooks/useUserOwnedLists';
+import { useUserOwnedLists } from '../../hooks/useUserOwnedLists';
 import UserListResult from '../cards/UserListEditResult';
 import { BookOpenIcon, UsersIcon } from '@heroicons/react/outline';
 import useUpdateUserList from '../../hooks/useUpdateUserList';
