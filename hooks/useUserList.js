@@ -6,6 +6,6 @@ const getUserList = (id) => {
   return () => axios.get(interestLists + id).then((res) => res.data);
 };
 
-export default function useUserList(id) {
+export function useUserList(id) {
   return useQuery(['user-list', id], getUserList(id), {});
 }

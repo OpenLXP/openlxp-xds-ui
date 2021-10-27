@@ -2,7 +2,7 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import mockAxios from 'jest-mock-axios';
 
-import useUpdateUserList from '../../hooks/useUpdateUserList';
+import { useUpdateUserList } from '../../hooks/useUpdateUserList';
 
 const queryClient = new QueryClient();
 const wrapper = ({ children }) => (
@@ -11,7 +11,7 @@ const wrapper = ({ children }) => (
 
 it('should make a patch call and return new data', async () => {
   // mockAxios
-  mockAxios.patch.mockReturnValue( { data: { message: 'tada' } } );
+  mockAxios.patch.mockReturnValue({ data: { message: 'tada' } });
   const { result, waitForNextUpdate } = renderHook(
     () => useUpdateUserList('token'),
     { wrapper }
