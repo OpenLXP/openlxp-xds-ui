@@ -24,7 +24,7 @@ export default function CourseSpotlight({ course }) {
   };
 
   return (
-    <Link href={`/course/${meta.metadata_key_hash || meta.id}`} >
+    <Link href={`/course/${meta.metadata_key_hash || meta.id}`}>
       <div
         onClick={handleVisitCourse}
         className='z-0 overflow-hidden relative rounded-md shadow hover:shadow-lg bg-blue-200 cursor-pointer flex-shrink-0 transform transition-shadow duration-150 ease-in-out'
