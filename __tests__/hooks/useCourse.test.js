@@ -2,7 +2,7 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import mockAxios from 'jest-mock-axios';
 
-import useCourse from '../../hooks/useCourse';
+import { useCourse } from '../../hooks/useCourse';
 import courseData from '../../__mocks__/data/course.data';
 
 const queryClient = new QueryClient();
