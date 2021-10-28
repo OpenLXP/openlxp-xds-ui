@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Fragment } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { LogoutIcon } from '@heroicons/react/outline';
+import { ArchiveIcon, BookmarkAltIcon, LogoutIcon, SaveIcon } from '@heroicons/react/outline';
 import { Menu, Transition } from '@headlessui/react';
 import { AdjustmentsIcon, UserIcon } from '@heroicons/react/solid';
 import { CollectionIcon, BookmarkIcon } from '@heroicons/react/outline';
@@ -57,6 +57,18 @@ export default function UserMenu() {
                     <button className='hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2'>
                       <AdjustmentsIcon className='h-4 w-4' />
                       Profile
+                    </button>
+                  </a>
+                </Link>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <Link href='/save-searches'>
+                  <a>
+                    <button className='hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2'>
+                      <ArchiveIcon className='h-4 w-4' />
+                      Saved Searches
                     </button>
                   </a>
                 </Link>
