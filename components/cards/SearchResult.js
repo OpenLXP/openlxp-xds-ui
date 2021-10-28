@@ -1,8 +1,8 @@
 import { useAuth } from '../../contexts/AuthContext';
 import Link from 'next/link';
-import SaveBtn from '../buttons/SaveBtn';
 import ShareBtn from '../buttons/ShareBtn';
 import ViewBtn from '../buttons/ViewBtn';
+import SaveModal from '../modals/SaveModal';
 
 export default function SearchResult({ result }) {
   const { user } = useAuth();
@@ -22,10 +22,10 @@ export default function SearchResult({ result }) {
             {CourseTitle}
           </h2>
         </Link>
-        <div className='inline-flex gap-2'>
+        <div className='inline-flex flex-shrink-0 gap-2'>
           <ViewBtn id={id} />
           <ShareBtn id={id} />
-          {user && <SaveBtn id={id} />}
+          {user && <SaveModal courseId={id} />}
         </div>
       </div>
       <h2 className={'font-normal font-sans'}>

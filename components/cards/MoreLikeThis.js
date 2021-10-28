@@ -3,7 +3,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useConfig } from '../../hooks/useConfig';
 import { useMoreCoursesLikeThis } from '../../hooks/useMoreCoursesLikeThis';
 import useTimeout from '../../hooks/useTimeout';
-import SaveBtn from '../buttons/SaveBtn';
+import SaveModal from '../modals/SaveModal'
 import ShareBtn from '../buttons/ShareBtn';
 import ViewBtn from '../buttons/ViewBtn';
 
@@ -97,7 +97,7 @@ export default function MoreLikeThis({ course }) {
           <ShareBtn id={data.hits[0].meta.id} />
           <ViewBtn id={data.hits[0].meta.id} />
         </div>
-        {user && <SaveBtn id={data.hits[0].meta.id} />}
+        {user && <SaveModal courseId={data.hits[0].meta.id} />}
       </div>
     </div>
   );
