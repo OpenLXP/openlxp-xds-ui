@@ -1,5 +1,5 @@
 import React from 'react';
-import useCourse from '../../hooks/useCourse';
+import { useCourse } from '../../hooks/useCourse';
 import { useRouter } from 'next/dist/client/router';
 import { useConfig } from '../../hooks/useConfig';
 import usePrepareCourseData from 'hooks/usePrepareCourseData';
@@ -7,21 +7,26 @@ import DefaultLayout from '../../components/layouts/DefaultLayout';
 import { backendHost } from '../../config/endpoints';
 import { useMoreCoursesLikeThis } from '../../hooks/useMoreCoursesLikeThis';
 import CourseSpotlight from '../../components/cards/CourseSpotlight';
+import SaveModal from '../../components/modals/SaveModal';
+import { useAuth } from '../../contexts/AuthContext';
+import ShareBtn from '../../components/buttons/ShareBtn';
+import ExternalBtn from '../../components/buttons/ExternalBtn';
 
 export default function Course() {
   // grab the course id
+  const { user } = useAuth();
   const { query } = useRouter();
   // state of the fetching
+  const config = useConfig();
   const course = useCourse(query?.courseId);
   const moreLikeThis = useMoreCoursesLikeThis(query?.courseId);
-  const config = useConfig();
+
+  // on page update refetch the course data
 
   let preparedData = null;
   let thumbnail = null;
   if (config.isSuccess && course.isSuccess) {
     preparedData = usePrepareCourseData(config.data, course.data);
-
-    // if there is a course thumbnail
   }
   if (moreLikeThis.isSuccess) {
     if (course?.data?.Technical_Information?.Thumbnail) {
@@ -51,8 +56,6 @@ export default function Course() {
     );
   }
 
-  // if there is an error
-
   // successful loading
   return (
     <DefaultLayout footerLocation='absolute'>
@@ -61,10 +64,18 @@ export default function Course() {
           <h1 className='font-semibold text-3xl col-span-2'>
             {preparedData.courseTitle}
           </h1>
-          <div className='inline-flex justify-end gap-2'>
-            <div className='h-12 w-12 rounded-full bg-gray-200'></div>
-            <div className='h-12 w-12 rounded-full bg-gray-200'></div>
-            <div className='h-12 w-12 rounded-full bg-gray-200'></div>
+          <div className='inline-flex justify-end gap-2 items-center'>
+            <ExternalBtn url={preparedData.courseUrl} />
+            <ShareBtn id={query?.courseId} />
+            {user && (
+              <SaveModal
+                courseId={
+                  course.data?.meta?.metadata_key_hash
+                    ? course?.data?.meta.metadata_key_hash
+                    : course.data?.meta.id
+                }
+              />
+            )}
           </div>
         </div>
         <div className='grid grid-cols-3 gap-8 mt-8'>
@@ -92,7 +103,7 @@ export default function Course() {
             <div className='rounded-md bg-white border border-gray-200 shadow-sm p-4 space-y-1'>
               {preparedData.courseDetails.map((detail) => {
                 return (
-                  <div>
+                  <div key={detail.displayName}>
                     <label className='font-semibold'>
                       {detail.displayName}:&nbsp;
                     </label>
@@ -109,7 +120,6 @@ export default function Course() {
         >
           <div className='inline-flex overflow-x-auto px-2 gap-2 py-5 custom-scroll '>
             {moreLikeThis.isSuccess &&
-              moreLikeThis.data.hits.length > 0 &&
               moreLikeThis.data.hits.map((course) => {
                 return <CourseSpotlight course={course} />;
               })}

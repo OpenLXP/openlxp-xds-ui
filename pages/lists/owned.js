@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
-import useUserOwnedLists from '../../hooks/useUserOwnedLists';
+import { useUserOwnedLists } from '../../hooks/useUserOwnedLists';
 import { useAuth } from '../../contexts/AuthContext';
 import { BookOpenIcon, UsersIcon } from '@heroicons/react/solid';
 
