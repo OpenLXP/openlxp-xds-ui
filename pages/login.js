@@ -90,7 +90,9 @@ export default function Login() {
               Forgot Password
             </button>
           </Link>
-          {errorMsg && <p className={'text-red-600'}>{errorMsg}</p>}
+          <div className='mb-4'>
+            {errorMsg && <p className={'text-red-600'}>{errorMsg}</p>}
+          </div>
           <ActionButton onClick={() => doLogin()} id={'login-button'}>
             <LoginIcon className='w-5 h-5' />
             Login
