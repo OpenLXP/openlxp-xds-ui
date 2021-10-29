@@ -11,7 +11,7 @@ import ActionButton from '../components/buttons/ActionButton';
 import axios from 'axios';
 import { authRegister } from '../config/endpoints';
 import { useRouter } from 'next/router';
-import DefaultLayout from "../components/layouts/DefaultLayout";
+import DefaultLayout from '../components/layouts/DefaultLayout';
 
 export default function Register() {
   const router = useRouter();
@@ -80,32 +80,34 @@ export default function Register() {
           </span>
         </div>
         <div className='w-1/3 p-8 mx-auto mt-10 bg-white flex flex-col items-center justify-between shadow-md rounded-md'>
-          <InputField
-            type='text'
-            required={true}
-            name='first_name'
-            placeholder='First Name'
-            onChange={(event) => setCredentials(event)}
-          />
-          <InputField
-            type='text'
-            required={true}
-            name='last_name'
-            onChange={(event) => setCredentials(event)}
-            placeholder='Last Name'
-          />
-          <InputField
-            type={'text'}
-            placeholder={'Email'}
-            name={'email'}
-            onChange={(event) => setCredentials(event)}
-          />
-          <InputField
-            type={'password'}
-            placeholder={'Password'}
-            name={'password'}
-            onChange={(event) => setCredentials(event)}
-          />
+          <div className='space-y-4 mb-8'>
+            <InputField
+              type='text'
+              required={true}
+              name='first_name'
+              placeholder='First Name'
+              onChange={(event) => setCredentials(event)}
+            />
+            <InputField
+              type='text'
+              required={true}
+              name='last_name'
+              onChange={(event) => setCredentials(event)}
+              placeholder='Last Name'
+            />
+            <InputField
+              type={'text'}
+              placeholder={'Email'}
+              name={'email'}
+              onChange={(event) => setCredentials(event)}
+            />
+            <InputField
+              type={'password'}
+              placeholder={'Password'}
+              name={'password'}
+              onChange={(event) => setCredentials(event)}
+            />
+          </div>
           <p className='text-red-600'>{error.message}</p>
           <ActionButton onClick={() => doRegister()} id='create-account-button'>
             <UserAddIcon className='h-5 w-5' />
