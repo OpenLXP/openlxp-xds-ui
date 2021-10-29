@@ -16,6 +16,8 @@ import SelectList from '../components/inputs/SelectList';
 import SearchResult from '../components/cards/SearchResult';
 import MoreLikeThis from '../components/cards/MoreLikeThis';
 import DefaultLayout from 'components/layouts/DefaultLayout';
+import CreateSavedSearchModal from '../components/modals/CreateSavedSearch';
+import { useSaveSearchList } from '../hooks/useSaveSearch';
 
 // Server Side Generation
 export async function getServerSideProps({ query }) {
@@ -45,7 +47,6 @@ export default function Search({ query }) {
   const config = useConfig();
   const [params, setParams] = useState(query);
   const { url, setUrl } = useSearchUrl(query);
-
   const { data, refetch, isError, isSuccess, isLoading } = useSearch(url);
   const { user } = useAuth();
 
@@ -152,15 +153,10 @@ export default function Search({ query }) {
   return (
     <DefaultLayout footerLocation='absolute'>
       <div className='pt-28 pb-8'>
+        <div className='w-8/12'>
+          {user && <CreateSavedSearchModal path={router.asPath} />}
+        </div>
         <div className='flex flex-col py-2 mb-4 w-8/12 sticky top-0 z-10 bg-gray-50'>
-          {user && (
-            <button
-              id={'save-this-search'}
-              className='self-end pr-6 pb-1 text-sm italic font-sans text-blue-400 hover:text-blue-300 hover:underline'
-            >
-              Save this search
-            </button>
-          )}
           <SearchBar
             parameters={params}
             onChange={handleChange}

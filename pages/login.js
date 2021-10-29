@@ -45,14 +45,6 @@ export default function Login() {
     }
   };
 
-  // const doLogin = () => {
-  //   if (credentials.username === '' || credentials.password === '') {
-  //     setError(true);
-  //   } else {
-  //     login(credentials);
-  //   }
-  // };
-
   return (
     <DefaultLayout footerLocation='absolute'>
       <div className={'py-32'}>
@@ -74,20 +66,22 @@ export default function Login() {
           </span>
         </div>
         <div className='w-1/3 p-8 mx-auto mt-10 bg-white flex flex-col items-center justify-between shadow-md rounded-md'>
-          <InputField
-            type='text'
-            value={credentials.username}
-            placeholder={'Username'}
-            name={'username'}
-            onChange={(event) => setCredentials(event)}
-          />
-          <InputField
-            type={'password'}
-            value={credentials.password}
-            placeholder={'Password'}
-            name={'password'}
-            onChange={(event) => setCredentials(event)}
-          />
+          <div className='space-y-4 mb-4'>
+            <InputField
+              type='text'
+              value={credentials.username}
+              placeholder={'Username'}
+              name={'username'}
+              onChange={(event) => setCredentials(event)}
+            />
+            <InputField
+              type={'password'}
+              value={credentials.password}
+              placeholder={'Password'}
+              name={'password'}
+              onChange={(event) => setCredentials(event)}
+            />
+          </div>
           <Link href={'/forgotPassword'}>
             <button
               id={'forgot-password-button'}
