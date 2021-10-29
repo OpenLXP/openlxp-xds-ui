@@ -16,7 +16,7 @@ export default function InputField({
       required={required}
       placeholder={placeholder}
       name={name}
-      className='shadow focus:shadow-md rounded-md p-2 w-full border border-gray-200 mb-5 text-gray-700 focus:ring-2 ring-blue-400 outline-none  transition-all  duration-200'
+      className='shadow focus:shadow-md rounded-md p-2 w-full border border-gray-200 text-gray-700 focus:ring-2 ring-blue-400 outline-none  transition-all  duration-200'
     />
   );
 }
