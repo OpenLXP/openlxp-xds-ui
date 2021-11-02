@@ -5,6 +5,7 @@ export default {
     CourseURL: 'CourseURL',
     CourseCode: '1234',
     CourseProviderName: 'Provider Name',
+    CourseType: 'Course Type 1',
   },
   meta: {
     id: '123456',

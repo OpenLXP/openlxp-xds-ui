@@ -17,4 +17,5 @@ export default {
     course_url: 'Course.CourseURL',
   },
   course_img_fallback: 'some/fallback',
+  search_results_per_page: 10,
 };
