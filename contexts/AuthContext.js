@@ -31,6 +31,7 @@ export function AuthProvider({ children }) {
   // Logout user
   const logout = async () => {
     removeLocal();
+    router.push('/')
   };
 
   // // Check if user is logged in

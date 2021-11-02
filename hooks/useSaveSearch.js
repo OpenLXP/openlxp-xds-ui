@@ -14,6 +14,6 @@ const getSavedSearch = (token) => {
       .then((res) => res.data);
 };
 
-export const useSaveSearchList = (url, token) => {
+export const useSaveSearchList = (token) => {
   return useQuery(['saved-search-list'], getSavedSearch(token));
 };
