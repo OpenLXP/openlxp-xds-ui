@@ -1,10 +1,9 @@
 import { act, screen, render, fireEvent } from '@testing-library/react';
 import SaveModal from '../../../components/modals/SaveModal';
-import { userOwnedLists } from "../../../config/endpoints";
+
+import userListData from '../../../__mocks__/data/userLists.data';
 import { useUserOwnedLists } from '../../../hooks/useUserOwnedLists.js';
 import { QueryClientWrapper } from '../../../__mocks__/queryClientMock';
-
-function close() {}
 
 jest.mock('../../../hooks/useUserOwnedLists.js', () => ({
   useUserOwnedLists: jest.fn(),
@@ -13,26 +12,24 @@ jest.mock('../../../hooks/useUserOwnedLists.js', () => ({
 describe('SaveModal', () => {
   beforeEach(() => {
     useUserOwnedLists.mockImplementation(() => ({
-      data: userOwnedLists,
+      data: userListData,
+      isSuccess: true,
     }));
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+  it('should show a modal contents: title', () => {
+    const { getByText } = render(
+      <QueryClientWrapper>
+        <SaveModal id={'12345'} modalState={true} closeModal={() => {}} />
+      </QueryClientWrapper>
+    );
 
-  it('should show a modal contents: title, text, buttons', () => {
     act(() => {
-      render(
-        <QueryClientWrapper>
-          <SaveModal id={'12345'} modalState={true} closeModal={() => close} />
-        </QueryClientWrapper>
-      );
+      const button = getByText(/save/i);
+      fireEvent.click(button);
     });
 
-    expect(screen.getByText('Your Lists')).toBeInTheDocument();
-    expect(screen.getByText('Add this course to a list.')).toBeInTheDocument();
-    expect(screen.getByText('Save')).toBeInTheDocument();
-    expect(screen.getByText('Cancel')).toBeInTheDocument();
+    expect(getByText(/add course to lists/i)).toBeInTheDocument();
+    expect(getByText(/test title 1/i)).toBeInTheDocument();
   });
 });

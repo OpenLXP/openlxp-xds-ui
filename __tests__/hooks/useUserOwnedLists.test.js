@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import mockAxios from 'jest-mock-axios';
 
 import {useUserOwnedLists} from '../../hooks/useUserOwnedLists';
-import userOwnedListsData from '../../__mocks__/data/userOwnedLists.data';
+import userOwnedListsData from '../../__mocks__/data/userLists.data';
 
 const queryClient = new QueryClient();
 const wrapper = ({ children }) => (
