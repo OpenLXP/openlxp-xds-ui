@@ -1,12 +1,7 @@
 import React from 'react';
 import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/solid';
 
-export const Pagination = ({
-  onNext,
-  onPrevious,
-  totalPages,
-  currentPage,
-}) => {
+export const Pagination = ({ onNext, onPrevious, totalPages, currentPage }) => {
   return (
     <div className='flex flex-row justify-between'>
       <button
@@ -18,6 +13,7 @@ export const Pagination = ({
         <ChevronLeftIcon className='h-6 w-6' />
         Back
       </button>
+
       <button
         onClick={onNext}
         className={`${

@@ -1,7 +1,12 @@
 import Link from 'next/link';
 import { Fragment } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { ArchiveIcon, BookmarkAltIcon, LogoutIcon, SaveIcon } from '@heroicons/react/outline';
+import {
+  ArchiveIcon,
+  BookmarkAltIcon,
+  LogoutIcon,
+  SaveIcon,
+} from '@heroicons/react/outline';
 import { Menu, Transition } from '@headlessui/react';
 import { AdjustmentsIcon, UserIcon } from '@heroicons/react/solid';
 import { CollectionIcon, BookmarkIcon } from '@heroicons/react/outline';
@@ -26,87 +31,87 @@ export default function UserMenu() {
           </div>
           {/* <ChevronDownIcon className='h-4 w-4' /> */}
         </Menu.Button>
+        <Transition
+          as={Fragment}
+          enter='transition ease-out duration-200'
+          enterFrom='transform opacity-0 scale-95'
+          enterTo='transform opacity-100 scale-100'
+          leave='transition ease-in duration-100'
+          leaveFrom='transform opacity-100 scale-100'
+          leaveTo='transform opacity-0 scale-95'
+        >
+          <Menu.Items className='absolute w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+            <div className='p-1 text-gray-700'>
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    id='logout-button'
+                    onClick={logout}
+                    className={`focus:ring-2 hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2`}
+                  >
+                    <LogoutIcon className='h-4 w-4' />
+                    Logout
+                  </button>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <Link href='/profile'>
+                    <a>
+                      <button className='hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2'>
+                        <AdjustmentsIcon className='h-4 w-4' />
+                        Profile
+                      </button>
+                    </a>
+                  </Link>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <Link href='/lists/saved-searches'>
+                    <a>
+                      <button className='hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2'>
+                        <ArchiveIcon className='h-4 w-4' />
+                        Saved Searches
+                      </button>
+                    </a>
+                  </Link>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <Link href='/lists/owned'>
+                    <a>
+                      <button
+                        id={'my-lists'}
+                        className={`hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2`}
+                      >
+                        <CollectionIcon className='h-4 w-4' />
+                        My Lists
+                      </button>
+                    </a>
+                  </Link>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <Link href='/lists/subscribed'>
+                    <a>
+                      <button
+                        id={'subscribed-lists'}
+                        className={`hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2`}
+                      >
+                        <BookmarkIcon className='h-4 w-4' />
+                        Subscribed Lists
+                      </button>
+                    </a>
+                  </Link>
+                )}
+              </Menu.Item>
+            </div>
+          </Menu.Items>
+        </Transition>
       </div>
-      <Transition
-        as={Fragment}
-        enter='transition ease-out duration-200'
-        enterFrom='transform opacity-0 scale-95'
-        enterTo='transform opacity-100 scale-100'
-        leave='transition ease-in duration-100'
-        leaveFrom='transform opacity-100 scale-100'
-        leaveTo='transform opacity-0 scale-95'
-      >
-        <Menu.Items className='absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-          <div className='p-1 text-gray-700'>
-            <Menu.Item>
-              {({ active }) => (
-                <button
-                  id='logout-button'
-                  onClick={() => logout()}
-                  className={`ring-red-200 hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2`}
-                >
-                  <LogoutIcon className='h-4 w-4' />
-                  Logout
-                </button>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <Link href='/profile'>
-                  <a>
-                    <button className='hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2'>
-                      <AdjustmentsIcon className='h-4 w-4' />
-                      Profile
-                    </button>
-                  </a>
-                </Link>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <Link href='/save-searches'>
-                  <a>
-                    <button className='hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2'>
-                      <ArchiveIcon className='h-4 w-4' />
-                      Saved Searches
-                    </button>
-                  </a>
-                </Link>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <Link href='/lists/owned'>
-                  <a>
-                    <button
-                      id={'my-lists'}
-                      className={`hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2`}
-                    >
-                      <CollectionIcon className='h-4 w-4' />
-                      My Lists
-                    </button>
-                  </a>
-                </Link>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <Link href='/lists/subscribed'>
-                  <a>
-                    <button
-                      id={'subscribed-lists'}
-                      className={`hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2`}
-                    >
-                      <BookmarkIcon className='h-4 w-4' />
-                      Subscribed Lists
-                    </button>
-                  </a>
-                </Link>
-              )}
-            </Menu.Item>
-          </div>
-        </Menu.Items>
-      </Transition>
     </Menu>
   );
 }
