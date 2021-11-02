@@ -117,7 +117,7 @@ export default function EditList() {
               })}
           </div>
         </div>
-        <div className='flex justify-between w-full'>
+        <div className='flex justify-between items-center w-full mt-8'>
           <ActionButton
             onClick={() => {
               mutation.mutate({
@@ -136,7 +136,7 @@ export default function EditList() {
             onClick={() => {
               setCurrentListInfo(list.data);
             }}
-            className='items-center inline-flex gap-2 text-gray-500 rounded-md hover:shadow-md bg-gray-50 hover:bg-gray-400 hover:text-white px-4 py-2 mt-4 transform transition-all duration-150 ease-in-out border-gray-400 border-2 outline-none focus:ring-2 ring-gray-400'
+            className='items-center inline-flex gap-2 text-gray-500 rounded-md hover:shadow-md bg-gray-50 hover:bg-gray-400 hover:text-white px-4 py-2 transform transition-all duration-150 ease-in-out border-gray-400 border-2 outline-none focus:ring-2 ring-gray-400'
           >
             <XIcon className='h-5 w-5' />
             Cancel

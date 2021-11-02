@@ -67,7 +67,7 @@ export default function Search({ query }) {
       setParams(modified);
       setUrl(modified);
 
-      router.push({ pathname: '/search/', query: modified });
+      router.push({ pathname: '/search', query: modified });
     }
   }
 
@@ -78,7 +78,7 @@ export default function Search({ query }) {
       modified.p = 1;
       setUrl(modified);
       setParams(modified);
-      router.push({ pathname: '/search/', query: modified });
+      router.push({ pathname: '/search', query: modified });
     }
   }
 
@@ -153,10 +153,10 @@ export default function Search({ query }) {
   return (
     <DefaultLayout footerLocation='absolute'>
       <div className='pt-28 pb-8'>
-        <div className='w-8/12'>
-          {user && <CreateSavedSearchModal path={router.asPath} />}
-        </div>
         <div className='flex flex-col py-2 mb-4 w-8/12 sticky top-0 z-10 bg-gray-50'>
+          <div className=''>
+            {user && <CreateSavedSearchModal path={router.asPath} />}
+          </div>
           <SearchBar
             parameters={params}
             onChange={handleChange}

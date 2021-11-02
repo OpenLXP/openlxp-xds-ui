@@ -1,13 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import { useUserOwnedLists } from '../../hooks/useUserOwnedLists';
 import { useAuth } from '../../contexts/AuthContext';
 import { BookOpenIcon, UsersIcon } from '@heroicons/react/solid';
+import { useRouter } from 'next/router';
+
+export function getStaticProps() {
+  // validate user has perms
+
+  // res.ok 200
+  return {
+    props: {},
+  };
+}
 
 export default function Owned({}) {
+  const router = useRouter();
+
   const { user } = useAuth();
   const { data, isSuccess } = useUserOwnedLists(user?.token);
+
+  useEffect(() => {
+    if (!user) {
+      router.push('/');
+    }
+  }, []);
+
   return (
     <DefaultLayout footerLocation='absolute'>
       <div id='title' className='pt-32 pb-4 border-b mb-8'>
@@ -17,7 +36,10 @@ export default function Owned({}) {
         {isSuccess &&
           data.map((list) => {
             return (
-              <div className='relative w-full bg-white border border-gray-200 shadow rounded-md '>
+              <div
+                className='relative w-full bg-white border border-gray-200 shadow rounded-md'
+                key={list.id}
+              >
                 <h2 className='font-semibold text-lg px-2 pt-2'>{list.name}</h2>
                 <span className='inline-flex gap-2 px-2'>
                   <div className='inline-flex -py-1 justify-start items-center gap-0.5 text-sm bg-blue-100 border border-blue-500 rounded-full px-2 text-blue-500'>
