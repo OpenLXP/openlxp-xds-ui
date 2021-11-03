@@ -626,7 +626,7 @@ describe('Search Page', () => {
           fireEvent.click(button);
         });
 
-        expect(getByRole('button', { name: 'Save' })).toBeInTheDocument();
+        expect(getByText('Save')).toBeInTheDocument();
       });
     });
 
