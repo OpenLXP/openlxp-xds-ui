@@ -8,7 +8,7 @@ import useField from '../../hooks/useField';
 import InputField from '../inputs/InputField';
 import { useMutation } from 'react-query';
 import axios from 'axios';
-import { useCreateNewUserList } from '../../hooks/useUserLists';
+import { useCreateUserList } from '../../hooks/useCreateUserList';
 
 import { interestLists } from '../../config/endpoints';
 
@@ -19,7 +19,7 @@ export default function SaveModal({ courseId }) {
   // user lists
   const { data: userLists, isSuccess } = useUserOwnedLists(user?.token);
   const { mutate } = useUpdateUserList(user?.token);
-  const { mutate: create } = useCreateNewUserList(user?.token);
+  const { mutate: create } = useCreateUserList(user?.token);
 
   // new list form
   const [fields, setFields] = useState({

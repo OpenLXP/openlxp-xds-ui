@@ -8,7 +8,7 @@ import { interestLists } from '../config/endpoints';
  * @param {string} token - user token to make api calls
  * @returns {useMutation}
  */
-export function useCreateNewUserList(token) {
+export function useCreateUserList(token) {
   const queryClient = useQueryClient();
   return useMutation(
     (variables) =>
