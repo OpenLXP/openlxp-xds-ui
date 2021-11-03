@@ -1,7 +1,11 @@
 # Dockerfile
 
 # Name the node stage "builder"
-FROM node:14.17.6 AS builder
+ARG BASE_REGISTRY=registry1.dso.mil
+ARG BASE_IMAGE=ironbank/opensource/nodejs/nodejs14
+ARG BASE_TAG=14.18.1
+
+FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} as build
 
 # Set working directory
 WORKDIR /app
