@@ -4,6 +4,13 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useUpdateUserList } from '../../hooks/useUpdateUserList';
 import { useUserOwnedLists } from '../../hooks/useUserOwnedLists';
 import { PlusCircleIcon } from '@heroicons/react/outline';
+import useField from '../../hooks/useField';
+import InputField from '../inputs/InputField';
+import { useMutation } from 'react-query';
+import axios from 'axios';
+import { useCreateNewUserList } from '../../hooks/useUserLists';
+
+import { interestLists } from '../../config/endpoints';
 
 export default function SaveModal({ courseId }) {
   // authentication
@@ -12,6 +19,13 @@ export default function SaveModal({ courseId }) {
   // user lists
   const { data: userLists, isSuccess } = useUserOwnedLists(user?.token);
   const { mutate } = useUpdateUserList(user?.token);
+  const { mutate: create } = useCreateNewUserList(user?.token);
+
+  // new list form
+  const [fields, setFields] = useState({
+    name: '',
+    description: '',
+  });
 
   // add a course to the selected list
   const addCourseToList = (listId) => {
@@ -96,6 +110,7 @@ export default function SaveModal({ courseId }) {
                       const contained = list.experiences.includes(courseId);
                       return (
                         <div
+                          key={list.id}
                           className={` inline-flex justify-between w-full bg-white rounded-md py-2 px-1 border`}
                         >
                           {list.name}
@@ -124,6 +139,67 @@ export default function SaveModal({ courseId }) {
                     })}
                 </div>
 
+                <form
+                  className='my-2 flex flex-col w-full'
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    setFields({ name: '', description: '' });
+                    create({ form: fields });
+                  }}
+                >
+                  <div>
+                    <label>List Name</label>
+                    <InputField
+                      placeholder='Name'
+                      type='text'
+                      name='name'
+                      id='name'
+                      value={fields.name}
+                      onChange={(event) => {
+                        setFields((prev) => ({
+                          ...prev,
+                          [event.target.name]: event.target.value,
+                        }));
+                      }}
+                    />
+                  </div>
+                  <div className='relative'>
+                    <label>List Name</label>
+                    <textarea
+                      placeholder='List Description...'
+                      name='description'
+                      id='description'
+                      rows={Math.max(
+                        fields.description?.length / 72,
+                        2
+                      ).toString()}
+                      value={fields.description || ''}
+                      onChange={(event) => {
+                        setFields((prev) => ({
+                          ...prev,
+                          [event.target.name]: event.target.value,
+                        }));
+                      }}
+                      className='w-full border outline-none rounded-md shadow focus:shadow-md p-2 focus:ring-4 ring-blue-400 transform transition-all duration-150'
+                    />
+                    <span
+                      className={`absolute bottom-2 right-3 ${
+                        fields.description?.length > 200
+                          ? 'text-red-500'
+                          : 'text-gray-500'
+                      }`}
+                    >
+                      {fields.description?.length}/200
+                    </span>
+                  </div>
+                  <input type='text' name='description' id='name' />
+                  <input
+                    type='submit'
+                    name='submit'
+                    value='Create'
+                    className='text-blue-500 bg-blue-50 border-blue-400 border-2 rounded-md px-2 py-1 self-end transform transition-all duration-150 ease-in-out hover:bg-blue-400 hover:text-gray-50 cursor-pointer hover:shadow-md'
+                  />
+                </form>
                 <div className='mt-4'>
                   <button
                     type='button'
