@@ -94,9 +94,6 @@ export default function Search({ query }) {
       const modified = { ...params };
       // setting the page to 1
       modified.p = 1;
-      if (data?.aggregations) {
-        Object.keys(data.aggregations).map((key) => {});
-      }
 
       setParams(modified);
       setUrl(modified);
@@ -154,7 +151,7 @@ export default function Search({ query }) {
     <DefaultLayout footerLocation='absolute'>
       <div className='pt-28 pb-8'>
         <div className='flex flex-col py-2 mb-4 w-8/12 sticky top-0 z-10 bg-gray-50'>
-          <div className=''>
+          <div className='max-w-max self-end'>
             {user && <CreateSavedSearchModal path={router.asPath} />}
           </div>
           <SearchBar
