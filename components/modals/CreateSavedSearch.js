@@ -29,7 +29,7 @@ export default function CreateSavedSearchModal({ path }) {
   return (
     <div>
       <Popover className='relative'>
-        <Popover.Button className='flex self-end w-full justify-end pr-5'>
+        <Popover.Button className='flex self-end w-full justify-center pr-6 items-center'>
           <span className='italic text-sm font-sans text-blue-400 hover:underline hover:text-blue-500'>
             Save this search
           </span>

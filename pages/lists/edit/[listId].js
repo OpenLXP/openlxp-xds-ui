@@ -58,7 +58,7 @@ export default function EditList() {
 
   return (
     <DefaultLayout footerLocation='absolute'>
-      <div className='pt-32'>
+      <div className='pt-32 pb-20'>
         <h1 className='font-sans font-semibold text-3xl pb-4 mb-8 border-b'>
           {list?.data?.name}
         </h1>
