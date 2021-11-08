@@ -62,10 +62,10 @@ export default function Course() {
       <div className='pt-32'>
         <div className='inline-flex justify-between w-full items-center border-b pb-5'>
           <h1 className='font-semibold text-3xl col-span-2'>
-            {preparedData.courseTitle}
+            {preparedData?.courseTitle}
           </h1>
           <div className='inline-flex justify-end gap-2 items-center'>
-            <ExternalBtn url={preparedData.courseUrl} />
+            <ExternalBtn url={preparedData?.courseUrl} />
             <ShareBtn id={query?.courseId} />
             {user && (
               <SaveModal
@@ -96,12 +96,12 @@ export default function Course() {
               className='rounded-md  text-xl bg-white border border-gray-200 shadow-sm p-4 mb-80'
               style={{ minHeight: 'calc(176px + 3.25rem)' }}
             >
-              {preparedData.courseDescription}
+              {preparedData?.courseDescription}
             </p>
           </div>
           <div className='col-span-1'>
             <div className='rounded-md bg-white border border-gray-200 shadow-sm p-4 space-y-1'>
-              {preparedData.courseDetails.map((detail) => {
+              {preparedData?.courseDetails.map((detail) => {
                 return (
                   <div key={detail.displayName}>
                     <label className='font-semibold'>
