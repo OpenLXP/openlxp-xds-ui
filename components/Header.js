@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 import logo from '../public/United_States_Department_of_Defense_Seal.svg.png';
 
-const buttonLinks = [{ title: 'Search Lists', path: '/search/lists' }];
+const buttonLinks = [{ title: 'Search Lists', path: '/lists/searchLists' }];
 
 export default function Header({}) {
   const { user } = useAuth();
