@@ -6,15 +6,6 @@ import { useAuth } from '../../contexts/AuthContext';
 import { BookOpenIcon, UsersIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 
-export function getStaticProps() {
-  // validate user has perms
-
-  // res.ok 200
-  return {
-    props: {},
-  };
-}
-
 export default function Owned({}) {
   const router = useRouter();
 
@@ -22,9 +13,7 @@ export default function Owned({}) {
   const { data, isSuccess } = useUserOwnedLists(user?.token);
 
   useEffect(() => {
-    if (!user) {
-      router.push('/');
-    }
+    if (!user) router.push('/');
   }, []);
 
   return (
