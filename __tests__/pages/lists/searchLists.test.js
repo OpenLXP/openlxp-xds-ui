@@ -149,6 +149,9 @@ describe('Search Lists', () => {
 
       const { getByText } = renderer();
       expect(getByText(/subscribe/i)).toBeInTheDocument();
+      act(() => {
+        fireEvent.click(getByText(/subscribe/i));
+      });
     });
     it('should show unsubscribe', () => {
       useSubscribedLists.mockImplementation(() => ({
@@ -182,6 +185,11 @@ describe('Search Lists', () => {
 
       const { getByText } = renderer();
       expect(getByText(/unsubscribe/i)).toBeInTheDocument();
+      act(() => {
+        fireEvent.click(getByText(/unsubscribe/i));
+      });
+      expect(getByText(/subscribe/i)).toBeInTheDocument();
+
     });
     it('should show next when more than 10 lists exist.', () => {
       const interestListsCreated = [...Array(11).keys()].map((i) => ({
@@ -254,6 +262,10 @@ describe('Search Lists', () => {
       });
 
       expect(getByText(/back/i)).toBeInTheDocument();
+
+      act(() => {
+        fireEvent.click(getByText(/back/i));
+      });
     });
   });
 });
