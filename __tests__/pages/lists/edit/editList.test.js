@@ -114,6 +114,8 @@ describe('Edit List', () => {
 
       expect(getByText('Course Title')).toBeInTheDocument();
       expect(getByText(/course provider/i)).toBeInTheDocument();
+      fireEvent.click(getByText('Remove'));
+
     });
     it('should render course title', () => {
       const { getByText } = renderer(<EditList />);
