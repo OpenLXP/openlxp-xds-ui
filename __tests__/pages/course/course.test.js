@@ -1,16 +1,16 @@
-import { render, act, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
 // imports for mocking
-import { useConfig } from '../../../hooks/useConfig';
-import { useCourse } from '../../../hooks/useCourse';
-import { useMoreCoursesLikeThis } from '../../../hooks/useMoreCoursesLikeThis';
-import mockRouter from 'next-router-mock';
+import { QueryClientWrapper } from '../../../__mocks__/queryClientMock';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
-import uiConfigData from '../../../__mocks__/data/uiConfig.data';
+import Course from 'pages/course/[courseId]';
+import { useAuth } from '../../../contexts/AuthContext';
+import { useCourse } from 'hooks/useCourse';
 import courseData from '../../../__mocks__/data/course.data';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import Course from '../../../pages/course/[courseId]';
-import singletonRouter, { useRouter } from 'next/router';
+import configData from '../../../__mocks__/data/uiConfig.data';
+import { useMoreCoursesLikeThis } from 'hooks/useMoreCoursesLikeThis';
+import { useConfig } from 'hooks/useConfig';
+import singletonRouter from 'next/router';
 
 // mocking the router
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
@@ -25,78 +25,168 @@ jest.mock('../../../hooks/useMoreCoursesLikeThis', () => ({
   useMoreCoursesLikeThis: jest.fn(),
 }));
 
-const queryClient = new QueryClient();
-const renderer = () => {
+// mock useAuth
+jest.mock('../../../contexts/AuthContext', () => ({
+  useAuth: jest.fn(),
+}));
+
+const mockIntersectionObserver = jest.fn();
+mockIntersectionObserver.mockReturnValue({
+  observe: () => null,
+  unobserve: () => null,
+  disconnect: () => null,
+});
+window.IntersectionObserver = mockIntersectionObserver;
+
+const renderer = (isAuth = false) => {
+  if (isAuth) {
+    useAuth.mockImplementation(() => ({
+      user: {
+        user: {
+          id: '1',
+          email: '',
+        },
+      },
+    }));
+  } else {
+    useAuth.mockImplementation(() => ({
+      user: null,
+    }));
+  }
+
+  // mocking the config
+  useConfig.mockImplementation(() => ({
+    data: configData,
+    isSuccess: true,
+  }));
+
   return render(
-    <MemoryRouterProvider url='/' onPush={singletonRouter.push('/test')}>
-      <QueryClientProvider client={queryClient}>
+    <MemoryRouterProvider>
+      <QueryClientWrapper>
         <Course />
-      </QueryClientProvider>
+      </QueryClientWrapper>
     </MemoryRouterProvider>
   );
 };
 
 describe('Course Page', () => {
-  describe('with config & data', () => {
-    // before
-    beforeEach(() => {
-      useConfig.mockImplementation(() => ({
-        data: uiConfigData,
-        isSuccess: true,
-      }));
-      useMoreCoursesLikeThis.mockImplementation(() => ({
-        data: {},
-      }));
+  describe('with out user', () => {
+    it('should show the course title', () => {
+      // mock course data
       useCourse.mockImplementation(() => ({
         data: courseData,
         isSuccess: true,
       }));
-    });
+      useMoreCoursesLikeThis.mockImplementation(() => ({
+        data: [],
+      }));
 
-    it('should render course title', () => {
+      // render the component
       const { getByText } = renderer();
+
+      // assert
       expect(getByText(courseData.Course.CourseTitle)).toBeInTheDocument();
-    });
-    it('should render a description', () => {
-      const { getByText } = renderer();
       expect(
         getByText(courseData.Course.CourseShortDescription)
       ).toBeInTheDocument();
-    });
-    it('should render a details section', () => {
-      const { getByText } = renderer();
       expect(getByText(courseData.Course.CourseCode)).toBeInTheDocument();
     });
-  });
-  describe('more like this', () => {
-    it.todo('should render more like this courses');
-  });
 
-  describe('actions', () => {
-    // before
-    beforeEach(() => {
-      mockRouter.setCurrentUrl('/');
-      useConfig.mockImplementation(() => ({
-        data: uiConfigData,
-        isSuccess: true,
-      }));
-      useMoreCoursesLikeThis.mockImplementation(() => ({
-        data: {},
-      }));
+    describe('external link', () => {
+      it('should show the course external link', () => {
+        // mock course data
+        useCourse.mockImplementation(() => ({
+          data: courseData,
+          isSuccess: true,
+        }));
+        useMoreCoursesLikeThis.mockImplementation(() => ({
+          data: [],
+        }));
+
+        // render the component
+        const { getByTitle } = renderer();
+
+        // assert
+        expect(getByTitle(/view course/i)).toBeInTheDocument();
+      });
+    });
+
+    describe('share link', () => {
+      it('should show the share button', () => {
+        // mock course data
+        useCourse.mockImplementation(() => ({
+          data: courseData,
+          isSuccess: true,
+        }));
+        useMoreCoursesLikeThis.mockImplementation(() => ({
+          data: [],
+        }));
+
+        // render the component
+        const { getByTitle } = renderer();
+
+        // assert
+        expect(getByTitle(/share course/i)).toBeInTheDocument();
+      });
+    });
+
+    describe('with moreLikeThis data', () => {
+      it('should show the moreLikeThis section', () => {
+        // mock course data
+        useCourse.mockImplementation(() => ({
+          data: courseData,
+          isSuccess: false,
+        }));
+        useMoreCoursesLikeThis.mockImplementation(() => ({
+          data: { hits: [courseData] },
+          isSuccess: true,
+        }));
+
+        // render the component
+        const { getByText } = renderer();
+
+        // assert
+        expect(getByText(/test course/i)).toBeInTheDocument();
+      });
+      it('should navigate to new course page when card is clicked', () => {
+        // mock course data
+        useCourse.mockImplementation(() => ({
+          data: courseData,
+          isSuccess: false,
+        }));
+        useMoreCoursesLikeThis.mockImplementation(() => ({
+          data: { hits: [courseData] },
+          isSuccess: true,
+        }));
+
+        // render the component
+        const { getByText } = renderer();
+
+        // assert
+        const button = getByText(/test course/i);
+        button.click();
+        expect(singletonRouter).toMatchObject({
+          asPath: '/course/' + courseData.meta.metadata_key_hash,
+        });
+      });
+    });
+  });
+  describe('with user', () => {
+    it('should show the save course modal', () => {
+      // mock course data
       useCourse.mockImplementation(() => ({
         data: courseData,
         isSuccess: true,
       }));
+      useMoreCoursesLikeThis.mockImplementation(() => ({
+        data: [],
+      }));
+
+      // render the component
+      const { getByTitle, getByText } = renderer(true);
+
+      // assert
+      expect(getByTitle(/save course/i)).toBeInTheDocument();
     });
-    it('should push to new location', () => {
-      const { getByText } = renderer();
-      act(() => {
-        const button = getByText(courseData.Course.CourseTitle);
-        fireEvent.click(button);
-      } );
-      expect(singletonRouter).toMatchObject({ asPath: '/test' });
-    });
-    it.todo('should render save button');
-    it.todo('should render share button');
   });
 });
