@@ -1,26 +1,42 @@
-# Dockerfile
-
-# Name the node stage "builder"
-FROM node:14.17.6 AS builder
-
-# Set working directory
+# Install dependencies only when needed
+FROM node:14.18.1-alpine AS deps
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
-# Copy all files from current directory to working dir in image
-COPY . .
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
-# Download the files.
-RUN yarn
-# Build the app.
+# Rebuild the source code only when needed
+FROM node:14.18.1-alpine AS builder
+WORKDIR /app
+COPY . .
+COPY --from=deps /app/node_modules ./node_modules
+
+ENV NODE_OPTIONS '--openssl-legacy-provider'
+
 RUN yarn build
 
-# nginx state for serving content
-FROM nginx:alpine
-# Set working directory to nginx asset directory
-WORKDIR /usr/share/nginx/html
-# Remove default nginx static assets
-RUN rm -rf ./*
-# Copy static assets from builder stage
-COPY --from=builder /app/build .
-COPY --from=builder /app/nginx.conf /etc/nginx/conf.d/default.conf
-# Containers run nginx with global directives and daemon off
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+
+# Production image, copy all the files and run next
+FROM node:14.18.1-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV production
+
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+
+# You only need to copy next.config.js if you are NOT using the default configuration
+# COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV NEXT_TELEMETRY_DISABLED 1
+
+CMD ["yarn", "start"]

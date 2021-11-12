@@ -1,26 +1,16 @@
 module.exports = {
-  plugins: [require("@tailwindcss/line-clamp")],
-  purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
+  plugins: [require('@tailwindcss/line-clamp')],
+  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
-      fontSize: {
-        "2xs": ".65rem",
-      },
       colors: {
-        "base-blue": "#005ea2",
-        "bright-blue": "#008cf0",
-        "light-blue": "#2f6194",
-        "dark-blue": "#0b3d70",
-        "body-gray": "#f4f4f4",
-        "icon-blue": "#337ab7",
+        'black-70': 'rgba(17, 24, 39, .7)',
+        'black-10': 'rgba(17, 24, 39, .1)',
       },
-      fontFamily: {
-        serif: ["Times New Roman"],
+      boxShadow: {
+        'inner-sm': 'inset 1px 1px 3px rgba(17, 24, 39, 0.2)',
       },
-      backgroundImage: (theme) => ({
-        "header-img": 'url("/src/resources/internal/dodBanner.png")',
-      }),
     },
   },
   variants: {
