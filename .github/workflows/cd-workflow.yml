@@ -4,9 +4,11 @@ on:
   push:
     branches: 
       - feature/gh-actions
+      - dev
   pull_request:
     branches: 
       - feature/gh-actions
+      - dev
 
 jobs:
   code-test:
@@ -26,8 +28,7 @@ jobs:
     - name: Run coverage
       run: |
         npm install
-	yarn test --coverage
-
+        yarn test	--coverage
   build:
     name: Build Docker Image
     runs-on: ubuntu-latest
