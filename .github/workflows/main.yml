@@ -1,0 +1,48 @@
+name: Docker CD
+
+on:
+  push:
+    branches: 
+      - feature/gh-actions
+  pull_request:
+    branches: 
+      - feature/gh-actions
+
+jobs:
+  code-test:
+# Kicks off the workflow and prepares Github to run coverage test using a ubuntu-latest container.
+    name: Code Test
+    runs-on: ubuntu-latest
+    env:
+      OS: ubuntu-latest
+      PYTHON: '3.9'
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    - name: Run coverage
+      run: |
+        npm install
+		yarn test --coverage
+
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+    - name: Docker login
+      env:
+       DOCKER_USER: ${{ secrets.DOCKER_USER }}
+       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+       docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: Docker build
+      run: |
+       docker build . -t openlxp/openlxp-xds-ui
+    - name: Push Image
+      run: |
+        docker push openlxp/openlxp-xds-ui
