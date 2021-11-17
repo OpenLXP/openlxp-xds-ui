@@ -1,10 +1,16 @@
 import React from 'react';
+import Link from 'next/link';
+
+// components
 import DefaultLayout from '../../components/layouts/DefaultLayout';
-import { useSubscribedLists } from 'hooks/useSubscribedLists';
+
+// contexts
 import { useAuth } from 'contexts/AuthContext';
+
+// hooks
+import { useSubscribedLists } from 'hooks/useSubscribedLists';
 import { BookOpenIcon, UsersIcon } from '@heroicons/react/solid';
 import { useUnsubscribeFromList } from 'hooks/useUnsubscribeFromList';
-import Link from 'next/link';
 
 export default function Subscribed() {
   const { user } = useAuth();

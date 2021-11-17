@@ -1,12 +1,18 @@
 import React, { useEffect } from 'react';
-import Link from 'next/link';
-import DefaultLayout from '../../components/layouts/DefaultLayout';
-import { useUserOwnedLists } from '../../hooks/useUserOwnedLists';
-import { useAuth } from '../../contexts/AuthContext';
-import { BookOpenIcon, UsersIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
+import { BookOpenIcon, UsersIcon } from '@heroicons/react/solid';
+import Link from 'next/link';
 
-export default function Owned({}) {
+// components
+import DefaultLayout from '../../components/layouts/DefaultLayout';
+
+// contexts
+import { useAuth } from '../../contexts/AuthContext';
+
+// hooks
+import { useUserOwnedLists } from '../../hooks/useUserOwnedLists';
+
+export default function Owned({ }) {
   const router = useRouter();
 
   const { user } = useAuth();

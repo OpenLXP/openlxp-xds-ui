@@ -1,14 +1,20 @@
-import { useEffect, useMemo, useState } from 'react';
-import DefaultLayout from 'components/layouts/DefaultLayout';
-import { useAuth } from '../../contexts/AuthContext';
-import SearchBar from '../../components/inputs/SearchBar';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
+
+// components
+import DefaultLayout from 'components/layouts/DefaultLayout';
+import SearchBar from '../../components/inputs/SearchBar';
 import { Pagination } from 'components/buttons/Pagination';
+import InterestListsResult from 'components/cards/InterestListsResult';
+
+// contexts
+import { useAuth } from '../../contexts/AuthContext';
+
+// hooks
 import { useSubscribedLists } from 'hooks/useSubscribedLists';
 import { useInterestLists } from 'hooks/useInterestLists';
 import { useSubscribeToList } from 'hooks/useSubscribeToList';
 import { useUnsubscribeFromList } from 'hooks/useUnsubscribeFromList';
-import InterestListsResult from 'components/cards/InterestListsResult';
 
 export default function SearchLists() {
   const router = useRouter();
@@ -109,9 +115,8 @@ export default function SearchLists() {
                 );
                 return (
                   <div
-                    className={`${
-                      index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-                    } font-sans flex justify-between items-center px-2 py-2`}
+                    className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                      } font-sans flex justify-between items-center px-2 py-2`}
                     key={list.id}
                   >
                     <InterestListsResult

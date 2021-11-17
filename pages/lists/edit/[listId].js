@@ -1,12 +1,5 @@
-import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
-import ActionButton from '../../../components/buttons/ActionButton';
-import UserListResult from '../../../components/cards/UserListEditResult';
-import DefaultLayout from '../../../components/layouts/DefaultLayout';
-import { useAuth } from '../../../contexts/AuthContext';
-import { useUpdateUserList } from '../../../hooks/useUpdateUserList';
-import { useUserList } from '../../../hooks/useUserList';
-import prepareListDataToSend from '../../../utils/prepListDataToSend';
+import { useRouter } from 'next/router';
 import {
   CheckCircleIcon,
   RefreshIcon,
@@ -14,6 +7,22 @@ import {
   XCircleIcon,
   XIcon,
 } from '@heroicons/react/outline';
+
+
+// components
+import ActionButton from '../../../components/buttons/ActionButton';
+import UserListResult from '../../../components/cards/UserListEditResult';
+import DefaultLayout from '../../../components/layouts/DefaultLayout';
+
+// contexts
+import { useAuth } from '../../../contexts/AuthContext';
+
+// hooks
+import { useUpdateUserList } from '../../../hooks/useUpdateUserList';
+import { useUserList } from '../../../hooks/useUserList';
+
+// utilities
+import prepareListDataToSend from '../../../utils/prepListDataToSend';
 
 export default function EditList() {
   const router = useRouter();

@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
-import Header from '../components/Header';
 import { saveSearchUrl } from '../config/endpoints';
 
 const createSavedSearch = ({ path, name }, token) => {
