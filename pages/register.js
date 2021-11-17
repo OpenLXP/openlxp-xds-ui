@@ -1,17 +1,24 @@
-import { useAuth } from '../contexts/AuthContext';
-import useField from '../hooks/useField';
 import React from 'react';
+import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { UserAddIcon } from '@heroicons/react/outline';
 
-import logo from '../public/United_States_Department_of_Defense_Seal.svg.png';
-import InputField from '../components/inputs/InputField';
+// components
 import ActionButton from '../components/buttons/ActionButton';
-import axios from 'axios';
-import { authRegister } from '../config/endpoints';
-import { useRouter } from 'next/router';
 import DefaultLayout from '../components/layouts/DefaultLayout';
+import InputField from '../components/inputs/InputField';
+import logo from '../public/United_States_Department_of_Defense_Seal.svg.png';
+
+// contexts
+import { useAuth } from '../contexts/AuthContext';
+
+// hooks
+import useField from '../hooks/useField';
+
+// config
+import { authRegister } from '../config/endpoints';
 
 export default function Register() {
   const router = useRouter();

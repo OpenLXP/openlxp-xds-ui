@@ -1,9 +1,15 @@
 import React, { useEffect } from 'react';
-import DefaultLayout from 'components/layouts/DefaultLayout';
-import { useRouter } from 'next/router';
-import { useList } from 'hooks/useList';
-import { useAuth } from 'contexts/AuthContext';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+// components
+import DefaultLayout from 'components/layouts/DefaultLayout';
+
+// hooks
+import { useList } from 'hooks/useList';
+
+// contexts
+import { useAuth } from 'contexts/AuthContext';
 
 export default function ListsView() {
   const router = useRouter();

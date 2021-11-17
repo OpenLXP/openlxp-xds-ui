@@ -1,11 +1,17 @@
-import { EyeIcon, TrashIcon } from '@heroicons/react/outline';
 import React, { useEffect } from 'react';
-import DefaultLayout from '../../components/layouts/DefaultLayout';
-import { useAuth } from '../../contexts/AuthContext';
-import { useSaveSearchList } from '../../hooks/useSaveSearch';
-import { useDeleteSavedSearch } from '../../hooks/useDeleteSavedSearch';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { EyeIcon, TrashIcon } from '@heroicons/react/outline';
+
+// components
+import DefaultLayout from '../../components/layouts/DefaultLayout';
+
+// contexts
+import { useAuth } from '../../contexts/AuthContext';
+
+// hooks
+import { useSaveSearchList } from '../../hooks/useSaveSearch';
+import { useDeleteSavedSearch } from '../../hooks/useDeleteSavedSearch';
 
 export default function SavedSearches() {
   const { user } = useAuth();
