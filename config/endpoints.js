@@ -22,7 +22,7 @@ export const userOwnedLists = `${backendHost}${api}interest-lists/owned`;
 export const courseUrl = `${backendHost}${api}experiences/`;
 
 // search url
-export const searchUrl = `${backendHost}${elasticApi}`;
+export const searchUrl = `${process.env.NEXT_PUBLIC_MIKES_SPECIAL_SEARCH || backendHost}${elasticApi}`;
 
 // More like this
 export const moreLikeThisUrl = `${backendHost}${elasticApi}more-like-this/`;
