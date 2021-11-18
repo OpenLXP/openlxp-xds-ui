@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import { AuthProvider } from 'contexts/AuthContext';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+
+// contexts
+import { AuthProvider } from 'contexts/AuthContext';
+
+// styles
 import '../styles/globals.css';
 
 export default function MyApp({ Component, pageProps }) {

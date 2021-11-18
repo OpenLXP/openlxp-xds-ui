@@ -1,19 +1,28 @@
-import { useAuth } from '../contexts/AuthContext';
-import useField from '../hooks/useField';
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { LoginIcon } from '@heroicons/react/outline';
-
-import logo from '../public/United_States_Department_of_Defense_Seal.svg.png';
-import InputField from '../components/inputs/InputField';
-import ActionButton from '../components/buttons/ActionButton';
 import axios from 'axios';
-import { authLogin } from '../config/endpoints';
-import router from 'next/router';
+
+
+// components
+import ActionButton from '../components/buttons/ActionButton';
 import DefaultLayout from '../components/layouts/DefaultLayout';
+import InputField from '../components/inputs/InputField';
+import logo from '../public/United_States_Department_of_Defense_Seal.svg.png';
+
+// contexts
+import { useAuth } from '../contexts/AuthContext';
+
+// hooks
+import useField from '../hooks/useField';
+
+// config
+import { authLogin } from '../config/endpoints';
 
 export default function Login() {
+  const router = useRouter()
   const { login, logout } = useAuth();
   const { fields: credentials, updateKeyValuePair } = useField({
     username: '',

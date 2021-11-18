@@ -1,14 +1,19 @@
-import SearchBar from 'components/inputs/SearchBar';
-import useField from 'hooks/useField';
+import React from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import logo from 'public/United_States_Department_of_Defense_Seal.svg.png';
-import React from 'react';
+
+// components
+import SearchBar from 'components/inputs/SearchBar';
 import DefaultLayout from '../components/layouts/DefaultLayout';
-import useSpotlightCourses from '../hooks/useSpotlightCourses';
-import { useConfig } from '../hooks/useConfig';
-import { backendHost } from '../config/endpoints';
 import CourseSpotlight from '../components/cards/CourseSpotlight';
+import logo from 'public/United_States_Department_of_Defense_Seal.svg.png';
+
+// hooks
+import useField from 'hooks/useField';
+import { useConfig } from '../hooks/useConfig';
+import useSpotlightCourses from '../hooks/useSpotlightCourses';
+
+
 
 export default function Home() {
   const router = useRouter();
