@@ -1,9 +1,10 @@
 import axios from 'axios';
+import { saveSearchUrl } from 'config/endpoints';
 import { useMutation, useQueryClient } from 'react-query';
 
 const deleteSearch = (id, token) => {
   return axios
-    .delete(`http://localhost:8100/api/saved-filters/${id}`, {
+    .delete(`${saveSearchUrl}/${id}`, {
       headers: {
         Authorization: `Token ${token}`,
       },
