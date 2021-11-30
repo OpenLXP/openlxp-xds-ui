@@ -32,7 +32,7 @@ export default function SearchResult({ result }) {
         <span className={'font-semibold'}>Provider:&nbsp;</span>
         {CourseProviderName}
       </h2>
-      <p className={'line-clamp-3'}>{CourseShortDescription}</p>
+      <p className={'line-clamp-3'}>{CourseShortDescription.replace( /(<([^>]+)>)/ig, '')}</p>
     </div>
   );
 }

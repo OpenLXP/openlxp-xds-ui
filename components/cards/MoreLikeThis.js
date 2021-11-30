@@ -72,7 +72,7 @@ export default function MoreLikeThis({ course }) {
         {data.hits[0].Course.CourseTitle}
       </h1>
       <p className='mt-4 font-sans line-clamp-6 text-sm'>
-        {data.hits[0].Course.CourseShortDescription}
+        {data.hits[0].Course.CourseShortDescription.replace( /(<([^>]+)>)/ig, '')}
       </p>
       <div className='flex flex-col gap-1 mt-4'>
         <div>

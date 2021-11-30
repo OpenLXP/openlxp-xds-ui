@@ -36,7 +36,7 @@ export default function Course() {
   }
   if (moreLikeThis.isSuccess) {
     if (course?.data?.Technical_Information?.Thumbnail) {
-      thumbnail = Technical_Information?.Thumbnail;
+      thumbnail = course?.data?.Technical_Information?.Thumbnail;
     } else if (config.data.course_img_fallback) {
       thumbnail = `${backendHost}${config.data.course_img_fallback}`;
     }
@@ -77,8 +77,8 @@ export default function Course() {
               <SaveModal
                 courseId={
                   course.data?.meta?.metadata_key_hash
-                    ? course?.data?.meta.metadata_key_hash
-                    : course.data?.meta.id
+                    ? course?.data?.meta?.metadata_key_hash
+                    : course.data?.meta?.id
                 }
               />
             )}
@@ -102,18 +102,18 @@ export default function Course() {
               className='rounded-md  text-xl bg-white border border-gray-200 shadow-sm p-4 mb-80'
               style={{ minHeight: 'calc(176px + 3.25rem)' }}
             >
-              {preparedData?.courseDescription}
+              {preparedData?.courseDescription.replace( /(<([^>]+)>)/ig, '')}
             </p>
           </div>
           <div className='col-span-1'>
             <div className='rounded-md bg-white border border-gray-200 shadow-sm p-4 space-y-1'>
-              {preparedData?.courseDetails.map((detail) => {
+              {preparedData?.courseDetails?.map((detail) => {
                 return (
-                  <div key={detail.displayName}>
+                  <div key={detail?.displayName}>
                     <label className='font-semibold'>
-                      {detail.displayName}:&nbsp;
+                      {detail?.displayName}:&nbsp;
                     </label>
-                    {detail.value}
+                    {detail?.value}
                   </div>
                 );
               })}
