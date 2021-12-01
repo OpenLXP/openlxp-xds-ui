@@ -162,14 +162,53 @@ describe('Register Page actions', () => {
     expect(screen.getByText(/Password must contain at least one uppercase letter/i)).toBeInTheDocument();
   });
 
+  it('should have error message when verification password is empty', () => {
+    const email = screen.getByPlaceholderText('Email');
+    const password = screen.getByPlaceholderText('Password');
+    const passwordVerification = screen.getByPlaceholderText('Confirm Password');
+    act(() => {
+      fireEvent.change(email, { target: { value: 'test@test.com' } });
+      fireEvent.change(password, { target: { value: '12345678N!t' } });
+      fireEvent.change(passwordVerification, { target: { value: '' } });
+    });
+
+    act(() => {
+      const button = screen.getByText('Create');
+      fireEvent.click(button);
+    });
+
+    expect(screen.getByText(/Password confirmation is required/i)).toBeInTheDocument();
+
+  });
+  it('should have error message when verification password does not match password', () => {
+    const email = screen.getByPlaceholderText('Email');
+    const password = screen.getByPlaceholderText('Password');
+    const passwordVerification = screen.getByPlaceholderText('Confirm Password');
+    act(() => {
+      fireEvent.change(email, { target: { value: 'test@test.com' } });
+      fireEvent.change(password, { target: { value: '12345678N!t' } });
+      fireEvent.change(passwordVerification, { target: { value: 't' } });
+    });
+
+    act(() => {
+      const button = screen.getByText('Create');
+      fireEvent.click(button);
+    });
+
+    expect(screen.getByText(/Password confirmation does not match password/i)).toBeInTheDocument();
+  });
+
+
   it('should show error message when first name is empty', () => {
     const firstName = screen.getByPlaceholderText('First Name');
     const email = screen.getByPlaceholderText('Email');
     const password = screen.getByPlaceholderText('Password');
+    const passwordVerification = screen.getByPlaceholderText('Confirm Password');
 
     act(() => {
       fireEvent.change(email, { target: { value: 'test@test.com' } });
       fireEvent.change(password, { target: { value: '12345678nT!' } });
+      fireEvent.change(passwordVerification, { target: { value: '12345678nT!' } });
       fireEvent.change(firstName, { target: { value: '' } });
     });
     act(() => {
@@ -182,10 +221,12 @@ describe('Register Page actions', () => {
     const firstName = screen.getByPlaceholderText('First Name');
     const email = screen.getByPlaceholderText('Email');
     const password = screen.getByPlaceholderText('Password');
+    const passwordVerification = screen.getByPlaceholderText('Confirm Password');
 
     act(() => {
       fireEvent.change(email, { target: { value: 'test@test.com' } });
       fireEvent.change(password, { target: { value: '12345678nT!' } });
+      fireEvent.change(passwordVerification, { target: { value: '12345678nT!' } });
       fireEvent.change(firstName, { target: { value: 'a' } });
     });
     act(() => {
@@ -199,13 +240,14 @@ describe('Register Page actions', () => {
     const firstName = screen.getByPlaceholderText('First Name');
     const lastName = screen.getByPlaceholderText('Last Name');
     const email = screen.getByPlaceholderText('Email');
+    const passwordVerification = screen.getByPlaceholderText('Confirm Password');
     const password = screen.getByPlaceholderText('Password');
 
     act(() => {
       fireEvent.change(firstName, { target: { value: 'Test' } });
       fireEvent.change(email, { target: { value: 'test@test.com' } });
       fireEvent.change(password, { target: { value: '12345678nT!' } });
-
+      fireEvent.change(passwordVerification, { target: { value: '12345678nT!' } });
       fireEvent.change(lastName, { target: { value: '' } });
     });
     act(() => {
@@ -220,11 +262,14 @@ describe('Register Page actions', () => {
     const lastName = screen.getByPlaceholderText('Last Name');
     const email = screen.getByPlaceholderText('Email');
     const password = screen.getByPlaceholderText('Password');
+    const passwordVerification = screen.getByPlaceholderText('Confirm Password');
+
 
     act(() => {
       fireEvent.change(firstName, { target: { value: 'Test' } });
-      fireEvent.change(email, { target: { value: 'test@test.com'  } });
+      fireEvent.change(email, { target: { value: 'test@test.com' } });
       fireEvent.change(password, { target: { value: '12345678nT!' } });
+      fireEvent.change(passwordVerification, { target: { value: '12345678nT!' } });
       fireEvent.change(lastName, { target: { value: 'a' } });
     });
     act(() => {
@@ -241,6 +286,8 @@ describe('Register Page actions', () => {
     const lastName = screen.getByPlaceholderText('Last Name');
     const email = screen.getByPlaceholderText('Email');
     const password = screen.getByPlaceholderText('Password');
+    const passwordVerification = screen.getByPlaceholderText('Confirm Password');
+
 
     act(() => {
       fireEvent.change(firstName, { target: { value: 'valid' } });
@@ -252,14 +299,17 @@ describe('Register Page actions', () => {
       fireEvent.change(email, { target: { value: 'test@email.com' } });
     });
     act(() => {
-      fireEvent.change(password, { target: { value: 'minimums' } });
+      fireEvent.change(password, { target: { value: '12345678tN!' } });
+    });
+    act(() => {
+      fireEvent.change(passwordVerification, { target: { value: '12345678tN!' } });
     });
 
     act(() => {
       MockAxios.post.mockImplementation(() =>
         Promise.resolve({ data: { user: {} } })
       );
-      const button = screen.getByText('Create');
+      const button = screen.getByRole('button', { name: /create/i });
       fireEvent.click(button);
     });
     expect(MockAxios.post).toHaveBeenCalled();
