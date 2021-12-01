@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -7,103 +7,104 @@ import { UserAddIcon } from '@heroicons/react/outline';
 // components
 import ActionButton from '../components/buttons/ActionButton';
 import DefaultLayout from '../components/layouts/DefaultLayout';
+import InputField from '../components/inputs/InputField';
 import logo from '../public/United_States_Department_of_Defense_Seal.svg.png';
 
-// utils
+// contexts
+import { useAuth } from 'contexts/AuthContext';
+
+// hooks
+import useField from '../hooks/useField';
+
 import {
   containsLowercase,
-  containsNumber,
   containsSpecialCharacter,
   containsUppercase,
   isLongEnough,
   isValidEmail
 } from '../utils/validation';
+import { authRegister } from '../config/endpoints';
+import axios from 'axios';
 
-// contexts
-import InputField from 'components/inputs/InputField';
-
+// config
 
 export default function Register() {
   const router = useRouter();
 
-  const [credentials, setCredentials] = useState({
+  const { fields: credentials, updateKeyValuePair: setCredential } = useField({
     email: '',
     password: '',
-    passwordConfirmation: '',
+    confirmationPassword: '',
     first_name: '',
     last_name: ''
   });
-  // error message
-  const [error, setError] = useState('');
 
-  const handleChange = (event) => {
-    setCredentials(prev => ({ ...prev, [event.target.name]: event.target.value }));
-  };
-  const handleSubmit = (event) => {
-    validateRegistration();
-  };
+  const { fields: error, updateKeyValuePair: setError } = useField({
+    message: ''
+  });
 
-  // validate registration form
-  const validateRegistration = () => {
-    // remove spaces from each field
-    const email = credentials.email.trim();
-    const password = credentials.password.trim();
-    const passwordConfirmation = credentials.passwordConfirmation.trim();
-    const first_name = credentials.first_name.trim();
-    const last_name = credentials.last_name.trim();
-
-    // validate email
-    if (!isValidEmail(email)) {
-      setError('Please enter a valid email address');
-      return false;
-    }
-    // validate password
-    if (!isLongEnough(password, 8)) {
-      setError('Password must be at least 8 characters long');
-      return false;
-    }
-    if (!containsUppercase(password)) {
-      setError('Password must contain at least one uppercase letter');
-      return false;
-    }
-    if (!containsLowercase(password)) {
-      setError('Password must contain at least one lowercase letter');
-      return false;
-    }
-    if (!containsNumber(password)) {
-      setError('Password must contain at least one number');
-      return false;
-    }
-    if (!containsSpecialCharacter(password)) {
-      setError('Password must contain at least one special character');
-      return false;
-    }
-    if (password !== passwordConfirmation) {
-      setError('Passwords do not match');
-      return false;
-    }
-
-    // validate first name
-    if (!isLongEnough(first_name, 2)) {
-      setError('First name must be at least 2 characters long');
-      return false;
-    }
-
-    // validate last name
-    if (!isLongEnough(last_name, 2)) {
-      setError('Last name must be at least 2 characters long');
-      return false;
-    }
-
-    // if all fields are valid, return true and reset error message
-    setError('');
-    return true;
+  const setCredentials = (event) => {
+    setCredential(event.target.name, event.target.value);
   };
 
+  const { register, logout } = useAuth();
+
+  // TODO: Should rename to validateRegistration
+  const registerUser = () => {
+    // verify email is not empty
+    if (credentials.email === '') {
+      setError('message', 'Email is required');
+    } else if (!isValidEmail(credentials.email)) {
+      setError('message', 'Email is invalid');
+    }
+    // verify password
+    else if (credentials.password === '') { // not empty
+      setError('message', 'Password is required');
+    } else if (!isLongEnough(credentials.password, 8)) {
+      setError('message', 'Password must be at least 8 characters');
+    } else if (!containsLowercase(credentials.password)) {
+      setError('message', 'Password must contain at least one lowercase letter');
+    } else if (!containsUppercase(credentials.password)) {
+      setError('message', 'Password must contain at least one uppercase letter');
+    } else if (!containsSpecialCharacter(credentials.password)) {
+      setError('message', 'Password must contain at least one special character');
+    }
+    // verify password confirmation
+    else if (credentials.confirmationPassword === '') { // not empty
+      setError('message', 'Password confirmation is required');
+    } else if (credentials.confirmationPassword !== credentials.password) {
+      setError('message', 'Password confirmation does not match password');
+    }
+    // verify first name
+    else if (credentials.first_name === '') {
+      setError('message', 'First name is required');
+    } else if (!isLongEnough(credentials.first_name, 2)) {
+      setError('message', 'First name must be at least 2 characters');
+    }
+    // verify last name
+    else if (credentials.last_name === '') {
+      setError('message', 'Last name is required');
+    } else if (!isLongEnough(credentials.last_name, 2)) {
+      setError('message', 'Last name must be at least 2 characters');
+    }
+    // if no errors, register
+    else {
+      axios
+        .post(authRegister, credentials)
+        .then((res) => {
+          register(res.data);
+          router.push('/');
+        })
+        .catch((error) => {
+          logout();
+          setError('message', error.message || 'There was an error during registration');
+        });
+    }
+  };
 
   return (
-    <DefaultLayout footerLocation='fixed'>
-      <div className={'py-32'}>
+    <DefaultLayout footerLocation='absolute'>
+      <div className={'pt-32'}>
         <div className='mt-10 mx-52 flex flex-col items-center justify-between'>
           <Image src={logo} alt={'home'} height={'100'} width={'100'} />
           <p className='mt-2 text-2xl font-extrabold'>Create your account</p>
@@ -121,61 +122,44 @@ export default function Register() {
         </div>
         <div
           className='w-1/2 p-8 mx-auto mt-10 bg-white flex flex-col items-center justify-between shadow-md rounded-md'>
-          <div className='w-full flex flex-col gap-4'>
-            {/* Email Field*/}
+          <div className='space-y-4 mb-8 w-full'>
             <InputField
-              label={'Email'}
-              name={'email'}
-              type={'email'}
-              value={credentials.email}
-              onChange={handleChange}
+              type={'text'}
               placeholder={'Email'}
+              name={'email'}
+              onChange={(event) => setCredentials(event)}
             />
-            {/* Password Field */}
             <InputField
-              label={'Password'}
-              name={'password'}
               type={'password'}
-              value={credentials.password}
-              onChange={handleChange}
               placeholder={'Password'}
+              name={'password'}
+              onChange={(event) => setCredentials(event)}
             />
-            {/* Password Confirm Field*/}
             <InputField
-              label={'Confirm Password'}
-              name={'passwordConfirmation'}
               type={'password'}
-              value={credentials.passwordConfirmation}
-              onChange={handleChange}
-              placeholder={'Confirm password'}
+              placeholder={'Confirm Password'}
+              name={'confirmationPassword'}
+              onChange={(event) => setCredentials(event)}
             />
-
-            <div className='flex w-full gap-4'>
-              {/* First Name Field */}
+            <div className='flex gap-4'>
               <InputField
-                label={'First Name'}
-                name={'first_name'}
-                type={'text'}
-                value={credentials.first_name}
-                onChange={handleChange}
-                placeholder={'First name'}
+                type='text'
+                required={true}
+                name='first_name'
+                placeholder='First Name'
+                onChange={(event) => setCredentials(event)}
               />
-              {/* Last Name Field */}
               <InputField
-                label={'Last Name'}
-                name={'last_name'}
-                type={'text'}
-                value={credentials.last_name}
-                onChange={handleChange}
-                placeholder={'Last name'}
+                type='text'
+                required={true}
+                name='last_name'
+                onChange={(event) => setCredentials(event)}
+                placeholder='Last Name'
               />
             </div>
           </div>
-          {/* Error Message */}
-          <span className={`${error ? 'block' : 'invisible'} h-3 text-red-500 mt-5 mb-6`}>{error}</span>
-
-          {/* Submit Button */}
-          <ActionButton onClick={handleSubmit} id='create-account-button'>
+          <p className='text-red-600 mb-5'>{error.message}</p>
+          <ActionButton onClick={() => registerUser()} id='create-account-button'>
             <UserAddIcon className='h-5 w-5' />
             Create
           </ActionButton>
@@ -196,6 +180,5 @@ export default function Register() {
         </div>
       </div>
     </DefaultLayout>
-  )
-    ;
+  );
 }
