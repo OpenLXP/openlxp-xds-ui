@@ -28,6 +28,8 @@ describe('Login Page', () => {
     );
     expect(screen.getByText(/Sign in to your account/i)).toBeInTheDocument();
     expect(screen.getByText(`Create an Account`)).toBeInTheDocument();
+    /* not currently implemnt*/
+    // expect(screen.getByText(`Forgot Password`)).toBeInTheDocument(); 
     expect(screen.getByText(`Login`)).toBeInTheDocument();
     expect(screen.getByText(`or continue with`)).toBeInTheDocument();
     expect(screen.getByText(`Single Sign On`)).toBeInTheDocument();
