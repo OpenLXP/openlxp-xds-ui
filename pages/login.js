@@ -45,7 +45,7 @@ export default function Login() {
     } else if (!isValidEmail(credentials.email)) {
       setErrorMsg('Please enter a valid email address');
     } else if (!isLongEnough(credentials.password, 8)) {
-      setErrorMsg('Password must be a minimum of 8 characters');
+      setErrorMsg('Wrong email or password');
     } else {
       axios
         .post(authLogin, credentials)
