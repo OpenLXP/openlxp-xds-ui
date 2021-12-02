@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -12,13 +11,22 @@ import InputField from '../components/inputs/InputField';
 import logo from '../public/United_States_Department_of_Defense_Seal.svg.png';
 
 // contexts
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from 'contexts/AuthContext';
 
 // hooks
 import useField from '../hooks/useField';
 
-// config
+import {
+  containsLowercase,
+  containsSpecialCharacter,
+  containsUppercase,
+  isLongEnough,
+  isValidEmail
+} from '../utils/validation';
 import { authRegister } from '../config/endpoints';
+import axios from 'axios';
+
+// config
 
 export default function Register() {
   const router = useRouter();
@@ -26,12 +34,13 @@ export default function Register() {
   const { fields: credentials, updateKeyValuePair: setCredential } = useField({
     email: '',
     password: '',
+    confirmationPassword: '',
     first_name: '',
-    last_name: '',
+    last_name: ''
   });
 
   const { fields: error, updateKeyValuePair: setError } = useField({
-    message: '',
+    message: ''
   });
 
   const setCredentials = (event) => {
@@ -41,20 +50,45 @@ export default function Register() {
   const { register, logout } = useAuth();
 
   // TODO: Should rename to validateRegistration
-  const doRegister = () => {
-    // Might consider separation of concerns
-    if (
-      credentials.email === '' ||
-      credentials.password === '' ||
-      credentials.first_name === '' ||
-      credentials.last_name === ''
-    ) {
-      setError('message', 'All fields are required');
-    } else if (!credentials.email.includes('@')) {
-      setError('message', 'Must be a valid email');
-    } else if (credentials.password.length < 8) {
-      setError('message', 'Password must be a minimum of 8 characters');
-    } else {
+  const registerUser = () => {
+    // verify email is not empty
+    if (credentials.email === '') {
+      setError('message', 'Email is required');
+    } else if (!isValidEmail(credentials.email)) {
+      setError('message', 'Email is invalid');
+    }
+    // verify password
+    else if (credentials.password === '') { // not empty
+      setError('message', 'Password is required');
+    } else if (!isLongEnough(credentials.password, 8)) {
+      setError('message', 'Password must be at least 8 characters');
+    } else if (!containsLowercase(credentials.password)) {
+      setError('message', 'Password must contain at least one lowercase letter');
+    } else if (!containsUppercase(credentials.password)) {
+      setError('message', 'Password must contain at least one uppercase letter');
+    } else if (!containsSpecialCharacter(credentials.password)) {
+      setError('message', 'Password must contain at least one special character');
+    }
+    // verify password confirmation
+    else if (credentials.confirmationPassword === '') { // not empty
+      setError('message', 'Password confirmation is required');
+    } else if (credentials.confirmationPassword !== credentials.password) {
+      setError('message', 'Password confirmation does not match password');
+    }
+    // verify first name
+    else if (credentials.first_name === '') {
+      setError('message', 'First name is required');
+    } else if (!isLongEnough(credentials.first_name, 2)) {
+      setError('message', 'First name must be at least 2 characters');
+    }
+    // verify last name
+    else if (credentials.last_name === '') {
+      setError('message', 'Last name is required');
+    } else if (!isLongEnough(credentials.last_name, 2)) {
+      setError('message', 'Last name must be at least 2 characters');
+    }
+    // if no errors, register
+    else {
       axios
         .post(authRegister, credentials)
         .then((res) => {
@@ -63,7 +97,7 @@ export default function Register() {
         })
         .catch((error) => {
           logout();
-          setError('message', 'There was an error during registration');
+          setError('message', error.message || 'There was an error during registration');
         });
     }
   };
@@ -86,22 +120,9 @@ export default function Register() {
             </Link>
           </span>
         </div>
-        <div className='w-1/3 p-8 mx-auto mt-10 bg-white flex flex-col items-center justify-between shadow-md rounded-md'>
-          <div className='space-y-4 mb-8'>
-            <InputField
-              type='text'
-              required={true}
-              name='first_name'
-              placeholder='First Name'
-              onChange={(event) => setCredentials(event)}
-            />
-            <InputField
-              type='text'
-              required={true}
-              name='last_name'
-              onChange={(event) => setCredentials(event)}
-              placeholder='Last Name'
-            />
+        <div
+          className='w-1/2 p-8 mx-auto mt-10 bg-white flex flex-col items-center justify-between shadow-md rounded-md'>
+          <div className='space-y-4 mb-8 w-full'>
             <InputField
               type={'text'}
               placeholder={'Email'}
@@ -114,14 +135,37 @@ export default function Register() {
               name={'password'}
               onChange={(event) => setCredentials(event)}
             />
+            <InputField
+              type={'password'}
+              placeholder={'Confirm Password'}
+              name={'confirmationPassword'}
+              onChange={(event) => setCredentials(event)}
+            />
+            <div className='flex gap-4'>
+              <InputField
+                type='text'
+                required={true}
+                name='first_name'
+                placeholder='First Name'
+                onChange={(event) => setCredentials(event)}
+              />
+              <InputField
+                type='text'
+                required={true}
+                name='last_name'
+                onChange={(event) => setCredentials(event)}
+                placeholder='Last Name'
+              />
+            </div>
           </div>
-          <p className='text-red-600'>{error.message}</p>
-          <ActionButton onClick={() => doRegister()} id='create-account-button'>
+          <p className='text-red-600 mb-5'>{error.message}</p>
+          <ActionButton onClick={() => registerUser()} id='create-account-button'>
             <UserAddIcon className='h-5 w-5' />
             Create
           </ActionButton>
           <p className={'my-8 relative border-b-2 w-full'}>
-            <span className='absolute top-1/2 left-1/2 transform text-center -translate-x-1/2 -translate-y-1/2 bg-white px-2 w-max'>
+            <span
+              className='absolute top-1/2 left-1/2 transform text-center -translate-x-1/2 -translate-y-1/2 bg-white px-2 w-max'>
               or continue with
             </span>
           </p>
