@@ -21,11 +21,17 @@ import useField from '../hooks/useField';
 // config
 import { authLogin } from '../config/endpoints';
 
+// utils
+import {
+  isLongEnough,
+  isValidEmail
+} from '../utils/validation';
+
 export default function Login() {
   const router = useRouter()
   const { login, logout } = useAuth();
   const { fields: credentials, updateKeyValuePair } = useField({
-    username: '',
+    email: '',
     password: '',
   });
   const setCredentials = (event) => {
@@ -34,10 +40,12 @@ export default function Login() {
   const [errorMsg, setErrorMsg] = useState();
 
   const doLogin = () => {
-    if (credentials.username === '' || credentials.password === '') {
+    if (credentials.email === '' || credentials.password === '') {
       setErrorMsg('All fields required');
-    } else if (!credentials.username.includes('@')) {
-      setErrorMsg('Username must be an email');
+    } else if (!isValidEmail(credentials.email)) {
+      setErrorMsg('Please enter a valid email address');
+    } else if (!isLongEnough(credentials.password, 8)) {
+      setErrorMsg('Wrong email or password');
     } else {
       axios
         .post(authLogin, credentials)
@@ -78,9 +86,9 @@ export default function Login() {
           <div className='space-y-4 mb-4'>
             <InputField
               type='text'
-              value={credentials.username}
-              placeholder={'Username'}
-              name={'username'}
+              value={credentials.email}
+              placeholder={'Email'}
+              name={'email'}
               onChange={(event) => setCredentials(event)}
             />
             <InputField
@@ -91,14 +99,15 @@ export default function Login() {
               onChange={(event) => setCredentials(event)}
             />
           </div>
-          <Link href={'/forgotPassword'}>
+          {/*Currently not supported*/}
+          {/* <Link href={'/forgotPassword'}>
             <button
               id={'forgot-password-button'}
               className='text-blue-400 hover:text-blue-500 hover:underline text-left self-start -mt-2 mb-2 ml-1 transform transition-all duration-150 ease-in-out cursor-pointer'
             >
               Forgot Password
             </button>
-          </Link>
+          </Link> */}
           <div className='mb-4'>
             {errorMsg && <p className={'text-red-600'}>{errorMsg}</p>}
           </div>

@@ -28,7 +28,8 @@ describe('Login Page', () => {
     );
     expect(screen.getByText(/Sign in to your account/i)).toBeInTheDocument();
     expect(screen.getByText(`Create an Account`)).toBeInTheDocument();
-    expect(screen.getByText(`Forgot Password`)).toBeInTheDocument();
+    /* not currently implemented*/
+    // expect(screen.getByText(`Forgot Password`)).toBeInTheDocument(); 
     expect(screen.getByText(`Login`)).toBeInTheDocument();
     expect(screen.getByText(`or continue with`)).toBeInTheDocument();
     expect(screen.getByText(`Single Sign On`)).toBeInTheDocument();
@@ -47,23 +48,23 @@ describe('Login Page', () => {
       );
     });
 
-    it('should change values on input: Username', () => {
-      const input = screen.getByPlaceholderText('Username');
+    it('should change values on input: Email', () => {
+      const input = screen.getByPlaceholderText('Email');
 
       act(() => {
-        fireEvent.change(input, { target: { value: 'username' } });
+        fireEvent.change(input, { target: { value: 'email' } });
       });
 
-      expect(input.value).toBe('username');
+      expect(input.value).toBe('email');
     });
     it('should change values on input: Password', () => {
       const input = screen.getByPlaceholderText('Password');
 
       act(() => {
-        fireEvent.change(input, { target: { value: 'username' } });
+        fireEvent.change(input, { target: { value: 'email' } });
       });
 
-      expect(input.value).toBe('username');
+      expect(input.value).toBe('email');
     });
     it('should change show error message for empty attributes', () => {
       const input = screen.getByPlaceholderText('Password');
@@ -80,11 +81,11 @@ describe('Login Page', () => {
       expect(screen.getByText(/All fields required/i)).toBeInTheDocument();
     });
     it('should change show error message for valid email', () => {
-      const username = screen.getByPlaceholderText('Username');
+      const email = screen.getByPlaceholderText('Email');
       const password = screen.getByPlaceholderText('Password');
 
       act(() => {
-        fireEvent.change(username, { target: { value: 'username' } });
+        fireEvent.change(email, { target: { value: 'email' } });
         fireEvent.change(password, { target: { value: 'password' } });
       });
 
@@ -93,18 +94,35 @@ describe('Login Page', () => {
         fireEvent.click(button);
       });
 
-      expect(screen.getByText(/Username must be an email/i));
+      expect(screen.getByText(/Please enter a valid email address/i)); 
     });
+
+    it('should show error message when password is invalid', () => {
+      const email = screen.getByPlaceholderText('Email');
+      const password = screen.getByPlaceholderText('Password');
+
+      act(()=>{
+        fireEvent.change(email, { target: { value: 'email@test.com' } });
+        fireEvent.change(password, { target: { value: 'pass' } });
+      });
+
+      act(() => {
+        const button = screen.getByText(/Login/i);
+        fireEvent.click(button);
+      });
+
+      expect(screen.getByText(/Wrong email or password/i)); 
+    })
 
     it('should log a user in.', async () => {
       MockAxios.post.mockImplementation(() =>
         Promise.resolve({ data: { user: {} } })
       );
 
-      const username = screen.getByPlaceholderText('Username');
+      const email = screen.getByPlaceholderText('Email');
       const password = screen.getByPlaceholderText('Password');
       await act(() => {
-        fireEvent.change(username, { target: { value: 'username@test.com' } });
+        fireEvent.change(email, { target: { value: 'email@test.com' } });
         fireEvent.change(password, { target: { value: 'password' } });
       });
 
@@ -119,10 +137,10 @@ describe('Login Page', () => {
         Promise.reject({ data: { user: {} } })
       );
 
-      const username = screen.getByPlaceholderText('Username');
+      const email = screen.getByPlaceholderText('Email');
       const password = screen.getByPlaceholderText('Password');
       await act(() => {
-        fireEvent.change(username, { target: { value: 'username@test.com' } });
+        fireEvent.change(email, { target: { value: 'email@test.com' } });
         fireEvent.change(password, { target: { value: 'password' } });
       });
 
