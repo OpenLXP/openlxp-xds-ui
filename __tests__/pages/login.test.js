@@ -61,10 +61,10 @@ describe('Login Page', () => {
       const input = screen.getByPlaceholderText('Password');
 
       act(() => {
-        fireEvent.change(input, { target: { value: 'email' } });
+        fireEvent.change(input, { target: { value: 'password' } });
       });
 
-      expect(input.value).toBe('email');
+      expect(input.value).toBe('password');
     });
     it('should change show error message for empty attributes', () => {
       const input = screen.getByPlaceholderText('Password');
@@ -96,23 +96,6 @@ describe('Login Page', () => {
 
       expect(screen.getByText(/Please enter a valid email address/i)); 
     });
-
-    it('should show error message when password is invalid', () => {
-      const email = screen.getByPlaceholderText('Email');
-      const password = screen.getByPlaceholderText('Password');
-
-      act(()=>{
-        fireEvent.change(email, { target: { value: 'email@test.com' } });
-        fireEvent.change(password, { target: { value: 'pass' } });
-      });
-
-      act(() => {
-        const button = screen.getByText(/Login/i);
-        fireEvent.click(button);
-      });
-
-      expect(screen.getByText(/Wrong email or password/i)); 
-    })
 
     it('should log a user in.', async () => {
       MockAxios.post.mockImplementation(() =>
