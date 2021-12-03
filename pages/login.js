@@ -23,7 +23,6 @@ import { authLogin } from '../config/endpoints';
 
 // utils
 import {
-  isLongEnough,
   isValidEmail
 } from '../utils/validation';
 
@@ -31,7 +30,7 @@ export default function Login() {
   const router = useRouter()
   const { login, logout } = useAuth();
   const { fields: credentials, updateKeyValuePair } = useField({
-    email: '',
+    username: '',
     password: '',
   });
   const setCredentials = (event) => {
@@ -40,12 +39,10 @@ export default function Login() {
   const [errorMsg, setErrorMsg] = useState();
 
   const doLogin = () => {
-    if (credentials.email === '' || credentials.password === '') {
+    if (credentials.username === '' || credentials.password === '') {
       setErrorMsg('All fields required');
-    } else if (!isValidEmail(credentials.email)) {
+    } else if (!isValidEmail(credentials.username)) {
       setErrorMsg('Please enter a valid email address');
-    } else if (!isLongEnough(credentials.password, 8)) {
-      setErrorMsg('Wrong email or password');
     } else {
       axios
         .post(authLogin, credentials)
@@ -86,9 +83,9 @@ export default function Login() {
           <div className='space-y-4 mb-4'>
             <InputField
               type='text'
-              value={credentials.email}
+              value={credentials.username}
               placeholder={'Email'}
-              name={'email'}
+              name={'username'}
               onChange={(event) => setCredentials(event)}
             />
             <InputField
