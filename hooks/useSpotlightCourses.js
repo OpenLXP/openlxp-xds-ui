@@ -1,11 +1,11 @@
-import axios from 'axios';
+import { axiosInstance } from 'config/axiosConfig';
 import { useQuery, useQueryClient } from 'react-query';
 import { spotlightCourses } from '../config/endpoints';
 import { oneHour } from '../config/timeConstants';
 
 // getter for useQuery
 const getSpotlightCourses = () => {
-  return () => axios.get(spotlightCourses).then((res) => res.data);
+  return () => axiosInstance.get(spotlightCourses).then((res) => res.data);
 };
 
 export default function useSpotlightCourses() {
@@ -13,6 +13,7 @@ export default function useSpotlightCourses() {
   return useQuery('spotlight-courses', getSpotlightCourses(), {
     staleTime: oneHour,
     onSuccess: (data) => {
+      if (!Array.isArray(data)) return;
       data?.map((course) => {
         queryClient.setQueryData(
           ['course', course.meta.metadata_key_hash],
