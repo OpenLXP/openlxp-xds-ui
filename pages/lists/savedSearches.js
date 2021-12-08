@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { EyeIcon, TrashIcon } from '@heroicons/react/outline';
@@ -15,16 +15,15 @@ import { useDeleteSavedSearch } from '../../hooks/useDeleteSavedSearch';
 
 export default function SavedSearches() {
   const { user } = useAuth();
-  const { data, isSuccess, isLoading, isError } = useSaveSearchList(
-    user?.token
-  );
+  const { data, isSuccess, isLoading, isError, error } = useSaveSearchList();
   const { mutate } = useDeleteSavedSearch(user?.token);
   const router = useRouter();
 
-  // if a user is not logged in
-  useEffect(() => {
+  // if a user is not logged in (syncronusly render the content)
+  useLayoutEffect(() => {
     if (!user) router.push('/');
-  }, []);
+    if (isError && error.response.status === 403) router.push('/401');
+  }, [isError]);
 
   return (
     <DefaultLayout footerLocation='absolute'>
