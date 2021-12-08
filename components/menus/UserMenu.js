@@ -10,9 +10,6 @@ import {
 import { Menu, Transition } from '@headlessui/react';
 import { AdjustmentsIcon, UserIcon } from '@heroicons/react/solid';
 import { CollectionIcon, BookmarkIcon } from '@heroicons/react/outline';
-import { useLogout } from 'hooks/useLogout';
-import { axiosInstance } from 'config/axiosConfig';
-import { backendHost } from 'config/endpoints';
 import { useRouter } from 'next/router';
 
 export default function UserMenu() {
