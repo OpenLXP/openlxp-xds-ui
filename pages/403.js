@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export default function NotAuthorized({ errorMessage }) {
+export default function Forbidden({ errorMessage }) {
     
     // should hang on page for 15 seconds
     // should show count down to redierect 
@@ -28,7 +28,7 @@ export default function NotAuthorized({ errorMessage }) {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <h1 className='text-5xl font-semibold'>401 Unauthorized </h1>
+            <h1 className='text-5xl font-semibold'>403 Forbidden </h1>
         </div>
         <div className='inline-flex items-center gap-4'>
             <h2 className='text-2xl flex-col'>Redirecting in</h2>
