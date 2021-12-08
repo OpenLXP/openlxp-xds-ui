@@ -1,6 +1,7 @@
-import axios from "axios";
-
+import axios from 'axios';
 
 export const axiosInstance = axios.create({
-    withCredentials: true
-})
+  withCredentials: true,
+  xsrfHeaderName: 'X-CSRFToken',
+  xsrfCookieName: 'csrftoken',
+});
