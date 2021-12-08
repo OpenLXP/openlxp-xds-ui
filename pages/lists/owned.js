@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { useRouter } from 'next/router';
 import { BookOpenIcon, UsersIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
@@ -16,11 +16,13 @@ export default function Owned({ }) {
   const router = useRouter();
 
   const { user } = useAuth();
-  const { data, isSuccess } = useUserOwnedLists(user?.token);
+  const { data, isSuccess, isError, error } = useUserOwnedLists();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!user) router.push('/');
-  }, []);
+    if (isError && error.response.status === 403) router.push('/403')
+    if (isError && error.response.status === 401) router.push('/401')
+  }, [isError]);
 
   return (
     <DefaultLayout footerLocation='absolute'>
