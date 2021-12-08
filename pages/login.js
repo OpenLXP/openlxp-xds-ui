@@ -25,6 +25,7 @@ import { authLogin } from '../config/endpoints';
 import {
   isValidEmail
 } from '../utils/validation';
+import { axiosInstance } from 'config/axiosConfig';
 
 export default function Login() {
   const router = useRouter()
@@ -44,7 +45,7 @@ export default function Login() {
     } else if (!isValidEmail(credentials.username)) {
       setErrorMsg('Please enter a valid email address');
     } else {
-      axios
+      axiosInstance
         .post(authLogin, credentials)
         .then((res) => {
           login(res.data);
