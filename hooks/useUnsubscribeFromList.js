@@ -1,14 +1,11 @@
 import {useMutation, useQueryClient} from "react-query";
-import axios from "axios";
+import { axiosInstance } from 'config/axiosConfig';
 import {interestLists} from "../config/endpoints";
 
-export function useUnsubscribeFromList(token) {
+export function useUnsubscribeFromList() {
   const queryClient = useQueryClient();
   return useMutation(
-    ({id}) => axios.patch(interestLists + id + "/unsubscribe", {}, {
-      headers: {
-        Authorization: `Token ${token}`
-      }
+    ({id}) => axiosInstance.patch(interestLists + id + "/unsubscribe", {}, {
     }).then(res => res.data),
     {
       onSuccess: () => {

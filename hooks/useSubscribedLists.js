@@ -1,16 +1,11 @@
-import axios from "axios";
+import { axiosInstance } from 'config/axiosConfig';
 import { useQuery } from "react-query";
 import { interestLists } from "../config/endpoints";
 
-export function useSubscribedLists(token) {
+export function useSubscribedLists() {
 
-  return useQuery('subscribedLists', () => axios.get(
+  return useQuery('subscribedLists', () => axiosInstance.get(
     interestLists + 'subscriptions',
-    {
-      headers: {
-        Authorization: `Token ${token}`
-      }
-    }
   ).then(res => res.data));
 }
 

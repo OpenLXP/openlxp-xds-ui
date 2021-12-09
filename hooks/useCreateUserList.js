@@ -1,16 +1,14 @@
-import axios from 'axios';
+import { axiosInstance } from 'config/axiosConfig';
 import { useMutation, useQueryClient } from 'react-query';
 import { interestLists } from '../config/endpoints';
 
-export function useCreateUserList(token) {
+export function useCreateUserList() {
   const queryClient = useQueryClient();
   return useMutation(
     (variables) =>
-      axios
+    axiosInstance
         .post(interestLists, variables.form, {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
+          
         })
         .then((res) => res.data),
     {
