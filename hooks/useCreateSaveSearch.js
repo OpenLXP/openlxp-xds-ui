@@ -1,17 +1,12 @@
-import axios from 'axios';
+import { axiosInstance } from 'config/axiosConfig';
 import { useMutation, useQueryClient } from 'react-query';
 import { saveSearchUrl } from '../config/endpoints';
 
 const createSavedSearch = ({ path, name }, token) => {
-  return axios
+  return axiosInstance
     .post(
       saveSearchUrl,
       { query: path, name: name },
-      {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      }
     )
     .then((res) => res.data);
 };

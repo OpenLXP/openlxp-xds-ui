@@ -1,17 +1,13 @@
 import {useMutation, useQueryClient} from "react-query";
 import {interestLists} from "../config/endpoints";
-import axios from "axios";
+import { axiosInstance } from 'config/axiosConfig';
 
-export function useSubscribeToList(token) {
+export function useSubscribeToList() {
   const queryClient = useQueryClient();
   return useMutation(
-    ({id}) => axios.patch(
+    ({id}) => axiosInstance.patch(
       interestLists + id + '/subscribe',
-      {},
       {
-        headers: {
-          Authorization: `Token ${token}`
-        }
       }
     ).then(res => res.data),
     {

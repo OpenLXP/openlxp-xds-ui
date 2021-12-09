@@ -1,9 +1,9 @@
-import axios from 'axios';
+import { axiosInstance } from 'config/axiosConfig';
 import { useMutation, useQueryClient } from 'react-query';
 import { interestLists } from '../config/endpoints';
 
 const updateUserList = ({ id, listData }, token) => {
-  return axios
+  return axiosInstance
     .patch(interestLists + id, listData, {
       headers: {
         Authorization: `Token ${token}`,
