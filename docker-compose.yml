@@ -1,0 +1,11 @@
+version: '3'
+services:
+  # list of containers to run
+  nextjs:
+    # pointing to the dockerfile locations
+    build: ./
+  nginx:
+    # pointing to the dockerfile location in nginx/
+    build: ./nginx
+    ports:
+      - 80:80

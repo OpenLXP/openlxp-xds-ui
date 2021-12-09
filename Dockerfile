@@ -1,41 +1,45 @@
-# Install dependencies only when needed
-FROM node:14.18.1-alpine AS deps
-
-RUN apk add --no-cache libc6-compat
-WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
-
-# Rebuild the source code only when needed
-FROM node:14.18.1-alpine AS builder
-WORKDIR /app
-COPY . .
-COPY --from=deps /app/node_modules ./node_modules
+#============================
+# Download stage
+#============================
+FROM node:14.18.1-alpine as dependencies
+# Setting the working dir
+WORKDIR /usr/app
+# Grabbing the package.json and if one exists the yarn.lock
+COPY ./package*.json yarn.lock ./
+# Install the dependencies
+RUN npm install --production
 
 
-RUN yarn build
+#==============================
+# Builder stage
+#==============================
+# Rebuilds the source code only when needed
+FROM node:14.18.1-alpine as builder
+# Mirroring the work dir from dependencies
+WORKDIR /usr/app
+# Copy the entire src dir
+COPY ./ ./
+# Copy node_modules from the dependencies build stage
+COPY --from=dependencies /usr/app/node_modules ./node_modules
+# Build the app
+RUN npm run build
 
-
-# Production image, copy all the files and run next
-FROM node:14.18.1-alpine AS runner
-WORKDIR /app
-
+#===============================
+# Produciton image
+#===============================
+# Copy all the files from the build stage
+FROM node:14.18.1-alpine as production
+WORKDIR /usr/app
+# Setting the env var for production
 ENV NODE_ENV production
-
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
-
-# You only need to copy next.config.js if you are NOT using the default configuration
-# COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-
-USER nextjs
-
-EXPOSE 3000
-
 ENV NEXT_TELEMETRY_DISABLED 1
-
-CMD ["yarn", "start"]
+# install the process manager
+RUN npm install --global pm2
+# Copy the build files from the build stage
+COPY --from=builder /usr/app/public ./public
+COPY --from=builder --chown=nextjs:node /usr/app/.next ./.next
+COPY --from=builder /usr/app/node_modules ./node_modules
+COPY --from=builder /usr/app/package.json ./package.json
+EXPOSE 3000
+# Run npm start script with PM2 when container starts
+CMD [ "pm2-runtime", "npm", "--", "start" ]
