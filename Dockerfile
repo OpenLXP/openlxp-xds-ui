@@ -1,11 +1,8 @@
 # Dockerfile
 
 # Name the node stage "builder"
-ARG BASE_REGISTRY=registry1.dso.mil
-ARG BASE_IMAGE=ironbank/opensource/nodejs/nodejs14
-ARG BASE_TAG=14.18.1
 
-FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} as build
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs14:14.18.2 as build
 
 # Set working directory
 WORKDIR /app
@@ -18,7 +15,7 @@ RUN yarn
 RUN yarn build
 
 # nginx state for serving content
-FROM nginx:alpine
+FROM registry1.dso.mil/ironbank/opensource/nginx/nginx:1.21.4
 # Set working directory to nginx asset directory
 WORKDIR /usr/share/nginx/html
 # Remove default nginx static assets
