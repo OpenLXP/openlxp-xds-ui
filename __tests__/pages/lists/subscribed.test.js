@@ -210,6 +210,37 @@ describe('Subscribed Page', () => {
           asPath: '/lists/1',
         });
       });
+
+      it('should show 401 error page and navigate to home', () => {
+        useSubscribedLists.mockImplementation(() => ({
+          data: [
+            {
+              id: '1',
+              name: 'List 1',
+              description: 'List 1 description',
+              owner: {
+                id: '1',
+                email: '',
+              },
+              subscribers: [],
+              experiences: [2, 23],
+            },
+          ],
+          isSuccess: false,
+          isError: true,
+          error:{
+            response:{
+              status:"401",
+            }
+          },
+        }));
+
+        const { getByText } = renderer();
+        expect(getByText('401 Unauthorized')).toBeInTheDocument();
+        expect(singletonRouter).toMatchObject({
+          asPath: '/401',
+        });
+      });
     });
   });
 });
