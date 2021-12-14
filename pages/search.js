@@ -115,7 +115,7 @@ export default function Search({ query }) {
     setParams(modified);
     setUrl(modified);
     router.push({ pathname: '/search', query: modified }, undefined, {
-      scroll: false,
+      scroll: true,
     });
   }
   function handelNext() {
@@ -124,7 +124,7 @@ export default function Search({ query }) {
     setParams(modified);
     setUrl(modified);
     router.push({ pathname: '/search', query: modified }, undefined, {
-      scroll: false,
+      scroll: true,
     });
   }
 
@@ -148,11 +148,6 @@ export default function Search({ query }) {
       );
     });
   }
-
-  // on the change of url refetch the data
-  useEffect(() => {
-    refetch();
-  }, [url]);
 
   return (
     <DefaultLayout footerLocation='absolute'>

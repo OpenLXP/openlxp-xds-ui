@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Footer({ location }) {
   const leftLinks = [
-    { name: 'Home', url: 'https://dodcio.defense.gov/' },
+    { name: 'DOD', url: 'https://dodcio.defense.gov/' },
     { name: 'About DOD', url: 'https://dodcio.defense.gov/About-DoD-CIO/' },
     { name: 'Web Policy', url: 'https://dodcio.defense.gov/DoD-Web-Policy/' },
   ];
