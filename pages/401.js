@@ -2,12 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 
-export default function NotAuthorized({ errorMessage }) {    
-    // should hang on page for 15 seconds
-    // should show count down to redierect 
-    // should have a button to go home
-    // redirect at end of countdown to home.
-    
+export default function NotAuthorized({ errorMessage }) {
     const router =  useRouter();
     const [count, setCount] = useState(15);
     

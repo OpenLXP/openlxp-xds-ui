@@ -3,11 +3,6 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 
 export default function Forbidden({ errorMessage }) {
-    // should hang on page for 15 seconds
-    // should show count down to redierect 
-    // should have a button to go home
-    // redirect at end of countdown to home.
-
     const router =  useRouter();
     const [count, setCount] = useState(15);
     
