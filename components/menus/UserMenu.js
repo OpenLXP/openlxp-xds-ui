@@ -5,25 +5,19 @@ import {
   ArchiveIcon,
   BookmarkAltIcon,
   LogoutIcon,
-  SaveIcon,
+  SaveIcon
 } from '@heroicons/react/outline';
 import { Menu, Transition } from '@headlessui/react';
 import { AdjustmentsIcon, UserIcon } from '@heroicons/react/solid';
 import { CollectionIcon, BookmarkIcon } from '@heroicons/react/outline';
-import { useLogout } from 'hooks/useLogout';
-import { axiosInstance } from 'config/axiosConfig';
-import { backendHost } from 'config/endpoints';
-import { useRouter } from 'next/router';
 
 export default function UserMenu() {
-  const router = useRouter();
   const {
     user: {
-      user: { email },
+      user: { email }
     },
-    logout,
+    logout
   } = useAuth();
-
   return (
     <Menu as='div' className='relative inline-block text-left mt-0.5 max-w-min'>
       <div className=''>
