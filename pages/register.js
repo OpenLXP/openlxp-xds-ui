@@ -25,7 +25,6 @@ import {
 } from '../utils/validation';
 import { authRegister } from '../config/endpoints';
 import axios from 'axios';
-import { axiosInstance } from 'config/axiosConfig';
 
 // config
 
@@ -90,13 +89,14 @@ export default function Register() {
     }
     // if no errors, register
     else {
-      axiosInstance
+      axios
         .post(authRegister, credentials)
         .then((res) => {
           register(res.data);
           router.push('/');
         })
         .catch((error) => {
+          logout();
           setError('message', error.message || 'There was an error during registration');
         });
     }

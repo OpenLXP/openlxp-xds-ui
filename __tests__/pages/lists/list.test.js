@@ -222,45 +222,5 @@ describe('[listId].js', () => {
         });
       });
     });
-
-    describe('error', () => {
-      it('should navigate to the 403 error page', () => {
-        useList.mockImplementation(() => ({
-          data: [
-          ],
-          isSuccess: false,
-          isError: true,
-          error:{
-            response:{
-              status:403,
-            }
-          },
-        }));
-  
-        const { getByText } = renderer();
-        expect(singletonRouter).toMatchObject({
-          asPath: '/403',
-        });
-      });
-  
-      it('should navigate to the 403 error page', () => {
-        useList.mockImplementation(() => ({
-          data: [
-          ],
-          isSuccess: false,
-          isError: true,
-          error:{
-            response:{
-              status:403,
-            }
-          },
-        }));
-  
-        const { getByText } = renderer();
-        expect(singletonRouter).toMatchObject({
-          asPath: '/403',
-        });
-      });
-    });
   });
 });

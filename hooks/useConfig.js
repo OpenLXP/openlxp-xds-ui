@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { configUrl } from '../config/endpoints';
 import { twentyFourHours } from '../config/timeConstants';
-import { axiosInstance } from 'config/axiosConfig';
+import axios from 'axios';
 
 /**
  * @description Reaches out to the backend and gets the configuration data required for the application. Valid for 24hrs
@@ -9,7 +9,7 @@ import { axiosInstance } from 'config/axiosConfig';
 export function useConfig() {
   return useQuery(
     'ui-config',
-    () => axiosInstance.get(configUrl).then((res) => res.data),
+    () => axios.get(configUrl).then((res) => res.data),
     {
       staleTime: twentyFourHours,
       cacheTime: twentyFourHours,
