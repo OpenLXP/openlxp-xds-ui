@@ -135,44 +135,6 @@ describe('User Owned Lists', () => {
         // assert
         expect(singletonRouter).toMatchObject({ asPath: '/lists/1' });
       });
-
-      it('should navigate to the 401 error page', () => {
-        useUserOwnedLists.mockImplementation(() => ({
-          data: [
-          ],
-          isSuccess: false,
-          isError: true,
-          error:{
-            response:{
-              status:401,
-            }
-          },
-        }));
-
-        const { getByText } = renderer();
-        expect(singletonRouter).toMatchObject({
-          asPath: '/401',
-        });
-      });
-
-      it('should navigate to the 403 error page', () => {
-        useUserOwnedLists.mockImplementation(() => ({
-          data: [
-          ],
-          isSuccess: false,
-          isError: true,
-          error:{
-            response:{
-              status:403,
-            }
-          },
-        }));
-
-        const { getByText } = renderer();
-        expect(singletonRouter).toMatchObject({
-          asPath: '/403',
-        });
-      });
     });
   });
 

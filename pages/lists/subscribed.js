@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -19,10 +19,8 @@ export default function Subscribed() {
   const { mutate: unsubscribe } = useUnsubscribeFromList(user?.token);
   const router = useRouter();
 
-  useEffect(() => {
-    if (isError && error.response.status === 401) router.push('/401');
-    if (isError && error.response.status === 403) router.push('/403');
-  },[isError]);
+  if (isError && error.response.status === 401) router.push('/401');
+  if (isError && error.response.status === 403) router.push('/403');
 
   return (
     <DefaultLayout footerLocation='absolute'>
