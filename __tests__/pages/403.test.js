@@ -2,6 +2,10 @@ import { fireEvent, render, act } from '@testing-library/react';
 
 import Forbidden from '../../pages/403';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
+import singletonRouter from 'next/router';
+
+// mocks
+jest.mock('next/dist/client/router', () => require('next-router-mock'));
 
 const renderer = () => {
 
@@ -21,18 +25,27 @@ describe('401 Page', () => {
     expect(getByText('Click Here to be Redirected')).toBeInTheDocument();
   });
 
-  it('should click redirect button', () => {
+  it('should timeout and redirect', () => {
 
     jest.useFakeTimers();
     jest.spyOn(global, 'setTimeout');
     const { getByText } = renderer();
-    new Promise((r) => setTimeout(r, 2000));
+    new Promise((r) => setTimeout(r, 16000));
+    expect(singletonRouter).toMatchObject({
+        asPath: '',
+      });
+  });
+
+  it('should click redirect button', () => {
+
+    const { getByText } = renderer();
     act(() => {
         const button = getByText(/Click Here to be Redirected/i);
         fireEvent.click(button);
       });
-    
-    // expect(getByText('Click Here to be Redirected')).toBeInTheDocument();
+    expect(singletonRouter).toMatchObject({
+        asPath: '/',
+      });
   });
 
 });

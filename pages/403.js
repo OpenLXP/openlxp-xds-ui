@@ -1,26 +1,30 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
 
 export default function Forbidden({ errorMessage }) {
-    
     // should hang on page for 15 seconds
     // should show count down to redierect 
     // should have a button to go home
     // redirect at end of countdown to home.
+
+    const router =  useRouter();
+    const [count, setCount] = useState(15);
     
-    setInterval(function() {
-        try{
-            let div = document.querySelector("#counter");
-            let count = div.textContent * 1 - 1;
-            div.textContent = count;
-            if (count <= 0) {
-                window.location.replace("/");
-            }
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCount(prev=>prev-1);
+        }, 1000);
+        if(count<1){
+            clearInterval(timer);
         }
-        catch{
+    },[]);
 
+    useEffect(() => {
+        if(count<1){
+            router.push("/")
         }
-    }, 1000);
-
+    }, [count]);
       
     return (
         <div className='flex flex-col items-center justify-center min-h-screen gap-8'>
@@ -32,7 +36,7 @@ export default function Forbidden({ errorMessage }) {
         </div>
         <div className='inline-flex items-center gap-4'>
             <h2 className='text-2xl flex-col'>Redirecting in</h2>
-            <div className='text-2xl' id="counter">15</div>
+            <div className='text-2xl' id="counter">{count}</div>
         </div>
         <Link href={'/'}>
         <button
