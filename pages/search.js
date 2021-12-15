@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
+import { axiosInstance } from 'config/axiosConfig';
 import { dehydrate, QueryClient } from 'react-query';
 import { URLSearchParams } from 'url';
 import { useRouter } from 'next/dist/client/router';
@@ -38,7 +38,7 @@ export async function getServerSideProps({ query }) {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(
     ['search', url],
-    () => axios.get(url).then((res) => res.data),
+    () => axiosInstance.get(url).then((res) => res.data),
     { staleTime: oneHour, cacheTime: oneHour }
   );
   return {

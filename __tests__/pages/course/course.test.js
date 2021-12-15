@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 // imports for mocking
 import { QueryClientWrapper } from '../../../__mocks__/queryClientMock';
@@ -112,7 +112,7 @@ describe('Course Page', () => {
     });
 
     describe('share link', () => {
-      it('should show the share button', () => {
+      it.skip('should show the share button', () => {
         // mock course data
         useCourse.mockImplementation(() => ({
           data: courseData,
