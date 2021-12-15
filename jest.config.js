@@ -8,6 +8,7 @@ module.exports = {
     '!**/*.d.ts',
     '!**/node_modules/**',
     '!<rootDir>/jest.config.js',
+    '!**/.old/**',
     '!**/coverage/**',
     '!**/.next/**',
   ],
