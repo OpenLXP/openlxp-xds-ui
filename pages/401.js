@@ -37,8 +37,8 @@ export default function NotAuthorized({ errorMessage }) {
         <Link href={'/'}>
         <button
                 id={'create-account-button'}
-                className='flex justify-center items-center gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white pl-2 pr-4 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`'
-              > Click Here to be Redirected</button>
+                className='text-blue-400 hover:underline hover:text-blue-500 cursor-pointer transition-all duration-150 ease-in-out text-xl'
+              > or Click Here to Redirect</button>
               </Link>
         </div>
     )
