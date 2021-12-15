@@ -17,7 +17,27 @@ import { useSubscribeToList } from 'hooks/useSubscribeToList';
 import { useUnsubscribeFromList } from 'hooks/useUnsubscribeFromList';
 import { axiosInstance } from 'config/axiosConfig';
 
+export async function getStaticProps() {
 
+  const res = await axiosInstance.get(/**wherever we are going */)
+
+  if (res.status === 401) {// not authroized
+
+    return {
+      props: { errorMessage: res.statusText },
+      redirect: {
+        destination: '/401',
+        permanent: false,
+      },
+    }
+
+  }
+
+
+  return {
+    props: {}
+  }
+}
 
 
 
