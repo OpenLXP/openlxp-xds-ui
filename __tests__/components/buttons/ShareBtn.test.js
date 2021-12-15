@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, screen, render, fireEvent } from '@testing-library/react';
 import ShareBtn from '../../../components/buttons/ShareBtn';
 
 Object.assign(navigator, {
@@ -7,7 +7,7 @@ Object.assign(navigator, {
   },
 });
 jest.useFakeTimers();
-describe.skip('ShareBtn', () => {
+describe('ShareBtn', () => {
   it('has an id', () => {
     const { container } = render(<ShareBtn />);
 

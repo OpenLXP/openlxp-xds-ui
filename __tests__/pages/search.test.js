@@ -352,7 +352,7 @@ describe('Search Page', () => {
         expect(getByTitle(/view course/i)).toBeInTheDocument();
         expect(getByTitle(/view course/i).id).not.toBeUndefined();
       });
-      it.skip('should show the share button', () => {
+      it('should show the share button', () => {
         useSearch.mockImplementation(() => ({
           data: {
             hits: [courseData],
@@ -527,7 +527,7 @@ describe('Search Page', () => {
         expect(getByText(/provider name/i)).toBeInTheDocument();
         expect(getByText(/course type 1/i)).toBeInTheDocument();
       });
-      it.skip('should show the share button', () => {
+      it('should show the share button', () => {
         useSearch.mockImplementation(() => ({
           data: {
             hits: [],
