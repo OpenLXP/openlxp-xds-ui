@@ -108,6 +108,25 @@ export default function Search({ query }) {
       router.push({ pathname: '/search', query: modified });
     }
   }
+  function handleFirst() {
+    const modified = { ...params };
+    modified.p =  1;
+    setParams(modified);
+    setUrl(modified);
+    router.push({ pathname: '/search', query: modified }, undefined, {
+      scroll: true,
+    });
+  }
+
+  function handleLast() {
+    const modified = { ...params };
+    modified.p = parseInt(data.total/10) + 1;
+    setParams(modified);
+    setUrl(modified);
+    router.push({ pathname: '/search', query: modified }, undefined, {
+      scroll: true,
+    });
+  }
 
   function handlePrevious() {
     const modified = { ...params };
@@ -186,6 +205,8 @@ export default function Search({ query }) {
                   currentPage={parseInt(params.p)}
                   onNext={handelNext}
                   onPrevious={handlePrevious}
+                  onFirst={handleFirst}
+                  onLast={handleLast}
                 />
               )}
             </div>
