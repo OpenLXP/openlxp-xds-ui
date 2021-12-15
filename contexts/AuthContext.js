@@ -50,9 +50,8 @@ export function AuthProvider({ children }) {
   const checkUserLoggedIn = async () => {
     if (typeof window !== 'undefined') {
       if (user) {
-        axiosInstance.get(`${backendHost}/api/auth/validate`).catch((error) => {
+        axiosInstance.get(userOwnedLists).catch((error) => {
           removeLocal();
-          logout()
         });
       }
     }
