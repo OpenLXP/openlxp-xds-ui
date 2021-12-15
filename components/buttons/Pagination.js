@@ -1,46 +1,79 @@
 import React from 'react';
-import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/solid';
+import {
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon
+} from '@heroicons/react/solid';
 
-export const Pagination = ({ onNext, onPrevious, onFirst, onLast, totalPages, currentPage }) => {
+export const Pagination = ({ onNext, onPrevious, onFirst, onLast,handleSpecificPage, totalPages, currentPage }) => {
+
+  // show the first three pages and the last three pages of the pagination
+  // if the total number of pages is less than 3 show them all
+  const pages = [];
+  const start = Math.max(1, currentPage - 3);
+  const end = Math.min(totalPages, currentPage + 3);
+
+  // if the total number of pages is less than 6 show all pages
+  for (let i = start; i <= end; i++) {
+    pages.push(i);
+  }
+
+
   return (
     <div className='flex flex-row justify-between'>
-      <button
-        onClick={onPrevious}
-        className={`${currentPage > 1 ? 'block' : 'invisible'
-          } flex justify-center items-center gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white pl-2 pr-4 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`}
-      >
-        <ChevronLeftIcon className='h-6 w-6' />
-        Previous
-      </button>
-      <button
-        onClick={onFirst}
-        className={`${currentPage > 1 ? 'block' : 'invisible'
-          } flex justify-center items-center gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white pl-2 pr-4 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`}
-      >
-        <ChevronLeftIcon className='h-6 w-6' />
-        First
-      </button>
+      <div className='inline-flex justify-left items-center gap-2'>
+        <button
+          onClick={()=>handleSpecificPage(1)}
+          title='First'
+          className={`${currentPage > 1 ? 'block' : 'invisible'
+          } flex justify-center items-center gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white px-2 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`}
+        >
+          <ChevronDoubleLeftIcon className='h-6 w-6' />
+        </button>
 
-      <div className={'flex justify-center items-center gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white pl-2 pr-2 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300'}>
-        {currentPage}
+        <button
+          onClick={()=>handleSpecificPage(currentPage - 1)}
+          className={`${currentPage > 1 ? 'block' : 'invisible'
+          } flex justify-center items-center gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white pl-2 pr-4 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`}
+        >
+          <ChevronLeftIcon className='h-6 w-6' />
+          Previous
+        </button>
+
       </div>
 
-      <button
-        onClick={onLast}
-        className={`${totalPages > currentPage ? 'block' : 'invisible'
+      <div className='inline-flex justify-center items-center gap-2'>
+        {pages.map(page => (
+          <button
+            key={page}
+            onClick={() => handleSpecificPage(page)}
+            className={`${currentPage === page ? 'bg-blue-400 text-white' : 'bg-blue-50 text-blue-400'
+            } flex justify-center items-center gap-2 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white px-2 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`}
+          >
+            {page}
+          </button>
+        ))}
+      </div>
+
+      <div className='inline-flex justify-left items-center gap-2'>
+
+        <button
+          onClick={()=> handleSpecificPage(currentPage + 1)}
+          className={`${totalPages > currentPage ? 'block' : 'invisible'
           } flex justify-center items-center gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white pl-4 pr-2 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`}
-      >
-        Last
-        <ChevronRightIcon className='h-6 w-6' />
-      </button>
-      <button
-        onClick={onNext}
-        className={`${totalPages > currentPage ? 'block' : 'invisible'
-          } flex justify-center items-center gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white pl-4 pr-2 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`}
-      >
-        Next
-        <ChevronRightIcon className='h-6 w-6' />
-      </button>
+        >
+          Next
+          <ChevronRightIcon className='h-6 w-6' />
+        </button>
+        <button
+          onClick={()=> handleSpecificPage(totalPages)}
+          className={`${totalPages > currentPage ? 'block' : 'invisible'
+          } flex justify-center items-center gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white p-2 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`}
+        >
+          <ChevronDoubleRightIcon className='h-6 w-6' />
+        </button>
+      </div>
     </div>
   );
 };
