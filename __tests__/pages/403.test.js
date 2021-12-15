@@ -16,7 +16,7 @@ const renderer = () => {
   );
 };
 
-describe('401 Page', () => {
+describe('403 Page', () => {
   it('should render the page', () => {
 
     const { getByText } = renderer();
