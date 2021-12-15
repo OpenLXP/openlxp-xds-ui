@@ -1,9 +1,9 @@
 import { interestLists } from '../config/endpoints';
 import { useQuery } from 'react-query';
-import { axiosInstance } from 'config/axiosConfig';
+import axios from 'axios';
 
 const getUserList = (id) => {
-  return () => axiosInstance.get(interestLists + id).then((res) => res.data);
+  return () => axios.get(interestLists + id).then((res) => res.data);
 };
 
 export function useUserList(id) {

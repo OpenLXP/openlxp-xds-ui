@@ -1,9 +1,9 @@
-import { axiosInstance } from 'config/axiosConfig';
+import axios from 'axios';
 import { saveSearchUrl } from 'config/endpoints';
 import { useMutation, useQueryClient } from 'react-query';
 
 const deleteSearch = (id, token) => {
-  return axiosInstance
+  return axios
     .delete(`${saveSearchUrl}/${id}`, {
       headers: {
         Authorization: `Token ${token}`,

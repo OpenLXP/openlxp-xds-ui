@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -16,14 +16,12 @@ export default function ListsView() {
   // user data
   const { user } = useAuth();
 
-  const { data: list, isSuccess, isError, error } = useList(router.query.listId);
+  const { data: list, isSuccess } = useList(router.query.listId);
 
   // verify a user is logged in otherwise redirect to home page
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!user) router.push('/');
-    if (isError && error.response.status === 401) router.push('/401');
-    if (isError && error.response.status === 403) router.push('/403');
-  }, [user, isError]);
+  }, [user]);
 
   return (
     <DefaultLayout footerLocation='absolute'>

@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { axiosInstance } from 'config/axiosConfig';
+import axios from 'axios';
 import { interestLists } from '../config/endpoints';
 import { oneHour } from '../config/timeConstants';
 
@@ -12,7 +12,7 @@ import { oneHour } from '../config/timeConstants';
 export function useInterestLists() {
   return useQuery(
     'lists',
-    () => axiosInstance.get(interestLists).then((res) => res.data),
+    () => axios.get(interestLists).then((res) => res.data),
     {
       staleTime: oneHour,
       retry: false,

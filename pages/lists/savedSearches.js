@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { EyeIcon, TrashIcon } from '@heroicons/react/outline';
@@ -22,8 +22,7 @@ export default function SavedSearches() {
   // if a user is not logged in (syncronusly render the content)
   useLayoutEffect(() => {
     if (!user) router.push('/');
-    if (isError && error.response.status === 401) router.push('/401');
-    if (isError && error.response.status === 403) router.push('/403');
+    if (isError && error.response.status === 403) router.push('/401');
   }, [isError]);
 
   return (

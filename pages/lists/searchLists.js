@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 
 // components
@@ -15,6 +15,11 @@ import { useSubscribedLists } from 'hooks/useSubscribedLists';
 import { useInterestLists } from 'hooks/useInterestLists';
 import { useSubscribeToList } from 'hooks/useSubscribeToList';
 import { useUnsubscribeFromList } from 'hooks/useUnsubscribeFromList';
+import { axiosInstance } from 'config/axiosConfig';
+
+
+
+
 
 export default function SearchLists() {
   const router = useRouter();
@@ -23,8 +28,8 @@ export default function SearchLists() {
   const { user } = useAuth();
 
   // get lists from server
-  const { data: interestLists, isSuccess, isError: interstListError, error: interestListErrorType } = useInterestLists();
-  const { data: subscribedLists, isError: subscribedListError, error: subscribedListErrorType } = useSubscribedLists(user?.token);
+  const { data: interestLists, isSuccess } = useInterestLists();
+  const { data: subscribedLists } = useSubscribedLists(user?.token);
   const { mutate: subscribe } = useSubscribeToList(user?.token);
   const { mutate: unsubscribe } = useUnsubscribeFromList(user?.token);
 
@@ -70,26 +75,10 @@ export default function SearchLists() {
     }
   }, [interestLists, search]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     // if the user is not logged in, redirect to the home page
     if (!user) router.push('/');
-    if (interstListError){
-      if (interestListErrorType.response.status === 401){
-        router.push('/401')
-      }
-      if (interestListErrorType.response.status === 403){
-        router.push('/403')
-      }
-    }
-    if (subscribedListError){
-      if (subscribedListErrorType.response.status === 401){
-        router.push('/401')
-      }
-      if (subscribedListErrorType.response.status === 403){
-        router.push('/403')
-      }
-    }
-  }, [interstListError, subscribedListError]);
+  }, []);
 
   return (
     <DefaultLayout footerLocation='absolute'>
