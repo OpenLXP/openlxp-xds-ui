@@ -11,10 +11,15 @@ export const Pagination = ({ handleSpecificPage, totalPages, currentPage }) => {
   // show the first three pages and the last three pages of the pagination
   // if the total number of pages is less than 3 show them all
   const pages = [];
-  const start = Math.max(1, currentPage - 2, currentPage - 3);
-  const end = Math.min(totalPages, currentPage + 3);
 
+  // if the minimum number of pages to show is less than one, show just the first page
+  // otherwise show the minimum number of pages before the current page
+  const start = Math.max(1, Math.min(currentPage - 2, currentPage - 3));
+  // if possible show the 3 pages after the current page
+  const end = Math.min(totalPages, currentPage + 3);
+  
   // if the total number of pages is less than 6 show all pages
+  // *centers the pages arond the current page*  
   for (let i = start; i <= end; i++) {
     pages.push(i);
   }
