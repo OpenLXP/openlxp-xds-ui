@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useState } from 'react';
 import { axiosInstance } from 'config/axiosConfig';
 import { dehydrate, QueryClient } from 'react-query';
 import { URLSearchParams } from 'url';
@@ -44,8 +44,8 @@ export async function getServerSideProps({ query }) {
   return {
     props: {
       query,
-      dehydratedState: dehydrate(queryClient),
-    },
+      dehydratedState: dehydrate(queryClient)
+    }
   };
 }
 
@@ -60,7 +60,7 @@ export default function Search({ query }) {
   function handleChange(event) {
     setParams((previous) => ({
       ...previous,
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     }));
   }
 
@@ -77,6 +77,7 @@ export default function Search({ query }) {
       router.push({ pathname: '/search', query: modified });
     }
   }
+
 
   function handleListSelect(event) {
     if (params.keyword && params.keyword !== '') {
@@ -109,22 +110,13 @@ export default function Search({ query }) {
     }
   }
 
-  function handlePrevious() {
+  function handleSpecificPage(page) {
     const modified = { ...params };
-    modified.p = parseInt(params.p) - 1;
+    modified.p = page;
     setParams(modified);
     setUrl(modified);
     router.push({ pathname: '/search', query: modified }, undefined, {
-      scroll: false,
-    });
-  }
-  function handelNext() {
-    const modified = { ...params };
-    modified.p = parseInt(params.p) + 1;
-    setParams(modified);
-    setUrl(modified);
-    router.push({ pathname: '/search', query: modified }, undefined, {
-      scroll: false,
+      scroll: true
     });
   }
 
@@ -148,11 +140,6 @@ export default function Search({ query }) {
       );
     });
   }
-
-  // on the change of url refetch the data
-  useEffect(() => {
-    refetch();
-  }, [url]);
 
   return (
     <DefaultLayout footerLocation='absolute'>
@@ -179,18 +166,15 @@ export default function Search({ query }) {
         <div className={'grid grid-cols-12 pt-2 gap-12 '}>
           <div id='search-results' className={'col-span-8 grid gap-8 relative'}>
             {data &&
-              data?.hits?.map((course) => (
-                <SearchResult result={course} key={course.meta.id} />
-              ))}
+            data?.hits?.map((course) => (
+              <SearchResult result={course} key={course.meta.id} />
+            ))}
             <div className='py-8 sticky bottom-0 bg-gradient-to-t from-gray-50 mb-8'>
               {!isLoading && data && (
                 <Pagination
-                  totalPages={
-                    data?.total / config?.data?.search_results_per_page
-                  }
+                  totalPages={Math.ceil(data?.total / config?.data?.search_results_per_page)}
+                  handleSpecificPage={handleSpecificPage}
                   currentPage={parseInt(params.p)}
-                  onNext={handelNext}
-                  onPrevious={handlePrevious}
                 />
               )}
             </div>

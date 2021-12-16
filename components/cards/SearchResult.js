@@ -11,12 +11,12 @@ export default function SearchResult({ result }) {
   const { id } = result.meta;
 
   return (
-    <div>
+    <div className={'overflow-x-hidden py-2 pr-2'}>
       <div className='inline-flex gap-2 justify-between items-center w-full'>
         <Link href={'/course/' + id}>
           <h2
             id='link-to-course'
-            className='text-xl font-semibold line-clamp-1 hover:underline hover:text-blue-400 cursor-pointer hover:text-shadow'
+            className='text-lg font-semibold line-clamp-2 hover:underline hover:text-blue-400 cursor-pointer hover:text-shadow'
             title={CourseTitle}
           >
             {CourseTitle}
@@ -32,7 +32,7 @@ export default function SearchResult({ result }) {
         <span className={'font-semibold'}>Provider:&nbsp;</span>
         {CourseProviderName}
       </h2>
-      <p className={'line-clamp-3'}>{CourseShortDescription.replace( /(<([^>]+)>)/ig, '')}</p>
+      <p className={'line-clamp-4'}>{CourseShortDescription.replace( /(<([^>]+)>)/ig, '')}</p>
     </div>
   );
 }

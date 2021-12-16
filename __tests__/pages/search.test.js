@@ -425,7 +425,7 @@ describe('Search Page', () => {
           queryByText(/next/i).className.includes('invisible')
         ).toBeTruthy();
       });
-      it('should show the back button if more pages are available', () => {
+      it('should show the previous button if more pages are available', () => {
         useSearch.mockImplementation(() => ({
           data: {
             hits: [courseData],
@@ -444,9 +444,9 @@ describe('Search Page', () => {
           fireEvent.click(getByText(/next/i));
         });
 
-        expect(getByText(/back/i)).toBeInTheDocument();
+        expect(getByText(/previous/i)).toBeInTheDocument();
       });
-      it('should not show the back button if there are no more pages.', () => {
+      it('should not show the Previous button if there are no more pages.', () => {
         useSearch.mockImplementation(() => ({
           data: {
             hits: [courseData],
@@ -462,7 +462,7 @@ describe('Search Page', () => {
         const { queryByText } = renderer(false);
 
         expect(
-          queryByText(/back/i).className.includes('invisible')
+          queryByText(/previous/i).className.includes('invisible')
         ).toBeTruthy();
       });
     });
