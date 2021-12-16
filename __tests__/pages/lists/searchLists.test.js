@@ -225,7 +225,7 @@ describe('Search Lists', () => {
       expect(getByText(/next/i)).toBeInTheDocument();
     });
 
-    it('should show back button after clicking the next button', () => {
+    it('should show previous button after clicking the next button', () => {
       const interestListsCreated = [...Array(11).keys()].map((i) => ({
         name: `test${i}`,
         id: `${i}`,
@@ -261,10 +261,10 @@ describe('Search Lists', () => {
         fireEvent.click(getByText(/next/i));
       });
 
-      expect(getByText(/back/i)).toBeInTheDocument();
+      expect(getByText(/previous/i)).toBeInTheDocument();
 
       act(() => {
-        fireEvent.click(getByText(/back/i));
+        fireEvent.click(getByText(/previous/i));
       });
     });
   });

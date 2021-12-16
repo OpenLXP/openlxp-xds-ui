@@ -112,7 +112,7 @@ describe('Course Page', () => {
     });
 
     describe('share link', () => {
-      it('should show the share button', () => {
+      it.skip('should show the share button', () => {
         // mock course data
         useCourse.mockImplementation(() => ({
           data: courseData,

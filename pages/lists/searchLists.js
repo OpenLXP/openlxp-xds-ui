@@ -41,6 +41,10 @@ export default function SearchLists() {
     setSearch('');
   };
 
+  const handleSpecificPage = (page) => {
+    setPage(page - 1)
+  }
+
   // chunk the lists into pages of a given size
   const chunkArray = (array, chunkSize) => {
     let results = [];
@@ -90,8 +94,7 @@ export default function SearchLists() {
           <Pagination
             currentPage={page + 1}
             totalPages={listToDisplay?.length}
-            onNext={() => setPage((prev) => prev + 1)}
-            onPrevious={() => setPage((prevState) => prevState - 1)}
+            handleSpecificPage={handleSpecificPage}
           />
         </div>
         <div className='bg-gray-50 shadow border rounded-md mt-8 overflow-hidden mb-8'>
