@@ -11,7 +11,7 @@ export default function SearchResult({ result }) {
   const { id } = result.meta;
 
   return (
-    <div className={'overflow-x-hidden'}>
+    <div className={'overflow-x-hidden py-2 pr-2'}>
       <div className='inline-flex gap-2 justify-between items-center w-full'>
         <Link href={'/course/' + id}>
           <h2
