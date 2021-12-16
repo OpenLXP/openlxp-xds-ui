@@ -6,6 +6,7 @@ import { useSubscribedLists } from '../../../hooks/useSubscribedLists';
 import { useUnsubscribeFromList } from '../../../hooks/useUnsubscribeFromList';
 import { useSubscribeToList } from '../../../hooks/useSubscribeToList';
 import { useInterestLists } from '../../../hooks/useInterestLists';
+import singletonRouter from 'next/router';
 
 // mocks
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
@@ -265,6 +266,82 @@ describe('Search Lists', () => {
 
       act(() => {
         fireEvent.click(getByText(/previous/i));
+      });
+    });
+
+    it('should navigate to the 401 error page', () => {
+      useSubscribedLists.mockImplementation(() => ({
+        data: [
+        ],
+        isSuccess: false,
+        isError: true,
+        error:{
+          response:{
+            status:401,
+          }
+        },
+      }));
+
+      const { getByText } = renderer();
+      expect(singletonRouter).toMatchObject({
+        asPath: '/401',
+      });
+    });
+
+    it('should navigate to the 401 error page', () => {
+      useInterestLists.mockImplementation(() => ({
+        data: [
+        ],
+        isSuccess: false,
+        isError: true,
+        error:{
+          response:{
+            status:401,
+          }
+        },
+      }));
+
+      const { getByText } = renderer();
+      expect(singletonRouter).toMatchObject({
+        asPath: '/401',
+      });
+    });
+
+    it('should navigate to the 403 error page', () => {
+      useSubscribedLists.mockImplementation(() => ({
+        data: [
+        ],
+        isSuccess: false,
+        isError: true,
+        error:{
+          response:{
+            status:403,
+          }
+        },
+      }));
+
+      const { getByText } = renderer();
+      expect(singletonRouter).toMatchObject({
+        asPath: '/403',
+      });
+    });
+
+    it('should navigate to the 403 error page', () => {
+      useInterestLists.mockImplementation(() => ({
+        data: [
+        ],
+        isSuccess: false,
+        isError: true,
+        error:{
+          response:{
+            status:403,
+          }
+        },
+      }));
+
+      const { getByText } = renderer();
+      expect(singletonRouter).toMatchObject({
+        asPath: '/403',
       });
     });
   });

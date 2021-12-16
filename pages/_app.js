@@ -10,7 +10,17 @@ import '../styles/globals.css';
 
 export default function MyApp({ Component, pageProps }) {
   // to avoid sharing results from other users.
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+            retry: false,
+          },
+        },
+      })
+  );
 
   return (
     <AuthProvider>

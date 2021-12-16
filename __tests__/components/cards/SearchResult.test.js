@@ -1,7 +1,6 @@
-import { act, screen, render, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { createContext } from 'react';
 import SearchResult from '../../../components/cards/SearchResult';
-import { AuthProvider } from '../../../contexts/AuthContext';
 import courseData from '../../../__mocks__/data/course.data';
 
 const AuthContext = createContext();

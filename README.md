@@ -4,9 +4,8 @@
 [![yarn](https://img.shields.io/badge/yarn-1.22.1-blue)](https://yarnpkg.com/)
 [![license](https://img.shields.io/badge/license-Apache_2.0-green)](https://github.com/OpenLXP/openlxp-xds-ui/blob/main/LICENSE)
 
-[![react](https://img.shields.io/badge/react-17.0.1-61dafb)](https://reactjs.org/)
-[![redux](https://img.shields.io/badge/redux-4.0.5-764abc)](https://redux-toolkit.js.org/)
-[![router](https://img.shields.io/badge/router-5.2.0-red)](https://reactrouter.com/web/guides/quick-start)
+[![next](https://img.shields.io/badge/nextjs-11.1.2-61dafb)](https://nextjs.org/)
+[![reactQuery](https://img.shields.io/badge/react_query-3.26.0-764abc)](https://react-query.tanstack.com/)
 [![tailwind](https://img.shields.io/badge/tailwind-2.2.2-22d3ee)](https://tailwindcss.com/)
 
 ## Table of content
@@ -78,7 +77,7 @@ yarn install package.json
 
 This project makes use of globally available environment variables. Below are the required environment variables required for this project.
 
-#### **REACT_APP_BACKEND_HOST**
+#### **NEXT_PUBLIC_BACKEND_HOST**
 
 This is the root API endpoint used by the config file to dynamically generate the various endpoints.
 
@@ -92,8 +91,6 @@ http://<YOUR_BACKEND_ENDPOINT>/
 #### **Walk through**
 
 Let's create a local `.env.local` file. If you are in a code editor you can right click and create new file.
-
-![vscode create new file](./readme-assets/vscode-create-new-file.png)
 
 If you are using the terminal use the following command to create a new file.
 
@@ -114,7 +111,7 @@ Navigate to the newly created file and paste the template (_below_) into the fil
 #### **.env Template**
 
 ```text
-REACT_APP_BACKEND_HOST=<YOUR_BACKEND_ENDPOINT>
+NEXT_PUBLIC_BACKEND_HOST=<YOUR_BACKEND_ENDPOINT>
 ```
 
 ### Important Notes
@@ -131,7 +128,7 @@ To use this piece of code without any issues you will need the XDS component to 
 
 In the project directory, you can run the following.
 
-### `yarn start`
+### `yarn dev`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -153,6 +150,9 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `yarn start`
+
+Runs the produciton optimized application. Please note that this will only work if the build command has been run before.
 
 ### `yarn coverage`
 
@@ -161,33 +161,21 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-### Code Splitting
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+To learn more about Next.js, take a look at the following resources:
 
-### Making a Progressive Web App
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
 ---
 

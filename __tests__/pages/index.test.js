@@ -3,6 +3,8 @@ import React from 'react';
 import Home from '../../pages/index';
 import { QueryClientWrapper } from '../../__mocks__/queryClientMock.js';
 import mockRouter from 'next-router-mock';
+import singletonRouter from 'next/router';
+
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
 
 describe('should render the title', () => {
@@ -57,5 +59,12 @@ describe('should render the title', () => {
     expect(screen.getByPlaceholderText('Search the catalog').value).toBe(
       'updated value'
     );
+
+    act(() => {
+      fireEvent.click(screen.getByTitle(/search/i));
+    });
+    expect(singletonRouter).toMatchObject({
+      asPath: '/search/?keyword=updated%20value&p=1',
+    });
   });
 });

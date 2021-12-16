@@ -3,6 +3,9 @@ import { useRouter } from 'next/dist/client/router';
 import { useLocalStorage } from '../hooks/useStorage';
 import axios from 'axios';
 import { userOwnedLists } from '../config/endpoints';
+import { axiosInstance } from 'config/axiosConfig';
+import { backendHost } from '../config/endpoints';
+
 export const AuthContext = createContext({});
 
 export function useAuth() {
@@ -12,6 +15,7 @@ export function AuthProvider({ children }) {
   const router = useRouter();
   // const [nothing, setUser] = useState(null);
   const [error, setError] = useState(null);
+  const [isError, setIsError] = useState(false);
   const [user, setLocal, removeLocal] = useLocalStorage('user', null);
 
   useEffect(() => checkUserLoggedIn(), []);
@@ -30,23 +34,26 @@ export function AuthProvider({ children }) {
 
   // Logout user
   const logout = async () => {
+    axiosInstance
+      .post(`${backendHost}/api/auth/logout`)
+      .then((res) => {
+        removeLocal();
+        router.push('/');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     removeLocal();
-    router.push('/')
   };
 
   // // Check if user is logged in
   const checkUserLoggedIn = async () => {
     if (typeof window !== 'undefined') {
       if (user) {
-        axios
-          .get(userOwnedLists, {
-            headers: { Authorization: 'Token ' + user?.token },
-          })
-          .then(() => {})
-          .catch((error) => {
-            removeLocal();
-            router.push('/');
-          });
+        axiosInstance.get(`${backendHost}/api/auth/validate`).catch((error) => {
+          removeLocal();
+          logout()
+        });
       }
     }
   };

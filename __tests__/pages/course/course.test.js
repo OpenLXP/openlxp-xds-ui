@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 // imports for mocking
 import { QueryClientWrapper } from '../../../__mocks__/queryClientMock';
