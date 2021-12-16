@@ -7,7 +7,7 @@ WORKDIR /usr/app
 # Grabbing the package.json and if one exists the yarn.lock
 COPY ./package*.json yarn.lock ./
 # Install the dependencies
-RUN npm install --production
+RUN yarn
 
 
 #==============================
@@ -22,7 +22,7 @@ COPY ./ ./
 # Copy node_modules from the dependencies build stage
 COPY --from=dependencies /usr/app/node_modules ./node_modules
 # Build the app
-RUN npm run build
+RUN yarn build
 
 #===============================
 # Produciton image
