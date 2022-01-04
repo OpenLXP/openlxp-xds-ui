@@ -6,7 +6,7 @@ import Image from 'next/image';
 import SearchBar from '@/components/inputs/SearchBar';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
-import logo from '@/public/United_States_Department_of_Defense_Seal.svg.png';
+import logo from '@/public/logo.png';
 
 // hooks
 import useField from '@/hooks/useField';

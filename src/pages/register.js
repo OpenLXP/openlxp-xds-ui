@@ -8,7 +8,7 @@ import { UserAddIcon } from '@heroicons/react/outline';
 import ActionButton from '@/components/buttons/ActionButton';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import InputField from '@/components/inputs/InputField';
-import logo from '@/public/United_States_Department_of_Defense_Seal.svg.png';
+import logo from '@/public/logo.png';
 
 // contexts
 import { useAuth } from '@/contexts/AuthContext';
