@@ -39,7 +39,7 @@ export default function Home() {
     <DefaultLayout footerLocation='absolute'>
       <div className='flex flex-col items-center justify-center min-h-screen gap-8'>
         <div className={'inline-flex -mt-16 items-center gap-4'}>
-          <Image src={logo} height={100} width={100} />
+          <Image src={logo} height={100} width={100} alt=''/>
           <div>
             <h1 className={'text-3xl font-semibold'}>
               Enterprise Course Catalog

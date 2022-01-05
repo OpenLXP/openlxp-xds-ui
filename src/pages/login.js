@@ -67,7 +67,7 @@ export default function Login() {
           </p>
           <span>
             or &nbsp;
-            <Link href={'/register'}>
+            <Link href={'/register'} passHref>
               <button
                 id={'create-account-button'}
                 className='text-blue-400 hover:underline hover:text-blue-500 cursor-pointer transition-all duration-150 ease-in-out'

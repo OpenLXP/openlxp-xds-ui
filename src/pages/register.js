@@ -109,7 +109,7 @@ export default function Register() {
           <p className='mt-2 text-2xl font-extrabold'>Create your account</p>
           <span>
             or &nbsp;
-            <Link href={'/login'}>
+            <Link href={'/login'} passHref>
               <button
                 id={'create-account-button'}
                 className='text-blue-400 hover:underline hover:text-blue-500 cursor-pointer transition-all duration-150 ease-in-out'
