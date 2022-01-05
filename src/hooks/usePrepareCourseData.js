@@ -1,7 +1,7 @@
 // given config and data prepare the data for display
 
-import { backendHost } from '../config/endpoints';
-import { getDeeplyNestedData } from '../utils/getDeeplyNestedData';
+import { backendHost } from '@/config/endpoints';
+import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 
 export default function usePrepareCourseData(config, data) {
   let preparedData = null;
