@@ -6,17 +6,9 @@
     "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.5",
     "@tailwindcss/line-clamp": "^0.3.0",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^12.1.2",
-    "@testing-library/react-hooks": "^7.0.2",
     "autoprefixer": "^10.4.0",
     "axios": "^0.23.0",
-    "babel-jest": "^27.2.5",
-    "identity-obj-proxy": "^3.0.0",
-    "jest": "^27.2.5",
-    "jest-mock-axios": "^4.4.1",
     "next": "12.0.5",
-    "next-router-mock": "^0.5.3",
     "postcss": "^8.4.5",
     "query-string": "^7.0.1",
     "react": "^17.0.2",
@@ -34,8 +26,17 @@
     "coverage": "jest --watchAll --coverage --verbose --noStackTrace --silent --maxWorkers=100%"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/react-hooks": "^7.0.2",
     "eslint": "8.6.0",
     "eslint-config-next": "12.0.7",
-    "eslint-plugin-sort-imports-es6-autofix": "^0.6.0"
+    "eslint-plugin-prettier": "^8.3.0",
+    "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.2.5",
+    "jest-mock-axios": "^4.4.1",
+    "next-router-mock": "^0.5.3",
+    "prettier": "2.5.1"
   }
 }
