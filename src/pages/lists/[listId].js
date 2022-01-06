@@ -13,6 +13,7 @@ import { useAuth } from '@/contexts/AuthContext';
 
 export default function ListsView() {
   const router = useRouter();
+
   // user data
   const { user } = useAuth();
 

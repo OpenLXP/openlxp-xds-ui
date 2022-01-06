@@ -19,11 +19,13 @@ export default function ShareBtn({ id }) {
     } else if (hostName && !portNumber) {
       navigator.clipboard.writeText(`${hostName}/course/${id}`);
     }
+
     // showing the copy message
     show();
   }
 
   return (<></>
+
     // <button
     //   onClick={copyToClipboard}
     //   title='share course'

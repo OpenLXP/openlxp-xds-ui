@@ -22,6 +22,7 @@ export default function Course() {
   // grab the course id
   const { user } = useAuth();
   const { query } = useRouter();
+
   // state of the fetching
   const config = useConfig();
   const course = useCourse(query?.courseId);

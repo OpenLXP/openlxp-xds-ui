@@ -15,6 +15,7 @@ export const Pagination = ({ handleSpecificPage, totalPages, currentPage }) => {
   // if the minimum number of pages to show is less than one, show just the first page
   // otherwise show the minimum number of pages before the current page
   const start = Math.max(1, Math.min(currentPage - 2, currentPage - 3));
+
   // if possible show the 3 pages after the current page
   const end = Math.min(totalPages, currentPage + 3);
 

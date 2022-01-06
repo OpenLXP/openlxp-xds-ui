@@ -57,6 +57,7 @@ export default function Register() {
     } else if (!isValidEmail(credentials.email)) {
       setError('message', 'Email is invalid');
     }
+
     // verify password
     else if (credentials.password === '') { // not empty
       setError('message', 'Password is required');
@@ -69,24 +70,28 @@ export default function Register() {
     } else if (!containsSpecialCharacter(credentials.password)) {
       setError('message', 'Password must contain at least one special character');
     }
+
     // verify password confirmation
     else if (credentials.confirmationPassword === '') { // not empty
       setError('message', 'Password confirmation is required');
     } else if (credentials.confirmationPassword !== credentials.password) {
       setError('message', 'Password confirmation does not match password');
     }
+
     // verify first name
     else if (credentials.first_name === '') {
       setError('message', 'First name is required');
     } else if (!isLongEnough(credentials.first_name, 2)) {
       setError('message', 'First name must be at least 2 characters');
     }
+
     // verify last name
     else if (credentials.last_name === '') {
       setError('message', 'Last name is required');
     } else if (!isLongEnough(credentials.last_name, 2)) {
       setError('message', 'Last name must be at least 2 characters');
     }
+
     // if no errors, register
     else {
       axiosInstance

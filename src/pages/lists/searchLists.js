@@ -69,6 +69,7 @@ export default function SearchLists() {
       if (filteredLists.length > 0) {
         return chunkArray(filteredLists, 10);
       }
+
       // default to empty list
       return [];
     }

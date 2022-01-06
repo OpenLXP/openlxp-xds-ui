@@ -31,6 +31,7 @@ export default function EditList() {
 
   // handles the mutation
   const mutation = useUpdateUserList(user?.token);
+
   // single source of truth for editing
   const [currentListInfo, setCurrentListInfo] = useState({});
 

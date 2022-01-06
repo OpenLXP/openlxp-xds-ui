@@ -100,6 +100,7 @@ export default function Search({ query }) {
     // if there is a key word
     if (params.keyword && params.keyword !== '') {
       const modified = { ...params };
+
       // setting the page to 1
       modified.p = 1;
 
