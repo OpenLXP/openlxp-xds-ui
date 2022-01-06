@@ -1,10 +1,10 @@
 import {Dialog, Transition} from '@headlessui/react';
 import {Fragment, useState} from 'react';
+import {PlusCircleIcon} from '@heroicons/react/outline';
 import {useAuth} from '@/contexts/AuthContext';
+import {useCreateUserList} from '@/hooks/useCreateUserList';
 import {useUpdateUserList} from '@/hooks/useUpdateUserList';
 import {useUserOwnedLists} from '@/hooks/useUserOwnedLists';
-import {PlusCircleIcon} from '@heroicons/react/outline';
-import {useCreateUserList} from '@/hooks/useCreateUserList';
 import InputField from '@/components/inputs/InputField';
 
 export default function SaveModal({courseId}) {

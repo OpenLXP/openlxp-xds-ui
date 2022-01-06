@@ -1,8 +1,8 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import React from 'react';
 import { backendHost } from '@/config/endpoints';
 import { useConfig } from '@/hooks/useConfig';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import React from 'react';
 
 export default function CourseSpotlight({ course }) {
   const { Course, meta, Technical_Information } = { ...course };

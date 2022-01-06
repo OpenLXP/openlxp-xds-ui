@@ -1,16 +1,16 @@
-import Link from 'next/link';
-import { Fragment } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
+import { AdjustmentsIcon, UserIcon } from '@heroicons/react/solid';
 import {
   ArchiveIcon,
   BookmarkAltIcon,
   LogoutIcon,
   SaveIcon,
 } from '@heroicons/react/outline';
+import { BookmarkIcon, CollectionIcon } from '@heroicons/react/outline';
+import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-import { AdjustmentsIcon, UserIcon } from '@heroicons/react/solid';
-import { CollectionIcon, BookmarkIcon } from '@heroicons/react/outline';
+import { useAuth } from '../../contexts/AuthContext';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function UserMenu() {
   const router = useRouter();

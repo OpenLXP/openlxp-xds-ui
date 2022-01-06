@@ -1,19 +1,19 @@
-import React from 'react';
 import { useRouter } from 'next/dist/client/router';
+import React from 'react';
 
 // hooks
-import { useCourse } from '@/hooks/useCourse';
 import { useConfig } from '@/hooks/useConfig';
-import usePrepareCourseData from '@/hooks/usePrepareCourseData';
+import { useCourse } from '@/hooks/useCourse';
 import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
+import usePrepareCourseData from '@/hooks/usePrepareCourseData';
 
 // components
-import DefaultLayout from '@/components/layouts/DefaultLayout';
-import CourseSpotlight from '@/components/cards/CourseSpotlight';
-import SaveModal from '@/components/modals/SaveModal';
 import { useAuth } from '@/contexts/AuthContext';
-import ShareBtn from '@/components/buttons/ShareBtn';
+import CourseSpotlight from '@/components/cards/CourseSpotlight';
+import DefaultLayout from '@/components/layouts/DefaultLayout';
 import ExternalBtn from '@/components/buttons/ExternalBtn';
+import SaveModal from '@/components/modals/SaveModal';
+import ShareBtn from '@/components/buttons/ShareBtn';
 
 // config
 import { backendHost } from '@/config/endpoints';

@@ -1,5 +1,3 @@
-import React, { useMemo, useState } from 'react';
-import { useRouter } from 'next/router';
 import {
   CheckCircleIcon,
   RefreshIcon,
@@ -7,12 +5,14 @@ import {
   XCircleIcon,
   XIcon,
 } from '@heroicons/react/outline';
+import { useRouter } from 'next/router';
+import React, { useMemo, useState } from 'react';
 
 
 // components
 import ActionButton from '@/components/buttons/ActionButton';
-import UserListResult from '@/components/cards/UserListEditResult';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
+import UserListResult from '@/components/cards/UserListEditResult';
 
 // contexts
 import { useAuth } from '@/contexts/AuthContext';

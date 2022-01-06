@@ -1,6 +1,6 @@
+import { Fragment } from 'react';
 import { ShareIcon } from '@heroicons/react/solid';
 import { Transition } from '@headlessui/react';
-import { Fragment } from 'react';
 import useTimeout from '../../hooks/useTimeout';
 
 export default function ShareBtn({ id }) {

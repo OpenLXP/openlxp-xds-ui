@@ -1,8 +1,8 @@
-import UserMenu from '@/components/menus/UserMenu';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/dist/client/router';
 import Image from 'next/image';
 import Link from 'next/link';
+import UserMenu from '@/components/menus/UserMenu';
 import logo from "@/public/logo.png"
 
 const buttonLinks = [{ title: 'Search Lists', path: '/lists/searchLists' }];

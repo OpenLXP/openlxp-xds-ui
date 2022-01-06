@@ -1,16 +1,16 @@
-import React from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import React from 'react';
 
 // components
-import SearchBar from '@/components/inputs/SearchBar';
-import DefaultLayout from '@/components/layouts/DefaultLayout';
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
+import DefaultLayout from '@/components/layouts/DefaultLayout';
+import SearchBar from '@/components/inputs/SearchBar';
 import logo from '@/public/logo.png';
 
 // hooks
-import useField from '@/hooks/useField';
 import { useConfig } from '@/hooks/useConfig';
+import useField from '@/hooks/useField';
 import useSpotlightCourses from '@/hooks/useSpotlightCourses';
 
 

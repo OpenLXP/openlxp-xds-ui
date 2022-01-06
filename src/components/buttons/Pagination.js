@@ -1,10 +1,10 @@
-import React from 'react';
 import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
   ChevronLeftIcon,
   ChevronRightIcon
 } from '@heroicons/react/solid';
+import React from 'react';
 
 export const Pagination = ({ handleSpecificPage, totalPages, currentPage }) => {
 

@@ -1,6 +1,6 @@
-import React, { useLayoutEffect } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
+import React, { useLayoutEffect } from 'react';
 
 // components
 import DefaultLayout from '@/components/layouts/DefaultLayout';

@@ -1,8 +1,8 @@
 import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
+import SaveModal from '@/components/modals/SaveModal';
 import ShareBtn from '@/components/buttons/ShareBtn';
 import ViewBtn from '@/components/buttons/ViewBtn';
-import SaveModal from '@/components/modals/SaveModal';
 
 export default function SearchResult({ result }) {
   const { user } = useAuth();

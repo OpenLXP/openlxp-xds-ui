@@ -1,19 +1,19 @@
-import React, { useLayoutEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
+import React, { useLayoutEffect, useMemo, useState } from 'react';
 
 // components
-import DefaultLayout from '@/components/layouts/DefaultLayout';
-import SearchBar from '@/components/inputs/SearchBar';
 import { Pagination } from '@/components/buttons/Pagination';
+import DefaultLayout from '@/components/layouts/DefaultLayout';
 import InterestListsResult from '@/components/cards/InterestListsResult';
+import SearchBar from '@/components/inputs/SearchBar';
 
 // contexts
 import { useAuth } from '@/contexts/AuthContext';
 
 // hooks
-import { useSubscribedLists } from '@/hooks/useSubscribedLists';
 import { useInterestLists } from '@/hooks/useInterestLists';
 import { useSubscribeToList } from '@/hooks/useSubscribeToList';
+import { useSubscribedLists } from '@/hooks/useSubscribedLists';
 import { useUnsubscribeFromList } from '@/hooks/useUnsubscribeFromList';
 
 export default function SearchLists() {

@@ -1,7 +1,7 @@
-import React, { useEffect, useLayoutEffect } from 'react';
-import { useRouter } from 'next/router';
 import { BookOpenIcon, UsersIcon } from '@heroicons/react/solid';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
+import React, { useEffect, useLayoutEffect } from 'react';
 
 // components
 import DefaultLayout from '@/components/layouts/DefaultLayout';

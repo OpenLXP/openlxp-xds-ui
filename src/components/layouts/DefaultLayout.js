@@ -1,6 +1,6 @@
 import { useConfig } from '../../hooks/useConfig';
-import Header from '../Header';
 import Footer from '../Footer';
+import Header from '../Header';
 export default function DefaultLayout({ children, footerLocation }) {
   const { data } = useConfig();
   return (

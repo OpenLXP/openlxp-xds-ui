@@ -1,6 +1,6 @@
-import React, { useEffect, useLayoutEffect } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
+import React, { useEffect, useLayoutEffect } from 'react';
 
 // components
 import DefaultLayout from '@/components/layouts/DefaultLayout';
@@ -9,8 +9,8 @@ import DefaultLayout from '@/components/layouts/DefaultLayout';
 import { useAuth } from '@/contexts/AuthContext';
 
 // hooks
-import { useSubscribedLists } from '@/hooks/useSubscribedLists';
 import { BookOpenIcon, UsersIcon } from '@heroicons/react/solid';
+import { useSubscribedLists } from '@/hooks/useSubscribedLists';
 import { useUnsubscribeFromList } from '@/hooks/useUnsubscribeFromList';
 
 export default function Subscribed() {

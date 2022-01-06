@@ -1,8 +1,8 @@
-import React from 'react';
+import { UserAddIcon } from '@heroicons/react/outline';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { UserAddIcon } from '@heroicons/react/outline';
+import React from 'react';
 
 // components
 import ActionButton from '@/components/buttons/ActionButton';
@@ -16,6 +16,8 @@ import { useAuth } from '@/contexts/AuthContext';
 // hooks
 import useField from '@/hooks/useField';
 
+import { authRegister } from '@/config/endpoints';
+import { axiosInstance } from '@/config/axiosConfig';
 import {
   containsLowercase,
   containsSpecialCharacter,
@@ -23,8 +25,6 @@ import {
   isLongEnough,
   isValidEmail
 } from '@/utils/validation';
-import { authRegister } from '@/config/endpoints';
-import { axiosInstance } from '@/config/axiosConfig';
 
 // config
 

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { LoginIcon } from '@heroicons/react/outline';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { LoginIcon } from '@heroicons/react/outline';
+import React, { useState } from 'react';
 
 
 // components
@@ -21,8 +21,8 @@ import useField from '@/hooks/useField';
 import { authLogin } from '@/config/endpoints';
 
 // utils
-import { isValidEmail } from '@/utils/validation';
 import { axiosInstance } from '@/config/axiosConfig';
+import { isValidEmail } from '@/utils/validation';
 
 export default function Login() {
   const router = useRouter()

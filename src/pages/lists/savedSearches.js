@@ -1,7 +1,7 @@
-import React, { useLayoutEffect } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { EyeIcon, TrashIcon } from '@heroicons/react/outline';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import React, { useLayoutEffect } from 'react';
 
 // components
 import DefaultLayout from '@/components/layouts/DefaultLayout';
@@ -10,8 +10,8 @@ import DefaultLayout from '@/components/layouts/DefaultLayout';
 import { useAuth } from '@/contexts/AuthContext';
 
 // hooks
-import { useSaveSearchList } from '@/hooks/useSaveSearch';
 import { useDeleteSavedSearch } from '@/hooks/useDeleteSavedSearch';
+import { useSaveSearchList } from '@/hooks/useSaveSearch';
 
 export default function SavedSearches() {
   const { user } = useAuth();

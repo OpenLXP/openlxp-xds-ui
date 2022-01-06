@@ -1,29 +1,29 @@
-import { useState } from 'react';
-import { axiosInstance } from '@/config/axiosConfig';
-import { dehydrate, QueryClient } from 'react-query';
+import { QueryClient, dehydrate } from 'react-query';
 import { URLSearchParams } from 'url';
+import { axiosInstance } from '@/config/axiosConfig';
 import { useRouter } from 'next/dist/client/router';
+import { useState } from 'react';
 
 // components
 import { Pagination } from '@/components/buttons/Pagination';
-import SearchBar from '@/components/inputs/SearchBar';
-import SelectList from '@/components/inputs/SelectList';
-import SearchResult from '@/components/cards/SearchResult';
-import MoreLikeThis from '@/components/cards/MoreLikeThis';
-import DefaultLayout from '@/components/layouts/DefaultLayout';
 import CreateSavedSearchModal from '@/components/modals/CreateSavedSearch';
+import DefaultLayout from '@/components/layouts/DefaultLayout';
+import MoreLikeThis from '@/components/cards/MoreLikeThis';
+import SearchBar from '@/components/inputs/SearchBar';
+import SearchResult from '@/components/cards/SearchResult';
+import SelectList from '@/components/inputs/SelectList';
 
 // contexts
 import { useAuth } from '@/contexts/AuthContext';
 
 // hooks
-import { useSearchUrl } from '@/hooks/useSearchUrl';
 import { useConfig } from '@/hooks/useConfig';
 import { useSearch } from '@/hooks/useSearch';
+import { useSearchUrl } from '@/hooks/useSearchUrl';
 
 // config
-import { searchUrl } from '@/config/endpoints';
 import { oneHour } from '@/config/timeConstants';
+import { searchUrl } from '@/config/endpoints';
 
 
 // Server Side Generation
