@@ -2,7 +2,7 @@
 
 # Name the node stage "builder"
 
-FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs14:14.18.2 as build
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs14:14.18.2 as builder
 
 # Set working directory
 WORKDIR /app
