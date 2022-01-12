@@ -107,8 +107,8 @@ export default function Register() {
   };
 
   return (
-    <DefaultLayout footerLocation='absolute'>
-      <div className={'pt-32'}>
+    <DefaultLayout footerLocation='relative'>
+      <div className={'pt-32 mb-16'}>
         <div className='mt-10 mx-52 flex flex-col items-center justify-between'>
           <Image src={logo} alt={'home'} height={'100'} width={'100'} />
           <p className='mt-2 text-2xl font-extrabold'>Create your account</p>
