@@ -57,7 +57,7 @@ export default function UserMenu() {
                   </button>
                 )}
               </Menu.Item>
-              <Menu.Item>
+              {/* <Menu.Item>
                 {({ active }) => (
                   <Link href='/profile'>
                     <a>
@@ -68,7 +68,7 @@ export default function UserMenu() {
                     </a>
                   </Link>
                 )}
-              </Menu.Item>
+              </Menu.Item> */}
               <Menu.Item>
                 {({ active }) => (
                   <Link href='/lists/savedSearches'>
