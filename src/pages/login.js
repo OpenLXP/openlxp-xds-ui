@@ -58,6 +58,12 @@ export default function Login() {
     }
   };
 
+  const handleEnterKey = (event) => {
+    if (event.key === 'Enter'){
+      doLogin();
+    }
+  };
+
   return (
     <DefaultLayout footerLocation='absolute'>
       <div className={'py-32'}>
@@ -79,7 +85,7 @@ export default function Login() {
           </span>
         </div>
         <div className='w-1/3 p-8 mx-auto mt-10 bg-white flex flex-col items-center justify-between shadow-md rounded-md'>
-          <div className='space-y-4 mb-4'>
+          <div className='space-y-4 mb-4' onKeyPress={(event) => handleEnterKey(event)}>
             <InputField
               type='text'
               value={credentials.username}
