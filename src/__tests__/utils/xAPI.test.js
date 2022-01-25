@@ -8,19 +8,19 @@ describe('xAPI', () => {
       .mockImplementation(() => Promise.resolve({})
       );
 
-    const actor = {
+    const actorObj = {
       first_name: "John",
       last_name: "Doe",
       email: "john.doe@email.com"
     }
-    const verb = {
+    const verbObj = {
       display: "tested"
     }
-    const object = {
+    const objectObj = {
       id: "http://example.com/objectId"
     }
 
-    return sendStatement(actor, verb, object).then(() => {
+    return sendStatement(actorObj, verbObj, objectObj).then(() => {
       //Get the args passed to sendStatement
       const args = spy.mock.calls[0][0];
       const { actor, verb, object } = args.statement;
