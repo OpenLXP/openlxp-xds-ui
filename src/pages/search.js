@@ -3,6 +3,7 @@ import { URLSearchParams } from 'url';
 import { axiosInstance } from '@/config/axiosConfig';
 import { useRouter } from 'next/dist/client/router';
 import { useState } from 'react';
+import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 
 // components
 import { Pagination } from '@/components/buttons/Pagination';
@@ -107,6 +108,18 @@ export default function Search({ query }) {
       setParams(modified);
       setUrl(modified);
 
+      if (user) {
+        const verb = {
+          display: "searched"
+        }
+
+        const object = {
+          id: `${router.pathname}search/${modified.keyword}`
+        }
+
+         sendStatement(user.user, verb, object);
+      }
+ 
       router.push({ pathname: '/search', query: modified });
     }
   }

@@ -6,6 +6,7 @@ import {useCreateUserList} from '@/hooks/useCreateUserList';
 import {useUpdateUserList} from '@/hooks/useUpdateUserList';
 import {useUserOwnedLists} from '@/hooks/useUserOwnedLists';
 import InputField from '@/components/inputs/InputField';
+import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 
 export default function SaveModal({courseId}) {
   // authentication
@@ -21,6 +22,20 @@ export default function SaveModal({courseId}) {
     name: '',
     description: '',
   });
+
+  const xapiSend = () => {
+    if (user) {
+      const verb = {
+        display: "curated"
+      }
+
+      const object = {
+        id: "test object id for curated"
+      }
+
+       sendStatement(user.user, verb, object);
+    }
+  }
 
   // add a course to the selected list
   const addCourseToList = (listId) => {
@@ -142,6 +157,7 @@ export default function SaveModal({courseId}) {
                     e.preventDefault();
                     setFields({name: '', description: ''});
                     create({form: fields});
+                    xapiSend();
                   }}
                 >
                   <div>
