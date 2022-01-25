@@ -1,5 +1,5 @@
-import XAPI from "@xapi/xapi";
 import { endpoint, key, secret } from '@/config/xAPIConfig';
+import XAPI from "@xapi/xapi";
 
 let xapiInstance = null;
 

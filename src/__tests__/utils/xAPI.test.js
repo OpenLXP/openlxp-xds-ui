@@ -1,5 +1,5 @@
-import xAPIMapper from "@/utils/xapi/xAPIMapper";
 import { sendStatement } from "@/utils/xapi/xAPIWrapper";
+import xAPIMapper from "@/utils/xapi/xAPIMapper";
 
 describe('xAPI', () => {
   it('should send xAPI Statement to LRS with proper arguments', () => {
