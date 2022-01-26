@@ -1,8 +1,7 @@
-import { render, act } from '@testing-library/react';
-import singletonRouter, { useRouter } from 'next/router';
-import { useAuth } from '../../contexts/AuthContext';
+import { render } from '@testing-library/react';
+import { useAuth } from '@/contexts/AuthContext';
 import mockRouter from 'next-router-mock';
-import Header from '../../components/Header';
+import Header from '@/components/Header';
 
 //mocks
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
@@ -19,15 +18,8 @@ describe('Header', () => {
     useAuth.mockImplementation(() => ({
       user: null,
     }));
-    it('shows home button', async () => {
-      const { getByText, getByRole } = render(<Header />);
-      expect(getByText(/home/i)).toBeInTheDocument();
-      expect(
-        getByText(/home/i).className.includes('font-semibold')
-      ).toBeTruthy();
-    });
     it('shows sign in', () => {
-      const { getByText, getByRole } = render(<Header />);
+      const { getByText } = render(<Header />);
       expect(getByText(/sign in/i));
     });
     it('shows sign up', () => {

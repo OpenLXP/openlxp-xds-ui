@@ -1,19 +1,70 @@
-import { AdjustmentsIcon, UserIcon } from '@heroicons/react/solid';
+import { ChevronUpIcon, UserIcon, ViewListIcon } from '@heroicons/react/solid';
 import {
   ArchiveIcon,
-  BookmarkAltIcon,
+  CollectionIcon,
+  FolderIcon,
   LogoutIcon,
-  SaveIcon,
+  SearchIcon,
 } from '@heroicons/react/outline';
-import { BookmarkIcon, CollectionIcon } from '@heroicons/react/outline';
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
+
+const listMenuButtons = [
+  {
+    name: 'My Lists',
+    icon: <FolderIcon className='h-4 w-4' />,
+    href: '/lists/owned',
+  },
+  {
+    name: 'Subscribed',
+    icon: <CollectionIcon className='h-4 w-4' />,
+    href: '/lists/subscribed',
+  },
+  {
+    name: 'Saved Search',
+    icon: <ViewListIcon className='h-4 w-4' />,
+    href: '/lists/savedSearches',
+  },
+];
+
+const searchMenuButtons = [
+  {
+    name: 'Search Courses',
+    icon: <SearchIcon className='h-4 w-4' />,
+    href: '/',
+  },
+  {
+    name: 'Search Lists',
+    icon: <ArchiveIcon className='h-4 w-4' />,
+    href: '/lists/searchLists',
+  },
+];
+
+const MenuButton = ({ name, icon, href }) => {
+  const router = useRouter();
+  return (
+    <Menu.Item>
+      {({ active }) => (
+        <a>
+          <button
+            onClick={() => router.push(href)}
+            id={name.toLowerCase().replace(/\s/g, '-')}
+            className={`${
+              active ? 'bg-gray-100' : 'bg-white'
+            } p-1 hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full flex justify-start gap-2 items-center`}
+          >
+            {icon}
+            {name}
+          </button>
+        </a>
+      )}
+    </Menu.Item>
+  );
+};
 
 export default function UserMenu() {
-  const router = useRouter();
   const {
     user: {
       user: { email },
@@ -22,99 +73,78 @@ export default function UserMenu() {
   } = useAuth();
 
   return (
-    <Menu as='div' className='relative inline-block text-left mt-0.5 max-w-min'>
-      <div className=''>
-        <Menu.Button className='inline-flex justify-end items-center max-w-md  bg-blue-500 hover:bg-opacity-95 hover:shadow transform transition-all ease-in-out duration-150 px-2 py-1 text-white gap-2 font-semibold rounded-md outline-none focus:ring-4 ring-blue-400'>
-          <div className='line-clamp-1'>{email}</div>
-          <div
-            id='avatar'
-            className='h-10 w-10 rounded-full flex-shrink-0 bg-white shadow-inner-sm overflow-hidden flex justify-center items-center'
-          >
-            <UserIcon className='h-7 w-7 text-blue-500 text-shadow' />
-          </div>
-          {/* <ChevronDownIcon className='h-4 w-4' /> */}
-        </Menu.Button>
-        <Transition
-          as={Fragment}
-          enter='transition ease-out duration-200'
-          enterFrom='transform opacity-0 scale-95'
-          enterTo='transform opacity-100 scale-100'
-          leave='transition ease-in duration-100'
-          leaveFrom='transform opacity-100 scale-100'
-          leaveTo='transform opacity-0 scale-95'
-        >
-          <Menu.Items className='absolute w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-            <div className='p-1 text-gray-700'>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    id='logout-button'
-                    onClick={logout}
-                    className={`focus:ring-2 hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2`}
-                  >
-                    <LogoutIcon className='h-4 w-4' />
-                    Logout
-                  </button>
-                )}
-              </Menu.Item>
-              {/* <Menu.Item>
-                {({ active }) => (
-                  <Link href='/profile'>
-                    <a>
-                      <button className='hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2'>
-                        <AdjustmentsIcon className='h-4 w-4' />
-                        Profile
-                      </button>
-                    </a>
-                  </Link>
-                )}
-              </Menu.Item> */}
-              <Menu.Item>
-                {({ active }) => (
-                  <Link href='/lists/savedSearches'>
-                    <a>
-                      <button className='hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2'>
-                        <ArchiveIcon className='h-4 w-4' />
-                        Saved Searches
-                      </button>
-                    </a>
-                  </Link>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <Link href='/lists/owned'>
-                    <a>
-                      <button
-                        id={'my-lists'}
-                        className={`hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2`}
-                      >
-                        <CollectionIcon className='h-4 w-4' />
-                        My Lists
-                      </button>
-                    </a>
-                  </Link>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <Link href='/lists/subscribed'>
-                    <a>
-                      <button
-                        id={'subscribed-lists'}
-                        className={`hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full text-left flex justify-start gap-2 items-center p-2`}
-                      >
-                        <BookmarkIcon className='h-4 w-4' />
-                        Subscribed Lists
-                      </button>
-                    </a>
-                  </Link>
-                )}
-              </Menu.Item>
+    <Menu
+      as='div'
+      className='relative inline-block text-left mt-0.5 max-w-min '
+    >
+      {({ open }) => (
+        <>
+          <Menu.Button className='group inline-flex justify-end items-center max-w-md  bg-blue-500 hover:bg-opacity-95 hover:shadow transform transition-all ease-in-out duration-150 px-2 py-1 text-white gap-2 font-semibold rounded-md outline-none focus:ring-4 ring-blue-400'>
+            <ChevronUpIcon
+              className={`${
+                open && 'rotate-180 shadow-inner-sm group-hover:bg-blue-500 '
+              } text-white h-5 rounded-md transition-all ease-in-out duration-75`}
+            />
+            <div className='line-clamp-1'>{email}</div>
+            <div
+              id='avatar'
+              className='h-8 w-8 rounded-full flex-shrink-0 bg-white shadow-inner-sm overflow-hidden flex justify-center items-center'
+            >
+              <UserIcon className='h-6 text-blue-500 text-shadow' />
             </div>
-          </Menu.Items>
-        </Transition>
-      </div>
+            {/* <ChevronDownIcon className='h-4 w-4' /> */}
+          </Menu.Button>
+          <Transition
+            as={Fragment}
+            enter='transition ease-out duration-150'
+            enterFrom='transform opacity-0 scale-95'
+            enterTo='transform opacity-100 scale-100'
+            leave='transition ease-in duration-100'
+            leaveFrom='transform opacity-100 scale-100'
+            leaveTo='transform opacity-0 scale-95'
+          >
+            <Menu.Items className='absolute w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+              <div className='text-gray-700'>
+                <div className='p-2'>
+                  <h3 className='text-md font-semibold w-full border-b'>
+                    Lists
+                  </h3>
+                  <div className='grid gap-1 pt-1'>
+                    {listMenuButtons.map((button) => (
+                      <MenuButton key={button.name} {...button} />
+                    ))}
+                  </div>
+                </div>
+                <div className='p-2'>
+                  <h3 className='text-md font-semibold w-full border-b'>
+                    Search
+                  </h3>
+                  <div className='grid gap-1 pt-1'>
+                    {searchMenuButtons.map((button) => {
+                      return <MenuButton key={button.name} {...button} />;
+                    })}
+                  </div>
+                </div>
+              </div>
+              <div className='p-2 flex w-full justify-between items-center'>
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      onClick={logout}
+                      className={`flex justify-start items-center gap-2 hover:bg-gray-50 rounded-md p-1 transition-all duration-75 ease-in-out text-sm hover:shadow-inner-sm shadow-md border-gray-200 border hover:border-transparent ${
+                        active && 'ring ring-2 ring-blue-500 ring-offset-1'
+                      } hover:ring-transparent`}
+                    >
+                      <LogoutIcon className='h-4 w-4' />
+                      Logout
+                    </button>
+                  )}
+                </Menu.Item>
+              </div>
+            </Menu.Items>
+          </Transition>
+        </>
+      )}
     </Menu>
   );
 }
