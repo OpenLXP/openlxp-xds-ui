@@ -1,17 +1,11 @@
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import React, { useEffect } from 'react';
-
-// components
-import DefaultLayout from '@/components/layouts/DefaultLayout';
-
-// contexts
-import { useAuth } from '@/contexts/AuthContext';
-
-// hooks
 import { BookOpenIcon, UsersIcon } from '@heroicons/react/solid';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/router';
 import { useSubscribedLists } from '@/hooks/useSubscribedLists';
 import { useUnsubscribeFromList } from '@/hooks/useUnsubscribeFromList';
+import DefaultLayout from '@/components/layouts/DefaultLayout';
+import Link from 'next/link';
+import React, { useEffect } from 'react';
 
 export default function Subscribed() {
   const { user } = useAuth();

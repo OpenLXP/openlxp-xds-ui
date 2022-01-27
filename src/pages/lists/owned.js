@@ -1,16 +1,10 @@
 import { BookOpenIcon, UsersIcon } from '@heroicons/react/solid';
+import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
+import { useUserOwnedLists } from '@/hooks/useUserOwnedLists';
+import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
-
-// components
-import DefaultLayout from '@/components/layouts/DefaultLayout';
-
-// contexts
-import { useAuth } from '@/contexts/AuthContext';
-
-// hooks
-import { useUserOwnedLists } from '@/hooks/useUserOwnedLists';
 
 export default function Owned({ }) {
   const router = useRouter();
