@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM registry1.dso.mil/ironbank/opensource/nginx/nginx:1.21.4
 
 # remove default nginx config
 RUN rm /etc/nginx/conf.d/*
