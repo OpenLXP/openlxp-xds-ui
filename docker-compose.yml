@@ -1,0 +1,15 @@
+version: '3'
+services:
+  # list of containers to run
+  nextjs:
+    # pointing to the dockerfile locations
+    build: ./
+    depends_on:
+      - nginx
+  nginx:
+    # pointing to the dockerfile location in nginx/
+    build: ./nginx
+    # mapped directly to the default.conf file in the nginx/ directory
+    ports: # available ports
+      - "3000:3000"
+      - "80:80"
