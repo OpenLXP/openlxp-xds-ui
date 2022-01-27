@@ -3,7 +3,7 @@ FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS deps
 
 # RUN apk add libc6-compat
 WORKDIR /app
-RUN mkdir node_modules
+RUN chown -R 1000:1000 /app && mkdir node_modules
 COPY package.json ./
 RUN yarn install --production=true
 
