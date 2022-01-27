@@ -4,7 +4,7 @@ FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS deps
 # RUN apk add libc6-compat
 WORKDIR /app
 COPY package.json ./
-RUN yarn install --production
+RUN yarn install --production=true
 
 # Rebuild the source code only when needed
 FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS builder
