@@ -35,7 +35,7 @@ WORKDIR /app
 # You only need to copy next.config.js if you are NOT using the default configuration
 # COPY --from=builder /app/next.config.js ./
 COPY --from=builder project/src/public ./public
-COPY --from=builder --chown=nextjs:nodejs project/.next ./.next
+COPY --from=builder project/.next ./.next
 COPY --from=builder project/node_modules ./node_modules
 COPY --from=builder project/package.json ./package.json
 
