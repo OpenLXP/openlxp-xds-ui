@@ -49,7 +49,8 @@ export default function Login() {
           router.push('/');
         })
         .catch((error) => {
-          logout();
+          // logout();
+          console.log(error.errorMsg);
           setErrorMsg('Invalid credentials');
         });
 
