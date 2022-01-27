@@ -43,5 +43,6 @@ README.md
 
 
 # Yarn specific
+yarn.lock
 .yarn
 /.yarn
