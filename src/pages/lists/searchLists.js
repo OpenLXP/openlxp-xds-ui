@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useLayoutEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 // components
 import { Pagination } from '@/components/buttons/Pagination';
@@ -75,7 +75,7 @@ export default function SearchLists() {
     }
   }, [interestLists, search]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     // if the user is not logged in, redirect to the home page
     if (!user) router.push('/');
     if (interstListError){
