@@ -1,4 +1,3 @@
-import { ChevronUpIcon, UserIcon, ViewListIcon } from '@heroicons/react/solid';
 import {
   ArchiveIcon,
   CollectionIcon,
@@ -6,6 +5,7 @@ import {
   LogoutIcon,
   SearchIcon,
 } from '@heroicons/react/outline';
+import { ChevronUpIcon, UserIcon, ViewListIcon } from '@heroicons/react/solid';
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -47,18 +47,15 @@ const MenuButton = ({ name, icon, href }) => {
   return (
     <Menu.Item>
       {({ active }) => (
-        <a>
-          <button
-            onClick={() => router.push(href)}
-            id={name.toLowerCase().replace(/\s/g, '-')}
-            className={`${
-              active ? 'bg-gray-100' : 'bg-white'
+        <button
+          onClick={() => router.push(href)}
+          id={name.toLowerCase().replace(/\s/g, '-')}
+          className={`${active ? 'bg-gray-100' : 'bg-white'
             } p-1 hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full flex justify-start gap-2 items-center`}
-          >
-            {icon}
-            {name}
-          </button>
-        </a>
+        >
+          {icon}
+          {name}
+        </button>
       )}
     </Menu.Item>
   );
@@ -78,12 +75,11 @@ export default function UserMenu() {
       className='relative inline-block text-left mt-0.5 max-w-min '
     >
       {({ open }) => (
-        <>
-          <Menu.Button className='group inline-flex justify-end items-center max-w-md  bg-blue-500 hover:bg-opacity-95 hover:shadow transform transition-all ease-in-out duration-150 px-2 py-1 text-white gap-2 font-semibold rounded-md outline-none focus:ring-4 ring-blue-400'>
+        <div className='relative'>
+          <Menu.Button className='group inline-flex justify-end items-center bg-blue-500 hover:bg-opacity-95 hover:shadow transform transition-all ease-in-out duration-150 px-2 py-1 text-white gap-2 font-semibold rounded-md outline-none focus:ring-4 ring-blue-400'>
             <ChevronUpIcon
-              className={`${
-                open && 'rotate-180 shadow-inner-sm group-hover:bg-blue-500 '
-              } text-white h-5 rounded-md transition-all ease-in-out duration-75`}
+              className={`${open && 'rotate-180 shadow-inner-sm group-hover:bg-blue-500 '
+                } text-white h-5 rounded-md transition-all ease-in-out duration-75`}
             />
             <div className='line-clamp-1'>{email}</div>
             <div
@@ -103,7 +99,7 @@ export default function UserMenu() {
             leaveFrom='transform opacity-100 scale-100'
             leaveTo='transform opacity-0 scale-95'
           >
-            <Menu.Items className='absolute w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+            <Menu.Items className='absolute right-0 origin-top w-full mt-2 bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
               <div className='text-gray-700'>
                 <div className='p-2'>
                   <h3 className='text-md font-semibold w-full border-b'>
@@ -131,9 +127,7 @@ export default function UserMenu() {
                   {({ active }) => (
                     <button
                       onClick={logout}
-                      className={`flex justify-start items-center gap-2 hover:bg-gray-50 rounded-md p-1 transition-all duration-75 ease-in-out text-sm hover:shadow-inner-sm shadow-md border-gray-200 border hover:border-transparent ${
-                        active && 'ring ring-2 ring-blue-500 ring-offset-1'
-                      } hover:ring-transparent`}
+                      className={`flex justify-start items-center gap-2 hover:bg-gray-50 rounded-md p-1 transition-all duration-75 ease-in-out text-sm hover:shadow-inner-sm shadow-md border-gray-200 border hover:border-transparent ${active && 'ring-2 ring-blue-500 ring-offset-1'} hover:ring-transparent`}
                     >
                       <LogoutIcon className='h-4 w-4' />
                       Logout
@@ -143,7 +137,7 @@ export default function UserMenu() {
               </div>
             </Menu.Items>
           </Transition>
-        </>
+        </div>
       )}
     </Menu>
   );
