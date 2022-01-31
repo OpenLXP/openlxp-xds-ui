@@ -12,6 +12,7 @@ import MoreLikeThis from '@/components/cards/MoreLikeThis';
 import SearchBar from '@/components/inputs/SearchBar';
 import SearchResult from '@/components/cards/SearchResult';
 import SelectList from '@/components/inputs/SelectList';
+import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 
 // contexts
 import { useAuth } from '@/contexts/AuthContext';
@@ -56,6 +57,17 @@ export default function Search({ query }) {
   const { url, setUrl } = useSearchUrl(query);
   const { data, refetch, isError, isSuccess, isLoading } = useSearch(url);
   const { user } = useAuth();
+
+    //xAPI Statement
+    const xAPISendStatement = (objectId) => {
+      if (user) {
+        const verb = {
+          id: "https://w3id.org/xapi/dod-isd/verbs/searched",
+          display: "searched" //do replace with 'explored'
+        }
+        sendStatement(user.user, verb, objectId);
+      }
+    }
 
   function handleChange(event) {
     setParams((previous) => ({
@@ -106,6 +118,9 @@ export default function Search({ query }) {
 
       setParams(modified);
       setUrl(modified);
+
+      const objectId = `${window.location}${modified.keyword}`; // todo: fix!!  
+      xAPISendStatement(objectId);
 
       router.push({ pathname: '/search', query: modified });
     }
