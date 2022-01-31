@@ -1,9 +1,9 @@
 // noinspection JSCheckFunctionSignatures
 
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import singletonRouter from 'next/router';
-import UserMenu from '@/components/menus/UserMenu';
 import { useAuth } from '@/contexts/AuthContext';
+import UserMenu from '@/components/menus/UserMenu';
+import singletonRouter from 'next/router';
 
 jest.mock('../../../contexts/AuthContext', () => ({
   useAuth: jest.fn(),
@@ -85,10 +85,10 @@ describe('User Menu', () => {
       // hover over the button
       const menuOption = screen.getByText(/Logout/i);
       expect(
-        menuOption.className.includes('ring ring-2 ring-blue-500 ring-offset-1')
+        menuOption.className.includes('ring-2 ring-blue-500 ring-offset-1')
       ).toBeFalsy();
       fireEvent.focus(menuOption);
-      expect(menuOption.className.includes('ring ring-2 ring-blue-500 ring-offset-1')).toBeTruthy();
+      expect(menuOption.className.includes('ring-2 ring-blue-500 ring-offset-1')).toBeTruthy();
     });
   });
 });

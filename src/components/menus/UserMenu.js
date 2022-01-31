@@ -51,7 +51,7 @@ const MenuButton = ({ name, icon, href }) => {
           onClick={() => router.push(href)}
           id={name.toLowerCase().replace(/\s/g, '-')}
           className={`${active ? 'bg-gray-100' : 'bg-white'
-            } p-1 hover:bg-gray-100 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full flex justify-start gap-2 items-center`}
+            } p-1 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full flex justify-start gap-2 items-center`}
         >
           {icon}
           {name}
