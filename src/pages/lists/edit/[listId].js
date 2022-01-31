@@ -5,28 +5,19 @@ import {
   XCircleIcon,
   XIcon,
 } from '@heroicons/react/outline';
-import { useRouter } from 'next/router';
-import React, { useMemo, useState } from 'react';
-
-
-// components
-import ActionButton from '@/components/buttons/ActionButton';
-import DefaultLayout from '@/components/layouts/DefaultLayout';
-import UserListResult from '@/components/cards/UserListEditResult';
-
-// contexts
 import { useAuth } from '@/contexts/AuthContext';
-
-// hooks
+import { useRouter } from 'next/router';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserList } from '@/hooks/useUserList';
-
-// utilities
+import ActionButton from '@/components/buttons/ActionButton';
+import DefaultLayout from '@/components/layouts/DefaultLayout';
+import React, { useMemo, useState } from 'react';
+import UserListResult from '@/components/cards/UserListEditResult';
 import prepareListDataToSend from '@/utils/prepListDataToSend';
 
 export default function EditList() {
-  const router = useRouter();
   const { user } = useAuth();
+  const router = useRouter();
   const list = useUserList(parseInt(router.query.listId));
 
   // handles the mutation
@@ -130,6 +121,7 @@ export default function EditList() {
         <div className='flex justify-between items-center w-full mt-8'>
           <ActionButton
             onClick={() => {
+              console.log(router.query)
               mutation.mutate({
                 listData: prepareListDataToSend(currentListInfo),
                 id: parseInt(router.query.listId),
