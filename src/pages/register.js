@@ -106,9 +106,15 @@ export default function Register() {
     }
   };
 
+  const handleEnterKey = (event) => {
+    if (event.key === 'Enter'){
+      registerUser();
+    }
+  };
+
   return (
-    <DefaultLayout footerLocation='absolute'>
-      <div className={'pt-32'}>
+    <DefaultLayout footerLocation='relative'>
+      <div className={'pt-32 mb-16'}>
         <div className='mt-10 mx-52 flex flex-col items-center justify-between'>
           <Image src={logo} alt={'home'} height={'100'} width={'100'} />
           <p className='mt-2 text-2xl font-extrabold'>Create your account</p>
@@ -126,7 +132,7 @@ export default function Register() {
         </div>
         <div
           className='w-1/2 p-8 mx-auto mt-10 bg-white flex flex-col items-center justify-between shadow-md rounded-md'>
-          <div className='space-y-4 mb-8 w-full'>
+          <div className='space-y-4 mb-8 w-full' onKeyPress={(event) => handleEnterKey(event)}>  
             <InputField
               type={'text'}
               placeholder={'Email'}

@@ -24,7 +24,6 @@
         "allowArrayStart": true,
         "allowArrayEnd": true
       }
-    ],
-    "jsx-a11y/rule-name": 2
+    ]
   }
 }
