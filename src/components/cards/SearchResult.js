@@ -3,6 +3,25 @@ import Link from 'next/link';
 import SaveModal from '@/components/modals/SaveModal';
 import ViewBtn from '@/components/buttons/ViewBtn';
 
+const removeHtmlTags = (str) => {
+  if (str) {
+    return str.replace(/<[^>]*>?/gm, '');
+  }
+  return '';
+};
+
+const Description = ({ description }) => {
+  if (description) {
+    return (
+      <p className={'line-clamp-4'}>
+        {removeHtmlTags(description)}
+      </p>
+    );
+  }
+  return null;
+};
+
+
 export default function SearchResult({ result }) {
   const { user } = useAuth();
   const { CourseTitle, CourseShortDescription, CourseProviderName } =
@@ -30,7 +49,7 @@ export default function SearchResult({ result }) {
         <span className={'font-semibold'}>Provider:&nbsp;</span>
         {CourseProviderName}
       </h2>
-      <p className={'line-clamp-4'}>{CourseShortDescription?.replace( /(<([^>]+)>)/ig, '')}</p>
+     <Description description={CourseShortDescription} />
     </div>
   );
 }
