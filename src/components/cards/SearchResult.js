@@ -1,7 +1,6 @@
 import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import SaveModal from '@/components/modals/SaveModal';
-import ShareBtn from '@/components/buttons/ShareBtn';
 import ViewBtn from '@/components/buttons/ViewBtn';
 
 export default function SearchResult({ result }) {
@@ -24,7 +23,6 @@ export default function SearchResult({ result }) {
         </Link>
         <div className='inline-flex flex-shrink-0 gap-2'>
           <ViewBtn id={id} />
-          <ShareBtn id={id} />
           {user && <SaveModal courseId={id} />}
         </div>
       </div>
