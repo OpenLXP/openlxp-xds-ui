@@ -3,7 +3,6 @@ import { useConfig } from '../../hooks/useConfig';
 import { useMoreCoursesLikeThis } from '../../hooks/useMoreCoursesLikeThis';
 import React, { useEffect } from 'react';
 import SaveModal from '../modals/SaveModal'
-import ShareBtn from '../buttons/ShareBtn';
 import ViewBtn from '../buttons/ViewBtn';
 import useTimeout from '../../hooks/useTimeout';
 
@@ -96,7 +95,6 @@ export default function MoreLikeThis({ course }) {
         </div>
         <div className='flex justify-between mt-10'>
           <div className='flex gap-2'>
-            <ShareBtn id={data.hits[0].meta.id} />
             <ViewBtn id={data.hits[0].meta.id} />
           </div>
           {user && <SaveModal courseId={data.hits[0].meta.id} />}

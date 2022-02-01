@@ -13,7 +13,6 @@ import CourseSpotlight from '@/components/cards/CourseSpotlight';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import ExternalBtn from '@/components/buttons/ExternalBtn';
 import SaveModal from '@/components/modals/SaveModal';
-import ShareBtn from '@/components/buttons/ShareBtn';
 
 // config
 import { backendHost } from '@/config/endpoints';
@@ -73,7 +72,6 @@ export default function Course() {
           </h1>
           <div className='inline-flex justify-end gap-2 items-center'>
             <ExternalBtn url={preparedData?.courseUrl} />
-            <ShareBtn id={query?.courseId} />
             {user && (
               <SaveModal
                 courseId={
