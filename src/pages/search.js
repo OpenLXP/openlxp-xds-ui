@@ -60,7 +60,7 @@ export default function Search({ query }) {
 
     //xAPI Statement
     const xAPISendStatement = (objectId) => {
-      if (user) {
+      if (user && isSuccess) {
         const verb = {
           id: "https://w3id.org/xapi/dod-isd/verbs/searched",
           display: "searched" //do replace with 'explored'
@@ -118,8 +118,8 @@ export default function Search({ query }) {
 
       setParams(modified);
       setUrl(modified);
-
-      const objectId = `${window.location}${modified.keyword}`; // todo: fix!!  
+      const domain = (new URL(window.location));
+      const objectId = `${domain.origin}/search?keyword=${modified.keyword}&p=1`;
       xAPISendStatement(objectId);
 
       router.push({ pathname: '/search', query: modified });

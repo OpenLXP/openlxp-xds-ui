@@ -10,6 +10,7 @@ export function useSearch(url) {
     {
       staleTime: tenMinutes,
       onSuccess: (data) => {
+        console.log('HEHEHEHEHEHEHEH!!!!!!')
         data?.hits.map((course) => {
           queryClient.setQueryData(['course', course.meta.id], {
             ...course,

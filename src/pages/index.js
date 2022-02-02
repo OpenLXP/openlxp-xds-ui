@@ -35,14 +35,13 @@ export default function Home() {
         id: "https://w3id.org/xapi/dod-isd/verbs/searched",
         display: "searched" //do replace with 'explored'
       }
-      console.log('HERERE!!')
       sendStatement(user.user, verb, objectId);
     }
   }
 
   const handleSearch = () => {
     if (fields.keyword && fields.keyword !== '') {
-      const objectId = `${window.location}${fields.keyword}`; //TODO: get proper object
+      const objectId = `${window.location}search?keyword=${fields.keyword}&p=1`; //TODO: get proper object
       xAPISendStatement(objectId);
       router.push({ pathname: '/search/', query: fields });
     }
