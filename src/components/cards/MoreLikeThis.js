@@ -5,7 +5,6 @@ import React, { useEffect } from 'react';
 import SaveModal from '../modals/SaveModal'
 import ViewBtn from '../buttons/ViewBtn';
 import useTimeout from '../../hooks/useTimeout';
-import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 
 export default function MoreLikeThis({ course }) {
   const { data, isLoading } = useMoreCoursesLikeThis(course?.meta.id);
@@ -13,16 +12,6 @@ export default function MoreLikeThis({ course }) {
   const { user } = useAuth();
   const { state: view, show } = useTimeout(500);
 
-  //xAPI Statement
-  const xAPISendStatement = (objectId) => {
-    if (user) {
-      const verb = {
-        id: "https://w3id.org/xapi/tla/verbs/explored",
-        display: "explored"
-      }
-      sendStatement(user.user, verb, objectId);
-    }
-  }
 
   useEffect(() => {
     show();
@@ -107,12 +96,7 @@ export default function MoreLikeThis({ course }) {
         </div>
         <div className='flex justify-between mt-10'>
           <div className='flex gap-2'>
-            <ViewBtn onClick={() => {
-              const domain = (new URL(window.location));
-              const objectId = `${domain.origin}/course/${data.hits[0].meta.id}`;
-              xAPISendStatement(objectId);
-            }}
-            id={data.hits[0].meta.id} />
+            <ViewBtn id={data.hits[0].meta.id} />
           </div>
           {user && <SaveModal courseId={data.hits[0].meta.id} />}
         </div>
