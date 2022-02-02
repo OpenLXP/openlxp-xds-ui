@@ -1,12 +1,12 @@
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { Fragment } from 'react';
 import { Popover, Transition } from '@headlessui/react';
+import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateSaveSearch } from '@/hooks/useCreateSaveSearch';
 import ActionButton from '@/components/buttons/ActionButton';
 import InputField from '@/components/inputs/InputField';
 import useField from '@/hooks/useField';
-import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 
 export default function CreateSavedSearchModal({ path }) {
   const { user } = useAuth();

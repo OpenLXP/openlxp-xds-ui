@@ -3,17 +3,17 @@ import Image from 'next/image';
 import React from 'react';
 
 // components
+import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import SearchBar from '@/components/inputs/SearchBar';
 import logo from '@/public/logo.png';
-import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 
 // hooks
+import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';
 import useField from '@/hooks/useField';
 import useSpotlightCourses from '@/hooks/useSpotlightCourses';
-import { useAuth } from '@/contexts/AuthContext';
 
 
 export default function Home() {

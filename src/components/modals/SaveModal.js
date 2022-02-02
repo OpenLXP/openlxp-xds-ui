@@ -1,12 +1,12 @@
 import {Dialog, Transition} from '@headlessui/react';
 import {Fragment, useState} from 'react';
 import {PlusCircleIcon} from '@heroicons/react/outline';
+import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import {useAuth} from '@/contexts/AuthContext';
 import {useCreateUserList} from '@/hooks/useCreateUserList';
 import {useUpdateUserList} from '@/hooks/useUpdateUserList';
 import {useUserOwnedLists} from '@/hooks/useUserOwnedLists';
 import InputField from '@/components/inputs/InputField';
-import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 
 export default function SaveModal({courseId}) {
   // authentication

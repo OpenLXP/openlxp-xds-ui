@@ -1,7 +1,7 @@
 import { EyeIcon } from '@heroicons/react/solid';
-import Link from 'next/link';
 import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import { useAuth } from '@/contexts/AuthContext';
+import Link from 'next/link';
 
 export default function ViewBtn({ id }) {
 

@@ -16,11 +16,10 @@ describe('xAPI', () => {
     const verbObj = {
       display: "tested"
     }
-    const objectObj = {
-      id: "http://example.com/objectId"
-    }
+    
+    const objectId = "http://example.com/objectId"
 
-    return sendStatement(actorObj, verbObj, objectObj).then(() => {
+    return sendStatement(actorObj, verbObj, objectId).then(() => {
       //Get the args passed to sendStatement
       const args = spy.mock.calls[0][0];
       const { actor, verb, object } = args.statement;
