@@ -33,7 +33,7 @@ export default function Home() {
     if (user) {
       const verb = {
         id: "https://w3id.org/xapi/dod-isd/verbs/searched",
-        display: "searched" //do replace with 'explored'
+        display: "searched"
       }
       sendStatement(user.user, verb, objectId);
     }
