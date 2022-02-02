@@ -154,9 +154,9 @@ export default function SaveModal({courseId}) {
                     e.preventDefault();
                     setFields({name: '', description: ''});
                     create({form: fields}, { 
-                      onSuccess: () => {
-                        console.log(fields)
-                        const objectId = fields.name;
+                      onSuccess: (data) => {
+                        const domain = (new URL(window.location));
+                        const objectId = `${domain.origin}/lists/${data.id}`;
                         xAPISendStatement(objectId);
                       } });
                   }}
