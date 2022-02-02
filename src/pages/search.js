@@ -58,16 +58,16 @@ export default function Search({ query }) {
   const { data, refetch, isError, isSuccess, isLoading } = useSearch(url);
   const { user } = useAuth();
 
-    //xAPI Statement
-    const xAPISendStatement = (objectId) => {
-      if (user && isSuccess) {
-        const verb = {
-          id: "https://w3id.org/xapi/dod-isd/verbs/searched",
-          display: "searched" //do replace with 'explored'
-        }
-        sendStatement(user.user, verb, objectId);
+  //xAPI Statement
+  const xAPISendStatement = (objectId) => {
+    if (user && isSuccess) {
+      const verb = {
+        id: "https://w3id.org/xapi/dod-isd/verbs/searched",
+        display: "searched" //do replace with 'explored'
       }
+      sendStatement(user.user, verb, objectId);
     }
+  }
 
   function handleChange(event) {
     setParams((previous) => ({

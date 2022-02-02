@@ -41,7 +41,7 @@ export default function Home() {
 
   const handleSearch = () => {
     if (fields.keyword && fields.keyword !== '') {
-      const objectId = `${window.location}search?keyword=${fields.keyword}&p=1`; //TODO: get proper object
+      const objectId = `${window.location}search?keyword=${fields.keyword}&p=1`;
       xAPISendStatement(objectId);
       router.push({ pathname: '/search/', query: fields });
     }
