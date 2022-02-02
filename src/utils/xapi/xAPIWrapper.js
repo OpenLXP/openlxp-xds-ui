@@ -25,5 +25,5 @@ export const sendStatement = (actor, verb, objectId) => {
     }
   }
 
-  return xAPIMapper.sendStatement({statement})
+  return xAPIMapper.sendStatement({statement});
 }
