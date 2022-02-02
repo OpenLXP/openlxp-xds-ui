@@ -63,7 +63,7 @@ export default function Search({ query }) {
     if (user && isSuccess) {
       const verb = {
         id: "https://w3id.org/xapi/dod-isd/verbs/searched",
-        display: "searched" //do replace with 'explored'
+        display: "searched"
       }
       sendStatement(user.user, verb, objectId);
     }

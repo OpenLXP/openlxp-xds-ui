@@ -26,7 +26,7 @@ export default function SaveModal({courseId}) {
     //xAPI Statement
     const xAPISendStatement = (objectId) => {
       if (user) {
-        const verb = { //VERB NEEDS TO BE ADDED
+        const verb = {
           id: "https://w3id.org/xapi/dod-isd/verbs/curated",
           display: "curated" 
         }
