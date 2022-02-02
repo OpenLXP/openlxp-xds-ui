@@ -2,6 +2,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import SaveModal from '@/components/modals/SaveModal';
 import ViewBtn from '@/components/buttons/ViewBtn';
+import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 
 const removeHtmlTags = (str) => {
   if (str) {
@@ -28,6 +29,17 @@ export default function SearchResult({ result }) {
     result.Course;
   const { id } = result.meta;
 
+  //xAPI Statement
+  const xAPISendStatement = (objectId) => {
+    if (user) {
+      const verb = {
+        id: "https://w3id.org/xapi/tla/verbs/explored",
+        display: "explored"
+      }
+      sendStatement(user.user, verb, objectId);
+    }
+  }
+
   return (
     <div className={'overflow-x-hidden py-2 pr-2'}>
       <div className='inline-flex gap-2 justify-between items-center w-full'>
@@ -41,7 +53,12 @@ export default function SearchResult({ result }) {
           </h2>
         </Link>
         <div className='inline-flex flex-shrink-0 gap-2'>
-          <ViewBtn id={id} />
+          <ViewBtn onClick={() => {
+            const domain = (new URL(window.location));
+            const objectId = `${domain.origin}/course/${result.meta.id}`;
+            xAPISendStatement(objectId);
+          }}
+            id={id} />
           {user && <SaveModal courseId={id} />}
         </div>
       </div>
@@ -49,7 +66,7 @@ export default function SearchResult({ result }) {
         <span className={'font-semibold'}>Provider:&nbsp;</span>
         {CourseProviderName}
       </h2>
-     <Description description={CourseShortDescription} />
+      <Description description={CourseShortDescription} />
     </div>
   );
 }

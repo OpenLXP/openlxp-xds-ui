@@ -107,7 +107,6 @@ export default function MoreLikeThis({ course }) {
         </div>
         <div className='flex justify-between mt-10'>
           <div className='flex gap-2'>
-            <ShareBtn id={data.hits[0].meta.id} />
             <ViewBtn onClick={() => {
               const domain = (new URL(window.location));
               const objectId = `${domain.origin}/course/${data.hits[0].meta.id}`;
