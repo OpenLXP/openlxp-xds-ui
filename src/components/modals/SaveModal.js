@@ -1,6 +1,7 @@
 import {Dialog, Transition} from '@headlessui/react';
 import {Fragment, useState} from 'react';
 import {PlusCircleIcon} from '@heroicons/react/outline';
+import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import {useAuth} from '@/contexts/AuthContext';
 import {useCreateUserList} from '@/hooks/useCreateUserList';
 import {useUpdateUserList} from '@/hooks/useUpdateUserList';
@@ -21,6 +22,17 @@ export default function SaveModal({courseId}) {
     name: '',
     description: '',
   });
+
+    //xAPI Statement
+    const xAPISendStatement = (objectId) => {
+      if (user) {
+        const verb = {
+          id: "https://w3id.org/xapi/dod-isd/verbs/curated",
+          display: "curated" 
+        }
+        sendStatement(user.user, verb, objectId);
+      }
+    }
 
   // add a course to the selected list
   const addCourseToList = (listId) => {
@@ -141,7 +153,12 @@ export default function SaveModal({courseId}) {
                   onSubmit={(e) => {
                     e.preventDefault();
                     setFields({name: '', description: ''});
-                    create({form: fields});
+                    create({form: fields}, { 
+                      onSuccess: (data) => {
+                        const domain = (new URL(window.location));
+                        const objectId = `${domain.origin}/lists/${data.id}`;
+                        xAPISendStatement(objectId);
+                      } });
                   }}
                 >
                   <div>

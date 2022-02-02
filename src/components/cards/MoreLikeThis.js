@@ -12,6 +12,7 @@ export default function MoreLikeThis({ course }) {
   const { user } = useAuth();
   const { state: view, show } = useTimeout(500);
 
+
   useEffect(() => {
     show();
   }, []);

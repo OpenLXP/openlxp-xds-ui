@@ -16,8 +16,8 @@ export function useCreateSaveSearch(token) {
 
   return useMutation((value) => createSavedSearch(value, token), {
     onSuccess: () => {
-      queryClient.invalidateQueries(['saved-search', value.path]);
-      queryClient.refetchQueries(['saved-search', value.path]);
+      queryClient.invalidateQueries(['saved-search-list']);
+      queryClient.refetchQueries(['saved-search-list']);
     },
   });
 }

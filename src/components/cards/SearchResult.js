@@ -49,7 +49,7 @@ export default function SearchResult({ result }) {
         <span className={'font-semibold'}>Provider:&nbsp;</span>
         {CourseProviderName}
       </h2>
-     <Description description={CourseShortDescription} />
+      <Description description={CourseShortDescription} />
     </div>
   );
 }
