@@ -3,7 +3,6 @@ import { useConfig } from '../../hooks/useConfig';
 import { useMoreCoursesLikeThis } from '../../hooks/useMoreCoursesLikeThis';
 import React, { useEffect } from 'react';
 import SaveModal from '../modals/SaveModal'
-import ShareBtn from '../buttons/ShareBtn';
 import ViewBtn from '../buttons/ViewBtn';
 import useTimeout from '../../hooks/useTimeout';
 import { sendStatement } from '@/utils/xapi/xAPIWrapper';

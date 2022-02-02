@@ -24,7 +24,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest --watch",
-    "coverage": "jest --watchAll --coverage --verbose --noStackTrace --silent --maxWorkers=100%"
+    "coverage": "jest --watchAll --coverage --verbose --noStackTrace --silent --maxWorkers=50%"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",

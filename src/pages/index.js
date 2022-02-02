@@ -16,7 +16,6 @@ import useSpotlightCourses from '@/hooks/useSpotlightCourses';
 import { useAuth } from '@/contexts/AuthContext';
 
 
-
 export default function Home() {
   const router = useRouter();
   const { user } = useAuth();
@@ -73,7 +72,7 @@ export default function Home() {
         </div>
         <div
           id='course-carousel'
-          className='absolute flex justify-center bottom-20 left-0 w-full overflow-x-auto custom-scroll'
+          className='absolute flex justify-center bottom-0 left-0 w-full overflow-x-auto custom-scroll'
         >
           <div className='inline-flex overflow-x-auto px-2 gap-2 py-5 custom-scroll '>
             {spotlight.isSuccess &&

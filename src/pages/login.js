@@ -1,24 +1,15 @@
 import { LoginIcon } from '@heroicons/react/outline';
+import { authLogin } from '@/config/endpoints';
+import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
-import Link from 'next/link';
-import React, { useState } from 'react';
-
-
-// components
 import ActionButton from '@/components/buttons/ActionButton';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
+import Image from 'next/image';
 import InputField from '@/components/inputs/InputField';
+import Link from 'next/link';
+import React, { useState } from 'react';
 import logo from '@/public/logo.png';
-
-// contexts
-import { useAuth } from '@/contexts/AuthContext';
-
-// hooks
 import useField from '@/hooks/useField';
-
-// config
-import { authLogin } from '@/config/endpoints';
 
 // utils
 import { axiosInstance } from '@/config/axiosConfig';
@@ -36,7 +27,7 @@ export default function Login() {
   };
   const [errorMsg, setErrorMsg] = useState();
 
-  const doLogin = () => {
+  const handleLogin = () => {
     if (credentials.username === '' || credentials.password === '') {
       setErrorMsg('All fields required');
     } else if (!isValidEmail(credentials.username)) {
@@ -49,12 +40,16 @@ export default function Login() {
           router.push('/');
         })
         .catch((error) => {
-          logout();
+          // logout();
+          console.log(error.errorMsg);
           setErrorMsg('Invalid credentials');
         });
+    }
+  };
 
-      // login(credentials);
-      // setErrorMsg(null);
+  const handleEnterKey = (event) => {
+    if (event.key === 'Enter') {
+      handleLogin();
     }
   };
 
@@ -79,7 +74,12 @@ export default function Login() {
           </span>
         </div>
         <div className='w-1/3 p-8 mx-auto mt-10 bg-white flex flex-col items-center justify-between shadow-md rounded-md'>
-          <div className='space-y-4 mb-4'>
+          <div
+            role='button'
+            className='space-y-4 mb-4'
+            onKeyPress={handleEnterKey}
+            tabIndex="0"
+          >
             <InputField
               type='text'
               value={credentials.username}
@@ -95,19 +95,10 @@ export default function Login() {
               onChange={(event) => setCredentials(event)}
             />
           </div>
-          {/*Currently not supported*/}
-          {/* <Link href={'/forgotPassword'}>
-            <button
-              id={'forgot-password-button'}
-              className='text-blue-400 hover:text-blue-500 hover:underline text-left self-start -mt-2 mb-2 ml-1 transform transition-all duration-150 ease-in-out cursor-pointer'
-            >
-              Forgot Password
-            </button>
-          </Link> */}
           <div className='mb-4'>
             {errorMsg && <p className={'text-red-600'}>{errorMsg}</p>}
           </div>
-          <ActionButton onClick={() => doLogin()} id={'login-button'}>
+          <ActionButton onClick={() => handleLogin()} id={'login-button'}>
             <LoginIcon className='w-5 h-5' />
             Login
           </ActionButton>
@@ -116,8 +107,9 @@ export default function Login() {
               or continue with
             </span>
           </p>
-          <Link href={'/sso'}>
+          <Link href={'/sso'} passHref>
             <a
+              href='/sso'
               id={'sso-button'}
               className={
                 'bg-blue-500 py-2 px-4 mt-5 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'

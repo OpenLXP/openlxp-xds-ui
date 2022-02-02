@@ -178,7 +178,7 @@ export default function SaveModal({courseId}) {
                     />
                   </div>
                   <div className='relative'>
-                    <label>List Name</label>
+                    <label>List Description</label>
                     <textarea
                       placeholder='List Description...'
                       name='description'

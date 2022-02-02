@@ -1,15 +1,15 @@
-import { act, fireEvent, render } from '@testing-library/react';
-import singletonRouter from 'next/router';
-import { useAuth } from '@/contexts/AuthContext';
-import { useSearchUrl } from '@/hooks/useSearchUrl';
-import { useConfig } from '@/hooks/useConfig';
-import { useSearch } from '@/hooks/useSearch';
-import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
-import Search from '@/pages/search';
-import courseData from '@/__mocks__/data/course.data';
-import aggregationsData from '@/__mocks__/data/aggregations.data';
-import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider/MemoryRouterProvider-11.1';
+import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
+import { act, fireEvent, render } from '@testing-library/react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useConfig } from '@/hooks/useConfig';
+import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
+import { useSearch } from '@/hooks/useSearch';
+import { useSearchUrl } from '@/hooks/useSearchUrl';
+import Search from '@/pages/search';
+import aggregationsData from '@/__mocks__/data/aggregations.data';
+import courseData from '@/__mocks__/data/course.data';
+import singletonRouter from 'next/router';
 import uiConfigData from '@/__mocks__/data/uiConfig.data';
 
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
@@ -29,6 +29,7 @@ jest.mock('../../hooks/useMoreCoursesLikeThis', () => ({
 jest.mock('../../contexts/AuthContext', () => ({
   useAuth: jest.fn()
 }));
+
 // mocking the jest fn
 console.log = jest.fn();
 
