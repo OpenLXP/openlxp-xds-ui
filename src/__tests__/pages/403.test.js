@@ -20,7 +20,7 @@ describe('403 Page', () => {
   it('should render the page', () => {
 
     const { getByText } = renderer();
-    expect(getByText('403 Forbidden')).toBeInTheDocument();
+    expect(getByText(/403 Please check permissions with system administrator/i)).toBeInTheDocument();
     expect(getByText('Redirecting in')).toBeInTheDocument();
     expect(getByText('Click Here to be Redirected')).toBeInTheDocument();
   });
