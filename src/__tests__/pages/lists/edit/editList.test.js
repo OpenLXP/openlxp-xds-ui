@@ -115,7 +115,6 @@ describe('Edit List', () => {
       expect(getByText('Course Title')).toBeInTheDocument();
       expect(getByText(/course provider/i)).toBeInTheDocument();
       fireEvent.click(getByText('Remove'));
-
     });
     it('should render course title', () => {
       const { getByText } = renderer(<EditList />);
@@ -149,6 +148,22 @@ describe('Edit List', () => {
         mutation: { mutate: jest.fn() },
       }));
     });
+
+    it('should update color of count text when greater than 200 characters', () => {
+      const { getByTitle, getByPlaceholderText } = renderer(<EditList />)
+
+      // verify the color is not red
+      expect(getByTitle(/character count/i).className.includes('text-gray-500')).toBe(true)
+
+      // update the description
+      fireEvent.change(getByPlaceholderText(/list description.../i), {
+        target: { value: 'a'.repeat(201) },
+      })
+
+      // verify the color is red
+      expect(getByTitle(/character count/i).className.includes('text-red-500')).toBe(true)
+
+    });
     it.skip('should call mutation on click of update', () => {
       const { getByText } = renderer(<EditList />);
       act(() => {
@@ -165,12 +180,13 @@ describe('Edit List', () => {
       act(() => {
         fireEvent.change(input, { target: { value: 'new' } });
       });
-      expect( input.value ).toBe( 'new' );
-      act( () => {
-        const button = getByText('Cancel')
-        fireEvent.click(button)
-      })
-      expect( input.value ).toBe( 'test description' );
+      expect(input.value).toBe('new');
+      act(() => {
+        const button = getByText('Cancel');
+        fireEvent.click(button);
+      });
+      expect(input.value).toBe('test description');
+
     });
   });
 });

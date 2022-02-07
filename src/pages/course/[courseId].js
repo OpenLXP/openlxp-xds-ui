@@ -1,5 +1,6 @@
 import { useRouter } from 'next/dist/client/router';
-import React from 'react';
+import React, { useMemo } from 'react';
+
 
 // hooks
 import { useConfig } from '@/hooks/useConfig';
@@ -27,20 +28,22 @@ export default function Course() {
   const course = useCourse(query?.courseId);
   const moreLikeThis = useMoreCoursesLikeThis(query?.courseId);
 
-  // on page update refetch the course data
-
-  let preparedData = null;
-  let thumbnail = null;
-  if (config.isSuccess && course.isSuccess) {
-    preparedData = usePrepareCourseData(config.data, course.data);
-  }
-  if (moreLikeThis.isSuccess) {
-    if (course?.data?.Technical_Information?.Thumbnail) {
-      thumbnail = course?.data?.Technical_Information?.Thumbnail;
-    } else if (config.data.course_img_fallback) {
-      thumbnail = `${backendHost}${config.data.course_img_fallback}`;
+  const preparedData = useMemo(() => {
+    if (course.isSuccess && config.isSuccess) {
+      return usePrepareCourseData(config.data, course?.data);
     }
-  }
+  }, [config.data, course.data]);
+
+  const thumbnail = useMemo(() => {
+    let image=null
+    if (moreLikeThis.isSuccess && course.isSuccess) {
+      image = course?.data?.Technical_Information?.Thumbnail;
+    }
+    if (config.isSuccess && !image) {
+      image = `${backendHost}${config.data.course_img_fallback}`;
+    }
+    return image;
+  }, [course, config, moreLikeThis]);
 
   // loading skeleton
   if (course.isLoading || config.isLoading) {
@@ -48,14 +51,14 @@ export default function Course() {
       <DefaultLayout footerLocation='absolute'>
         <div className='pt-32  animate-pulse'>
           <div className='grid grid-cols-3 gap-8 mt-8'>
-            <div className='h-16 col-span-2 rounded-md bg-gray-200'/>
+            <div className='h-16 col-span-2 rounded-md bg-gray-200' />
             <div className='h-16 col-span-1 inline-flex justify-end gap-2'>
-              <div className='h-16 w-16 rounded-full bg-gray-200'/>
-              <div className='h-16 w-16 rounded-full bg-gray-200'/>
-              <div className='h-16 w-16 rounded-full bg-gray-200'/>
+              <div className='h-16 w-16 rounded-full bg-gray-200' />
+              <div className='h-16 w-16 rounded-full bg-gray-200' />
+              <div className='h-16 w-16 rounded-full bg-gray-200' />
             </div>
-            <div className='col-span-2 h-96 rounded-md bg-gray-200'/>
-            <div className='col-span-1 h-72 rounded-md bg-gray-200'/>
+            <div className='col-span-2 h-96 rounded-md bg-gray-200' />
+            <div className='col-span-1 h-72 rounded-md bg-gray-200' />
           </div>
         </div>
       </DefaultLayout>
@@ -101,7 +104,7 @@ export default function Course() {
               className='rounded-md  text-xl bg-white border border-gray-200 shadow-sm p-4 mb-80'
               style={{ minHeight: 'calc(176px + 3.25rem)' }}
             >
-              {preparedData?.courseDescription.replace( /(<([^>]+)>)/ig, '')}
+              {preparedData?.courseDescription?.replace(/<[^>]*>?/gm, '');}
             </p>
           </div>
           <div className='col-span-1'>
