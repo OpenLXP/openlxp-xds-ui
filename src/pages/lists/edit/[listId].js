@@ -84,6 +84,7 @@ export default function EditList() {
             className='w-full border outline-none rounded-md shadow focus:shadow-md p-2 focus:ring-4 ring-blue-400 transform transition-all duration-150'
           />
           <span
+            title='Character Count'
             className={`absolute bottom-2 right-3 ${
               currentListInfo.description?.length > 200
                 ? 'text-red-500'
