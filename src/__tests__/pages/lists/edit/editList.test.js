@@ -164,7 +164,6 @@ describe('Edit List', () => {
       expect(getByTitle(/character count/i).className.includes('text-red-500')).toBe(true)
 
     });
-
     it.skip('should call mutation on click of update', () => {
       const { getByText } = renderer(<EditList />);
       act(() => {
@@ -187,6 +186,7 @@ describe('Edit List', () => {
         fireEvent.click(button);
       });
       expect(input.value).toBe('test description');
+
     });
   });
 });

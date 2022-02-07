@@ -1,6 +1,7 @@
 import { useRouter } from 'next/dist/client/router';
 import React, { useMemo } from 'react';
 
+
 // hooks
 import { useConfig } from '@/hooks/useConfig';
 import { useCourse } from '@/hooks/useCourse';
@@ -104,6 +105,7 @@ export default function Course() {
               style={{ minHeight: 'calc(176px + 3.25rem)' }}
             >
               {preparedData?.courseDescription?.replace(/(<([^>]+)>)/gi, '')}
+
             </p>
           </div>
           <div className='col-span-1'>
