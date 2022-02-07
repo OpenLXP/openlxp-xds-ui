@@ -103,7 +103,7 @@ export default function Course() {
               className='rounded-md  text-xl bg-white border border-gray-200 shadow-sm p-4 mb-80'
               style={{ minHeight: 'calc(176px + 3.25rem)' }}
             >
-              {preparedData?.courseDescription?.replace(/(<([^>]+)>)/gi, '')}
+              {preparedData?.courseDescription?.replace(/<[^>]*>?/gm, '');}
             </p>
           </div>
           <div className='col-span-1'>
