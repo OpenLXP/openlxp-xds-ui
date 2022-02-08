@@ -2,7 +2,7 @@ import { QueryClient, dehydrate } from 'react-query';
 import { URLSearchParams } from 'url';
 import { axiosInstance } from '@/config/axiosConfig';
 import { useRouter } from 'next/dist/client/router';
-import { useState } from 'react';
+import { useState , useEffect} from 'react';
 
 // components
 import { Pagination } from '@/components/buttons/Pagination';
@@ -27,36 +27,44 @@ import { oneHour } from '@/config/timeConstants';
 import { searchUrl } from '@/config/endpoints';
 
 
-// Server Side Generation
-export async function getServerSideProps({ query }) {
-  // parsing the url params
-  const queryParams = new URLSearchParams(query);
-  const params = queryParams.toString();
+// // Server Side Generation
+// export async function getServerSideProps({ query }) {
+//   // parsing the url params
+//   const queryParams = new URLSearchParams(query);
+//   const params = queryParams.toString();
 
-  // the full url for elastic search based on the searchURL and its params
-  const url = `${searchUrl}?${params}`;
+//   // the full url for elastic search based on the searchURL and its params
+//   const url = `${searchUrl}?${params}`;
 
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(
-    ['search', url],
-    () => axiosInstance.get(url).then((res) => res.data),
-    { staleTime: oneHour, cacheTime: oneHour }
-  );
-  return {
-    props: {
-      query,
-      dehydratedState: dehydrate(queryClient)
-    }
-  };
-}
+//   const queryClient = new QueryClient();
+//   await queryClient.prefetchQuery(
+//     ['search', url],
+//     () => axiosInstance.get(url).then((res) => res.data),
+//     { staleTime: oneHour, cacheTime: oneHour }
+//   );
+//   return {
+//     props: {
+//       query,
+//       dehydratedState: dehydrate(queryClient)
+//     }
+//   };
+// }
 
 export default function Search({ query }) {
   const router = useRouter();
   const config = useConfig();
-  const [params, setParams] = useState(query);
-  const { url, setUrl } = useSearchUrl(query);
+  const [params, setParams] = useState(router?.query);
+  const { url, setUrl } = useSearchUrl(router?.query);
   const { data, refetch, isError, isSuccess, isLoading } = useSearch(url);
   const { user } = useAuth();
+  console.log(router)
+
+  useEffect(() => {
+    if (router?.query) {
+      setParams(router?.query);
+      setUrl(router?.query);
+    }
+  }, [router]);
 
   //xAPI Statement
   const xAPISendStatement = (objectId) => {
