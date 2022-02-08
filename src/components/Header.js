@@ -13,7 +13,7 @@ export default function Header({}) {
         aria-label={'Top'}
       >
         <div className={'w-full py-4 inline-flex items-center justify-between'}>
-          <div className={'flex items-center gap-4'}>
+          <div className={'flex items-center gap-2'}>
             <Link href={'/'}>
               <a
                 title='home'
@@ -23,7 +23,39 @@ export default function Header({}) {
                 <Image src={logo} alt={'home'} height={'60'} width={'60'} />
               </a>
             </Link>
+
+            <Link href={'/'}>
+              <a className=' py-2 px-4 rounded inline-block text-grey-600 hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
+                Search Courses
+              </a>
+            </Link>
+
+            {user && (
+              <div className={'inline-flex items-center gap-2'}>
+                <Link href={'/lists/searchLists'}>
+                  <a className=' py-2 px-4 rounded inline-block text-grey-600 hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
+                    Search Lists
+                  </a>
+                </Link>
+                <Link href={'/lists/savedSearches'}>
+                  <a className=' py-2 px-4 rounded inline-block text-grey-600 hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
+                    Saved Search
+                  </a>
+                </Link>
+                <Link href={'/lists/subscribed'}>
+                  <a className=' py-2 px-4 rounded inline-block text-grey-600 hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
+                    Subscribed
+                  </a>
+                </Link>
+                <Link href={'/lists/owned'}>
+                  <a className=' py-2 px-4 rounded inline-block text-grey-600 hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
+                    My Lists
+                  </a>
+                </Link>
+              </div>
+            )}
           </div>
+
           {!user && (
             <div className={'space-x-4'}>
               <Link href={'/login'}>
@@ -38,7 +70,10 @@ export default function Header({}) {
               </Link>
             </div>
           )}
-          {user && <UserMenu />}
+          
+          {user &&(
+            <UserMenu/>
+          )}
         </div>
       </nav>
     </header>

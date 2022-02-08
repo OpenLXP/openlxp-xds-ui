@@ -101,7 +101,7 @@ export default function UserMenu() {
             leaveTo='transform opacity-0 scale-95'
           >
             <Menu.Items className='absolute right-0 origin-top w-full mt-2 bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-              <div className='text-gray-700'>
+              {/* <div className='text-gray-700'>
                 <div className='p-2'>
                   <h3 className='text-md font-semibold w-full border-b'>
                     Lists
@@ -122,7 +122,7 @@ export default function UserMenu() {
                     })}
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className='p-2 flex w-full justify-between items-center'>
                 <Menu.Item>
                   {({ active }) => (
