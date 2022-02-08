@@ -2,9 +2,8 @@ import { QueryClient, dehydrate } from 'react-query';
 import { URLSearchParams } from 'url';
 import { axiosInstance } from '@/config/axiosConfig';
 import { useRouter } from 'next/dist/client/router';
-import { useState , useEffect} from 'react';
-
-// components
+import { useState, useEffect, un } from 'react';
+import { unstable_batchedUpdates } from 'react-dom';
 import { Pagination } from '@/components/buttons/Pagination';
 import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import CreateSavedSearchModal from '@/components/modals/CreateSavedSearch';
@@ -25,7 +24,6 @@ import { useSearchUrl } from '@/hooks/useSearchUrl';
 // config
 import { oneHour } from '@/config/timeConstants';
 import { searchUrl } from '@/config/endpoints';
-
 
 // // Server Side Generation
 // export async function getServerSideProps({ query }) {
@@ -57,12 +55,13 @@ export default function Search({ query }) {
   const { url, setUrl } = useSearchUrl(router?.query);
   const { data, refetch, isError, isSuccess, isLoading } = useSearch(url);
   const { user } = useAuth();
-  console.log(router)
 
   useEffect(() => {
     if (router?.query) {
-      setParams(router?.query);
-      setUrl(router?.query);
+      unstable_batchedUpdates(() => {
+        setParams(router?.query);
+        setUrl(router?.query);
+      });
     }
   }, [router]);
 
@@ -70,17 +69,17 @@ export default function Search({ query }) {
   const xAPISendStatement = (objectId) => {
     if (user && isSuccess) {
       const verb = {
-        id: "https://w3id.org/xapi/dod-isd/verbs/searched",
-        display: "searched"
-      }
+        id: 'https://w3id.org/xapi/dod-isd/verbs/searched',
+        display: 'searched',
+      };
       sendStatement(user.user, verb, objectId);
     }
-  }
+  };
 
   function handleChange(event) {
     setParams((previous) => ({
       ...previous,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     }));
   }
 
@@ -97,7 +96,6 @@ export default function Search({ query }) {
       router.push({ pathname: '/search', query: modified });
     }
   }
-
 
   function handleListSelect(event) {
     if (params.keyword && params.keyword !== '') {
@@ -126,7 +124,7 @@ export default function Search({ query }) {
 
       setParams(modified);
       setUrl(modified);
-      const domain = (new URL(window.location));
+      const domain = new URL(window.location);
       const objectId = `${domain.origin}/search?keyword=${modified.keyword}&p=1`;
       xAPISendStatement(objectId);
 
@@ -140,7 +138,7 @@ export default function Search({ query }) {
     setParams(modified);
     setUrl(modified);
     router.push({ pathname: '/search', query: modified }, undefined, {
-      scroll: true
+      scroll: true,
     });
   }
 
@@ -190,13 +188,15 @@ export default function Search({ query }) {
         <div className={'grid grid-cols-12 pt-2 gap-12 '}>
           <div id='search-results' className={'col-span-8 grid gap-8 relative'}>
             {data &&
-            data?.hits?.map((course) => (
-              <SearchResult result={course} key={course.meta.id} />
-            ))}
+              data?.hits?.map((course) => (
+                <SearchResult result={course} key={course.meta.id} />
+              ))}
             <div className='py-8 sticky bottom-0 bg-gradient-to-t from-gray-50 mb-8'>
               {!isLoading && data && (
                 <Pagination
-                  totalPages={Math.ceil(data?.total / config?.data?.search_results_per_page)}
+                  totalPages={Math.ceil(
+                    data?.total / config?.data?.search_results_per_page
+                  )}
                   handleSpecificPage={handleSpecificPage}
                   currentPage={parseInt(params.p)}
                 />
