@@ -29,7 +29,7 @@ export default function ViewBtn({ id }) {
           const objectId = `${domain.origin}/course/${id}`;
           xAPISendStatement(objectId);
         }}
-      >
+      > View Course
         <EyeIcon className='h-5 w-5' />
       </button>
     </Link>
