@@ -14,6 +14,7 @@ describe('xAPI', () => {
       email: "john.doe@email.com"
     }
     const verbObj = {
+      id: "http://example.com/verbs/tested",
       display: "tested"
     }
     
