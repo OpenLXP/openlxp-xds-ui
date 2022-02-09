@@ -5,7 +5,9 @@ import Link from 'next/link';
 import React from 'react';
 
 export default function CourseSpotlight({ course }) {
-  const { Course, meta, Technical_Information } = { ...course };
+  const { Course, meta, Technical_Information, Course_Instance } = {
+    ...course,
+  };
   const uiConfig = useConfig();
   const router = useRouter();
 
@@ -34,10 +36,16 @@ export default function CourseSpotlight({ course }) {
           id='course-info'
           className='z-20 absolute top-0 p-2 font-sans text-gray-50 text-shadow-md'
         >
-          <h2 className='font-semibold'>{Course.CourseTitle}</h2>
-          <div>
-            <span className='font-semibold'>Provider:&nbsp;</span>
-            {Course.CourseProviderName}
+          <h2 className='font-bold'>{Course.CourseTitle}</h2>
+          <div className='flex flex-col pt-2'>
+            <div>
+              <span className='font-semibold'>Provider:&nbsp;</span>
+              {Course.CourseProviderName}
+            </div>
+            <div>
+              <span className='font-semibold'>Start Date:&nbsp;</span>
+              {new Date(Course_Instance?.StartDate).toLocaleDateString()}
+            </div>
           </div>
         </div>
         <div
