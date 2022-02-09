@@ -18,7 +18,7 @@ import prepareListDataToSend from '@/utils/prepListDataToSend';
 export default function EditList() {
   const { user } = useAuth();
   const router = useRouter();
-  const list = useUserList(parseInt(router.query.listId));
+  const list = useUserList(parseInt(router.query?.listId));
 
   // handles the mutation
   const mutation = useUpdateUserList(user?.token);
