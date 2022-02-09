@@ -25,28 +25,6 @@ import { useSearchUrl } from '@/hooks/useSearchUrl';
 import { oneHour } from '@/config/timeConstants';
 import { searchUrl } from '@/config/endpoints';
 
-// // Server Side Generation
-// export async function getServerSideProps({ query }) {
-//   // parsing the url params
-//   const queryParams = new URLSearchParams(query);
-//   const params = queryParams.toString();
-
-//   // the full url for elastic search based on the searchURL and its params
-//   const url = `${searchUrl}?${params}`;
-
-//   const queryClient = new QueryClient();
-//   await queryClient.prefetchQuery(
-//     ['search', url],
-//     () => axiosInstance.get(url).then((res) => res.data),
-//     { staleTime: oneHour, cacheTime: oneHour }
-//   );
-//   return {
-//     props: {
-//       query,
-//       dehydratedState: dehydrate(queryClient)
-//     }
-//   };
-// }
 
 export default function Search({ query }) {
   const router = useRouter();
