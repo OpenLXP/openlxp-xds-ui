@@ -7,7 +7,7 @@ import logo from '@/public/logo.png';
 export default function Header({}) {
   const { user } = useAuth();
   return (
-    <header className={'absolute top-0 bg-white w-full shadow z-50'}>
+    <header className={'bg-white w-full shadow z-50'}>
       <nav
         className={'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'}
         aria-label={'Top'}

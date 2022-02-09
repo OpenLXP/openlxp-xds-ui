@@ -5,9 +5,9 @@ import Header from '../Header';
 export default function DefaultLayout({ children, footerLocation }) {
   const { data } = useConfig();
   return (
-    <div className={'relative custom-scroll min-h-screen'}>
+    <div className={'relative custom-scroll'}>
       <Header />
-      <div className='max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 min-h-screen'>{children}</div>
+      <div className='max-w-7xl mx-auto px-4 sm:px-4 lg:px-8'>{children}</div>
       <Footer location={footerLocation} />
     </div>
   );
