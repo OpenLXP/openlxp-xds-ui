@@ -3,8 +3,53 @@ import Image from 'next/image';
 import Link from 'next/link';
 import UserMenu from '@/components/menus/UserMenu';
 import logo from '@/public/logo.png';
+import { useRouter } from 'next/router';
 
-export default function Header({}) {
+const menuItems = [
+  {
+    label: 'Search Courses',
+    path: '/',
+  },
+  {
+    label: 'Search Lists',
+    path: '/lists/searchLists',
+  },
+  // {
+  //   label: 'Saved Searches',
+  //   path: '/lists/savedSearches',
+  // },
+  // {
+  //   label: 'Subscribed Lists',
+  //   path: '/lists/subscribed',
+  // },
+  // {
+  //   label: 'My Lists',
+  //   path: '/lists/owned',
+  // },
+];
+
+function Button({ data }) {
+  const router = useRouter();
+  console.log(router.asPath);
+  if (data.path === router.asPath) {
+    return (
+      <Link href={data.path}>
+        <a className='px-1 font-bold text-gray-800 border-b-2 border-gray-800 hover:text-gray-900'>
+          {data.label}
+        </a>
+      </Link>
+    );
+  }
+  return (
+    <Link href={data.path}>
+      <a className='transition-all duration-100 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-900'>
+        {data.label}
+      </a>
+    </Link>
+  );
+}
+
+export default function Header() {
   const { user } = useAuth();
   return (
     <header className={'bg-white w-full shadow z-50'}>
@@ -12,8 +57,8 @@ export default function Header({}) {
         className={'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'}
         aria-label={'Top'}
       >
-        <div className={'w-full py-4 inline-flex items-center justify-between'}>
-          <div className={'flex items-center gap-2'}>
+        <div className={'w-full py-4 inline-flex items-center justify-between z-50'}>
+          <div className={'flex items-center justify-start gap-2'}>
             <Link href={'/'}>
               <a
                 title='home'
@@ -23,37 +68,14 @@ export default function Header({}) {
                 <Image src={logo} alt={'home'} height={'60'} width={'60'} />
               </a>
             </Link>
-
-            <Link href={'/'}>
-              <a className=' py-2 px-4 rounded inline-block text-grey-600 hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
-                Search Courses
-              </a>
-            </Link>
-
-            {user && (
-              <div className={'inline-flex items-center gap-2'}>
-                <Link href={'/lists/searchLists'}>
-                  <a className=' py-2 px-4 rounded inline-block text-grey-600 hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
-                    Search Lists
-                  </a>
-                </Link>
-                <Link href={'/lists/savedSearches'}>
-                  <a className=' py-2 px-4 rounded inline-block text-grey-600 hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
-                    Saved Search
-                  </a>
-                </Link>
-                <Link href={'/lists/subscribed'}>
-                  <a className=' py-2 px-4 rounded inline-block text-grey-600 hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
-                    Subscribed
-                  </a>
-                </Link>
-                <Link href={'/lists/owned'}>
-                  <a className=' py-2 px-4 rounded inline-block text-grey-600 hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
-                    My Lists
-                  </a>
-                </Link>
-              </div>
-            )}
+            {menuItems.map((item) => {
+              if (item.label === 'Search Courses') {
+                return <Button key={item.label} data={item} />;
+              }
+              if (user) {
+                return <Button key={item.label} data={item} />;
+              }
+            })}
           </div>
 
           {!user && (
@@ -70,10 +92,8 @@ export default function Header({}) {
               </Link>
             </div>
           )}
-          
-          {user &&(
-            <UserMenu/>
-          )}
+
+          {user && <UserMenu />}
         </div>
       </nav>
     </header>
