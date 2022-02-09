@@ -1,7 +1,6 @@
 import { useRouter } from 'next/dist/client/router';
 import React, { useMemo } from 'react';
 
-
 // hooks
 import { useConfig } from '@/hooks/useConfig';
 import { useCourse } from '@/hooks/useCourse';
@@ -17,10 +16,126 @@ import SaveModal from '@/components/modals/SaveModal';
 
 // config
 import { backendHost } from '@/config/endpoints';
+import { StarIcon } from '@heroicons/react/solid';
+import ViewBtn from '@/components/buttons/ViewBtn';
+
+const cleanDataOfHtml = (data) => {
+  return data?.replace(/<[^>]*>?/gm, '');
+};
+
+// convert date to mm/dd/yyyy format
+const convert = (date) => {
+  const d = new Date(date);
+
+  const month = `${d.getMonth() + 1}`;
+  const day = `${d.getDate()}`;
+  const year = d.getFullYear();
+
+  const newDate = [month, day, year].join('/');
+  return newDate;
+};
+
+function Description({ data }) {
+  return (
+    <div className='flex flex-col gap-2'>
+      <h2 htmlFor='Description' className='text-lg font-sans font-semibold'>
+        Description
+      </h2>
+      <p>{data}</p>
+    </div>
+  );
+}
+
+function Prerequisites({ data }) {
+  return (
+    <div className='flex flex-col gap-2'>
+      <h2 htmlFor='Description' className='text-lg font-sans font-semibold'>
+        Prerequisites
+      </h2>
+      <p>{data || 'No Prerequisites'}</p>
+    </div>
+  );
+}
+
+function CourseAudience({ data }) {
+  return (
+    <div className='flex flex-col gap-2'>
+      <h2 htmlFor='Description' className='text-lg font-sans font-semibold'>
+        Audience
+      </h2>
+      <p>{data}</p>
+    </div>
+  );
+}
+
+function Image({ thumbnail }) {
+  return (
+    <img
+      className='rounded col-span-1 aspect-video'
+      src={thumbnail}
+      alt='thumbnail'
+    />
+  );
+}
+
+function Details({ course }) {
+  return (
+    <div className='grid grid-cols-2 gap-2 pt-6 border-t border-gray-400'>
+      <span>
+        <label className='font-semibold'>Start Date:</label>&nbsp;
+        {convert(course?.data?.Course_Instance?.StartDate) || 'Not Available'}
+      </span>
+      <span>
+        <label className='font-semibold'>End Date:</label>&nbsp;
+        {convert(course?.data?.Course_Instance?.EndDate) || 'Not Available'}
+      </span>
+      <span>
+        <label className='font-semibold'>Course Provider:</label>&nbsp;
+        {cleanDataOfHtml(course?.data?.Course?.CourseProviderName) ||
+          'Not Available'}
+      </span>
+      <span>
+        <label className='font-semibold'>Delivery Method:</label>&nbsp;
+        {cleanDataOfHtml(course?.data?.Course?.CourseSectionDeliveryMode) ||
+          'Not Available'}
+      </span>
+      <span>
+        <label className='font-semibold'>Course Code:</label>&nbsp;
+        {cleanDataOfHtml(course?.data?.Course?.CourseCode) || 'Not Available'}
+      </span>
+      <span>
+        <label className='font-semibold'>Course Instructor:</label>&nbsp;
+        {cleanDataOfHtml(course?.data?.Course_Instance?.Instructor) ||
+          'Not Available'}
+      </span>
+    </div>
+  );
+}
+
+function Controls({ data }) {
+  const { user } = useAuth();
+  return (
+    <div className='flex justify-end h-min gap-2 my-3'>
+      <ExternalBtn url={data?.Course?.CourseURL} />
+      {user && <SaveModal courseId={data?.meta?.metadata_key_hash} />}
+    </div>
+  );
+}
+
+function RelatedCourses({ data }) {
+  return (
+    <div className='flex justify-center w-full overflow-x-hidden'>
+      <div className='inline-flex overflow-x-auto gap-2 py-4 custom-scroll '>
+        {data.hits.map((course) => {
+          return <CourseSpotlight course={course} />;
+        })}
+      </div>
+    </div>
+  );
+}
 
 export default function Course() {
   // grab the course id
-  const { user } = useAuth();
   const { query } = useRouter();
 
   // state of the fetching
@@ -28,14 +143,8 @@ export default function Course() {
   const course = useCourse(query?.courseId);
   const moreLikeThis = useMoreCoursesLikeThis(query?.courseId);
 
-  const preparedData = useMemo(() => {
-    if (course.isSuccess && config.isSuccess) {
-      return usePrepareCourseData(config.data, course?.data);
-    }
-  }, [config.data, course.data]);
-
   const thumbnail = useMemo(() => {
-    let image=null
+    let image = null;
     if (moreLikeThis.isSuccess && course.isSuccess) {
       image = course?.data?.Technical_Information?.Thumbnail;
     }
@@ -45,95 +154,31 @@ export default function Course() {
     return image;
   }, [course, config, moreLikeThis]);
 
-  // loading skeleton
-  if (course.isLoading || config.isLoading) {
-    return (
-      <DefaultLayout footerLocation='absolute'>
-        <div className='pt-32  animate-pulse'>
-          <div className='grid grid-cols-3 gap-8 mt-8'>
-            <div className='h-16 col-span-2 rounded-md bg-gray-200' />
-            <div className='h-16 col-span-1 inline-flex justify-end gap-2'>
-              <div className='h-16 w-16 rounded-full bg-gray-200' />
-              <div className='h-16 w-16 rounded-full bg-gray-200' />
-              <div className='h-16 w-16 rounded-full bg-gray-200' />
-            </div>
-            <div className='col-span-2 h-96 rounded-md bg-gray-200' />
-            <div className='col-span-1 h-72 rounded-md bg-gray-200' />
-          </div>
-        </div>
-      </DefaultLayout>
-    );
-  }
-
-  // successful loading
   return (
-    <DefaultLayout footerLocation='absolute'>
-      <div className='pt-32'>
-        <div className='inline-flex justify-between w-full items-center border-b pb-5'>
-          <h1 className='font-semibold text-3xl col-span-2'>
-            {preparedData?.courseTitle}
-          </h1>
-          <div className='inline-flex justify-end gap-2 items-center'>
-            <ExternalBtn url={preparedData?.courseUrl} />
-            {user && (
-              <SaveModal
-                courseId={
-                  course.data?.meta?.metadata_key_hash
-                    ? course?.data?.meta?.metadata_key_hash
-                    : course.data?.meta?.id
-                }
-              />
-            )}
-          </div>
+    <DefaultLayout>
+      <div className='pt-32' id='image'></div>
+      <h1 className='font-bold text-3xl font-sans'>
+        {course?.data?.Course?.CourseTitle}
+      </h1>
+      <div className='grid grid-cols-2 gap-8 mt-4 pb-32'>
+        <div id='left-col'>
+          <Image thumbnail={thumbnail} />
+          <Controls data={course?.data} />
+          <Details course={course} />
         </div>
-        <div className='grid grid-cols-3 gap-8 mt-8'>
-          <div className='col-span-2 '>
-            {thumbnail && (
-              <div
-                className='float-left mx-5 mt-6 rounded-md clear-left bg-blue-200'
-                style={{ height: '176px', width: '296px' }}
-              >
-                <img
-                  src={thumbnail}
-                  alt=''
-                  className='rounded-md h-full w-full'
-                />
-              </div>
-            )}
-            <p
-              className='rounded-md  text-xl bg-white border border-gray-200 shadow-sm p-4 mb-80'
-              style={{ minHeight: 'calc(176px + 3.25rem)' }}
-            >
-              {preparedData?.courseDescription?.replace(/<[^>]*>?/gm, '')}
-            </p>
-          </div>
-          <div className='col-span-1'>
-            <div className='rounded-md bg-white border border-gray-200 shadow-sm p-4 space-y-1'>
-              {preparedData?.courseDetails?.map((detail) => {
-                return (
-                  <div key={detail?.displayName}>
-                    <label className='font-semibold'>
-                      {detail?.displayName}:&nbsp;
-                    </label>
-                    {detail?.value}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-        <div
-          id='course-carousel'
-          className='absolute bottom-0 flex justify-center left-0 w-full overflow-x-hidden'
-        >
-          <div className='inline-flex overflow-x-auto px-2 gap-2 py-5 custom-scroll '>
-            {moreLikeThis.isSuccess &&
-              moreLikeThis.data.hits.map((course) => {
-                return <CourseSpotlight course={course} />;
-              })}
-          </div>
+        <div className='flex flex-col gap-2 justify-start'>
+          <Description
+            data={cleanDataOfHtml(course?.data?.Course?.CourseShortDescription)}
+          />
+          <CourseAudience
+            data={cleanDataOfHtml(course?.data?.Course?.CourseAudience)}
+          />
+          <Prerequisites
+            data={cleanDataOfHtml(course?.data?.Course?.CoursePrerequisites)}
+          />
         </div>
       </div>
+      {moreLikeThis.isSuccess && <RelatedCourses data={moreLikeThis.data} />}
     </DefaultLayout>
   );
 }
