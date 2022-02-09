@@ -184,7 +184,16 @@ export default function Course() {
           />
         </div>
       </div>
-      {moreLikeThis.isSuccess && <RelatedCourses data={moreLikeThis.data} />}
+
+      {moreLikeThis.isSuccess &&
+        <div className='pt-6'>
+          <span className={'text-gray-400 italic block font-sans'}>
+            Related Courses
+          </span>
+          <RelatedCourses data={moreLikeThis.data} />
+        </div>
+      }
+
     </DefaultLayout>
   );
 }

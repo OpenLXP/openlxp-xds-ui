@@ -70,8 +70,13 @@ export default function Home() {
           />
         </div>
 
-        <div className='flex justify-center w-full overflow-x-hidden'>
-          <div className='inline-flex overflow-x-auto gap-2 pb-4 mt-44 custom-scroll '>
+        <div className='flex flex-col justify-center w-full mt-44 overflow-x-hidden'>
+          {spotlight.isSuccess &&
+            spotlight.data.length > 0 &&
+            <span className={'text-gray-400 italic block pb-2 font-sans'}>
+              Spotlight Courses
+            </span>}
+          <div className='inline-flex overflow-x-auto gap-2 pb-4 custom-scroll '>
             {spotlight.isSuccess &&
               spotlight.data.length > 0 &&
               spotlight.data.map((course) => {
