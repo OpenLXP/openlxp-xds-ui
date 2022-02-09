@@ -15,7 +15,6 @@ import { useConfig } from '@/hooks/useConfig';
 import useField from '@/hooks/useField';
 import useSpotlightCourses from '@/hooks/useSpotlightCourses';
 
-
 export default function Home() {
   const router = useRouter();
   const { user } = useAuth();
@@ -31,12 +30,12 @@ export default function Home() {
   const xAPISendStatement = (objectId) => {
     if (user) {
       const verb = {
-        id: "https://w3id.org/xapi/dod-isd/verbs/searched",
-        display: "searched"
-      }
+        id: 'https://w3id.org/xapi/dod-isd/verbs/searched',
+        display: 'searched',
+      };
       sendStatement(user.user, verb, objectId);
     }
-  }
+  };
 
   const handleSearch = () => {
     if (fields.keyword && fields.keyword !== '') {
@@ -51,10 +50,10 @@ export default function Home() {
   };
 
   return (
-    <DefaultLayout footerLocation='absolute'>
+    <DefaultLayout>
       <div className='flex flex-col items-center justify-center min-h-screen gap-8'>
-        <div className={'inline-flex -mt-16 items-center gap-4'}>
-          <Image src={logo} height={100} width={100} alt='' />
+        <div className={'flex flex-col text-center -mt-16 items-center gap-4'}>
+          <Image src={logo} height={250} width={250} alt='' />
           <div>
             <h1 className={'text-3xl font-semibold'}>
               Enterprise Course Catalog
@@ -70,11 +69,9 @@ export default function Home() {
             onChange={handleChange}
           />
         </div>
-        <div
-          id='course-carousel'
-          className='absolute flex justify-center bottom-0 left-0 w-full overflow-x-auto custom-scroll'
-        >
-          <div className='inline-flex overflow-x-auto px-2 gap-2 py-5 custom-scroll '>
+
+        <div className='flex justify-center w-full overflow-x-hidden'>
+          <div className='inline-flex overflow-x-auto gap-2 pb-4 mt-44 custom-scroll '>
             {spotlight.isSuccess &&
               spotlight.data.length > 0 &&
               spotlight.data.map((course) => {
