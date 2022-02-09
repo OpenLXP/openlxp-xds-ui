@@ -18,13 +18,14 @@ import SaveModal from '@/components/modals/SaveModal';
 import { backendHost } from '@/config/endpoints';
 import { StarIcon } from '@heroicons/react/solid';
 import ViewBtn from '@/components/buttons/ViewBtn';
+import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 
 const cleanDataOfHtml = (data) => {
   return data?.replace(/<[^>]*>?/gm, '');
 };
 
 // convert date to mm/dd/yyyy format
-const convert = (date) => {
+const convertToDate = (date) => {
   const d = new Date(date);
 
   const month = `${d.getMonth() + 1}`;
@@ -78,36 +79,23 @@ function Image({ thumbnail }) {
   );
 }
 
-function Details({ course }) {
+function Details({ details }) {
   return (
     <div className='grid grid-cols-2 gap-2 pt-6 border-t border-gray-400'>
-      <span>
-        <label className='font-semibold'>Start Date:</label>&nbsp;
-        {convert(course?.data?.Course_Instance?.StartDate) || 'Not Available'}
-      </span>
-      <span>
-        <label className='font-semibold'>End Date:</label>&nbsp;
-        {convert(course?.data?.Course_Instance?.EndDate) || 'Not Available'}
-      </span>
-      <span>
-        <label className='font-semibold'>Course Provider:</label>&nbsp;
-        {cleanDataOfHtml(course?.data?.Course?.CourseProviderName) ||
-          'Not Available'}
-      </span>
-      <span>
-        <label className='font-semibold'>Delivery Method:</label>&nbsp;
-        {cleanDataOfHtml(course?.data?.Course?.CourseSectionDeliveryMode) ||
-          'Not Available'}
-      </span>
-      <span>
-        <label className='font-semibold'>Course Code:</label>&nbsp;
-        {cleanDataOfHtml(course?.data?.Course?.CourseCode) || 'Not Available'}
-      </span>
-      <span>
-        <label className='font-semibold'>Course Instructor:</label>&nbsp;
-        {cleanDataOfHtml(course?.data?.Course_Instance?.Instructor) ||
-          'Not Available'}
-      </span>
+      {details.map((detail) => {
+        // check if the detail is a valid date and convert it to mm/dd/yyyy format
+        if (new Date(detail.value).toString() !== 'Invalid Date') {
+          detail.value = convertToDate(detail.value);
+        }
+
+        // return the details
+        return (
+          <div key={detail.key}>
+            <h2 className='text-lg font-sans font-semibold'>{detail.key}</h2>
+            <p>{detail.value || "Not Available"}</p>
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -143,6 +131,25 @@ export default function Course() {
   const course = useCourse(query?.courseId);
   const moreLikeThis = useMoreCoursesLikeThis(query?.courseId);
 
+  // prepare the details of the course
+  const details = useMemo(() => {
+    const data = config?.data?.course_highlights;
+    // if the course is currently being fetched or the config is being fetched
+    if (config.isLoading || course.isLoading) return [];
+
+    // if there was an error fetching the course or the config
+    if (config.isError || course.isError) return [];
+
+    // loop through the course details and remap them for display
+    const keymap = data.map((obj) => {
+      return {
+        key: obj.display_name,
+        value: getDeeplyNestedData(obj.field_name, course?.data),
+      };
+    });
+    return keymap;
+  }, [config.isSuccess, course.isSuccess]);
+
   const thumbnail = useMemo(() => {
     let image = null;
     if (moreLikeThis.isSuccess && course.isSuccess) {
@@ -156,15 +163,14 @@ export default function Course() {
 
   return (
     <DefaultLayout>
-      <div className='pt-32' id='image'></div>
-      <h1 className='font-bold text-3xl font-sans'>
+      <h1 className='font-bold text-3xl font-sans pt-10'>
         {course?.data?.Course?.CourseTitle}
       </h1>
-      <div className='grid grid-cols-2 gap-8 mt-4 pb-32'>
+      <div className='grid grid-cols-2 gap-8 mt-4 pb-10'>
         <div id='left-col'>
           <Image thumbnail={thumbnail} />
           <Controls data={course?.data} />
-          <Details course={course} />
+          <Details details={details} />
         </div>
         <div className='flex flex-col gap-2 justify-start'>
           <Description
