@@ -22,7 +22,7 @@ export default function SavedSearches() {
 
   return (
     <DefaultLayout>
-      <div className='mt-10'>
+      <div className='mt-10 pb-20'>
         <div id='title' className='pb-4 border-b mb-8'>
           <h1 className='font-semibold text-3xl'>Saved Searches</h1>
         </div>

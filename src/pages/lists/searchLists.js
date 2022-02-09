@@ -92,7 +92,7 @@ export default function SearchLists() {
 
   return (
     <DefaultLayout>
-      <div className='mt-10'>
+      <div className='mt-10 pb-20'>
         <h1 className='pb-4 border-b mb-8 text-3xl font-semibold'>
           Search List Catalog
         </h1>

@@ -54,8 +54,8 @@ export default function Login() {
   };
 
   return (
-    <DefaultLayout footerLocation='absolute'>
-      <div className={'my-32'}>
+    <DefaultLayout>
+      <div className={'pb-32'}>
         <div className='mt-10 mx-52 flex flex-col items-center justify-between'>
           <Image src={logo} alt={'home'} height={'200'} width={'200'} />
           <p className={'mt-2 text-2xl font-extrabold '}>

@@ -52,7 +52,7 @@ export default function Home() {
   return (
     <DefaultLayout>
       <div className='flex flex-col items-center justify-center min-h-screen gap-8'>
-        <div className={'flex flex-col text-center -mt-16 items-center gap-4'}>
+        <div className={'flex flex-col mt-10 text-center items-center gap-4'}>
           <Image src={logo} height={250} width={250} alt='' />
           <div>
             <h1 className={'text-3xl font-semibold'}>
@@ -71,12 +71,12 @@ export default function Home() {
         </div>
 
         <div className='flex flex-col justify-center w-full mt-44 overflow-x-hidden'>
-          {spotlight.isSuccess &&
-            spotlight.data.length > 0 &&
+          {spotlight.isSuccess && spotlight.data.length > 0 && (
             <span className={'text-gray-400 italic block pb-2 font-sans'}>
               Spotlight Courses
-            </span>}
-          <div className='inline-flex overflow-x-auto gap-2 pb-4 custom-scroll '>
+            </span>
+          )}
+          <div className='inline-flex overflow-x-auto gap-2 pb-4 mb-24 custom-scroll '>
             {spotlight.isSuccess &&
               spotlight.data.length > 0 &&
               spotlight.data.map((course) => {

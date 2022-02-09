@@ -59,7 +59,7 @@ export default function EditList() {
 
   return (
     <DefaultLayout>
-      <div className='mt-10'>
+      <div className='mt-10 pb-20'>
         <h1 className='font-sans font-semibold text-3xl pb-4 mb-8 border-b'>
           {list?.data?.name}
         </h1>

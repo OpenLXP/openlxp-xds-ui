@@ -83,8 +83,9 @@ function Details({ details }) {
   return (
     <div className='grid grid-cols-2 gap-2 pt-6 border-t border-gray-400'>
       {details.map((detail) => {
-        // check if the detail is a valid date and convert it to mm/dd/yyyy format
-        if (new Date(detail.value).toString() !== 'Invalid Date') {
+        // check if the key contains the word date
+        if (detail.key.includes('date') || detail.key.includes('Date')) {
+          console.log(detail.value);
           detail.value = convertToDate(detail.value);
         }
 
@@ -112,11 +113,16 @@ function Controls({ data }) {
 
 function RelatedCourses({ data }) {
   return (
-    <div className='flex justify-center w-full overflow-x-hidden'>
-      <div className='inline-flex overflow-x-auto gap-2 py-4 custom-scroll '>
-        {data.hits.map((course) => {
-          return <CourseSpotlight course={course} />;
-        })}
+    <div className='mt-16 pb-32'>
+      <span className={'text-gray-400 italic block pb-2 font-sans'}>
+        Related Courses
+      </span>
+      <div className='flex justify-center w-full overflow-x-hidden'>
+        <div className='inline-flex overflow-x-auto gap-2 py-4 custom-scroll '>
+          {data.hits.map((course) => {
+            return <CourseSpotlight course={course} />;
+          })}
+        </div>
       </div>
     </div>
   );
@@ -148,7 +154,7 @@ export default function Course() {
       };
     });
     return keymap;
-  }, [config.isSuccess, course.isSuccess]);
+  }, [config, course]);
 
   // prepare the course data
   const courseData = useMemo(() => {
@@ -157,7 +163,7 @@ export default function Course() {
       // prepare the course data
       return usePrepareCourseData(config?.data, course?.data);
     }
-  }, [course.isSuccess, config.isSuccess]);
+  }, [course, config]);
 
   const thumbnail = useMemo(() => {
     let image = null;
@@ -175,7 +181,7 @@ export default function Course() {
       <h1 className='font-bold text-3xl font-sans pt-10'>
         {course?.data?.Course?.CourseTitle}
       </h1>
-      <div className='grid grid-cols-2 gap-8 mt-4 pb-10'>
+      <div className='grid grid-cols-2 gap-8 mt-4 mb-30'>
         <div id='left-col'>
           <Image thumbnail={thumbnail} />
           <Controls data={course?.data} />
@@ -191,16 +197,7 @@ export default function Course() {
           />
         </div>
       </div>
-
-      {moreLikeThis.isSuccess &&
-        <div className='pt-6'>
-          <span className={'text-gray-400 italic block font-sans'}>
-            Related Courses
-          </span>
-          <RelatedCourses data={moreLikeThis.data} />
-        </div>
-      }
-
+      {moreLikeThis.isSuccess && <RelatedCourses data={moreLikeThis.data} />}
     </DefaultLayout>
   );
 }

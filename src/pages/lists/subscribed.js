@@ -25,7 +25,7 @@ export default function Subscribed() {
 
   return (
     <DefaultLayout>
-      <div className='mt-10'>
+      <div className='mt-10 pb-20'>
         <h1 className='pb-4 border-b mb-8 font-semibold text-3xl'>
           Subscribed Lists
         </h1>

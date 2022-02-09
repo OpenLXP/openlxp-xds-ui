@@ -22,7 +22,7 @@ export default function ListsView() {
 
   return (
     <DefaultLayout footerLocation='absolute'>
-      <div className='mt-10 font-sans'>
+      <div className='mt-10 pb-20 font-sans'>
         <h1 className='font-semibold text-3xl pb-4 mb-8 border-b'>
           {isSuccess && list.name}
         </h1>
