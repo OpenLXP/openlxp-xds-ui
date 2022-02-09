@@ -102,7 +102,7 @@ export default function Login() {
             <LoginIcon className='w-5 h-5' />
             Login
           </ActionButton>
-          <p className={'my-8 relative border-b-2 w-full'}>
+          {/* <p className={'my-8 relative border-b-2 w-full'}>
             <span className='absolute top-1/2 left-1/2 transform text-center -translate-x-1/2 -translate-y-1/2 bg-white px-2 w-max'>
               or continue with
             </span>
@@ -117,7 +117,7 @@ export default function Login() {
             >
               Single Sign On
             </a>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </DefaultLayout>

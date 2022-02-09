@@ -171,9 +171,9 @@ export default function Register() {
           <p className='text-red-600 mb-5'>{error.message}</p>
           <ActionButton onClick={() => registerUser()} id='create-account-button'>
             <UserAddIcon className='h-5 w-5' />
-            Create
+            Create Account
           </ActionButton>
-          <p className={'my-8 relative border-b-2 w-full'}>
+          {/* <p className={'my-8 relative border-b-2 w-full'}>
             <span
               className='absolute top-1/2 left-1/2 transform text-center -translate-x-1/2 -translate-y-1/2 bg-white px-2 w-max'>
               or continue with
@@ -186,7 +186,7 @@ export default function Register() {
             >
               Single Sign On
             </a>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </DefaultLayout>

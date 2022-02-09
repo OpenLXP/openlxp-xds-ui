@@ -6,7 +6,7 @@ import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 
-export default function Owned({ }) {
+export default function Owned({}) {
   const router = useRouter();
 
   const { user } = useAuth();
@@ -14,8 +14,8 @@ export default function Owned({ }) {
 
   useEffect(() => {
     if (!user) router.push('/');
-    if (isError && error.response.status === 403) router.push('/403')
-    if (isError && error.response.status === 401) router.push('/401')
+    if (isError && error.response.status === 403) router.push('/403');
+    if (isError && error.response.status === 401) router.push('/401');
   }, [isError]);
 
   return (
@@ -62,6 +62,18 @@ export default function Owned({ }) {
               </div>
             );
           })}
+        {isSuccess && data.length === 0 && (
+          <div className='text-center w-full col-span-3'>
+            <h2 className='text-lg font-medium px-2 pt-2'>
+              You are not subscribed to any lists.
+            </h2>
+            <p className='inline-flex w-[80%] pt-8'>
+              To create a new list, head over to the search courses page and
+              find a course you'd like to save. Click the save button and you'll
+              be able to add it a list or create a new one.
+            </p>
+          </div>
+        )}
       </div>
     </DefaultLayout>
   );

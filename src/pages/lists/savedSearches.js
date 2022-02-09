@@ -65,9 +65,9 @@ export default function SavedSearches() {
                         <button
                           id='view'
                           title='view'
-                          className='flex items-center gap-2 bg-gray-50 border text-gray-500 border-gray-500 p-1 rounded-full transform transition-color duration-150 ease-in-out hover:text-white hover:bg-gray-500'
+                          className='flex items-center gap-2 bg-gray-50 border text-gray-500 border-gray-500 px-2 py-1 rounded-full transform transition-color duration-150 ease-in-out hover:text-white hover:bg-gray-500'
                         >
-                          <EyeIcon className='h-5 w-5' />
+                          <EyeIcon className='h-5 w-5' /> View
                         </button>
                       </Link>
 

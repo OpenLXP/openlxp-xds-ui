@@ -6,6 +6,7 @@ import { useUnsubscribeFromList } from '@/hooks/useUnsubscribeFromList';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
+import ActionButton from '@/components/buttons/ActionButton';
 
 export default function Subscribed() {
   const { user } = useAuth();
@@ -73,6 +74,20 @@ export default function Subscribed() {
                 </div>
               );
             })}
+          {isSuccess && subscribed.length === 0 && (
+            <div className='text-center w-full col-span-3'>
+              <h2 className='text-lg px-2 pt-2 font-medium'>
+                You are not subscribed to any lists.
+              </h2>
+              <div className='pt-8'>
+                <Link href='/lists/searchLists'>
+                  <button className='max-w-max items-center inline-flex gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white px-4 py-2 transform transition-all duration-150 ease-in-out border-blue-400 border-2 outline-none focus:ring-2 ring-blue-400'>
+                    <div>Click Here to Search for a list.</div>
+                  </button>
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </DefaultLayout>

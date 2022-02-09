@@ -117,6 +117,9 @@ export default function EditList() {
                   </div>
                 );
               })}
+            {list.isSuccess && currentListInfo?.experiences?.length === 0 && (
+              <div className='text-center bg-white p-2'>No courses added yet.</div>
+            )}
           </div>
         </div>
         <div className='flex justify-between items-center w-full mt-8'>
@@ -133,7 +136,7 @@ export default function EditList() {
             {mutation.isSuccess && <CheckCircleIcon className='h-5 w-5' />}
             {mutation.isLoading && <RefreshIcon className='h-5 w-5' />}
             {mutation.isError && <XCircleIcon className='h-5 w-5' />}
-            Update
+            Apply Changes
           </ActionButton>
           <button
             onClick={() => {
