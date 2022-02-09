@@ -58,8 +58,8 @@ export default function EditList() {
   };
 
   return (
-    <DefaultLayout footerLocation='absolute'>
-      <div className='pt-32 pb-20'>
+    <DefaultLayout>
+      <div className='mt-10'>
         <h1 className='font-sans font-semibold text-3xl pb-4 mb-8 border-b'>
           {list?.data?.name}
         </h1>
@@ -122,7 +122,7 @@ export default function EditList() {
         <div className='flex justify-between items-center w-full mt-8'>
           <ActionButton
             onClick={() => {
-              console.log(router.query)
+              console.log(router.query);
               mutation.mutate({
                 listData: prepareListDataToSend(currentListInfo),
                 id: parseInt(router.query.listId),

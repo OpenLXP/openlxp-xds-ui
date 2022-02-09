@@ -20,7 +20,7 @@ export default function Owned({ }) {
 
   return (
     <DefaultLayout footerLocation='absolute'>
-      <div id='title' className='pt-32 pb-4 border-b mb-8'>
+      <div id='title' className='mt-10 pb-4 border-b mb-8'>
         <h1 className='font-semibold text-3xl'>My Lists</h1>
       </div>
       <div className='grid grid-cols-3 gap-8 pb-20'>

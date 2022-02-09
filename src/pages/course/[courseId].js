@@ -92,7 +92,7 @@ function Details({ details }) {
         return (
           <div key={detail.key}>
             <h2 className='text-lg font-sans font-semibold'>{detail.key}</h2>
-            <p>{detail.value || "Not Available"}</p>
+            <p>{detail.value || 'Not Available'}</p>
           </div>
         );
       })}
@@ -150,6 +150,15 @@ export default function Course() {
     return keymap;
   }, [config.isSuccess, course.isSuccess]);
 
+  // prepare the course data
+  const courseData = useMemo(() => {
+    // if the course is currently being fetched
+    if (course.isSuccess && config.isSuccess) {
+      // prepare the course data
+      return usePrepareCourseData(config?.data, course?.data);
+    }
+  }, [course.isSuccess, config.isSuccess]);
+
   const thumbnail = useMemo(() => {
     let image = null;
     if (moreLikeThis.isSuccess && course.isSuccess) {
@@ -173,9 +182,7 @@ export default function Course() {
           <Details details={details} />
         </div>
         <div className='flex flex-col gap-2 justify-start'>
-          <Description
-            data={cleanDataOfHtml(course?.data?.Course?.CourseShortDescription)}
-          />
+          <Description data={cleanDataOfHtml(courseData?.courseDescription)} />
           <CourseAudience
             data={cleanDataOfHtml(course?.data?.Course?.CourseAudience)}
           />

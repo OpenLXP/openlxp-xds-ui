@@ -9,7 +9,12 @@ import React, { useEffect } from 'react';
 
 export default function Subscribed() {
   const { user } = useAuth();
-  const { data: subscribed, isSuccess, isError, error } = useSubscribedLists(user?.token);
+  const {
+    data: subscribed,
+    isSuccess,
+    isError,
+    error,
+  } = useSubscribedLists(user?.token);
   const { mutate: unsubscribe } = useUnsubscribeFromList(user?.token);
   const router = useRouter();
 
@@ -19,8 +24,8 @@ export default function Subscribed() {
   }, [isError]);
 
   return (
-    <DefaultLayout footerLocation='absolute'>
-      <div className='py-32'>
+    <DefaultLayout>
+      <div className='mt-10'>
         <h1 className='pb-4 border-b mb-8 font-semibold text-3xl'>
           Subscribed Lists
         </h1>

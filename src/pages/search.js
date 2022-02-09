@@ -143,7 +143,7 @@ export default function Search({ query }) {
 
   return (
     <DefaultLayout>
-      <div className='pt-10 pb-4'>
+      <div className='mt-10 pb-4'>
         <div className='flex flex-col py-2 mb-4 w-8/12 sticky top-0 z-10 bg-gray-50'>
           <div className='max-w-max self-end'>
             {user && <CreateSavedSearchModal path={router.asPath} />}
