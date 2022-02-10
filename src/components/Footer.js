@@ -2,8 +2,8 @@ import React from 'react';
 
 export default function Footer({ location }) {
   const leftLinks = [
-    { name: 'DOD', url: 'https://dodcio.defense.gov/' },
-    { name: 'About DOD', url: 'https://dodcio.defense.gov/About-DoD-CIO/' },
+    { name: 'DOD Home Page', url: 'https://www.defense.gov/' },
+    { name: 'About ADL', url: 'https://adlnet.gov/about/' },
     { name: 'Web Policy', url: 'https://dodcio.defense.gov/DoD-Web-Policy/' }
   ];
   const rightLinks = [
