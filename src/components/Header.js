@@ -14,6 +14,14 @@ const menuItems = [
     label: 'Search Lists',
     path: '/lists/searchLists',
   },
+  {
+    label: 'About ECC',
+    path: '/aboutECC',
+  },
+  {
+    label: 'Help',
+    path: '/help',
+  },
   // {
   //   label: 'Saved Searches',
   //   path: '/lists/savedSearches',
@@ -69,7 +77,7 @@ export default function Header() {
               </a>
             </Link>
             {menuItems.map((item) => {
-              if (item.label === 'Search Courses') {
+              if (item.label != 'Search Lists') {
                 return <Button key={item.label} data={item} />;
               }
               if (user) {
