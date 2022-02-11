@@ -31,10 +31,13 @@ export default function Home() {
   const xAPISendStatement = (objectId) => {
     if (user) {
       const verb = {
-        id: "https://w3id.org/xapi/dod-isd/verbs/searched",
+        id: "https://w3id.org/xapi/acrossx/verbs/searched",
         display: "searched"
       }
-      sendStatement(user.user, verb, objectId);
+
+      const objectDefName = "ECC Search Capability"
+
+      sendStatement(user.user, verb, objectId, objectDefName);
     }
   }
 

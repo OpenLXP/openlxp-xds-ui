@@ -65,7 +65,10 @@ export default function Search({ query }) {
         id: "https://w3id.org/xapi/dod-isd/verbs/searched",
         display: "searched"
       }
-      sendStatement(user.user, verb, objectId);
+      
+      const objectDefName = "ECC Search Capability"
+
+      sendStatement(user.user, verb, objectId, objectDefName);
     }
   }
 
