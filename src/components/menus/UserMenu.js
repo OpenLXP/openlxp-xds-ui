@@ -64,7 +64,7 @@ const MenuButton = ({ name, icon, href }) => {
 export default function UserMenu() {
   const {
     user: {
-      user: { first_name, last_name },
+      user: { first_name },
     },
     logout,
   } = useAuth();
@@ -83,7 +83,7 @@ export default function UserMenu() {
             >
               <UserIcon className='h-6 text-blue-500 text-shadow' />
             </div>
-            <div className='line-clamp-1'>{first_name} {last_name}</div>
+            <div className='line-clamp-1'>{first_name}</div>
             
             <ChevronUpIcon
               className={`${open && 'rotate-180 shadow-inner-sm group-hover:bg-blue-500 '
