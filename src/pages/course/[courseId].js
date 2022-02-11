@@ -1,5 +1,5 @@
 import { useRouter } from 'next/dist/client/router';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
 // hooks
 import { useConfig } from '@/hooks/useConfig';
@@ -79,25 +79,45 @@ function Image({ thumbnail }) {
   );
 }
 
-function Details({ details }) {
-  return (
-    <div className='grid grid-cols-4 gap-2 pt-6 border-t border-gray-400'>
-      {details.map((detail) => {
-        // check if the key contains the word date
-        if (detail.key.includes('date') || detail.key.includes('Date')) {
-          console.log(detail.value);
-          detail.value = convertToDate(detail.value);
-        }
+function Details({ details = [] }) {
+  const [isOpen, setIsOpen] = useState(false);
 
-        // return the details
-        return (
-          <div key={detail.key}>
-            <h2 className='text-lg font-sans font-semibold'>{detail.key}</h2>
-            <p>{detail.value || 'Not Available'}</p>
-          </div>
-        );
-      })}
-    </div>
+  function ToggleButton({ title }) {
+    return (
+      <button
+        className='text-gray-400 hover:text-gray-600 italic block pb-2 font-sans transition-colors duration-75 ease-in-out'
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
+        {title}
+      </button>
+    );
+  }
+
+  return (
+    <>
+      {isOpen && <ToggleButton title='Click to hide details' />}
+      {!isOpen && <ToggleButton title='Click to view details' />}
+      <div className='grid grid-cols-4 gap-2 pt-6 border-t border-gray-400'>
+        {isOpen &&
+          details.map((detail) => {
+            // check if the key contains the word date
+            if (detail.key.includes('date') || detail.key.includes('Date')) {
+              console.log(detail.value);
+              detail.value = convertToDate(detail.value);
+            }
+
+            // return the details
+            return (
+              <div key={detail.key}>
+                <h2 className='text-lg font-sans font-semibold'>
+                  {detail.key}
+                </h2>
+                <p>{detail.value || 'Not Available'}</p>
+              </div>
+            );
+          })}
+      </div>
+    </>
   );
 }
 
@@ -114,7 +134,7 @@ function Controls({ data }) {
 function RelatedCourses({ data }) {
   return (
     <div className='mt-16 pb-32'>
-      <span className={'text-gray-400 italic block pb-2 font-sans'}>
+      <span className='text-gray-400 italic block pb-2 font-sans'>
         Related Courses
       </span>
       <div className='flex justify-center w-full overflow-x-hidden'>
@@ -128,12 +148,6 @@ function RelatedCourses({ data }) {
   );
 }
 
-let showingDetails = true;
-function showDetails(showingDetails){
-  showingDetails = !showingDetails;
-  console.log(showingDetails);
-}
-
 export default function Course() {
   // grab the course id
   const { query } = useRouter();
@@ -142,7 +156,7 @@ export default function Course() {
   const config = useConfig();
   const course = useCourse(query?.courseId);
   const moreLikeThis = useMoreCoursesLikeThis(query?.courseId);
- 
+
   // prepare the details of the course
   const details = useMemo(() => {
     const data = config?.data?.course_highlights;
@@ -191,8 +205,6 @@ export default function Course() {
         <div id='left-col'>
           <Image thumbnail={thumbnail} />
           <Controls data={course?.data} />
-          <button onClick={() => showDetails()}> More details </button>
-          {/* <Details details={details} /> */}
         </div>
         <div className='flex flex-col gap-2 justify-start'>
           <Description data={cleanDataOfHtml(courseData?.courseDescription)} />
@@ -204,9 +216,7 @@ export default function Course() {
           />
         </div>
       </div>
-      <div>
-        {showingDetails && <Details details={details} />}
-      </div>
+      <Details details={details} />
       {moreLikeThis.isSuccess && <RelatedCourses data={moreLikeThis.data} />}
     </DefaultLayout>
   );
