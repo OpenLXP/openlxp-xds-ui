@@ -15,7 +15,7 @@ export const sendStatement = (actor, verb, objectId) => {
       mbox: `mailto:${actor.email}`
     },
     verb: {
-      id: `http://example.com/verbs/${verb.display}`,
+      id: verb.id,
       display: {
           "en-GB": verb.display
       }
