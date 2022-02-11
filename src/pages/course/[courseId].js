@@ -81,7 +81,7 @@ function Image({ thumbnail }) {
 
 function Details({ details }) {
   return (
-    <div className='grid grid-cols-2 gap-2 pt-6 border-t border-gray-400'>
+    <div className='grid grid-cols-4 gap-2 pt-6 border-t border-gray-400'>
       {details.map((detail) => {
         // check if the key contains the word date
         if (detail.key.includes('date') || detail.key.includes('Date')) {
@@ -128,6 +128,12 @@ function RelatedCourses({ data }) {
   );
 }
 
+let showingDetails = true;
+function showDetails(showingDetails){
+  showingDetails = !showingDetails;
+  console.log(showingDetails);
+}
+
 export default function Course() {
   // grab the course id
   const { query } = useRouter();
@@ -136,7 +142,7 @@ export default function Course() {
   const config = useConfig();
   const course = useCourse(query?.courseId);
   const moreLikeThis = useMoreCoursesLikeThis(query?.courseId);
-
+ 
   // prepare the details of the course
   const details = useMemo(() => {
     const data = config?.data?.course_highlights;
@@ -185,7 +191,8 @@ export default function Course() {
         <div id='left-col'>
           <Image thumbnail={thumbnail} />
           <Controls data={course?.data} />
-          <Details details={details} />
+          <button onClick={() => showDetails()}> More details </button>
+          {/* <Details details={details} /> */}
         </div>
         <div className='flex flex-col gap-2 justify-start'>
           <Description data={cleanDataOfHtml(courseData?.courseDescription)} />
@@ -196,6 +203,9 @@ export default function Course() {
             data={cleanDataOfHtml(course?.data?.Course?.CoursePrerequisites)}
           />
         </div>
+      </div>
+      <div>
+        {showingDetails && <Details details={details} />}
       </div>
       {moreLikeThis.isSuccess && <RelatedCourses data={moreLikeThis.data} />}
     </DefaultLayout>
