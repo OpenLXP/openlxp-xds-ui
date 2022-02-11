@@ -100,7 +100,7 @@ export default function UserMenu() {
             leaveFrom='transform opacity-100 scale-100'
             leaveTo='transform opacity-0 scale-95'
           >
-            <Menu.Items className='absolute right-0 origin-top w-full mt-2 bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10'>
+            <Menu.Items className='absolute right-0 origin-top w-44 mt-2 bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10'>
               <div className='text-gray-700'>
                 <div className='p-2'>
                   <h3 className='text-md font-semibold w-full border-b'>
