@@ -58,7 +58,7 @@ export default function SavedSearches() {
                   >
                     <h2 className='col-span-3 line-clamp-1'>{list.name}</h2>
                     <div className='col-span-4 line-clamp-1' title={list.query}>
-                      {list.query}
+                      {new URLSearchParams(list.query).get('/search?keyword')}
                     </div>
                     <div className='col-span-1 flex justify-end items-center gap-2 px-2'>
                       <Link href={`${list.query}`}>
