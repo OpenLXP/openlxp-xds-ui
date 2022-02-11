@@ -31,17 +31,7 @@ export default function AboutECC() {
           the ability to share resources across DoD components, and identify
           course duplication.
         </p>
-
-        <h2 className='text-xl font-semibold'>The Solution</h2>
-        <p className='pb-4 mb-2'>
-          The Enterprise Course Catalog (ECC) enables a global search capability
-          that pulls information from decentralized local catalogs across the
-          DoD and aggregates the content into a single, Defense-wide portal.
-          Existing course catalog systems and their respective contents will
-          still be owned and managed by their current system owners, but the
-          content (data) within those systems will be discoverable across all of
-          DoD via the ECC portal.
-        </p>
+        
         <h2 className='text-xl font-semibold'>About the Project</h2>
         <p className='mb-2'>
           The ECC uses a metadata curation service to automatically generate
