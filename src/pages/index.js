@@ -28,7 +28,7 @@ export default function Home() {
   });
 
   //xAPI Statement
-  const xAPISendStatement = (objectId) => {
+  const xAPISendStatement = (objectId, searchTerm) => {
     if (user) {
       const verb = {
         id: "https://w3id.org/xapi/acrossx/verbs/searched",
@@ -36,15 +36,16 @@ export default function Home() {
       }
 
       const objectDefName = "ECC Search Capability"
+      const resultExtKey = "https://w3id.org/xapi/ecc/result/extensions/searchTerm";
 
-      sendStatement(user.user, verb, objectId, objectDefName);
+      sendStatement(user.user, verb, objectId, objectDefName, resultExtKey, searchTerm);
     }
   }
 
   const handleSearch = () => {
     if (fields.keyword && fields.keyword !== '') {
-      const objectId = `${window.location}search?keyword=${fields.keyword}&p=1`;
-      xAPISendStatement(objectId);
+      const objectId = `${window.location}search`;
+      xAPISendStatement(objectId, fields.keyword);
       router.push({ pathname: '/search/', query: fields });
     }
   };

@@ -1,5 +1,5 @@
 import xAPIMapper from "./xAPIMapper";
-
+import moment from 'moment';
 /**
  * @description takes in an actor (user), verb, object
  * @param object
@@ -7,7 +7,7 @@ import xAPIMapper from "./xAPIMapper";
  * @param object
  * @returns {Promise}
  */
-export const sendStatement = (actor, verb, objectId, objectDefName) => {
+export const sendStatement = (actor, verb, objectId, objectDefName, resultExtKey, resultExtValue) => {
 
   const statement = {
     actor: {
@@ -34,10 +34,10 @@ export const sendStatement = (actor, verb, objectId, objectDefName) => {
     },
     result: {
       extensions: {
-        "https://w3id.org/xapi/ecc/result/extensions/searchTerm": "data"
+        [resultExtKey]: resultExtValue
       }
     },
-    timestamp: "2022-02-09T19:55:14.140Z"
+    timestamp: moment.utc()
   }
 
   return xAPIMapper.sendStatement({ statement });

@@ -59,16 +59,17 @@ export default function Search({ query }) {
   const { user } = useAuth();
 
   //xAPI Statement
-  const xAPISendStatement = (objectId) => {
+  const xAPISendStatement = (objectId, searchTerm) => {
     if (user && isSuccess) {
       const verb = {
         id: "https://w3id.org/xapi/dod-isd/verbs/searched",
         display: "searched"
       }
-      
-      const objectDefName = "ECC Search Capability"
 
-      sendStatement(user.user, verb, objectId, objectDefName);
+      const objectDefName = "ECC Search Capability"
+      const resultExtKey = "https://w3id.org/xapi/ecc/result/extensions/searchTerm";
+
+      sendStatement(user.user, verb, objectId, objectDefName, resultExtKey, searchTerm);
     }
   }
 
@@ -122,8 +123,8 @@ export default function Search({ query }) {
       setParams(modified);
       setUrl(modified);
       const domain = (new URL(window.location));
-      const objectId = `${domain.origin}/search?keyword=${modified.keyword}&p=1`;
-      xAPISendStatement(objectId);
+      const objectId = `${domain.origin}/search`;
+      xAPISendStatement(objectId, modified.keyword);
 
       router.push({ pathname: '/search', query: modified });
     }
