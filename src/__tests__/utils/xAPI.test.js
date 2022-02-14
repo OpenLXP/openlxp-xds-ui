@@ -19,7 +19,7 @@ describe('xAPI', () => {
     
     const objectId = "http://example.com/search";
     const objectDefName = "Test Search Capability";
-    const resultExtName =  "http://example/result/extensions/searchTerm";
+    const resultExtName =  "https://example/result/extensions/searchTerm";
     const resultExtValue = "data";
 
     return sendStatement(actorObj, verbObj, objectId, objectDefName, resultExtName, resultExtValue).then(() => {
