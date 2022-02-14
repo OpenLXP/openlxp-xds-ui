@@ -24,13 +24,17 @@ export default function SaveModal({courseId}) {
   });
 
     //xAPI Statement
-    const xAPISendStatement = (objectId) => {
+    const xAPISendStatement = (objectId, curatedCourse) => {
       if (user) {
         const verb = {
           id: "https://w3id.org/xapi/dod-isd/verbs/curated",
           display: "curated" 
         }
-        sendStatement(user.user, verb, objectId);
+
+        const objectDefName = "ECC Curation of Course List"
+        const resultExtKey = "https://w3id.org/xapi/ecc/result/extensions/CuratedCourseList";
+  
+        sendStatement(user.user, verb, objectId, objectDefName, resultExtKey, curatedCourse);
       }
     }
 
@@ -156,8 +160,8 @@ export default function SaveModal({courseId}) {
                     create({form: fields}, { 
                       onSuccess: (data) => {
                         const domain = (new URL(window.location));
-                        const objectId = `${domain.origin}/lists/${data.id}`;
-                        xAPISendStatement(objectId);
+                        const objectId = `${domain.origin}/lists`;
+                        xAPISendStatement(objectId, data.id);
                       } });
                   }}
                 >

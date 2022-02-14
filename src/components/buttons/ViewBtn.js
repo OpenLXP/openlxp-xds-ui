@@ -8,13 +8,17 @@ export default function ViewBtn({ id }) {
   const { user } = useAuth();
 
   //xAPI Statement
-  const xAPISendStatement = (objectId) => {
+  const xAPISendStatement = (objectId, courseId) => {
     if (user) {
       const verb = {
         id: "https://w3id.org/xapi/tla/verbs/explored",
         display: "explored"
       }
-      sendStatement(user.user, verb, objectId);
+
+      const objectDefName = "ECC Course Viewing"
+      const resultExtKey = "https://w3id.org/xapi/ecc/result/extensions/CourseViewed";
+
+      sendStatement(user.user, verb, objectId, objectDefName, resultExtKey, courseId);
     }
   }
 
@@ -26,8 +30,8 @@ export default function ViewBtn({ id }) {
         title='view course'
         onClick={() => {
           const domain = (new URL(window.location));
-          const objectId = `${domain.origin}/course/${id}`;
-          xAPISendStatement(objectId);
+          const objectId = `${domain.origin}/course`;
+          xAPISendStatement(objectId, id);
         }}
       >
         <EyeIcon className='h-5 w-5' />

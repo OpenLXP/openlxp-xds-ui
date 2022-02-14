@@ -20,13 +20,16 @@ export default function CreateSavedSearchModal({ path }) {
   };
 
     //xAPI Statement
-    const xAPISendStatement = (objectId) => {
+    const xAPISendStatement = (objectId, savedTerm) => {
       if (user) {
         const verb = {
           id: "https://w3id.org/xapi/tla/verbs/prioritized",
           display: "prioritized"
         }
-        sendStatement(user.user, verb, objectId);
+        const objectDefName = "ECC Search Term Saving"
+        const resultExtKey = "https://w3id.org/xapi/ecc/result/extensions/SavedSearchTerm";
+  
+        sendStatement(user.user, verb, objectId, objectDefName, resultExtKey, savedTerm);
       }
     }
 
@@ -34,9 +37,10 @@ export default function CreateSavedSearchModal({ path }) {
     // list must me named
     if (fields.name && fields.name !== '') {
       mutate({ name: fields.name, path: path }, { onSuccess: (data) => {
+        console.log(new URLSearchParams(data.query).get('/search?keyword'))
         const domain = (new URL(window.location))
-        const objectId = `${domain.origin}/search?keyword=${data.name}&p=1`
-        xAPISendStatement(objectId)
+        const objectId = `${domain.origin}/search`
+        xAPISendStatement(objectId, new URLSearchParams(data.query).get('/search?keyword'))
       }});
       resetKey('name');
     }
