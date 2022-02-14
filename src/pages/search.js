@@ -67,9 +67,9 @@ export default function Search({ query }) {
       }
 
       const objectDefName = "ECC Search Capability"
-      const resultExtKey = "https://w3id.org/xapi/ecc/result/extensions/searchTerm";
+      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/searchTerm";
 
-      sendStatement(user.user, verb, objectId, objectDefName, resultExtKey, searchTerm);
+      sendStatement(user.user, verb, objectId, objectDefName, resultExtName, searchTerm);
     }
   }
 

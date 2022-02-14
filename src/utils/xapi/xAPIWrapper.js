@@ -7,7 +7,7 @@ import moment from 'moment';
  * @param object
  * @returns {Promise}
  */
-export const sendStatement = (actor, verb, objectId, objectDefName, resultExtKey, resultExtValue) => {
+export const sendStatement = (actor, verb, objectId, objectDefName, resultExtName, resultExtValue) => {
 
   const statement = {
     actor: {
@@ -34,7 +34,7 @@ export const sendStatement = (actor, verb, objectId, objectDefName, resultExtKey
     },
     result: {
       extensions: {
-        [resultExtKey]: resultExtValue
+        [resultExtName]: resultExtValue
       }
     },
     timestamp: moment.utc()

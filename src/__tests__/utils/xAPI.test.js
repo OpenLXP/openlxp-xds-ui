@@ -19,13 +19,13 @@ describe('xAPI', () => {
     
     const objectId = "http://example.com/search";
     const objectDefName = "Test Search Capability";
-    const resultExtKey =  "http://example/result/extensions/searchTerm";
+    const resultExtName =  "http://example/result/extensions/searchTerm";
     const resultExtValue = "data";
 
-    return sendStatement(actorObj, verbObj, objectId, objectDefName, resultExtKey, resultExtValue).then(() => {
+    return sendStatement(actorObj, verbObj, objectId, objectDefName, resultExtName, resultExtValue).then(() => {
       //Get the args passed to sendStatement
       const args = spy.mock.calls[0][0];
-      const { actor, verb, object, result } = args.statement;
+      const { actor, verb, object} = args.statement;
 
       expect(spy).toHaveBeenCalled();
       expect(actor.account.name).toBe('John Doe');

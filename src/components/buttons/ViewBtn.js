@@ -16,9 +16,9 @@ export default function ViewBtn({ id }) {
       }
 
       const objectDefName = "ECC Course Viewing"
-      const resultExtKey = "https://w3id.org/xapi/ecc/result/extensions/CourseViewed";
+      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/CourseViewed";
 
-      sendStatement(user.user, verb, objectId, objectDefName, resultExtKey, courseId);
+      sendStatement(user.user, verb, objectId, objectDefName, resultExtName, courseId);
     }
   }
 

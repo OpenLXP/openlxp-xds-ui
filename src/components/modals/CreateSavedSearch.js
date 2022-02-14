@@ -27,9 +27,9 @@ export default function CreateSavedSearchModal({ path }) {
           display: "prioritized"
         }
         const objectDefName = "ECC Search Term Saving"
-        const resultExtKey = "https://w3id.org/xapi/ecc/result/extensions/SavedSearchTerm";
+        const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/SavedSearchTerm";
   
-        sendStatement(user.user, verb, objectId, objectDefName, resultExtKey, savedTerm);
+        sendStatement(user.user, verb, objectId, objectDefName, resultExtName, savedTerm);
       }
     }
 

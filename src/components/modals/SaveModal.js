@@ -32,9 +32,9 @@ export default function SaveModal({courseId}) {
         }
 
         const objectDefName = "ECC Curation of Course List"
-        const resultExtKey = "https://w3id.org/xapi/ecc/result/extensions/CuratedCourseList";
+        const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/CuratedCourseList";
   
-        sendStatement(user.user, verb, objectId, objectDefName, resultExtKey, curatedCourse);
+        sendStatement(user.user, verb, objectId, objectDefName, resultExtName, curatedCourse);
       }
     }
 
