@@ -27,17 +27,24 @@ export default function SaveModal({ courseId }) {
   const xAPISendStatement = (curatedCourse) => {
     if (user) {
       const verb = {
-        id: "https://w3id.org/xapi/dod-isd/verbs/curated",
-        display: "curated" 
-        }
+        id: 'https://w3id.org/xapi/dod-isd/verbs/curated',
+        display: 'curated',
+      };
 
-      const domain = (new URL(window.location));
+      const domain = new URL(window.location);
       const objectId = `${domain.origin}/lists`;
-      const objectDefName = "ECC Course Curation"
-      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/CuratedCourseList";
+      const objectDefName = 'ECC Course Curation';
+      const resultExtName =
+        'https://w3id.org/xapi/ecc/result/extensions/CuratedCourseList';
 
-      sendStatement(user.user, verb, objectId, objectDefName, resultExtName, curatedCourse);
-      }
+      sendStatement(
+        user.user,
+        verb,
+        objectId,
+        objectDefName,
+        resultExtName,
+        curatedCourse
+      );
     }
   };
 
@@ -157,9 +164,13 @@ export default function SaveModal({ courseId }) {
                   className='my-2 flex flex-col w-full'
                   onSubmit={(e) => {
                     e.preventDefault();
-                    setFields({name: '', description: ''});
-                    create({form: fields}, { 
-                      onSuccess: (data) => xAPISendStatement(data.name)});
+                    setFields({ name: '', description: '' });
+                    create(
+                      { form: fields },
+                      {
+                        onSuccess: (data) => xAPISendStatement(data.name),
+                      }
+                    );
                   }}
                 >
                   <div>
