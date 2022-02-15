@@ -3,10 +3,10 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import { useSubscribedLists } from '@/hooks/useSubscribedLists';
 import { useUnsubscribeFromList } from '@/hooks/useUnsubscribeFromList';
+import ActionButton from '@/components/buttons/ActionButton';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
-import ActionButton from '@/components/buttons/ActionButton';
 
 export default function Subscribed() {
   const { user } = useAuth();
@@ -22,7 +22,7 @@ export default function Subscribed() {
   useEffect(() => {
     if (isError && error.response.status === 401) router.push('/401');
     if (isError && error.response.status === 403) router.push('/403');
-  }, [isError]);
+  }, [isError, error, router]);
 
   return (
     <DefaultLayout>
@@ -80,7 +80,7 @@ export default function Subscribed() {
                 You are not subscribed to any lists.
               </h2>
               <div className='pt-8'>
-                <Link href='/lists/searchLists'>
+                <Link href='/lists/searchLists' passHref>
                   <button className='max-w-max items-center inline-flex gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white px-4 py-2 transform transition-all duration-150 ease-in-out border-blue-400 border-2 outline-none focus:ring-2 ring-blue-400'>
                     <div>Click Here to Search for a list.</div>
                   </button>
