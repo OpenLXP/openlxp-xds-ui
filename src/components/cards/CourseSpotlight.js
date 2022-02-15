@@ -16,22 +16,27 @@ export default function CourseSpotlight({ course }) {
 
     if (Course_Instance) {
       image = Course_Instance.Thumbnail;
+    } else if (!image && Technical_Information) {
+      image = Technical_Information.Thumbnail;
     } else {
       image = `${backendHost}${config.data.course_img_fallback}`;
     }
     return image;
   }, [Course_Instance, config]);
 
-  const handleVisitCourse = () => {
+  const handleVisitCourse = (e) => {
     router.push(
       '/course/' + (meta?.metadata_key_hash ? meta.metadata_key_hash : meta.id)
     );
   };
 
   return (
-    <Link href={`/course/${meta.metadata_key_hash || meta.id}`}>
+    <Link href={`/course/${meta.metadata_key_hash || meta.id}`} passHref>
       <div
         onClick={handleVisitCourse}
+        role='button'
+        tabIndex='0'
+        aria-hidden='true'
         className='z-0 overflow-hidden relative rounded-md shadow-stone-200 hover:shadow-lg bg-stone-200 cursor-pointer flex-shrink-0 transform transition-shadow duration-150 ease-in-out'
         style={{ height: '176px', width: '296px' }}
       >
