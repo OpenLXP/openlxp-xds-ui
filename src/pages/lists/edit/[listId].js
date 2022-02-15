@@ -125,7 +125,6 @@ export default function EditList() {
         <div className='flex justify-between items-center w-full mt-8'>
           <ActionButton
             onClick={() => {
-              console.log(router.query);
               mutation.mutate({
                 listData: prepareListDataToSend(currentListInfo),
                 id: parseInt(router.query.listId),
