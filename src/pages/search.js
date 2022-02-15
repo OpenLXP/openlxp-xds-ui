@@ -1,11 +1,11 @@
+import { Pagination } from '@/components/buttons/Pagination';
 import { QueryClient, dehydrate } from 'react-query';
 import { URLSearchParams } from 'url';
 import { axiosInstance } from '@/config/axiosConfig';
-import { useRouter } from 'next/dist/client/router';
-import { useState, useEffect, un } from 'react';
-import { unstable_batchedUpdates } from 'react-dom';
-import { Pagination } from '@/components/buttons/Pagination';
 import { sendStatement } from '@/utils/xapi/xAPIWrapper';
+import { unstable_batchedUpdates } from 'react-dom';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/dist/client/router';
 import CreateSavedSearchModal from '@/components/modals/CreateSavedSearch';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import MoreLikeThis from '@/components/cards/MoreLikeThis';
@@ -24,7 +24,6 @@ import { useSearchUrl } from '@/hooks/useSearchUrl';
 // config
 import { oneHour } from '@/config/timeConstants';
 import { searchUrl } from '@/config/endpoints';
-
 
 export default function Search({ query }) {
   const router = useRouter();
