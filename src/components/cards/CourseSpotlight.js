@@ -1,8 +1,10 @@
 import { backendHost } from '@/config/endpoints';
 import { useConfig } from '@/hooks/useConfig';
 import { useRouter } from 'next/router';
+import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import React, { useMemo } from 'react';
+import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 
 export default function CourseSpotlight({ course }) {
   const { Course, meta, Technical_Information, Course_Instance } = {
@@ -10,6 +12,7 @@ export default function CourseSpotlight({ course }) {
   };
   const config = useConfig();
   const router = useRouter();
+  const { user } = useAuth();
 
   const thumbnail = useMemo(() => {
     let image = null;
@@ -24,7 +27,26 @@ export default function CourseSpotlight({ course }) {
     return image;
   }, [Course_Instance, config]);
 
+  //xAPI Statement
+  const xAPISendStatement = (courseId) => {
+    if (user) {
+      const verb = {
+        id: "https://w3id.org/xapi/tla/verbs/explored",
+        display: "explored"
+      }
+
+      const domain = (new URL(window.location));
+      const objectId = `${domain.origin}/course`;
+      const objectDefName = "ECC Course Viewing"
+      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/CourseViewed";
+
+      sendStatement(user.user, verb, objectId, objectDefName, resultExtName, courseId);
+    }
+  }
+
+
   const handleVisitCourse = (e) => {
+    xAPISendStatement(meta?.metadata_key_hash ? meta.metadata_key_hash : meta.id);
     router.push(
       '/course/' + (meta?.metadata_key_hash ? meta.metadata_key_hash : meta.id)
     );

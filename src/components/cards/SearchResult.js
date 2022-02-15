@@ -2,6 +2,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import SaveModal from '@/components/modals/SaveModal';
 import ViewBtn from '@/components/buttons/ViewBtn';
+import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 
 const removeHtmlTags = (str) => {
   if (str) {
@@ -28,6 +29,23 @@ export default function SearchResult({ result }) {
     result.Course;
   const { id } = result.meta;
 
+    //xAPI Statement
+    const xAPISendStatement = (courseId) => {
+      if (user) {
+        const verb = {
+          id: "https://w3id.org/xapi/tla/verbs/explored",
+          display: "explored"
+        }
+  
+        const domain = (new URL(window.location));
+        const objectId = `${domain.origin}/course`;
+        const objectDefName = "ECC Course Viewing"
+        const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/CourseViewed";
+  
+        sendStatement(user.user, verb, objectId, objectDefName, resultExtName, courseId);
+      }
+    }
+
   return (
     <div className={'overflow-x-hidden py-2 pr-2'}>
       <div className='inline-flex gap-2 justify-between items-center w-full'>
@@ -36,6 +54,7 @@ export default function SearchResult({ result }) {
             id='link-to-course'
             className='text-lg font-semibold line-clamp-2 hover:underline hover:text-blue-400 cursor-pointer hover:text-shadow'
             title={CourseTitle}
+            onClick={() => xAPISendStatement(id)}
           >
             {CourseTitle}
           </h2>
