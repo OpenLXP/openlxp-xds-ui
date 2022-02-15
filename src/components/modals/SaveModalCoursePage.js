@@ -23,16 +23,23 @@ export default function SaveModal({ courseId }) {
     description: '',
   });
 
+
   //xAPI Statement
-  const xAPISendStatement = (objectId) => {
+  const xAPISendStatement = (curatedCourse) => {
     if (user) {
       const verb = {
-        id: 'https://w3id.org/xapi/dod-isd/verbs/curated',
-        display: 'curated',
-      };
-      sendStatement(user.user, verb, objectId);
+        id: "https://w3id.org/xapi/dod-isd/verbs/curated",
+        display: "curated"
+      }
+
+      const domain = (new URL(window.location));
+      const objectId = `${domain.origin}/lists`;
+      const objectDefName = "ECC Course Curation"
+      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/CuratedCourseList";
+
+      sendStatement(user.user, verb, objectId, objectDefName, resultExtName, curatedCourse);
     }
-  };
+  }
 
   // add a course to the selected list
   const addCourseToList = (listId) => {
@@ -153,11 +160,7 @@ export default function SaveModal({ courseId }) {
                     create(
                       { form: fields },
                       {
-                        onSuccess: (data) => {
-                          const domain = new URL(window.location);
-                          const objectId = `${domain.origin}/lists/${data.id}`;
-                          xAPISendStatement(objectId);
-                        },
+                        onSuccess: (data) => xAPISendStatement(data.name),
                       }
                     );
                   }}
@@ -198,11 +201,10 @@ export default function SaveModal({ courseId }) {
                       className='w-full border outline-none rounded-md shadow focus:shadow-md p-2 focus:ring-4 ring-blue-400 transform transition-all duration-150'
                     />
                     <span
-                      className={`absolute bottom-2 right-3 ${
-                        fields.description?.length > 200
+                      className={`absolute bottom-2 right-3 ${fields.description?.length > 200
                           ? 'text-red-500'
                           : 'text-gray-500'
-                      }`}
+                        }`}
                     >
                       {fields.description?.length}/200
                     </span>
