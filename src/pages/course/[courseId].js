@@ -145,9 +145,9 @@ export default function Course() {
     const start = new Date();
     start.setDate(start.getDate() + Math.floor(Math.random() * 30));
 
-    // get the end date (start date + random number of days) min 1 month
+    // get the end date (start date + random number of days between 20 and 400)
     const end = new Date(start);
-    end.setDate(end.getDate() + Math.floor(Math.random() * 30) + 30);
+    end.setDate(end.getDate() + Math.floor(Math.random() * 400) + 20);
 
     return { start: start.toDateString(), end: end.toDateString() };
   }, []);
