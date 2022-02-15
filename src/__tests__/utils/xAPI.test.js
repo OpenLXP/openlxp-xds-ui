@@ -11,25 +11,31 @@ describe('xAPI', () => {
     const actorObj = {
       first_name: "John",
       last_name: "Doe",
-      email: "john.doe@email.com"
     }
     const verbObj = {
-      id: "http://example.com/verbs/tested",
-      display: "tested"
+      id: "http://example.com/verbs/searched",
+      display: "searched"
     }
     
-    const objectId = "http://example.com/objectId"
+    const objectId = "http://example.com/search";
+    const objectDefName = "Test Search Capability";
+    const resultExtName =  "https://example/result/extensions/searchTerm";
+    const resultExtValue = "data";
 
-    return sendStatement(actorObj, verbObj, objectId).then(() => {
+    return sendStatement(actorObj, verbObj, objectId, objectDefName, resultExtName, resultExtValue).then(() => {
       //Get the args passed to sendStatement
       const args = spy.mock.calls[0][0];
-      const { actor, verb, object } = args.statement;
+      const { actor, verb, object} = args.statement;
 
       expect(spy).toHaveBeenCalled();
-      expect(actor.name).toBe('John Doe');
-      expect(actor.mbox).toBe('mailto:john.doe@email.com');
-      expect(verb.id).toBe('http://example.com/verbs/tested');
-      expect(object.id).toBe('http://example.com/objectId');
+      expect(actor.account.name).toBe('John Doe');
+      expect(actor.account.homePage).toBe('https://ecc.gov');
+      expect(actor.objectType).toBe('Agent');
+
+      expect(verb.id).toBe('http://example.com/verbs/searched');
+      expect(actor.objectType).toBe('Agent');
+      expect(object.objectType).toBe('Activity');
+
     });
   })
 })

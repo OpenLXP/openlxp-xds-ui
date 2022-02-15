@@ -28,20 +28,25 @@ export default function Home() {
   });
 
   //xAPI Statement
-  const xAPISendStatement = (objectId) => {
+  const xAPISendStatement = (searchTerm) => {
     if (user) {
       const verb = {
-        id: "https://w3id.org/xapi/dod-isd/verbs/searched",
+        id: "https://w3id.org/xapi/acrossx/verbs/searched",
         display: "searched"
       }
-      sendStatement(user.user, verb, objectId);
+
+      
+      const objectId = `${window.location}search`;
+      const objectDefName = "ECC Search Capability"
+      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/searchTerm";
+
+      sendStatement(user.user, verb, objectId, objectDefName, resultExtName, searchTerm);
     }
   }
 
   const handleSearch = () => {
     if (fields.keyword && fields.keyword !== '') {
-      const objectId = `${window.location}search?keyword=${fields.keyword}&p=1`;
-      xAPISendStatement(objectId);
+      xAPISendStatement(fields.keyword);
       router.push({ pathname: '/search/', query: fields });
     }
   };
