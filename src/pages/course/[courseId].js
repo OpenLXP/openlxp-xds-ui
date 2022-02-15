@@ -140,6 +140,7 @@ export default function Course() {
   const config = useConfig();
 
   // generate the course dates randomly
+  // @SONAR_STOP@
   const dates = useMemo(() => {
     // get the start date (today or random day in the future)
     const start = new Date();
@@ -151,6 +152,8 @@ export default function Course() {
 
     return { start: start.toDateString(), end: end.toDateString() };
   }, []);
+  
+  // @SONAR_START@
 
   // prepare the course data
   const courseData = useMemo(() => {
