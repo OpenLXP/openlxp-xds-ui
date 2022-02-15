@@ -32,7 +32,7 @@ export default function ViewBtn({ id }) {
         title='view course'
         onClick={() => xAPISendStatement(id)}
       >
-        <EyeIcon className='h-5 w-5' />
+        <EyeIcon className='h-5 w-5' /> View Course
       </button>
     </Link>
   );
