@@ -63,10 +63,9 @@ export default function SaveModal({ courseId }) {
         title='save course'
         type='button'
         onClick={openModal}
-        className='inline-flex justify-center items-center gap-2 text-blue-400 rounded-r-lg rounded-l-3xl hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white py-1 pl-1 font-medium pr-2 transform transition-all duration-150 ease-in-out border-blue-400 border-2 focus:ring-2 ring-blue-400 outline-none'
+        className='inline-flex justify-center items-center gap-2 text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600 py-1.5 px-2 font-medium transform transition-all duration-150 ease-in-out focus:ring-2 ring-blue-400 outline-none'
       >
-        <PlusCircleIcon className='h-6 w-6' />
-        Save
+        Save Course
       </button>
 
       <Transition appear show={isOpen} as={Fragment}>
