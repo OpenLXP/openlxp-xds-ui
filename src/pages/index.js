@@ -28,13 +28,15 @@ export default function Home() {
   });
 
   //xAPI Statement
-  const xAPISendStatement = (objectId, searchTerm) => {
+  const xAPISendStatement = (searchTerm) => {
     if (user) {
       const verb = {
         id: "https://w3id.org/xapi/acrossx/verbs/searched",
         display: "searched"
       }
 
+      
+      const objectId = `${window.location}search`;
       const objectDefName = "ECC Search Capability"
       const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/searchTerm";
 
@@ -44,8 +46,7 @@ export default function Home() {
 
   const handleSearch = () => {
     if (fields.keyword && fields.keyword !== '') {
-      const objectId = `${window.location}search`;
-      xAPISendStatement(objectId, fields.keyword);
+      xAPISendStatement(fields.keyword);
       router.push({ pathname: '/search/', query: fields });
     }
   };

@@ -24,14 +24,16 @@ export default function SaveModal({courseId}) {
   });
 
     //xAPI Statement
-    const xAPISendStatement = (objectId, curatedCourse) => {
+    const xAPISendStatement = (curatedCourse) => {
       if (user) {
         const verb = {
           id: "https://w3id.org/xapi/dod-isd/verbs/curated",
           display: "curated" 
         }
 
-        const objectDefName = "ECC Curation of Course List"
+        const domain = (new URL(window.location));
+        const objectId = `${domain.origin}/lists`;
+        const objectDefName = "ECC Course Curation"
         const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/CuratedCourseList";
   
         sendStatement(user.user, verb, objectId, objectDefName, resultExtName, curatedCourse);
@@ -158,11 +160,7 @@ export default function SaveModal({courseId}) {
                     e.preventDefault();
                     setFields({name: '', description: ''});
                     create({form: fields}, { 
-                      onSuccess: (data) => {
-                        const domain = (new URL(window.location));
-                        const objectId = `${domain.origin}/lists`;
-                        xAPISendStatement(objectId, data.id);
-                      } });
+                      onSuccess: (data) => xAPISendStatement(data.name)});
                   }}
                 >
                   <div>
