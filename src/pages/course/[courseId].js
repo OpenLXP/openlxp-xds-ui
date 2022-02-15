@@ -1,223 +1,224 @@
-import { useRouter } from 'next/dist/client/router';
-import React, { useMemo, useState } from 'react';
-
-// hooks
+import {
+  AcademicCapIcon,
+  ArchiveIcon,
+  UserIcon,
+} from '@heroicons/react/outline';
+import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
+import { removeHTML } from '@/utils/cleaning';
+import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';
 import { useCourse } from '@/hooks/useCourse';
+import { useMemo } from 'react';
 import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
-import usePrepareCourseData from '@/hooks/usePrepareCourseData';
-
-// components
-import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/router';
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
-import DefaultLayout from '@/components/layouts/DefaultLayout';
-import ExternalBtn from '@/components/buttons/ExternalBtn';
-import SaveModal from '@/components/modals/SaveModal';
+import Footer from '@/components/Footer';
+import Header from '@/components/Header';
+import SaveModalCoursePage from '@/components/modals/SaveModalCoursePage';
 
-// config
-import { backendHost } from '@/config/endpoints';
-import { StarIcon } from '@heroicons/react/solid';
-import ViewBtn from '@/components/buttons/ViewBtn';
-import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
-
-const cleanDataOfHtml = (data) => {
-  return data?.replace(/<[^>]*>?/gm, '');
-};
-
-// convert date to mm/dd/yyyy format
-const convertToDate = (date) => {
-  const d = new Date(date);
-
-  const month = `${d.getMonth() + 1}`;
-  const day = `${d.getDate()}`;
-  const year = d.getFullYear();
-
-  const newDate = [month, day, year].join('/');
-  return newDate;
-};
-
-function Description({ data }) {
+function CourseHeader({ title, description, courseCode, photo, url }) {
   return (
-    <div className='flex flex-col gap-2'>
-      <h2 htmlFor='Description' className='text-lg font-sans font-semibold'>
-        Description
-      </h2>
-      <p>{data}</p>
+    <div className='flex w-full gap-8 max-w-7xl px-4 mx-auto mt-10'>
+      <div className='w-2/3'>
+        <h1 className='text-4xl font-semibold'>{title}</h1>
+        <div className='flex w-full gap-2 justify-between items-center my-2 font-medium'>
+          <div>
+            <span className='font-semibold'>Course Code:&nbsp;</span>{' '}
+            {courseCode}
+          </div>
+          <a href={url} rel='noopener noreferrer' target='_blank'>
+            <button className='inline-flex justify-center items-center gap-2 text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600 py-1 px-2 font-medium transform transition-all duration-150 ease-in-out focus:ring-2 ring-blue-400 outline-none'>
+              Go to Enrollment
+            </button>
+          </a>
+        </div>
+        <p className='text-sm p-0.5'>{description}</p>
+      </div>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={photo}
+        alt='Course'
+        className='w-1/3 aspect-video object-contain'
+      />
     </div>
   );
 }
 
-function Prerequisites({ data }) {
+function DetailsDivider({ provider, instructor, delivery, id }) {
+  const { user } = useAuth();
   return (
-    <div className='flex flex-col gap-2'>
-      <h2 htmlFor='Description' className='text-lg font-sans font-semibold'>
-        Prerequisites
-      </h2>
-      <p>{data || 'No Prerequisites'}</p>
+    <div className='bg-stone-200 mt-4'>
+      <div className='flex max-w-7xl mx-auto py-4 justify-between'>
+        <div className='flex items-center min-w-max gap-8'>
+          <div className='flex justify-center items-center gap-2'>
+            <ArchiveIcon className='h-10' />
+            <span>
+              <div className='text-sm font-semibold'>Course Provider</div>
+              <div className='text-sm'>{provider}</div>
+            </span>
+          </div>
+          <div className='flex justify-center items-center gap-2'>
+            <UserIcon className='h-10' />
+            <span>
+              <div className='text-sm font-semibold'>Course Instructor</div>
+              <div className='text-sm'>{instructor}</div>
+            </span>
+          </div>
+          <div className='flex justify-center items-center gap-2'>
+            <AcademicCapIcon className='h-10' />
+            <span>
+              <div className='text-sm font-semibold'>Delivery Mode</div>
+              <div className='text-sm'>{delivery || 'Not Available'}</div>
+            </span>
+          </div>
+          {user && <SaveModalCoursePage courseId={id} />}
+        </div>
+      </div>
     </div>
   );
 }
 
-function CourseAudience({ data }) {
+function Dates({ start, end }) {
   return (
-    <div className='flex flex-col gap-2'>
-      <h2 htmlFor='Description' className='text-lg font-sans font-semibold'>
-        Audience
-      </h2>
-      <p>{data}</p>
+    <div className=' w-full gap-10 max-w-7xl px-4 my-4 mx-auto'>
+      <div>
+        <span className='font-semibold'>Start Date:&nbsp;</span> {start}
+      </div>
+      <div>
+        <span className='font-semibold'>End Date:&nbsp;</span> {end}
+      </div>
     </div>
   );
 }
 
-function Image({ thumbnail }) {
+function AboutCourse({ details = [] }) {
   return (
-    <img
-      className='rounded col-span-1 aspect-video'
-      src={thumbnail}
-      alt='thumbnail'
-    />
+    <div className='py-10 grid gap-4'>
+      {details.map((detail, index) => {
+        return (
+          <div
+            key={detail.title}
+            className='grid grid-cols-5 w-full max-w-7xl px-4 mt-10 mx-auto'
+          >
+            <h2 className='min-w-max col-span-1 font-semibold'>
+              {detail.title}
+            </h2>
+            <p className='col-span-4'>{detail.content}</p>
+          </div>
+        );
+      })}
+    </div>
   );
 }
 
-function Details({ details = [] }) {
-  const [isOpen, setIsOpen] = useState(false);
+function RelatedCourses({ id }) {
+  const moreLikeThis = useMoreCoursesLikeThis(id);
 
-  function ToggleButton({ title }) {
-    return (
-      <button
-        className='text-gray-400 hover:text-gray-600 italic block pb-2 font-sans transition-colors duration-75 ease-in-out'
-        onClick={() => setIsOpen((prev) => !prev)}
-      >
-        {title}
-      </button>
-    );
-  }
-
+  if (moreLikeThis.data?.hits < 1) return null;
   return (
     <>
-      {isOpen && <ToggleButton title='Click to hide details' />}
-      {!isOpen && <ToggleButton title='Click to view details' />}
-      <div className='grid grid-cols-4 gap-2 pt-6 border-t border-gray-400'>
-        {isOpen &&
-          details.map((detail) => {
-            // check if the key contains the word date
-            if (detail.key.includes('date') || detail.key.includes('Date')) {
-              console.log(detail.value);
-              detail.value = convertToDate(detail.value);
-            }
+      <div className='bg-stone-200 mt-10 font-bold block font-sans py-4 px-1 '>
+        <div className='w-full gap-10 max-w-7xl mx-auto'>Related Courses</div>
+      </div>
 
-            // return the details
-            return (
-              <div key={detail.key}>
-                <h2 className='text-lg font-sans font-semibold'>
-                  {detail.key}
-                </h2>
-                <p>{detail.value || 'Not Available'}</p>
-              </div>
-            );
+      <div className='flex justify-center w-full overflow-x-hidden my-10 max-w-7xl mx-auto'>
+        <div className='inline-flex overflow-x-auto gap-2 py-4 custom-scroll '>
+          {moreLikeThis.data?.hits.map((course, index) => {
+            return <CourseSpotlight course={course} key={index} />;
           })}
+        </div>
       </div>
     </>
   );
 }
 
-function Controls({ data }) {
-  const { user } = useAuth();
-  return (
-    <div className='flex justify-end h-min gap-2 my-3'>
-      <ExternalBtn url={data?.Course?.CourseURL} />
-      {user && <SaveModal courseId={data?.meta?.metadata_key_hash} />}
-    </div>
-  );
-}
-
-function RelatedCourses({ data }) {
-  return (
-    <div className='mt-16 pb-32'>
-      <span className='text-gray-400 italic block pb-2 font-sans'>
-        Related Courses
-      </span>
-      <div className='flex justify-center w-full overflow-x-hidden'>
-        <div className='inline-flex overflow-x-auto gap-2 py-4 custom-scroll '>
-          {data.hits.map((course) => {
-            return <CourseSpotlight course={course} />;
-          })}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function Course() {
-  // grab the course id
-  const { query } = useRouter();
+  const router = useRouter();
 
   // state of the fetching
+  const course = useCourse(router.query?.courseId);
   const config = useConfig();
-  const course = useCourse(query?.courseId);
-  const moreLikeThis = useMoreCoursesLikeThis(query?.courseId);
 
-  // prepare the details of the course
-  const details = useMemo(() => {
-    const data = config?.data?.course_highlights;
-    // if the course is currently being fetched or the config is being fetched
-    if (config.isLoading || course.isLoading) return [];
+  // generate the course dates randomly
+  const dates = useMemo(() => {
+    // get the start date (today or random day in the future)
+    const start = new Date();
+    start.setDate(start.getDate() + Math.floor(Math.random() * 30));
 
-    // if there was an error fetching the course or the config
-    if (config.isError || course.isError) return [];
+    // get the end date (start date + random number of days) min 1 month
+    const end = new Date(start);
+    end.setDate(end.getDate() + Math.floor(Math.random() * 30) + 30);
 
-    // loop through the course details and remap them for display
-    const keymap = data.map((obj) => {
-      return {
-        key: obj.display_name,
-        value: getDeeplyNestedData(obj.field_name, course?.data),
-      };
-    });
-    return keymap;
-  }, [config, course]);
+    return { start: start.toDateString(), end: end.toDateString() };
+  }, []);
 
   // prepare the course data
   const courseData = useMemo(() => {
-    // if the course is currently being fetched
-    if (course.isSuccess && config.isSuccess) {
-      // prepare the course data
-      return usePrepareCourseData(config?.data, course?.data);
-    }
-  }, [course, config]);
+    if (!course.isSuccess || !config.isSuccess) return null;
+    return {
+      title: removeHTML(
+        getDeeplyNestedData(
+          config.data?.course_information?.course_title,
+          course.data
+        )
+      ),
+      description: removeHTML(
+        getDeeplyNestedData(
+          config.data?.course_information?.course_description,
+          course.data
+        )
+      ),
+      url: getDeeplyNestedData(
+        config.data?.course_information?.course_url,
+        course.data
+      ),
+      code: getDeeplyNestedData('Course.CourseCode', course.data),
+      photo:
+        getDeeplyNestedData('Course_Instance.Thumbnail', course.data) ||
+        getDeeplyNestedData('Technical_Information.Thumbnail', course.data),
 
-  const thumbnail = useMemo(() => {
-    let image = null;
-    if (moreLikeThis.isSuccess && course.isSuccess) {
-      image = course?.data?.Technical_Information?.Thumbnail;
-    }
-    if (config.isSuccess && !image) {
-      image = `${backendHost}${config.data.course_img_fallback}`;
-    }
-    return image;
-  }, [course, config, moreLikeThis]);
+      provider: getDeeplyNestedData('Course.CourseProviderName', course.data),
+      instructor: getDeeplyNestedData(
+        'Course_Instance.Instructor',
+        course.data
+      ),
+      delivery: getDeeplyNestedData(
+        'Course.CourseSectionDeliveryMode',
+        course.data
+      ),
+      details: [
+        {
+          title: 'Course Audience',
+          content: removeHTML(course.data?.Course?.CourseAudience),
+        },
+        {
+          title: 'Course Prerequisites',
+          content: removeHTML(course.data?.Course?.CoursePrerequisites),
+        },
+      ],
+    };
+  }, [course.isSuccess, course.data, config.isSuccess, config.data]);
 
   return (
-    <DefaultLayout>
-      <h1 className='font-bold text-3xl font-sans pt-10'>
-        {course?.data?.Course?.CourseTitle}
-      </h1>
-      <div className='grid grid-cols-2 gap-8 mt-4 mb-30'>
-        <div id='left-col'>
-          <Image thumbnail={thumbnail} />
-          <Controls data={course?.data} />
-        </div>
-        <div className='flex flex-col gap-2 justify-start'>
-          <Description data={cleanDataOfHtml(courseData?.courseDescription)} />
-          <CourseAudience
-            data={cleanDataOfHtml(course?.data?.Course?.CourseAudience)}
-          />
-          <Prerequisites
-            data={cleanDataOfHtml(course?.data?.Course?.CoursePrerequisites)}
-          />
-        </div>
-      </div>
-      <Details details={details} />
-      {moreLikeThis.isSuccess && <RelatedCourses data={moreLikeThis.data} />}
-    </DefaultLayout>
+    <>
+      <Header />
+      <CourseHeader
+        title={courseData?.title}
+        description={courseData?.description}
+        courseCode={courseData?.code}
+        photo={courseData?.photo}
+        url={courseData?.url}
+      />
+      <Dates start={dates.start} end={dates.end} />
+      <DetailsDivider
+        provider={courseData?.provider}
+        instructor={courseData?.instructor}
+        delivery={courseData?.delivery}
+        id={router.query?.courseId}
+      />
+      <AboutCourse details={courseData?.details} />
+      <RelatedCourses id={router.query?.courseId} />
+      <Footer />
+    </>
   );
 }
