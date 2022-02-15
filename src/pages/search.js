@@ -43,13 +43,20 @@ export default function Search({ query }) {
   }, [router]);
 
   //xAPI Statement
-  const xAPISendStatement = (objectId) => {
+  const xAPISendStatement = (searchTerm) => {
     if (user && isSuccess) {
       const verb = {
-        id: 'https://w3id.org/xapi/dod-isd/verbs/searched',
-        display: 'searched',
-      };
-      sendStatement(user.user, verb, objectId);
+        id: "https://w3id.org/xapi/dod-isd/verbs/searched",
+        display: "searched"
+      }
+
+      const domain = (new URL(window.location));
+      const objectId = `${domain.origin}/search`;
+
+      const objectDefName = "ECC Search Capability"
+      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/searchTerm";
+
+      sendStatement(user.user, verb, objectId, objectDefName, resultExtName, searchTerm);
     }
   };
 
@@ -101,10 +108,7 @@ export default function Search({ query }) {
 
       setParams(modified);
       setUrl(modified);
-      const domain = new URL(window.location);
-      const objectId = `${domain.origin}/search?keyword=${modified.keyword}&p=1`;
-      xAPISendStatement(objectId);
-
+      xAPISendStatement(modified.keyword);
       router.push({ pathname: '/search', query: modified });
     }
   }
