@@ -31,6 +31,6 @@ export function removeHTML(html) {
   html = html.replace(/\n\s*\n/g, '\n');
 
   // remove any leading newlines
-  html = html.replace(/^\s*\n/gm, '');
+  html = html.replace(/^\s*\n/g, '');
   return html;
 }
