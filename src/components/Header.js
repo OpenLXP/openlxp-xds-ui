@@ -1,13 +1,13 @@
 import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import UserMenu from '@/components/menus/UserMenu';
 import logo from '@/public/logo.png';
-import { useRouter } from 'next/router';
 
 const menuItems = [
   {
-    label: 'Search Courses',
+    label: 'Home',
     path: '/',
   },
   {
@@ -22,26 +22,14 @@ const menuItems = [
     label: 'Help',
     path: '/help',
   },
-  // {
-  //   label: 'Saved Searches',
-  //   path: '/lists/savedSearches',
-  // },
-  // {
-  //   label: 'Subscribed Lists',
-  //   path: '/lists/subscribed',
-  // },
-  // {
-  //   label: 'My Lists',
-  //   path: '/lists/owned',
-  // },
 ];
 
 function Button({ data }) {
   const router = useRouter();
-  console.log(router.asPath);
   if (data.path === router.asPath) {
     return (
       <Link href={data.path}>
+        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a className='px-1 font-bold text-gray-800 border-b-2 border-gray-800 hover:text-gray-900'>
           {data.label}
         </a>
@@ -50,6 +38,7 @@ function Button({ data }) {
   }
   return (
     <Link href={data.path}>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a className='transition-all duration-100 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-900'>
         {data.label}
       </a>
@@ -65,9 +54,14 @@ export default function Header() {
         className={'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'}
         aria-label={'Top'}
       >
-        <div className={'w-full py-4 inline-flex items-center justify-between z-50'}>
+        <div
+          className={
+            'w-full py-4 inline-flex items-center justify-between z-50'
+          }
+        >
           <div className={'flex items-center justify-start gap-2'}>
             <Link href={'/'}>
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a
                 title='home'
                 id={'homepage-button'}
@@ -89,11 +83,13 @@ export default function Header() {
           {!user && (
             <div className={'space-x-4'}>
               <Link href={'/login'}>
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a className='bg-blue-500 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
                   Sign in
                 </a>
               </Link>
               <Link href={'/register'}>
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a className='bg-blue-300 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
                   Sign up
                 </a>

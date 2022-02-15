@@ -29,7 +29,7 @@ export default function Footer({ location }) {
 
   return (
     <div
-      className='absolute bottom-0 bg-gray-200 bg-opacity-90 w-full shadow z-50'
+      className='mt-10 bottom-0 bg-opacity-90 w-full border-t mx-auto z-50'
     >
       <nav className={'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'}>
         <div className={'w-full py-4 inline-flex items-center justify-between'}>
