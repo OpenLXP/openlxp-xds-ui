@@ -114,9 +114,9 @@ export default function Register() {
 
   return (
     <DefaultLayout footerLocation='relative'>
-      <div className={'pt-32 mb-16'}>
+      <div className={'mt-10 pb-20'}>
         <div className='mt-10 mx-52 flex flex-col items-center justify-between'>
-          <Image src={logo} alt={'home'} height={'100'} width={'100'} />
+          <Image src={logo} alt={'home'} height={'200'} width={'200'} />
           <p className='mt-2 text-2xl font-extrabold'>Create your account</p>
           <span>
             or &nbsp;
@@ -133,6 +133,22 @@ export default function Register() {
         <div
           className='w-1/2 p-8 mx-auto mt-10 bg-white flex flex-col items-center justify-between shadow-md rounded-md'>
           <div className='space-y-4 mb-8 w-full' onKeyPress={(event) => handleEnterKey(event)}>  
+            <div className='flex gap-4'>
+              <InputField
+                type='text'
+                required={true}
+                name='first_name'
+                placeholder='First Name'
+                onChange={(event) => setCredentials(event)}
+              />
+              <InputField
+                type='text'
+                required={true}
+                name='last_name'
+                onChange={(event) => setCredentials(event)}
+                placeholder='Last Name'
+              />
+            </div>
             <InputField
               type={'text'}
               placeholder={'Email'}
@@ -151,29 +167,14 @@ export default function Register() {
               name={'confirmationPassword'}
               onChange={(event) => setCredentials(event)}
             />
-            <div className='flex gap-4'>
-              <InputField
-                type='text'
-                required={true}
-                name='first_name'
-                placeholder='First Name'
-                onChange={(event) => setCredentials(event)}
-              />
-              <InputField
-                type='text'
-                required={true}
-                name='last_name'
-                onChange={(event) => setCredentials(event)}
-                placeholder='Last Name'
-              />
-            </div>
+            
           </div>
           <p className='text-red-600 mb-5'>{error.message}</p>
           <ActionButton onClick={() => registerUser()} id='create-account-button'>
             <UserAddIcon className='h-5 w-5' />
-            Create
+            Create Account
           </ActionButton>
-          <p className={'my-8 relative border-b-2 w-full'}>
+          {/* <p className={'my-8 relative border-b-2 w-full'}>
             <span
               className='absolute top-1/2 left-1/2 transform text-center -translate-x-1/2 -translate-y-1/2 bg-white px-2 w-max'>
               or continue with
@@ -186,7 +187,7 @@ export default function Register() {
             >
               Single Sign On
             </a>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </DefaultLayout>

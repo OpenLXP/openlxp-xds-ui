@@ -79,19 +79,19 @@ export default function MoreLikeThis({ course }) {
         <div className='flex flex-col gap-1 mt-4'>
           <div>
             <span className='font-semibold'>Course Code:&nbsp;</span>
-            {data.hits[0].Course.CourseCode}
+            {data.hits[0].Course.CourseCode || "Not Available"}
           </div>
           <div>
             <span className='font-semibold'>Course Type:&nbsp;</span>
-            {data.hits[0].Course.CourseType}
+            {data.hits[0].Course.CourseType || "Not Available"}
           </div>
           <div>
             <span className='font-semibold'>Estimated Time:&nbsp;</span>
-            {data.hits[0].Course.EstimatedCompletionTime}
+            {data.hits[0].Course.EstimatedCompletionTime || "Not Available"}
           </div>
           <div>
             <span className='font-semibold'>Course Provider:&nbsp;</span>
-            {data.hits[0].Course.CourseProviderName}
+            {data.hits[0].Course.CourseProviderName || "Not Available"}
           </div>
         </div>
         <div className='flex justify-between mt-10'>

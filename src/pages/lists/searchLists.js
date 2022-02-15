@@ -91,8 +91,8 @@ export default function SearchLists() {
   }, [interstListError, subscribedListError]);
 
   return (
-    <DefaultLayout footerLocation='absolute'>
-      <div className='py-32'>
+    <DefaultLayout>
+      <div className='mt-10 pb-20'>
         <h1 className='pb-4 border-b mb-8 text-3xl font-semibold'>
           Search List Catalog
         </h1>

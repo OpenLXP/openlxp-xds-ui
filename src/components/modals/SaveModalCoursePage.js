@@ -23,30 +23,23 @@ export default function SaveModal({ courseId }) {
     description: '',
   });
 
+
   //xAPI Statement
   const xAPISendStatement = (curatedCourse) => {
     if (user) {
       const verb = {
-        id: 'https://w3id.org/xapi/dod-isd/verbs/curated',
-        display: 'curated',
-      };
+        id: "https://w3id.org/xapi/dod-isd/verbs/curated",
+        display: "curated"
+      }
 
-      const domain = new URL(window.location);
+      const domain = (new URL(window.location));
       const objectId = `${domain.origin}/lists`;
-      const objectDefName = 'ECC Course Curation';
-      const resultExtName =
-        'https://w3id.org/xapi/ecc/result/extensions/CuratedCourseList';
+      const objectDefName = "ECC Course Curation"
+      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/CuratedCourseList";
 
-      sendStatement(
-        user.user,
-        verb,
-        objectId,
-        objectDefName,
-        resultExtName,
-        curatedCourse
-      );
+      sendStatement(user.user, verb, objectId, objectDefName, resultExtName, curatedCourse);
     }
-  };
+  }
 
   // add a course to the selected list
   const addCourseToList = (listId) => {
@@ -77,10 +70,9 @@ export default function SaveModal({ courseId }) {
         title='save course'
         type='button'
         onClick={openModal}
-        className='inline-flex justify-center items-center gap-2 text-blue-400 rounded-r-lg rounded-l-3xl hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white py-1 pl-1 font-medium pr-2 transform transition-all duration-150 ease-in-out border-blue-400 border-2 focus:ring-2 ring-blue-400 outline-none'
+        className='inline-flex justify-center items-center gap-2 text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600 py-1.5 px-2 font-medium transform transition-all duration-150 ease-in-out focus:ring-2 ring-blue-400 outline-none'
       >
-        <PlusCircleIcon className='h-6 w-6' />
-        Save
+        Save Course
       </button>
 
       <Transition appear show={isOpen} as={Fragment}>
@@ -209,11 +201,10 @@ export default function SaveModal({ courseId }) {
                       className='w-full border outline-none rounded-md shadow focus:shadow-md p-2 focus:ring-4 ring-blue-400 transform transition-all duration-150'
                     />
                     <span
-                      className={`absolute bottom-2 right-3 ${
-                        fields.description?.length > 200
+                      className={`absolute bottom-2 right-3 ${fields.description?.length > 200
                           ? 'text-red-500'
                           : 'text-gray-500'
-                      }`}
+                        }`}
                     >
                       {fields.description?.length}/200
                     </span>

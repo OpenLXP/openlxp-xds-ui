@@ -18,7 +18,7 @@ import prepareListDataToSend from '@/utils/prepListDataToSend';
 export default function EditList() {
   const { user } = useAuth();
   const router = useRouter();
-  const list = useUserList(parseInt(router.query.listId));
+  const list = useUserList(parseInt(router.query?.listId));
 
   // handles the mutation
   const mutation = useUpdateUserList(user?.token);
@@ -58,8 +58,8 @@ export default function EditList() {
   };
 
   return (
-    <DefaultLayout footerLocation='absolute'>
-      <div className='pt-32 pb-20'>
+    <DefaultLayout>
+      <div className='mt-10 pb-20'>
         <h1 className='font-sans font-semibold text-3xl pb-4 mb-8 border-b'>
           {list?.data?.name}
         </h1>
@@ -117,12 +117,14 @@ export default function EditList() {
                   </div>
                 );
               })}
+            {list.isSuccess && currentListInfo?.experiences?.length === 0 && (
+              <div className='text-center bg-white p-2'>No courses added yet.</div>
+            )}
           </div>
         </div>
         <div className='flex justify-between items-center w-full mt-8'>
           <ActionButton
             onClick={() => {
-              console.log(router.query)
               mutation.mutate({
                 listData: prepareListDataToSend(currentListInfo),
                 id: parseInt(router.query.listId),
@@ -133,7 +135,7 @@ export default function EditList() {
             {mutation.isSuccess && <CheckCircleIcon className='h-5 w-5' />}
             {mutation.isLoading && <RefreshIcon className='h-5 w-5' />}
             {mutation.isError && <XCircleIcon className='h-5 w-5' />}
-            Update
+            Apply Changes
           </ActionButton>
           <button
             onClick={() => {

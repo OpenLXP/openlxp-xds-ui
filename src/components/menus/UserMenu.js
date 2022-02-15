@@ -64,7 +64,7 @@ const MenuButton = ({ name, icon, href }) => {
 export default function UserMenu() {
   const {
     user: {
-      user: { email },
+      user: { first_name },
     },
     logout,
   } = useAuth();
@@ -83,7 +83,7 @@ export default function UserMenu() {
             >
               <UserIcon className='h-6 text-blue-500 text-shadow' />
             </div>
-            <div className='line-clamp-1'>{email}</div>
+            <div className='line-clamp-1'>{first_name}</div>
             
             <ChevronUpIcon
               className={`${open && 'rotate-180 shadow-inner-sm group-hover:bg-blue-500 '
@@ -100,7 +100,7 @@ export default function UserMenu() {
             leaveFrom='transform opacity-100 scale-100'
             leaveTo='transform opacity-0 scale-95'
           >
-            <Menu.Items className='absolute right-0 origin-top w-full mt-2 bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+            <Menu.Items className='absolute right-0 origin-top w-44 mt-2 bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10'>
               <div className='text-gray-700'>
                 <div className='p-2'>
                   <h3 className='text-md font-semibold w-full border-b'>
@@ -112,7 +112,7 @@ export default function UserMenu() {
                     ))}
                   </div>
                 </div>
-                <div className='p-2'>
+                {/* <div className='p-2'>
                   <h3 className='text-md font-semibold w-full border-b'>
                     Search
                   </h3>
@@ -121,7 +121,7 @@ export default function UserMenu() {
                       return <MenuButton key={button.name} {...button} />;
                     })}
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className='p-2 flex w-full justify-between items-center'>
                 <Menu.Item>

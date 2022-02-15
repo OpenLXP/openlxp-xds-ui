@@ -21,8 +21,8 @@ export default function SavedSearches() {
   }, [isError]);
 
   return (
-    <DefaultLayout footerLocation='absolute'>
-      <div className='pt-32'>
+    <DefaultLayout>
+      <div className='mt-10 pb-20'>
         <div id='title' className='pb-4 border-b mb-8'>
           <h1 className='font-semibold text-3xl'>Saved Searches</h1>
         </div>
@@ -58,16 +58,16 @@ export default function SavedSearches() {
                   >
                     <h2 className='col-span-3 line-clamp-1'>{list.name}</h2>
                     <div className='col-span-4 line-clamp-1' title={list.query}>
-                      {list.query}
+                      {new URLSearchParams(list.query).get('/search?keyword')}
                     </div>
                     <div className='col-span-1 flex justify-end items-center gap-2 px-2'>
                       <Link href={`${list.query}`}>
                         <button
                           id='view'
                           title='view'
-                          className='flex items-center gap-2 bg-gray-50 border text-gray-500 border-gray-500 p-1 rounded-full transform transition-color duration-150 ease-in-out hover:text-white hover:bg-gray-500'
+                          className='flex items-center gap-2 bg-gray-50 border text-gray-500 border-gray-500 px-2 py-1 rounded-full transform transition-color duration-150 ease-in-out hover:text-white hover:bg-gray-500'
                         >
-                          <EyeIcon className='h-5 w-5' />
+                          <EyeIcon className='h-5 w-5' /> View
                         </button>
                       </Link>
 
