@@ -1,7 +1,7 @@
 {
-  "ignoreDuringBuilds": true,
+  // "ignoreDuringBuilds": true,
   "extends": ["next/core-web-vitals", "plugin:jsx-a11y/recommended"],
-  "plugins": ["sort-imports-es6-autofix", "prettier", "jsx-a11y"],
+  "plugins": ["sort-imports-es6-autofix", "jsx-a11y"],
   "rules": {
     "sort-imports-es6-autofix/sort-imports-es6": [
       2,
