@@ -16,7 +16,7 @@ const menuItems = [
   },
   {
     label: 'About ECC',
-    path: '/aboutECC',
+    path: '/about',
   },
   {
     label: 'Help',
