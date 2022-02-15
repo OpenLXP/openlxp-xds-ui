@@ -1,10 +1,10 @@
 import { backendHost } from '@/config/endpoints';
+import { sendStatement } from '@/utils/xapi/xAPIWrapper';
+import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';
 import { useRouter } from 'next/router';
-import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import React, { useMemo } from 'react';
-import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 
 export default function CourseSpotlight({ course }) {
   const { Course, meta, Technical_Information, Course_Instance } = {

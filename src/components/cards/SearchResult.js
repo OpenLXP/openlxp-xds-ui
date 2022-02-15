@@ -1,8 +1,8 @@
+import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import SaveModal from '@/components/modals/SaveModal';
 import ViewBtn from '@/components/buttons/ViewBtn';
-import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 
 const removeHtmlTags = (str) => {
   if (str) {
