@@ -48,7 +48,7 @@ function DetailsDivider({ provider, instructor, delivery, id }) {
   const { user } = useAuth();
   return (
     <div className='bg-stone-200 mt-4'>
-      <div className='flex max-w-7xl mx-auto py-4 justify-between'>
+      <div className='flex max-w-7xl mx-auto p-4 justify-between'>
         <div className='flex items-center min-w-max gap-8'>
           <div className='flex justify-center items-center gap-2'>
             <ArchiveIcon className='h-10' />
@@ -117,7 +117,7 @@ function RelatedCourses({ id }) {
   if (moreLikeThis.data?.hits < 1) return null;
   return (
     <>
-      <div className='bg-stone-200 mt-10 font-bold block font-sans py-4 px-1 '>
+      <div className='bg-stone-200 mt-10 font-bold block font-sans p-4 '>
         <div className='w-full gap-10 max-w-7xl mx-auto'>Related Courses</div>
       </div>
 
