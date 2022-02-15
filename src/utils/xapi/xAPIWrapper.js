@@ -1,10 +1,13 @@
 import xAPIMapper from "./xAPIMapper";
-import moment from 'moment';
+
 /**
  * @description takes in an actor (user), verb, object
  * @param object
  * @param object
- * @param object
+ * @param string
+ * @param string
+ * @param string
+ * @param string
  * @returns {Promise}
  */
 export const sendStatement = (actor, verb, objectId, objectDefName, resultExtName, resultExtValue) => {
@@ -37,7 +40,7 @@ export const sendStatement = (actor, verb, objectId, objectDefName, resultExtNam
         [resultExtName]: resultExtValue
       }
     },
-    timestamp: moment.utc()
+    timestamp: new Date().toUTCString()
   }
 
   return xAPIMapper.sendStatement({ statement });
