@@ -1,10 +1,10 @@
+import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import { useAuth } from '@/contexts/AuthContext';
 import { useList } from '@/hooks/useList';
 import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
-import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 
 export default function ListsView() {
   const router = useRouter();
