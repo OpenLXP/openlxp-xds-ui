@@ -17,6 +17,8 @@ export default function MoreLikeThis({ course }) {
     show();
   }, []);
 
+
+
   // if loading
   if (isLoading) {
     return (
@@ -96,7 +98,7 @@ export default function MoreLikeThis({ course }) {
         </div>
         <div className='flex justify-between mt-10'>
           <div className='flex gap-2'>
-            <ViewBtn id={data.hits[0].meta.id} />
+            <ViewBtn id={data.hits[0].meta.id} courseTitle={data.hits[0].Course.CourseTitle} courseDescription={data.hits[0].Course.CourseShortDescription.replace(/(<([^>]+)>)/ig, '')} />
           </div>
           {user && <SaveModal courseId={data.hits[0].meta.id} />}
         </div>

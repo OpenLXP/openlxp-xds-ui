@@ -42,23 +42,25 @@ export default function Search({ query }) {
     }
   }, [router]);
 
-  //xAPI Statement
-  const xAPISendStatement = (searchTerm) => {
-    if (user && isSuccess) {
-      const verb = {
-        id: "https://w3id.org/xapi/dod-isd/verbs/searched",
-        display: "searched"
+    //xAPI Statement
+    const xAPISendStatement = (searchTerm) => {
+      if (user) {
+        const verb = {
+          id: "https://w3id.org/xapi/acrossx/verbs/searched",
+          display: "searched"
+        }
+  
+        const objectId = `${window.location}search`;
+        const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/searchTerm";
+  
+        const obj = {
+          id: objectId,
+          definitionName: "ECC Search Capability",
+        }
+  
+        sendStatement(user.user, verb, obj, resultExtName, searchTerm);
       }
-
-      const domain = (new URL(window.location));
-      const objectId = `${domain.origin}/search`;
-
-      const objectDefName = "ECC Search Capability"
-      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/searchTerm";
-
-      sendStatement(user.user, verb, objectId, objectDefName, resultExtName, searchTerm);
     }
-  };
 
   function handleChange(event) {
     setParams((previous) => ({

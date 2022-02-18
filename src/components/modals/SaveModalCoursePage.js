@@ -25,22 +25,27 @@ export default function SaveModal({ courseId }) {
 
 
   //xAPI Statement
-  const xAPISendStatement = (curatedCourse) => {
+  const xAPISendStatement = (data) => {
     if (user) {
       const verb = {
-        id: "https://w3id.org/xapi/dod-isd/verbs/curated",
-        display: "curated"
+        id: 'https://w3id.org/xapi/dod-isd/verbs/curated',
+        display: 'curated',
+      };
+
+      const domain = new URL(window.location);
+      const objectId = `${domain.origin}/lists`;
+      const resultExtName =
+        'https://w3id.org/xapi/ecc/result/extensions/CuratedListId';
+
+      const obj = {
+        id: objectId,
+        definitionName: data.name,
+        description: data.description
       }
 
-      const domain = (new URL(window.location));
-      const objectId = `${domain.origin}/lists`;
-      const objectDefName = "ECC Course Curation"
-      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/CuratedCourseList";
-
-      sendStatement(user.user, verb, objectId, objectDefName, resultExtName, curatedCourse);
+      sendStatement(user.user, verb, obj, resultExtName, data.id);
     }
-  }
-
+  };
   // add a course to the selected list
   const addCourseToList = (listId) => {
     const listData = userLists.find((list) => list.id === listId);
@@ -160,7 +165,7 @@ export default function SaveModal({ courseId }) {
                     create(
                       { form: fields },
                       {
-                        onSuccess: (data) => xAPISendStatement(data.name),
+                        onSuccess: (data) => xAPISendStatement(data),
                       }
                     );
                   }}

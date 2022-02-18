@@ -30,14 +30,18 @@ export default function Home() {
         id: "https://w3id.org/xapi/acrossx/verbs/searched",
         display: "searched"
       }
-      
+
       const objectId = `${window.location}search`;
-      const objectDefName = "ECC Search Capability"
       const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/searchTerm";
 
-      sendStatement(user.user, verb, objectId, objectDefName, resultExtName, searchTerm);
+      const obj = {
+        id: objectId,
+        definitionName: "ECC Search Capability",
+      }
+
+      sendStatement(user.user, verb, obj, resultExtName, searchTerm);
     }
-  };
+  }
 
   const handleSearch = () => {
     if (fields.keyword && fields.keyword !== '') {

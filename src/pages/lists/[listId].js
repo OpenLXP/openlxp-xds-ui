@@ -21,9 +21,8 @@ export default function ListsView() {
     if (isError && error.response.status === 403) router.push('/403');
   }, [user, isError]);
 
-
   //xAPI Statement
-  const xAPISendStatement = (courseId) => {
+  const xAPISendStatement = (course) => {
     if (user) {
       const verb = {
         id: "https://w3id.org/xapi/tla/verbs/explored",
@@ -32,10 +31,15 @@ export default function ListsView() {
 
       const domain = (new URL(window.location));
       const objectId = `${domain.origin}/course`;
-      const objectDefName = "ECC Course Viewing"
-      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/CourseViewed";
+      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/CourseId";
 
-      sendStatement(user.user, verb, objectId, objectDefName, resultExtName, courseId);
+      const obj = {
+        id: objectId,
+        definitionName: course.Course.CourseTitle,
+        description: course.Course.CourseShortDescription
+      }
+
+      sendStatement(user.user, verb, obj, resultExtName, course.meta.metadata_key_hash);
     }
   }
 
@@ -103,7 +107,7 @@ export default function ListsView() {
                       <div className='max-w-min justify-self-end pr-4'>
                         <Link href={`/course/${course.meta.metadata_key_hash}`}>
                           <a
-                            onClick={() => xAPISendStatement(course.meta.metadata_key_hash)}
+                            onClick={() => xAPISendStatement(course)}
                             className='text-blue-500 bg-blue-50 px-2 py-1 rounded-md border-blue-500 border hover:bg-blue-500 outline-none hover:text-white transform transition-colors duration-150 ease-in-out'>
                             View
                           </a>

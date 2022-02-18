@@ -29,22 +29,27 @@ export default function SearchResult({ result }) {
     result.Course;
   const { id } = result.meta;
 
-    //xAPI Statement
-    const xAPISendStatement = (courseId) => {
-      if (user) {
-        const verb = {
-          id: "https://w3id.org/xapi/tla/verbs/explored",
-          display: "explored"
-        }
-  
-        const domain = (new URL(window.location));
-        const objectId = `${domain.origin}/course`;
-        const objectDefName = "ECC Course Viewing"
-        const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/CourseViewed";
-  
-        sendStatement(user.user, verb, objectId, objectDefName, resultExtName, courseId);
+  //xAPI Statement
+  const xAPISendStatement = () => {
+    if (user) {
+      const verb = {
+        id: "https://w3id.org/xapi/tla/verbs/explored",
+        display: "explored"
       }
+
+      const domain = (new URL(window.location));
+      const objectId = `${domain.origin}/course`;
+      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/CourseId";
+
+      const obj = {
+        id: objectId,
+        definitionName: result.Course.CourseTitle,
+        description: result.Course.CourseShortDescription
+      }
+
+      sendStatement(user.user, verb, obj, resultExtName, id);
     }
+  }
 
   return (
     <div className={'overflow-x-hidden py-2 pr-2'}>
@@ -54,13 +59,13 @@ export default function SearchResult({ result }) {
             id='link-to-course'
             className='text-lg font-semibold line-clamp-2 hover:underline hover:text-blue-400 cursor-pointer hover:text-shadow'
             title={CourseTitle}
-            onClick={() => xAPISendStatement(id)}
+            onClick={() => xAPISendStatement()}
           >
             {CourseTitle}
           </h2>
         </Link>
         <div className='inline-flex flex-shrink-0 gap-2'>
-          <ViewBtn id={id} />
+          <ViewBtn id={id} courseTitle={result.Course.CourseTitle} courseDescription={result.Course.CourseShortDescription} />
           {user && <SaveModal courseId={id} />}
         </div>
       </div>
