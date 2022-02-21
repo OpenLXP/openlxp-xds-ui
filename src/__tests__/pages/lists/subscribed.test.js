@@ -15,7 +15,7 @@ jest.mock('@/contexts/AuthContext', () => ({
 }));
 
 jest.mock('@/hooks/useUnsubscribeFromList', () => ({
-  useUnsubscribeFromList: jest.fn(),
+  useUnsubscribeFromList: jest.fn(), 
 }));
 
 jest.mock('@/hooks/useSubscribedLists', () => ({
@@ -224,7 +224,7 @@ describe('Subscribed Page', () => {
           },
         }));
 
-        const { getByText } = renderer();
+        const { } = renderer();
         expect(singletonRouter).toMatchObject({
           asPath: '/401',
         });
