@@ -41,10 +41,11 @@ describe('Course Spotlight', () => {
       it('should render the image', () => {
         const modified = {
           ...courseData,
-          Technical_Information: { Thumbnail: 'fake' },
+          Course_Instance: { Thumbnail: 'fake.img' },
         };
-        const { queryByRole } = renderer(modified);
-        expect(queryByRole('img')).toBeInTheDocument();
+        const { getByAltText, queryByRole } = renderer(modified);
+        expect(getByAltText ('')).toBeInTheDocument();
+        // expect(queryByRole('img')).toBeInTheDocument();
       });
     });
 
