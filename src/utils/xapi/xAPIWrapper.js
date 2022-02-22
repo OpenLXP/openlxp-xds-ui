@@ -11,8 +11,6 @@ import xAPIMapper from "./xAPIMapper";
  */
 export const sendStatement = (actor, verb, obj, resultExtName, resultExtValue) => {
 
-
-
   const statement = {
     actor: {
       account: {

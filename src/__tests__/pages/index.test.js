@@ -3,12 +3,26 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import Home from '@/pages/index';
 import mockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
+import { useAuth } from '@/contexts/AuthContext';
+import xAPIMapper from "@/utils/xapi/xAPIMapper";
 
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
+
+// mock auth
+jest.mock('@/contexts/AuthContext', () => ({
+  useAuth: jest.fn(),
+}));
 
 describe('should render the title', () => {
   beforeEach(() => {
     mockRouter.setCurrentUrl('/');
+
+    useAuth.mockImplementation(() =>  {
+      return {
+        user: { user: {email: 'test@email.com'}},
+      };
+    });
+
     render(
       <QueryClientWrapper>
         <Home />
@@ -65,5 +79,24 @@ describe('should render the title', () => {
     expect(singletonRouter).toMatchObject({
       asPath: '/search/?keyword=updated%20value&p=1',
     });
+  });
+
+  it('should send xAPI Statement', () => {
+
+    const spy = jest.spyOn(xAPIMapper, 'sendStatement')
+    .mockImplementation(() => Promise.resolve({})
+    );
+
+    act(() => {
+      fireEvent.change(screen.getByRole('textbox'), {
+        target: { value: 'data' },
+      });
+    });
+    act(() => {
+      fireEvent.click(screen.getByTitle(/search/i));
+    });
+
+    expect(spy).toHaveBeenCalled();
+
   });
 });
