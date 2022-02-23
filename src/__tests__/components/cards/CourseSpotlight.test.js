@@ -71,7 +71,7 @@ describe('Course Spotlight', () => {
   });
 
   it('send xAPI statement when course is clicked', () => {
-    const { container, getByText } = renderer();
+    const { getByText } = renderer();
 
     const spy = jest.spyOn(xAPIMapper, 'sendStatement')
       .mockImplementation(() => Promise.resolve({})
