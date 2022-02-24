@@ -101,9 +101,8 @@ export default function MoreLikeThis({ course }) {
             <ViewBtn
               id={data.hits[0].meta.id}
               courseTitle={data.hits[0].Course.CourseTitle}
-              courseDescription={data.hits[0].Course.CourseShortDescription.replace(
-                /(<([^>]+)>)/gi,
-                ''
+              courseDescription={removeHTML(
+                data.hits[0].Course.CourseShortDescription
               )}
             />
           </div>
