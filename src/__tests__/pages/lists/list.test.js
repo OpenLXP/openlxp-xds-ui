@@ -22,6 +22,35 @@ jest.mock('next/dist/client/router', () => require('next-router-mock'));
 jest.mock('@/hooks/useList', () => ({
   useList: jest.fn(),
 }));
+
+const useListMock = () => (
+  useList.mockImplementation(() => ({
+    data: {
+      id: '1',
+      name: 'test',
+      owner: {
+        id: '1',
+        username: '',
+        email: 'admin@example.com',
+      },
+      description: 'test description',
+      experiences: [
+        {
+          Course: {
+            CourseTitle: 'Test Title',
+            CourseProviderName: 'Course Provider Name',
+          },
+          meta: {
+            id: '1',
+            metadata_key_hash: '1',
+          },
+        },
+      ],
+    },
+    isSuccess: true,
+  }))
+)
+
 // render function that wraps the component with query client wrapper
 const renderer = (isAuth = true) => {
   // defaults user to logged in
@@ -129,31 +158,7 @@ describe('[listId].js', () => {
       expect(getByText('test')).toBeInTheDocument();
     });
     it('should render the list of courses.', () => {
-      useList.mockImplementation(() => ({
-        data: {
-          id: '1',
-          name: 'test',
-          owner: {
-            id: '1',
-            username: '',
-            email: 'admin@example.com',
-          },
-          description: 'test description',
-          experiences: [
-            {
-              Course: {
-                CourseTitle: 'Test Title',
-                CourseProviderName: 'Course Provider Name',
-              },
-              meta: {
-                id: '1',
-                metadata_key_hash: '1',
-              },
-            },
-          ],
-        },
-        isSuccess: true,
-      }));
+      useListMock();
 
       // render the component
       const { getByText } = renderer();
@@ -187,31 +192,7 @@ describe('[listId].js', () => {
     });
     describe('actions', () => {
       it('should navigate user away from page when view is clicked', () => {
-        useList.mockImplementation(() => ({
-          data: {
-            id: '1',
-            name: 'test',
-            owner: {
-              id: '1',
-              username: '',
-              email: 'admin@example.com',
-            },
-            description: 'test description',
-            experiences: [
-              {
-                Course: {
-                  CourseTitle: 'Test Title',
-                  CourseProviderName: 'Course Provider Name',
-                },
-                meta: {
-                  id: '1',
-                  metadata_key_hash: '1',
-                },
-              },
-            ],
-          },
-          isSuccess: true,
-        }));
+        useListMock();
 
         // render the component
         const { getByText } = renderer();
@@ -224,32 +205,8 @@ describe('[listId].js', () => {
       });
 
       it('should send xAPI statement when view course is clicked.', () => {
-        useList.mockImplementation(() => ({
-          data: {
-            id: '1',
-            name: 'test',
-            owner: {
-              id: '1',
-              username: '',
-              email: 'admin@example.com',
-            },
-            description: 'test description',
-            experiences: [
-              {
-                Course: {
-                  CourseTitle: 'Test Title',
-                  CourseProviderName: 'Course Provider Name',
-                },
-                meta: {
-                  id: '1',
-                  metadata_key_hash: '1',
-                },
-              },
-            ],
-          },
-          isSuccess: true,
-        }));
-
+        
+        useListMock();
         // render the component
         const { getByText } = renderer();
         // click the view button
