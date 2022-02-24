@@ -1,3 +1,4 @@
+import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '../../contexts/AuthContext';
 import { useConfig } from '../../hooks/useConfig';
 import { useMoreCoursesLikeThis } from '../../hooks/useMoreCoursesLikeThis';
@@ -75,10 +76,7 @@ export default function MoreLikeThis({ course }) {
           {data.hits[0].Course.CourseTitle}
         </h1>
         <p className='mt-4 font-sans line-clamp-6 text-sm'>
-          {data.hits[0].Course.CourseShortDescription.replace(
-            /(<([^>]+)>)/gm,
-            ''
-          )}
+          {removeHTML(data.hits[0].Course.CourseShortDescription)}
         </p>
         <div className='flex flex-col gap-1 mt-4'>
           <div>
