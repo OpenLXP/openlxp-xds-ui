@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 // components
 import { Pagination } from '@/components/buttons/Pagination';
+import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import CreateSavedSearchModal from '@/components/modals/CreateSavedSearch';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import MoreLikeThis from '@/components/cards/MoreLikeThis';
@@ -57,6 +58,17 @@ export default function Search({ query }) {
   const { data, refetch, isError, isSuccess, isLoading } = useSearch(url);
   const { user } = useAuth();
 
+  //xAPI Statement
+  const xAPISendStatement = (objectId) => {
+    if (user && isSuccess) {
+      const verb = {
+        id: "https://w3id.org/xapi/dod-isd/verbs/searched",
+        display: "searched"
+      }
+      sendStatement(user.user, verb, objectId);
+    }
+  }
+
   function handleChange(event) {
     setParams((previous) => ({
       ...previous,
@@ -106,6 +118,9 @@ export default function Search({ query }) {
 
       setParams(modified);
       setUrl(modified);
+      const domain = (new URL(window.location));
+      const objectId = `${domain.origin}/search?keyword=${modified.keyword}&p=1`;
+      xAPISendStatement(objectId);
 
       router.push({ pathname: '/search', query: modified });
     }

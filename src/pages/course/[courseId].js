@@ -13,7 +13,6 @@ import CourseSpotlight from '@/components/cards/CourseSpotlight';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import ExternalBtn from '@/components/buttons/ExternalBtn';
 import SaveModal from '@/components/modals/SaveModal';
-import ShareBtn from '@/components/buttons/ShareBtn';
 
 // config
 import { backendHost } from '@/config/endpoints';
@@ -49,14 +48,14 @@ export default function Course() {
       <DefaultLayout footerLocation='absolute'>
         <div className='pt-32  animate-pulse'>
           <div className='grid grid-cols-3 gap-8 mt-8'>
-            <div className='h-16 col-span-2 rounded-md bg-gray-200'></div>
+            <div className='h-16 col-span-2 rounded-md bg-gray-200'/>
             <div className='h-16 col-span-1 inline-flex justify-end gap-2'>
-              <div className='h-16 w-16 rounded-full bg-gray-200'></div>
-              <div className='h-16 w-16 rounded-full bg-gray-200'></div>
-              <div className='h-16 w-16 rounded-full bg-gray-200'></div>
+              <div className='h-16 w-16 rounded-full bg-gray-200'/>
+              <div className='h-16 w-16 rounded-full bg-gray-200'/>
+              <div className='h-16 w-16 rounded-full bg-gray-200'/>
             </div>
-            <div className='col-span-2 h-96 rounded-md bg-gray-200'></div>
-            <div className='col-span-1 h-72 rounded-md bg-gray-200'></div>
+            <div className='col-span-2 h-96 rounded-md bg-gray-200'/>
+            <div className='col-span-1 h-72 rounded-md bg-gray-200'/>
           </div>
         </div>
       </DefaultLayout>
@@ -73,7 +72,6 @@ export default function Course() {
           </h1>
           <div className='inline-flex justify-end gap-2 items-center'>
             <ExternalBtn url={preparedData?.courseUrl} />
-            <ShareBtn id={query?.courseId} />
             {user && (
               <SaveModal
                 courseId={
@@ -123,7 +121,7 @@ export default function Course() {
         </div>
         <div
           id='course-carousel'
-          className='absolute bottom-20 flex justify-center left-0 w-full overflow-x-hidden'
+          className='absolute bottom-0 flex justify-center left-0 w-full overflow-x-hidden'
         >
           <div className='inline-flex overflow-x-auto px-2 gap-2 py-5 custom-scroll '>
             {moreLikeThis.isSuccess &&

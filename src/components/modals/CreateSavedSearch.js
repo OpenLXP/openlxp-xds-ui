@@ -1,6 +1,7 @@
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { Fragment } from 'react';
 import { Popover, Transition } from '@headlessui/react';
+import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateSaveSearch } from '@/hooks/useCreateSaveSearch';
 import ActionButton from '@/components/buttons/ActionButton';
@@ -18,10 +19,25 @@ export default function CreateSavedSearchModal({ path }) {
     updateKeyValuePair(event.target.name, event.target.value);
   };
 
+    //xAPI Statement
+    const xAPISendStatement = (objectId) => {
+      if (user) {
+        const verb = {
+          id: "https://w3id.org/xapi/tla/verbs/prioritized",
+          display: "prioritized"
+        }
+        sendStatement(user.user, verb, objectId);
+      }
+    }
+
   const createSavedSearch = () => {
     // list must me named
     if (fields.name && fields.name !== '') {
-      mutate({ name: fields.name, path: path });
+      mutate({ name: fields.name, path: path }, { onSuccess: (data) => {
+        const domain = (new URL(window.location))
+        const objectId = `${domain.origin}/search?keyword=${data.name}&p=1`
+        xAPISendStatement(objectId)
+      }});
       resetKey('name');
     }
   };
