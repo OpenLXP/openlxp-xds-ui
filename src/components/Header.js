@@ -1,15 +1,11 @@
 import { useAuth } from '@/contexts/AuthContext';
-import { useRouter } from 'next/dist/client/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import UserMenu from '@/components/menus/UserMenu';
-import logo from "@/public/logo.png"
-
-const buttonLinks = [{ title: 'Search Lists', path: '/lists/searchLists' }];
+import logo from '@/public/logo.png';
 
 export default function Header({}) {
   const { user } = useAuth();
-  const { pathname } = useRouter();
   return (
     <header className={'absolute top-0 bg-white w-full shadow z-50'}>
       <nav
@@ -27,38 +23,7 @@ export default function Header({}) {
                 <Image src={logo} alt={'home'} height={'60'} width={'60'} />
               </a>
             </Link>
-            <Link href={'/'}>
-              <a
-                id='home-button'
-                className={`cursor-pointer ${
-                  pathname === '/' ? 'font-semibold' : 'hover:text-gray-700'
-                }`}
-              >
-                Home
-              </a>
-            </Link>
-            {user &&
-              buttonLinks.map((button) => {
-                return (
-                  <Link href={button.path} key={button.title}>
-                    <a
-                      id={
-                        button.title.toLowerCase().replace(' ', '-') +
-                        '-page-button'
-                      }
-                      className={`cursor-pointer ${
-                        pathname === button.path
-                          ? 'font-semibold'
-                          : 'hover:text-gray-700'
-                      }`}
-                    >
-                      {button.title}
-                    </a>
-                  </Link>
-                );
-              })}
           </div>
-
           {!user && (
             <div className={'space-x-4'}>
               <Link href={'/login'}>

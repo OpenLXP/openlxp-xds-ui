@@ -1,17 +1,11 @@
 import { EyeIcon, TrashIcon } from '@heroicons/react/outline';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import React, { useLayoutEffect } from 'react';
-
-// components
-import DefaultLayout from '@/components/layouts/DefaultLayout';
-
-// contexts
 import { useAuth } from '@/contexts/AuthContext';
-
-// hooks
 import { useDeleteSavedSearch } from '@/hooks/useDeleteSavedSearch';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { useSaveSearchList } from '@/hooks/useSaveSearch';
+import DefaultLayout from '@/components/layouts/DefaultLayout';
+import Link from 'next/link';
 
 export default function SavedSearches() {
   const { user } = useAuth();
@@ -20,7 +14,7 @@ export default function SavedSearches() {
   const router = useRouter();
 
   // if a user is not logged in (syncronusly render the content)
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!user) router.push('/');
     if (isError && error?.response.status === 401) router.push('/401');
     if (isError && error?.response.status === 403) router.push('/403');
@@ -59,9 +53,8 @@ export default function SavedSearches() {
                 return (
                   <div
                     key={list.id}
-                    className={`${
-                      index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-                    } grid grid-cols-8 w-full p-2 items-center`}
+                    className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                      } grid grid-cols-8 w-full p-2 items-center`}
                   >
                     <h2 className='col-span-3 line-clamp-1'>{list.name}</h2>
                     <div className='col-span-4 line-clamp-1' title={list.query}>

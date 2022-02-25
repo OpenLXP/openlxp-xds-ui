@@ -1,20 +1,14 @@
-import { useRouter } from 'next/router';
-import React, { useLayoutEffect, useMemo, useState } from 'react';
-
-// components
 import { Pagination } from '@/components/buttons/Pagination';
-import DefaultLayout from '@/components/layouts/DefaultLayout';
-import InterestListsResult from '@/components/cards/InterestListsResult';
-import SearchBar from '@/components/inputs/SearchBar';
-
-// contexts
 import { useAuth } from '@/contexts/AuthContext';
-
-// hooks
 import { useInterestLists } from '@/hooks/useInterestLists';
+import { useRouter } from 'next/router';
 import { useSubscribeToList } from '@/hooks/useSubscribeToList';
 import { useSubscribedLists } from '@/hooks/useSubscribedLists';
 import { useUnsubscribeFromList } from '@/hooks/useUnsubscribeFromList';
+import DefaultLayout from '@/components/layouts/DefaultLayout';
+import InterestListsResult from '@/components/cards/InterestListsResult';
+import React, { useEffect, useMemo, useState } from 'react';
+import SearchBar from '@/components/inputs/SearchBar';
 
 export default function SearchLists() {
   const router = useRouter();
@@ -75,7 +69,7 @@ export default function SearchLists() {
     }
   }, [interestLists, search]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     // if the user is not logged in, redirect to the home page
     if (!user) router.push('/');
     if (interstListError){

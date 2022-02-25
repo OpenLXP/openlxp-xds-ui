@@ -1,19 +1,18 @@
-import { render } from '@testing-library/react';
-
-// imports for mocking
-import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
-import Course from '@/pages/course/[courseId]';
+import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
+import { render } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useCourse } from '@/hooks/useCourse';
-import courseData from '@/__mocks__/data/course.data';
-import configData from '@/__mocks__/data/uiConfig.data';
-import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
 import { useConfig } from '@/hooks/useConfig';
+import { useCourse } from '@/hooks/useCourse';
+import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
+import Course from '@/pages/course/[courseId]';
+import configData from '@/__mocks__/data/uiConfig.data';
+import courseData from '@/__mocks__/data/course.data';
 import singletonRouter from 'next/router';
 
 // mocking the router
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
+
 // mocking config
 jest.mock('@/hooks/useConfig', () => ({
   useConfig: jest.fn(),

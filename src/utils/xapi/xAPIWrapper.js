@@ -7,7 +7,7 @@ import xAPIMapper from "./xAPIMapper";
  * @param object
  * @returns {Promise}
  */
-export const sendStatement = (actor, verb, object) => {
+export const sendStatement = (actor, verb, objectId) => {
 
   const statement =  {
     actor: {
@@ -21,9 +21,9 @@ export const sendStatement = (actor, verb, object) => {
       }
     },
     object: {
-      id: object.id
+      id: objectId
     }
   }
 
-  return xAPIMapper.sendStatement({statement})
+  return xAPIMapper.sendStatement({statement});
 }

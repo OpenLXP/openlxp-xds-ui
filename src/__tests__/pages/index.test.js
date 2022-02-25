@@ -1,8 +1,8 @@
-import singletonRouter from 'next/router';
-import mockRouter from 'next-router-mock';
-import { render, screen, act, fireEvent } from '@testing-library/react';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock.js';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import Home from '@/pages/index';
+import mockRouter from 'next-router-mock';
+import singletonRouter from 'next/router';
 
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
 
