@@ -224,7 +224,7 @@ describe('Subscribed Page', () => {
           },
         }));
 
-        const { } = renderer();
+        renderer();
         expect(singletonRouter).toMatchObject({
           asPath: '/401',
         });
@@ -243,7 +243,7 @@ describe('Subscribed Page', () => {
           },
         }));
 
-        const { getByText } = renderer();
+        renderer();
         expect(singletonRouter).toMatchObject({
           asPath: '/403',
         });
