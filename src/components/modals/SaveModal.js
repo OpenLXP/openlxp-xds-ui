@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
+import { Fragment, useCallback, useState } from 'react';
 import { PlusCircleIcon } from '@heroicons/react/outline';
 import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import { useAuth } from '@/contexts/AuthContext';
@@ -7,6 +7,20 @@ import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserOwnedLists } from '@/hooks/useUserOwnedLists';
 import InputField from '@/components/inputs/InputField';
+import { useEffect } from 'react';
+
+
+
+/**
+ * TODO: to be removed before merging back to dev
+ * Current status: in the process of trying to get the updated isSuccess ( useCreateUserList hook) value 
+ * to be used to determine whether or not xAPISendStatement should be executed.
+ * Even with the useCallback, it seems like isSuccess (useCreateUserList hook) is still one step behind.
+ * 
+ * The reason for using this approach instead of calling the xAPISendStatement in the onSuccess is 
+ * because testing that onSuccess is difficult especially when the mutation is being mocked.
+ * 
+ */
 
 export default function SaveModal({ courseId }) {
   // authentication
@@ -15,7 +29,7 @@ export default function SaveModal({ courseId }) {
   // user lists
   const { data: userLists, isSuccess } = useUserOwnedLists(user?.token);
   const { mutate } = useUpdateUserList(user?.token);
-  const { mutate: create } = useCreateUserList(user?.token);
+  const { mutate: create, isSuccess: createSuccess } = useCreateUserList(user?.token);
 
   // new list form
   const [fields, setFields] = useState({
@@ -45,6 +59,12 @@ export default function SaveModal({ courseId }) {
       sendStatement(user.user, verb, obj, resultExtName, data.id);
     }
   };
+
+  const xAPICall = useCallback((fields) => {
+    if (user && createSuccess) {
+      xAPISendStatement(fields)
+    }
+  }, [createSuccess === true, user, fields]);
 
   // add a course to the selected list
   const addCourseToList = (listId) => {
@@ -165,10 +185,8 @@ export default function SaveModal({ courseId }) {
                     setFields({ name: '', description: '' });
                     create(
                       { form: fields },
-                      {
-                        onSuccess: (data) => xAPISendStatement(data),
-                      }
                     );
+                    xAPICall(fields);
                   }}
                 >
                   <div>
