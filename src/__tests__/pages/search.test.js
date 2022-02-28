@@ -11,6 +11,7 @@ import aggregationsData from '@/__mocks__/data/aggregations.data';
 import courseData from '@/__mocks__/data/course.data';
 import singletonRouter from 'next/router';
 import uiConfigData from '@/__mocks__/data/uiConfig.data';
+import xAPIMapper from "@/utils/xapi/xAPIMapper";
 
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
 
@@ -694,6 +695,27 @@ describe('Search Page', () => {
         expect(getByTitle(/save course/i)).toBeInTheDocument();
       });
       it.todo('should show save modal when clicked');
+    });
+  });
+  describe('xAPI', () => {
+    it('should send xAPI Statement', () => {
+
+      const spy = jest.spyOn(xAPIMapper, 'sendStatement')
+      .mockImplementation(() => Promise.resolve({})
+      );
+
+      const { getByRole, getByTitle } = renderer(true);
+      act(() => {
+        fireEvent.change(getByRole('textbox'), {
+          target: { value: 'data' },
+        });
+      });
+      act(() => {
+        fireEvent.click(getByTitle(/search/i));
+      });
+
+      expect(spy).toHaveBeenCalled();
+
     });
   });
 });
