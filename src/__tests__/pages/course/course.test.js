@@ -111,26 +111,6 @@ describe('Course Page', () => {
         expect(getByText(/Go to Enrollment/i)).toBeInTheDocument();
       });
     });
-
-    describe('share link', () => {
-      it.skip('should show the share button', () => {
-        // mock course data
-        useCourse.mockImplementation(() => ({
-          data: courseData,
-          isSuccess: true,
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: [],
-        }));
-
-        // render the component
-        const { getByTitle } = renderer();
-
-        // assert
-        expect(getByTitle(/share course/i)).toBeInTheDocument();
-      });
-    });
-
     describe('with moreLikeThis data', () => {
       it('should show the moreLikeThis section', () => {
         // mock course data

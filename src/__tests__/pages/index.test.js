@@ -51,17 +51,6 @@ describe('should render the title', () => {
     expect(screen.getByRole('textbox', { id: /search-bar/i }).value).toBe('');
   });
 
-  it.skip('should navigate away from the page when a field.keyword is present', () => {
-    act(() => {
-      fireEvent.change(screen.getByPlaceholderText('Search the catalog'), {
-        target: { value: 'updated value' },
-      });
-    });
-
-    act(() => {
-      fireEvent.click(screen.getByTitle(/search/i));
-    });
-  });
   it('should update the value of the search bar', () => {
     act(() => {
       fireEvent.change(screen.getByPlaceholderText('Search the catalog'), {

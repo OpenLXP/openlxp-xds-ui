@@ -55,14 +55,14 @@ export default function SearchResult({ result }) {
     <div className={'overflow-x-hidden py-2 pr-2'}>
       <div className='inline-flex gap-2 justify-between items-center w-full'>
         <Link href={'/course/' + id} passHref>
-          <h2
+          <button
             id='link-to-course'
             className='text-lg font-semibold line-clamp-2 hover:underline hover:text-blue-400 cursor-pointer hover:text-shadow'
             title={CourseTitle}
             onClick={() => xAPISendStatement()}
           >
             {CourseTitle}
-          </h2>
+          </button>
         </Link>
         <div className='inline-flex flex-shrink-0 gap-2'>
           <ViewBtn id={id} courseTitle={result.Course.CourseTitle} courseDescription={result.Course.CourseShortDescription} />

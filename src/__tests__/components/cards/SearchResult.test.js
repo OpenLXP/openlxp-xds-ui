@@ -18,14 +18,7 @@ describe('SearchResult', () => {
     expect(screen.getByText('Provider Name')).toBeInTheDocument();
   });
 
-  it.skip('should show the share button', () => {
-    render(
-      <AuthContextWrapper>
-        <SearchResult result={courseData} />
-      </AuthContextWrapper>
-    );
-    expect(screen.getByTitle('share course')).toBeInTheDocument();
-  });
+  
 
   it('should show the view course button', () => {
     render(
@@ -34,14 +27,5 @@ describe('SearchResult', () => {
       </AuthContextWrapper>
     );
     expect(screen.getByTitle('view course')).toBeInTheDocument();
-  });
-
-  it.skip('should show the save course button', () => {
-    render(
-      <AuthContextWrapper>
-        <SearchResult result={courseData} />
-      </AuthContextWrapper>
-    );
-    expect(screen.getByTitle('save course')).toBeInTheDocument();
   });
 });

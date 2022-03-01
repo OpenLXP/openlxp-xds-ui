@@ -2,20 +2,14 @@ import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '../../contexts/AuthContext';
 import { useConfig } from '../../hooks/useConfig';
 import { useMoreCoursesLikeThis } from '../../hooks/useMoreCoursesLikeThis';
-import React, { useEffect } from 'react';
+import React from 'react';
 import SaveModal from '../modals/SaveModal';
 import ViewBtn from '../buttons/ViewBtn';
-import useTimeout from '../../hooks/useTimeout';
 
 export default function MoreLikeThis({ course }) {
   const { data, isLoading } = useMoreCoursesLikeThis(course?.meta.id);
   const config = useConfig();
   const { user } = useAuth();
-  const { state: view, show } = useTimeout(500);
-
-  useEffect(() => {
-    show();
-  }, []);
 
   // if loading
   if (isLoading) {
