@@ -26,7 +26,7 @@ const menuItems = [
 
 function Button({ data }) {
   const router = useRouter();
-  if (data.path === router.asPath) {
+  if (data.path === router?.asPath) {
     return (
       <Link href={data.path}>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}

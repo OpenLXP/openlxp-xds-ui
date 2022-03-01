@@ -122,7 +122,7 @@ export default function Register() {
             or &nbsp;
             <Link href={'/login'} passHref>
               <button
-                id={'create-account-button'}
+                id={'login-button'}
                 className='text-blue-400 hover:underline hover:text-blue-500 cursor-pointer transition-all duration-150 ease-in-out'
               >
                 Sign in to your account

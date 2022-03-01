@@ -22,7 +22,7 @@ export default function Subscribed() {
   useEffect(() => {
     if (isError && error.response.status === 401) router.push('/401');
     if (isError && error.response.status === 403) router.push('/403');
-  }, [isError, error, router]);
+  }, [isError]);
 
   return (
     <DefaultLayout>

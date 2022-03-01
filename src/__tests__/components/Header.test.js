@@ -35,13 +35,13 @@ describe('Header', () => {
     it('shows user menu button', () => {
       useAuth.mockImplementation(() => {
         return {
-          user: { user: { email: 'test@email.com' } },
+          user: { user: { first_name: 'Test' } },
         };
       });
 
       const { getByText } = render(<Header />);
 
-      expect(getByText('test@email.com')).toBeInTheDocument();
+      expect(getByText('Test')).toBeInTheDocument();
     });
   });
 });
