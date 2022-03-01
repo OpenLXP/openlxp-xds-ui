@@ -48,7 +48,7 @@ describe('Edit List', () => {
 
     it('should render update button', () => {
       const { getByRole } = renderer(<EditList />);
-      expect(getByRole('button', { name: /update/i })).toBeInTheDocument();
+      expect(getByRole('button', { name: /apply changes/i })).toBeInTheDocument();
     });
 
     it('should render cancel button', () => {

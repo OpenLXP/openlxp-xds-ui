@@ -28,7 +28,7 @@ export default function Help() {
           Save search: Any search can be saved with the click of the “Save this
           search” button located just on top of the search bar in the search
           results page. Type in a query name you want to save this search under
-          and click "Save".{' '}
+          and click &quot;Save&quot;.{' '}
         </p>
         <p className='mb-2'>
           {' '}

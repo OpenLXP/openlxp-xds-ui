@@ -31,9 +31,9 @@ describe('Register Page', () => {
   it('should render the Register screen title, input fields, and buttons', () => {
     expect(screen.getByText(`Create your account`)).toBeInTheDocument();
     expect(screen.getByText(/Sign in to your Account/i)).toBeInTheDocument();
-    expect(screen.getByText(`Create`)).toBeInTheDocument();
-    expect(screen.getByText(`or continue with`)).toBeInTheDocument();
-    expect(screen.getByText(`Single Sign On`)).toBeInTheDocument();
+    expect(screen.getByText(`Create Account`)).toBeInTheDocument();
+    // expect(screen.getByText(`or continue with`)).toBeInTheDocument();
+    // expect(screen.getByText(`Single Sign On`)).toBeInTheDocument();
   });
 });
 
@@ -81,7 +81,7 @@ describe('Register Page actions', () => {
       fireEvent.change(email, { target: { value: '' } });
     });
     act(() => {
-      const button = screen.getByText('Create');
+      const button = screen.getByText('Create Account');
       fireEvent.click(button);
     });
     expect(screen.getByText(/Email is required/i)).toBeInTheDocument();
@@ -93,7 +93,7 @@ describe('Register Page actions', () => {
       fireEvent.change(email, { target: { value: 'test' } });
     });
     act(() => {
-      const button = screen.getByText('Create');
+      const button = screen.getByText('Create Account');
       fireEvent.click(button);
     });
     expect(screen.getByText(/Email is invalid/i)).toBeInTheDocument();
@@ -107,12 +107,11 @@ describe('Register Page actions', () => {
       fireEvent.change(password, { target: { value: '' } });
     });
     act(() => {
-      const button = screen.getByText('Create');
+      const button = screen.getByText('Create Account');
       fireEvent.click(button);
     });
     expect(screen.getByText(/Password is required/i)).toBeInTheDocument();
   });
-
 
   it('should show an error message when a password is less than 8 characters', () => {
     const email = screen.getByPlaceholderText('Email');
@@ -123,7 +122,7 @@ describe('Register Page actions', () => {
     });
 
     act(() => {
-      const button = screen.getByText('Create');
+      const button = screen.getByText('Create Account');
       fireEvent.click(button);
     });
 
@@ -139,7 +138,7 @@ describe('Register Page actions', () => {
     });
 
     act(() => {
-      const button = screen.getByText('Create');
+      const button = screen.getByText('Create Account');
       fireEvent.click(button);
     });
 
@@ -155,7 +154,7 @@ describe('Register Page actions', () => {
     });
 
     act(() => {
-      const button = screen.getByText('Create');
+      const button = screen.getByText('Create Account');
       fireEvent.click(button);
     });
 
@@ -173,13 +172,14 @@ describe('Register Page actions', () => {
     });
 
     act(() => {
-      const button = screen.getByText('Create');
+      const button = screen.getByText('Create Account');
       fireEvent.click(button);
     });
 
     expect(screen.getByText(/Password confirmation is required/i)).toBeInTheDocument();
 
   });
+
   it('should have error message when verification password does not match password', () => {
     const email = screen.getByPlaceholderText('Email');
     const password = screen.getByPlaceholderText('Password');
@@ -191,13 +191,12 @@ describe('Register Page actions', () => {
     });
 
     act(() => {
-      const button = screen.getByText('Create');
+      const button = screen.getByText('Create Account');
       fireEvent.click(button);
     });
 
     expect(screen.getByText(/Password confirmation does not match password/i)).toBeInTheDocument();
   });
-
 
   it('should show error message when first name is empty', () => {
     const firstName = screen.getByPlaceholderText('First Name');
@@ -212,11 +211,12 @@ describe('Register Page actions', () => {
       fireEvent.change(firstName, { target: { value: '' } });
     });
     act(() => {
-      const button = screen.getByText('Create');
+      const button = screen.getByText('Create Account');
       fireEvent.click(button);
     });
     expect(screen.getByText(/First name is required/i)).toBeInTheDocument();
   });
+
   it('should render error message when the first name is less than 2 characters', () => {
     const firstName = screen.getByPlaceholderText('First Name');
     const email = screen.getByPlaceholderText('Email');
@@ -230,7 +230,7 @@ describe('Register Page actions', () => {
       fireEvent.change(firstName, { target: { value: 'a' } });
     });
     act(() => {
-      const button = screen.getByText('Create');
+      const button = screen.getByText('Create Account');
       fireEvent.click(button);
     });
     expect(screen.getByText(/First name must be at least 2 characters/i)).toBeInTheDocument();
@@ -251,7 +251,7 @@ describe('Register Page actions', () => {
       fireEvent.change(lastName, { target: { value: '' } });
     });
     act(() => {
-      const button = screen.getByText('Create');
+      const button = screen.getByText('Create Account');
       fireEvent.click(button);
     });
     expect(screen.getByText(/Last name is required/i)).toBeInTheDocument();
@@ -273,13 +273,12 @@ describe('Register Page actions', () => {
       fireEvent.change(lastName, { target: { value: 'a' } });
     });
     act(() => {
-      const button = screen.getByText('Create');
+      const button = screen.getByText('Create Account');
       fireEvent.click(button);
     });
 
     expect(screen.getByText(/Last name must be at least 2 characters/i)).toBeInTheDocument();
   });
-
 
   it('should register a user', () => {
     const firstName = screen.getByPlaceholderText('First Name');
@@ -287,7 +286,6 @@ describe('Register Page actions', () => {
     const email = screen.getByPlaceholderText('Email');
     const password = screen.getByPlaceholderText('Password');
     const passwordVerification = screen.getByPlaceholderText('Confirm Password');
-
 
     act(() => {
       fireEvent.change(firstName, { target: { value: 'valid' } });
@@ -309,7 +307,7 @@ describe('Register Page actions', () => {
       MockAxios.post.mockImplementation(() =>
         Promise.resolve({ data: { user: {} } })
       );
-      const button = screen.getByRole('button', { name: /create/i });
+      const button = screen.getByRole('button', { name: /create account/i });
       fireEvent.click(button);
     });
     expect(MockAxios.post).toHaveBeenCalled();

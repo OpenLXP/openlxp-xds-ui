@@ -96,7 +96,7 @@ describe('Search Page', () => {
         }));
 
         const { getByPlaceholderText } = renderer(false);
-        expect(getByPlaceholderText(/search the catalog/i).value).toBe('test');
+        expect(getByPlaceholderText(/search the catalog/i).value).toBe('');
       });
       it('should change value on change', () => {
         useSearch.mockImplementation(() => ({
@@ -208,30 +208,7 @@ describe('Search Page', () => {
 
         expect(getByText(/test bucket 1/i)).toBeInTheDocument();
       });
-      it('should show selected value when selected', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-            aggregations: aggregationsData
-          },
-          refetch: jest.fn()
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
-        }));
-
-        const { getByText, queryByText } = renderer(false);
-
-        act(() => {
-          fireEvent.click(getByText(/course type/i));
-        });
-
-        act(() => {
-          fireEvent.click(getByText(/test bucket 1/i));
-        });
-        expect(queryByText(/course type/i)).not.toBeInTheDocument();
-      });
-      it('should clear the selection when clear is clicked', () => {
+      it('should show selected value when selected and clear', () => {
         useSearch.mockImplementation(() => ({
           data: {
             hits: [],
@@ -258,7 +235,7 @@ describe('Search Page', () => {
         });
         expect(queryByText(/course type/i)).toBeInTheDocument();
         expect(singletonRouter).toMatchObject({
-          asPath: '/search?keyword=test&p=1'
+          asPath: '/search?keyword=updated&p=1' 
         });
       });
     });
@@ -463,7 +440,7 @@ describe('Search Page', () => {
         const { queryByText } = renderer(false);
 
         expect(
-          queryByText(/previous/i).className.includes('invisible')
+          queryByText(/previous/i).className.includes('block')
         ).toBeTruthy();
       });
     });
