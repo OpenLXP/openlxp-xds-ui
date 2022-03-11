@@ -4,14 +4,26 @@ import SaveModal from '@/components/modals/SaveModal';
 import userListData from '@/__mocks__/data/userLists.data';
 import { useUserOwnedLists } from '@/hooks/useUserOwnedLists.js';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
+import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
+import xAPIMapper from "@/utils/xapi/xAPIMapper";
+import { useAuth } from '@/contexts/AuthContext';
 
 jest.mock('@/hooks/useUpdateUserList', () => ({
   useUpdateUserList: jest.fn(),
 }));
 
+jest.mock('@/hooks/useCreateUserList', () => ({
+  useCreateUserList: jest.fn(),
+}));
+
 jest.mock('@/hooks/useUserOwnedLists.js', () => ({
   useUserOwnedLists: jest.fn(),
+}));
+
+// mocking the useAuth hook
+jest.mock('@/contexts/AuthContext', () => ({
+  useAuth: jest.fn(),
 }));
 
 const mockIntersectionObserver = jest.fn();
@@ -24,7 +36,27 @@ window.IntersectionObserver = mockIntersectionObserver;
 
 const mutateFn = jest.fn();
 
-const renderer = () => {
+const createMutateFn = jest.fn();
+
+
+const renderer = (isAuth = false) => {
+  // // defaults user to logged in
+  if (!isAuth) {
+    useAuth.mockReturnValue({
+      user: null,
+    });
+  } else {
+    useAuth.mockReturnValue({
+      user: {
+        user: {
+          id: '1',
+          username: 'test',
+          email: '',
+        },
+      },
+    });
+  }
+
   return render(
     <QueryClientWrapper>
       <div>
@@ -37,6 +69,11 @@ const renderer = () => {
 beforeEach(() => {
   useUpdateUserList.mockImplementation(() => ({
     mutate: mutateFn,
+  }));
+
+  useCreateUserList.mockImplementation(() => ({
+    mutate: createMutateFn,
+    isSuccess: true
   }));
 
   useUserOwnedLists.mockImplementation(() => ({
@@ -108,5 +145,26 @@ describe('Save Modal', () => {
   describe('create new list', () => {
     it.todo('should render input fields for name and description');
     it.todo('should');
+
+    it('should send xAPI statement when create is clicked', () => {
+      const { getByText, getByPlaceholderText } = renderer(true);
+
+      const spy = jest.spyOn(xAPIMapper, 'sendStatement')
+        .mockImplementation(() => Promise.resolve({})
+        );
+      act(() => {
+        fireEvent.click(getByText(/save/i));
+      });
+
+      fireEvent.change(getByPlaceholderText(/name/i), { target: { value: 'Name' } })
+
+      fireEvent.change(getByPlaceholderText(/List Description.../i), { target: { value: 'Descprition' } })
+
+      act(() => {
+        fireEvent.click(getByText(/create/i));
+      });
+
+      expect(spy).toHaveBeenCalled();
+    })
   });
 });

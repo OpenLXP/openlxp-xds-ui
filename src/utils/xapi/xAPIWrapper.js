@@ -4,13 +4,12 @@ import xAPIMapper from "./xAPIMapper";
  * @description takes in an actor (user), verb, object
  * @param object
  * @param object
- * @param string
- * @param string
+ * @param object
  * @param string
  * @param string
  * @returns {Promise}
  */
-export const sendStatement = (actor, verb, objectId, objectDefName, resultExtName, resultExtValue) => {
+export const sendStatement = (actor, verb, obj, resultExtName, resultExtValue) => {
 
   const statement = {
     actor: {
@@ -27,10 +26,10 @@ export const sendStatement = (actor, verb, objectId, objectDefName, resultExtNam
       }
     },
     object: {
-      id: objectId,
+      id: obj.id,
       definition: {
         name: {
-          "en-US": objectDefName
+          "en-US": obj.definitionName
         }
       },
       objectType: "Activity"
@@ -42,6 +41,10 @@ export const sendStatement = (actor, verb, objectId, objectDefName, resultExtNam
     },
     timestamp: new Date().toUTCString()
   }
+
+  obj.description && (statement['object']['definition']['description'] = {
+    "en-US": obj.description
+  })
 
   return xAPIMapper.sendStatement({ statement });
 }

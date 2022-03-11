@@ -28,11 +28,9 @@ describe('Login Page', () => {
     expect(screen.getByText(/Sign in to your account/i)).toBeInTheDocument();
     expect(screen.getByText(`Create an Account`)).toBeInTheDocument();
     expect(screen.getByText(`Login`)).toBeInTheDocument();
-    // expect(screen.getByText(`or continue with`)).toBeInTheDocument();
-    // expect(screen.getByText(`Single Sign On`)).toBeInTheDocument();
   });
 
-  it('should render the sso button', () => {
+  it.skip('should render the sso button', () => {
     useAuth.mockImplementation(() => ({
       login: jest.fn(),
       logout: jest.fn(),
@@ -43,19 +41,6 @@ describe('Login Page', () => {
       </QueryClientWrapper>
     );
     // expect(screen.getByText(`Single Sign On`)).toBeInTheDocument();
-  });
-
-  it.skip('should render the forgot password button', () => {
-    useAuth.mockImplementation(() => ({
-      login: jest.fn(),
-      logout: jest.fn(),
-    }));
-    render(
-      <QueryClientWrapper>
-        <Login />
-      </QueryClientWrapper>
-    );
-    expect(screen.getByText(/Forgot Password/i)).toBeInTheDocument();
   });
 
   describe('Actions', () => {

@@ -28,7 +28,7 @@ export default function CourseSpotlight({ course }) {
   }, [Course_Instance, config]);
 
   //xAPI Statement
-  const xAPISendStatement = (courseId) => {
+  const xAPISendStatement = () => {
     if (user) {
       const verb = {
         id: "https://w3id.org/xapi/tla/verbs/explored",
@@ -37,16 +37,21 @@ export default function CourseSpotlight({ course }) {
 
       const domain = (new URL(window.location));
       const objectId = `${domain.origin}/course`;
-      const objectDefName = "ECC Course Viewing"
-      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/CourseViewed";
+      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/CourseId";
 
-      sendStatement(user.user, verb, objectId, objectDefName, resultExtName, courseId);
+      const obj = {
+        id: objectId,
+        definitionName: Course.CourseTitle,
+        description: Course.CourseShortDescription
+      }
+
+      sendStatement(user.user, verb, obj, resultExtName, meta?.metadata_key_hash ? meta.metadata_key_hash : meta.id);
     }
   }
 
 
   const handleVisitCourse = (e) => {
-    xAPISendStatement(meta?.metadata_key_hash ? meta.metadata_key_hash : meta.id);
+    xAPISendStatement();
     router.push(
       '/course/' + (meta?.metadata_key_hash ? meta.metadata_key_hash : meta.id)
     );

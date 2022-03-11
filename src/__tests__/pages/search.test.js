@@ -11,23 +11,24 @@ import aggregationsData from '@/__mocks__/data/aggregations.data';
 import courseData from '@/__mocks__/data/course.data';
 import singletonRouter from 'next/router';
 import uiConfigData from '@/__mocks__/data/uiConfig.data';
+import xAPIMapper from '@/utils/xapi/xAPIMapper';
 
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
 
 jest.mock('@/hooks/useSearchUrl', () => ({
-  useSearchUrl: jest.fn()
+  useSearchUrl: jest.fn(),
 }));
 jest.mock('../../hooks/useConfig', () => ({
-  useConfig: jest.fn()
+  useConfig: jest.fn(),
 }));
 jest.mock('../../hooks/useSearch', () => ({
-  useSearch: jest.fn()
+  useSearch: jest.fn(),
 }));
 jest.mock('../../hooks/useMoreCoursesLikeThis', () => ({
-  useMoreCoursesLikeThis: jest.fn()
+  useMoreCoursesLikeThis: jest.fn(),
 }));
 jest.mock('../../contexts/AuthContext', () => ({
-  useAuth: jest.fn()
+  useAuth: jest.fn(),
 }));
 
 // mocking the jest fn
@@ -36,19 +37,19 @@ console.log = jest.fn();
 const renderer = (isAuth) => {
   isAuth
     ? useAuth.mockImplementation(() => ({
-      user: { user: { token: 'token' } }
-    }))
+        user: { user: { token: 'token' } },
+      }))
     : useAuth.mockImplementation(() => ({
-      user: null
-    }));
+        user: null,
+      }));
 
   useSearchUrl.mockImplementation(() => ({
     url: 'fake url',
-    setUrl: jest.fn()
+    setUrl: jest.fn(),
   }));
 
   useConfig.mockImplementation(() => ({
-    data: uiConfigData
+    data: uiConfigData,
   }));
 
   return render(
@@ -57,7 +58,7 @@ const renderer = (isAuth) => {
         <Search
           query={{
             keyword: 'test',
-            p: 1
+            p: 1,
           }}
         />
       </QueryClientWrapper>
@@ -71,12 +72,12 @@ describe('Search Page', () => {
       it('should not show save this search button', () => {
         useSearch.mockImplementation(() => ({
           data: {
-            hits: []
+            hits: [],
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
+          data: { hits: [] },
         }));
         const { queryByText } = renderer(false);
         expect(queryByText(/save this search/i)).not.toBeInTheDocument();
@@ -87,12 +88,12 @@ describe('Search Page', () => {
       it('should show initial value', () => {
         useSearch.mockImplementation(() => ({
           data: {
-            hits: []
+            hits: [],
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
+          data: { hits: [] },
         }));
 
         const { getByPlaceholderText } = renderer(false);
@@ -101,12 +102,12 @@ describe('Search Page', () => {
       it('should change value on change', () => {
         useSearch.mockImplementation(() => ({
           data: {
-            hits: []
+            hits: [],
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
+          data: { hits: [] },
         }));
 
         const { getByPlaceholderText } = renderer(false);
@@ -122,12 +123,12 @@ describe('Search Page', () => {
       it('should reset value when reset is clicked', () => {
         useSearch.mockImplementation(() => ({
           data: {
-            hits: []
+            hits: [],
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
+          data: { hits: [] },
         }));
 
         const { getByPlaceholderText, getByTitle } = renderer(false);
@@ -143,12 +144,12 @@ describe('Search Page', () => {
       it('should change url on search', () => {
         useSearch.mockImplementation(() => ({
           data: {
-            hits: []
+            hits: [],
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
+          data: { hits: [] },
         }));
 
         const { getByPlaceholderText, getByTitle } = renderer(false);
@@ -165,7 +166,7 @@ describe('Search Page', () => {
         });
 
         expect(singletonRouter).toMatchObject({
-          asPath: '/search?keyword=updated&p=1'
+          asPath: '/search?keyword=updated&p=1',
         });
       });
     });
@@ -175,12 +176,12 @@ describe('Search Page', () => {
         useSearch.mockImplementation(() => ({
           data: {
             hits: [],
-            aggregations: aggregationsData
+            aggregations: aggregationsData,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
+          data: { hits: [] },
         }));
 
         const { getByText } = renderer(false);
@@ -192,12 +193,12 @@ describe('Search Page', () => {
         useSearch.mockImplementation(() => ({
           data: {
             hits: [],
-            aggregations: aggregationsData
+            aggregations: aggregationsData,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
+          data: { hits: [] },
         }));
 
         const { getByText } = renderer(false);
@@ -212,12 +213,12 @@ describe('Search Page', () => {
         useSearch.mockImplementation(() => ({
           data: {
             hits: [],
-            aggregations: aggregationsData
+            aggregations: aggregationsData,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
+          data: { hits: [] },
         }));
 
         const { getByText, queryByText, getAllByText } = renderer(false);
@@ -235,7 +236,7 @@ describe('Search Page', () => {
         });
         expect(queryByText(/course type/i)).toBeInTheDocument();
         expect(singletonRouter).toMatchObject({
-          asPath: '/search?keyword=updated&p=1' 
+          asPath: '/search?keyword=updated&p=1',
         });
       });
     });
@@ -246,12 +247,12 @@ describe('Search Page', () => {
           data: {
             hits: [],
             aggregations: [],
-            total: 1
+            total: 1,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
+          data: { hits: [] },
         }));
 
         const { getByText } = renderer(false);
@@ -263,12 +264,12 @@ describe('Search Page', () => {
           data: {
             hits: [courseData],
             aggregations: [],
-            total: 1
+            total: 1,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
+          data: { hits: [] },
         }));
 
         const { getByText } = renderer(false);
@@ -281,12 +282,12 @@ describe('Search Page', () => {
           data: {
             hits: [courseData],
             aggregations: [],
-            total: 1
+            total: 1,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
+          data: { hits: [] },
         }));
 
         const { getByText } = renderer(false);
@@ -299,12 +300,12 @@ describe('Search Page', () => {
           data: {
             hits: [courseData],
             aggregations: [],
-            total: 1
+            total: 1,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
+          data: { hits: [] },
         }));
 
         const { getByText } = renderer(false);
@@ -317,12 +318,12 @@ describe('Search Page', () => {
           data: {
             hits: [courseData],
             aggregations: [],
-            total: 1
+            total: 1,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
+          data: { hits: [] },
         }));
 
         const { getByTitle } = renderer(false);
@@ -330,36 +331,18 @@ describe('Search Page', () => {
         expect(getByTitle(/view course/i)).toBeInTheDocument();
         expect(getByTitle(/view course/i).id).not.toBeUndefined();
       });
-      it.skip('should show the share button', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [courseData],
-            aggregations: [],
-            total: 1
-          },
-          refetch: jest.fn()
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
-        }));
-
-        const { getByTitle } = renderer(false);
-
-        expect(getByTitle(/share course/i)).toBeInTheDocument();
-        expect(getByTitle(/share course/i).id).not.toBeUndefined();
-      });
 
       it('should not show the save button', () => {
         useSearch.mockImplementation(() => ({
           data: {
             hits: [courseData],
             aggregations: [],
-            total: 1
+            total: 1,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
+          data: { hits: [] },
         }));
 
         const { queryByTitle } = renderer(false);
@@ -374,12 +357,12 @@ describe('Search Page', () => {
           data: {
             hits: [courseData],
             aggregations: [],
-            total: 100
+            total: 100,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
+          data: { hits: [] },
         }));
 
         const { getByText } = renderer(false);
@@ -390,12 +373,12 @@ describe('Search Page', () => {
           data: {
             hits: [courseData],
             aggregations: [],
-            total: 1
+            total: 1,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
+          data: { hits: [] },
         }));
 
         const { queryByText } = renderer(false);
@@ -408,12 +391,12 @@ describe('Search Page', () => {
           data: {
             hits: [courseData],
             aggregations: [],
-            total: 100
+            total: 100,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
+          data: { hits: [] },
         }));
 
         const { getByText } = renderer(false);
@@ -429,12 +412,12 @@ describe('Search Page', () => {
           data: {
             hits: [courseData],
             aggregations: [],
-            total: 100
+            total: 100,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] }
+          data: { hits: [] },
         }));
 
         const { queryByText } = renderer(false);
@@ -451,14 +434,14 @@ describe('Search Page', () => {
           data: {
             hits: [],
             aggregations: [],
-            total: 100
+            total: 100,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
           data: {
-            hits: [courseData]
-          }
+            hits: [courseData],
+          },
         }));
 
         const { getByText } = renderer(false);
@@ -470,14 +453,14 @@ describe('Search Page', () => {
           data: {
             hits: [],
             aggregations: [],
-            total: 100
+            total: 100,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
           data: {
-            hits: [courseData]
-          }
+            hits: [courseData],
+          },
         }));
 
         const { getByText } = renderer(false);
@@ -489,14 +472,14 @@ describe('Search Page', () => {
           data: {
             hits: [],
             aggregations: [],
-            total: 100
+            total: 100,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
           data: {
-            hits: [courseData]
-          }
+            hits: [courseData],
+          },
         }));
 
         const { getByText } = renderer(false);
@@ -505,38 +488,19 @@ describe('Search Page', () => {
         expect(getByText(/provider name/i)).toBeInTheDocument();
         expect(getByText(/course type 1/i)).toBeInTheDocument();
       });
-      it.skip('should show the share button', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-            aggregations: [],
-            total: 100
-          },
-          refetch: jest.fn()
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: {
-            hits: [courseData]
-          }
-        }));
-
-        const { getByTitle } = renderer(false);
-
-        expect(getByTitle(/share course/i)).toBeInTheDocument();
-      });
       it('should show the view button', () => {
         useSearch.mockImplementation(() => ({
           data: {
             hits: [],
             aggregations: [],
-            total: 100
+            total: 100,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
           data: {
-            hits: [courseData]
-          }
+            hits: [courseData],
+          },
         }));
 
         const { getByTitle } = renderer(false);
@@ -548,14 +512,14 @@ describe('Search Page', () => {
           data: {
             hits: [],
             aggregations: [],
-            total: 100
+            total: 100,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
           data: {
-            hits: [courseData]
-          }
+            hits: [courseData],
+          },
         }));
 
         const { queryByText } = renderer(false);
@@ -572,14 +536,14 @@ describe('Search Page', () => {
           data: {
             hits: [],
             aggregations: [],
-            total: 100
+            total: 100,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
           data: {
-            hits: []
-          }
+            hits: [],
+          },
         }));
 
         const { getByText } = renderer(true);
@@ -591,14 +555,14 @@ describe('Search Page', () => {
           data: {
             hits: [],
             aggregations: [],
-            total: 100
+            total: 100,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
           data: {
-            hits: []
-          }
+            hits: [],
+          },
         }));
 
         const { getByText, getByRole } = renderer(true);
@@ -618,36 +582,19 @@ describe('Search Page', () => {
           data: {
             hits: [courseData],
             aggregations: [],
-            total: 100
+            total: 100,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
           data: {
-            hits: []
-          }
+            hits: [],
+          },
         }));
 
         const { getByTitle } = renderer(true);
 
         expect(getByTitle(/save course/i)).toBeInTheDocument();
-      });
-      it.skip('should show save modal when clicked', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [courseData],
-            aggregations: [],
-            total: 100
-          },
-          refetch: jest.fn()
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: {
-            hits: []
-          }
-        }));
-
-        const { getByText, getByRole } = renderer(true);
       });
     });
     describe('more like this', () => {
@@ -656,14 +603,14 @@ describe('Search Page', () => {
           data: {
             hits: [],
             aggregations: [],
-            total: 100
+            total: 100,
           },
-          refetch: jest.fn()
+          refetch: jest.fn(),
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
           data: {
-            hits: [courseData]
-          }
+            hits: [courseData],
+          },
         }));
 
         const { getByTitle } = renderer(true);
@@ -671,6 +618,25 @@ describe('Search Page', () => {
         expect(getByTitle(/save course/i)).toBeInTheDocument();
       });
       it.todo('should show save modal when clicked');
+    });
+  });
+  describe('xAPI', () => {
+    it('should send xAPI Statement', () => {
+      const spy = jest
+        .spyOn(xAPIMapper, 'sendStatement')
+        .mockImplementation(() => Promise.resolve({}));
+
+      const { getByRole, getByTitle } = renderer(true);
+      act(() => {
+        fireEvent.change(getByRole('textbox'), {
+          target: { value: 'data' },
+        });
+      });
+      act(() => {
+        fireEvent.click(getByTitle(/search/i));
+      });
+
+      expect(spy).toHaveBeenCalled();
     });
   });
 });

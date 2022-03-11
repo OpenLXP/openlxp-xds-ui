@@ -1,10 +1,10 @@
-import { render, act, fireEvent } from '@testing-library/react';
-import { useUserList } from '@/hooks/useUserList';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { act, fireEvent, render } from '@testing-library/react';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
+import { useUserList } from '@/hooks/useUserList';
 import EditList from '@/pages/lists/edit/[listId]';
-import mockRouter from 'next-router-mock';
-import { QueryClientProvider, QueryClient } from 'react-query';
 import courseData from '@/__mocks__/data/course.data';
+import mockRouter from 'next-router-mock';
 
 // mocking router
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
@@ -163,15 +163,6 @@ describe('Edit List', () => {
       // verify the color is red
       expect(getByTitle(/character count/i).className.includes('text-red-500')).toBe(true)
 
-    });
-    it.skip('should call mutation on click of update', () => {
-      const { getByText } = renderer(<EditList />);
-      act(() => {
-        const button = getByText(/update/i);
-
-        fireEvent.click(button);
-      });
-      expect(useUpdateUserList).toHaveBeenCalled();
     });
     it('should reset inputs on clear', () => {
       const { getByPlaceholderText, getByText } = renderer(<EditList />);

@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
+import { Fragment, useCallback, useState } from 'react';
 import { PlusCircleIcon } from '@heroicons/react/outline';
 import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import { useAuth } from '@/contexts/AuthContext';
@@ -7,6 +7,20 @@ import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserOwnedLists } from '@/hooks/useUserOwnedLists';
 import InputField from '@/components/inputs/InputField';
+import { useEffect } from 'react';
+
+
+
+/**
+ * TODO: to be removed before merging back to dev
+ * Current status: in the process of trying to get the updated isSuccess ( useCreateUserList hook) value 
+ * to be used to determine whether or not xAPISendStatement should be executed.
+ * Even with the useCallback, it seems like isSuccess (useCreateUserList hook) is still one step behind.
+ * 
+ * The reason for using this approach instead of calling the xAPISendStatement in the onSuccess is 
+ * because testing that onSuccess is difficult especially when the mutation is being mocked.
+ * 
+ */
 
 export default function SaveModal({ courseId }) {
   // authentication
@@ -15,7 +29,7 @@ export default function SaveModal({ courseId }) {
   // user lists
   const { data: userLists, isSuccess } = useUserOwnedLists(user?.token);
   const { mutate } = useUpdateUserList(user?.token);
-  const { mutate: create } = useCreateUserList(user?.token);
+  const { mutate: create, isSuccess: createSuccess } = useCreateUserList(user?.token);
 
   // new list form
   const [fields, setFields] = useState({
@@ -24,7 +38,7 @@ export default function SaveModal({ courseId }) {
   });
 
   //xAPI Statement
-  const xAPISendStatement = (curatedCourse) => {
+  const xAPISendStatement = (data) => {
     if (user) {
       const verb = {
         id: 'https://w3id.org/xapi/dod-isd/verbs/curated',
@@ -33,20 +47,24 @@ export default function SaveModal({ courseId }) {
 
       const domain = new URL(window.location);
       const objectId = `${domain.origin}/lists`;
-      const objectDefName = 'ECC Course Curation';
       const resultExtName =
-        'https://w3id.org/xapi/ecc/result/extensions/CuratedCourseList';
+        'https://w3id.org/xapi/ecc/result/extensions/CuratedListId';
 
-      sendStatement(
-        user.user,
-        verb,
-        objectId,
-        objectDefName,
-        resultExtName,
-        curatedCourse
-      );
+      const obj = {
+        id: objectId,
+        definitionName: data.name,
+        description: data.description
+      }
+
+      sendStatement(user.user, verb, obj, resultExtName, data.id);
     }
   };
+
+  const xAPICall = useCallback((fields) => {
+    if (user && createSuccess) {
+      xAPISendStatement(fields)
+    }
+  }, [createSuccess === true, user, fields]);
 
   // add a course to the selected list
   const addCourseToList = (listId) => {
@@ -167,10 +185,8 @@ export default function SaveModal({ courseId }) {
                     setFields({ name: '', description: '' });
                     create(
                       { form: fields },
-                      {
-                        onSuccess: (data) => xAPISendStatement(data.name),
-                      }
                     );
+                    xAPICall(fields);
                   }}
                 >
                   <div>
@@ -209,11 +225,10 @@ export default function SaveModal({ courseId }) {
                       className='w-full border outline-none rounded-md shadow focus:shadow-md p-2 focus:ring-4 ring-blue-400 transform transition-all duration-150'
                     />
                     <span
-                      className={`absolute bottom-2 right-3 ${
-                        fields.description?.length > 200
-                          ? 'text-red-500'
-                          : 'text-gray-500'
-                      }`}
+                      className={`absolute bottom-2 right-3 ${fields.description?.length > 200
+                        ? 'text-red-500'
+                        : 'text-gray-500'
+                        }`}
                     >
                       {fields.description?.length}/200
                     </span>

@@ -17,12 +17,16 @@ describe('xAPI', () => {
       display: "searched"
     }
     
-    const objectId = "http://example.com/search";
-    const objectDefName = "Test Search Capability";
+    const obj = {
+      id: "http://example.com/search",
+      definitionName: "Test Definition",
+      description: "Test Description"
+    }
+
     const resultExtName =  "https://example/result/extensions/searchTerm";
     const resultExtValue = "data";
 
-    return sendStatement(actorObj, verbObj, objectId, objectDefName, resultExtName, resultExtValue).then(() => {
+    return sendStatement(actorObj, verbObj, obj, resultExtName, resultExtValue).then(() => {
       //Get the args passed to sendStatement
       const args = spy.mock.calls[0][0];
       const { actor, verb, object} = args.statement;
@@ -35,6 +39,7 @@ describe('xAPI', () => {
       expect(verb.id).toBe('http://example.com/verbs/searched');
       expect(actor.objectType).toBe('Agent');
       expect(object.objectType).toBe('Activity');
+      expect(object.id).toBe('http://example.com/search');
 
     });
   })
