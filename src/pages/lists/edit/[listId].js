@@ -1,10 +1,13 @@
 import {
   CheckCircleIcon,
+  EyeIcon,
+  EyeOffIcon,
   RefreshIcon,
   UploadIcon,
   XCircleIcon,
   XIcon,
 } from '@heroicons/react/outline';
+import { Switch } from '@headlessui/react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
@@ -14,6 +17,34 @@ import DefaultLayout from '@/components/layouts/DefaultLayout';
 import React, { useMemo, useState } from 'react';
 import UserListResult from '@/components/cards/UserListEditResult';
 import prepareListDataToSend from '@/utils/prepListDataToSend';
+
+export function Toggle({ enabled, onToggle }) {
+  return (
+    <div className='flex gap-2 items-center'>
+      <label htmlFor='public toggle'>Set Visibility:</label>
+      <Switch
+        title={enabled ? 'Public' : 'Private'}
+        checked={enabled}
+        onChange={onToggle}
+        className={`${enabled ? 'bg-blue-400' : 'bg-gray-400'}
+          relative inline-flex flex-shrink-0 h-[28px] w-[48px] border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+      >
+        <span className='sr-only'>Use setting</span>
+        <span
+          aria-hidden='true'
+          className={`${enabled ? 'translate-x-[20px]' : 'translate-x-0'}
+            pointer-events-none inline-flex h-[24px] w-[24px] rounded-full bg-white shadow-lg transform ring-0 transition ease-in-out duration-200 justify-center items-center`}
+        >
+          {enabled ? (
+            <EyeIcon className='h-4 text-gray-700' />
+          ) : (
+            <EyeOffIcon className='h-4 text-gray-500' />
+          )}
+        </span>
+      </Switch>
+    </div>
+  );
+}
 
 export default function EditList() {
   const { user } = useAuth();
@@ -34,14 +65,24 @@ export default function EditList() {
         name: list?.data.name,
         description: list?.data?.description,
         experiences: list?.data?.experiences,
+        public: list?.data?.public,
       });
     }
   }, [list.isSuccess]);
+
+  // toggle the public state of the list
 
   const handleChange = (event) => {
     setCurrentListInfo((prev) => ({
       ...prev,
       [event.target.name]: event.target.value,
+    }));
+  };
+
+  const handleTogglePublic = () => {
+    setCurrentListInfo((prev) => ({
+      ...prev,
+      public: !prev.public,
     }));
   };
 
@@ -63,6 +104,15 @@ export default function EditList() {
         <h1 className='font-sans font-semibold text-3xl pb-4 mb-8 border-b'>
           {list?.data?.name}
         </h1>
+        <Toggle
+          enabled={currentListInfo.public}
+          onToggle={handleTogglePublic}
+        />
+        <div className='text-sm text-gray-600 pt-1'>
+          {currentListInfo.public
+            ? 'Public list, viewable by other users.'
+            : 'Private list, only you can see it.'}
+        </div>
         <input
           placeholder='List Name'
           className='w-1/2 border outline-none rounded-md shadow focus:shadow-md p-2 my-4 focus:ring-4 ring-blue-400 transform transition-all duration-150'
@@ -118,7 +168,9 @@ export default function EditList() {
                 );
               })}
             {list.isSuccess && currentListInfo?.experiences?.length === 0 && (
-              <div className='text-center bg-white p-2'>No courses added yet.</div>
+              <div className='text-center bg-white p-2'>
+                No courses added yet.
+              </div>
             )}
           </div>
         </div>

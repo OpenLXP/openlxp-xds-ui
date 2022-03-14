@@ -1,7 +1,7 @@
-import { useQuery } from 'react-query';
 import { axiosInstance } from '@/config/axiosConfig';
 import { interestLists } from '@/config/endpoints';
 import { oneHour } from '@/config/timeConstants';
+import { useQuery } from 'react-query';
 
 /**
  * @function useInterestLists
