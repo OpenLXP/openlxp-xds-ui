@@ -17,10 +17,21 @@ export default function SearchLists() {
   const { user } = useAuth();
 
   // get lists from server
-  const { data: interestLists, isSuccess, isError: interstListError, error: interestListErrorType } = useInterestLists();
-  const { data: subscribedLists, isError: subscribedListError, error: subscribedListErrorType } = useSubscribedLists(user?.token);
+  const {
+    data: interestLists,
+    isSuccess,
+    isError: interestListsError,
+    error: interestListErrorType,
+  } = useInterestLists();
+  const {
+    data: subscribedLists,
+    isError: subscribedListError,
+    error: subscribedListErrorType,
+  } = useSubscribedLists();
   const { mutate: subscribe } = useSubscribeToList(user?.token);
   const { mutate: unsubscribe } = useUnsubscribeFromList(user?.token);
+
+  console.log(interestLists);
 
   // search query
   const [search, setSearch] = useState('');
@@ -36,8 +47,8 @@ export default function SearchLists() {
   };
 
   const handleSpecificPage = (page) => {
-    setPage(page - 1)
-  }
+    setPage(page - 1);
+  };
 
   // chunk the lists into pages of a given size
   const chunkArray = (array, chunkSize) => {
@@ -72,23 +83,23 @@ export default function SearchLists() {
   useEffect(() => {
     // if the user is not logged in, redirect to the home page
     if (!user) router.push('/');
-    if (interstListError){
-      if (interestListErrorType.response.status === 401){
-        router.push('/401')
+    if (interestListsError) {
+      if (interestListErrorType.response.status === 401) {
+        router.push('/401');
       }
-      if (interestListErrorType.response.status === 403){
-        router.push('/403')
-      }
-    }
-    if (subscribedListError){
-      if (subscribedListErrorType.response.status === 401){
-        router.push('/401')
-      }
-      if (subscribedListErrorType.response.status === 403){
-        router.push('/403')
+      if (interestListErrorType.response.status === 403) {
+        router.push('/403');
       }
     }
-  }, [interstListError, subscribedListError]);
+    if (subscribedListError) {
+      if (subscribedListErrorType.response.status === 401) {
+        router.push('/401');
+      }
+      if (subscribedListErrorType.response.status === 403) {
+        router.push('/403');
+      }
+    }
+  }, [interestListsError, subscribedListError]);
 
   return (
     <DefaultLayout>
@@ -129,8 +140,9 @@ export default function SearchLists() {
                 );
                 return (
                   <div
-                    className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-                      } font-sans flex justify-between items-center px-2 py-2`}
+                    className={`${
+                      index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                    } font-sans flex justify-between items-center px-2 py-2`}
                     key={list.id}
                   >
                     <InterestListsResult
