@@ -44,7 +44,7 @@ export default function Help() {
           course, a pop up will be shown. Click “Add” to add a course to any
           existing list or “Remove” to remove from a list. A new list can also
           be created by entering a list name and description, then clicking
-          “Create”. Once completed, clicking the “Got it, thanks!” will close
+          “Create”. Once completed, clicking the “Close” will close
           the popup.{' '}
         </p>
         <p className='mb-2'>

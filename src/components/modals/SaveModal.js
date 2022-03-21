@@ -8,6 +8,7 @@ import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserOwnedLists } from '@/hooks/useUserOwnedLists';
 import InputField from '@/components/inputs/InputField';
 import { useEffect } from 'react';
+import useField from '@/hooks/useField';
 
 
 
@@ -35,6 +36,10 @@ export default function SaveModal({ courseId }) {
   const [fields, setFields] = useState({
     name: '',
     description: '',
+  });
+
+  const { fields: error, updateKeyValuePair: setError } = useField({
+    message: ''
   });
 
   //xAPI Statement
@@ -182,11 +187,20 @@ export default function SaveModal({ courseId }) {
                   className='my-2 flex flex-col w-full'
                   onSubmit={(e) => {
                     e.preventDefault();
-                    setFields({ name: '', description: '' });
-                    create(
-                      { form: fields },
-                    );
-                    xAPICall(fields);
+                    if(fields.name === ''){
+                      setError('message', 'List name is required.');
+                    }
+                    else if(fields.description === ''){
+                      setError('message', 'List descrition is required.');
+                    }
+                    else{
+                      setError('message', '');
+                      setFields({ name: '', description: '' });
+                      create(
+                        { form: fields },
+                      );
+                      xAPICall(fields);
+                    }
                   }}
                 >
                   <div>
@@ -233,6 +247,7 @@ export default function SaveModal({ courseId }) {
                       {fields.description?.length}/200
                     </span>
                   </div>
+                  <p className='text-red-600 mb-5'>{error.message}</p>
                   <input
                     type='submit'
                     name='submit'
@@ -246,7 +261,7 @@ export default function SaveModal({ courseId }) {
                     className='inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500'
                     onClick={closeModal}
                   >
-                    Got it, thanks!
+                    Close
                   </button>
                 </div>
               </div>

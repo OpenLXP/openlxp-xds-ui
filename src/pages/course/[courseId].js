@@ -98,7 +98,7 @@ function AboutCourse({ details = [] }) {
         return (
           <div
             key={detail.title}
-            className='grid grid-cols-5 w-full max-w-7xl px-4 mt-10 mx-auto'
+            className='grid grid-cols-5 w-full max-w-7xl px-4 mt-5 mx-auto'
           >
             <h2 className='min-w-max col-span-1 font-semibold'>
               {detail.title}
