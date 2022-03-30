@@ -10,17 +10,15 @@ import InputField from '@/components/inputs/InputField';
 import { useEffect } from 'react';
 import useField from '@/hooks/useField';
 
-
-
 /**
  * TODO: to be removed before merging back to dev
- * Current status: in the process of trying to get the updated isSuccess ( useCreateUserList hook) value 
+ * Current status: in the process of trying to get the updated isSuccess ( useCreateUserList hook) value
  * to be used to determine whether or not xAPISendStatement should be executed.
  * Even with the useCallback, it seems like isSuccess (useCreateUserList hook) is still one step behind.
- * 
- * The reason for using this approach instead of calling the xAPISendStatement in the onSuccess is 
+ *
+ * The reason for using this approach instead of calling the xAPISendStatement in the onSuccess is
  * because testing that onSuccess is difficult especially when the mutation is being mocked.
- * 
+ *
  */
 
 export default function SaveModal({ courseId }) {
@@ -28,9 +26,11 @@ export default function SaveModal({ courseId }) {
   const { user } = useAuth();
 
   // user lists
-  const { data: userLists, isSuccess } = useUserOwnedLists(user?.token);
+  const { data: userLists, isSuccess } = useUserOwnedLists();
   const { mutate } = useUpdateUserList(user?.token);
-  const { mutate: create, isSuccess: createSuccess } = useCreateUserList(user?.token);
+  const { mutate: create, isSuccess: createSuccess } = useCreateUserList(
+    user?.token
+  );
 
   // new list form
   const [fields, setFields] = useState({
@@ -39,7 +39,7 @@ export default function SaveModal({ courseId }) {
   });
 
   const { fields: error, updateKeyValuePair: setError } = useField({
-    message: ''
+    message: '',
   });
 
   //xAPI Statement
@@ -58,25 +58,31 @@ export default function SaveModal({ courseId }) {
       const obj = {
         id: objectId,
         definitionName: data.name,
-        description: data.description
-      }
+        description: data.description,
+      };
 
       sendStatement(user.user, verb, obj, resultExtName, data.id);
     }
   };
 
-  const xAPICall = useCallback((fields) => {
-    if (user && createSuccess) {
-      xAPISendStatement(fields)
-    }
-  }, [createSuccess === true, user, fields]);
+  const xAPICall = useCallback(
+    (fields) => {
+      if (user && createSuccess) {
+        xAPISendStatement(fields);
+      }
+    },
+    [createSuccess === true, user, fields]
+  );
 
   // add a course to the selected list
-  const addCourseToList = (listId) => {
-    const listData = userLists.find((list) => list.id === listId);
-    listData.experiences.push(courseId);
-    mutate({ listData: listData, id: listId });
-  };
+  const addCourseToList = useCallback(
+    (listId) => {
+      const listData = userLists.find((list) => list.id === listId);
+      listData.experiences.push(courseId);
+      mutate({ listData: listData, id: listId });
+    },
+    [courseId, mutate, userLists]
+  );
 
   // remove a course from the selected list
   const removeCourseFromList = (listId) => {
@@ -187,18 +193,14 @@ export default function SaveModal({ courseId }) {
                   className='my-2 flex flex-col w-full'
                   onSubmit={(e) => {
                     e.preventDefault();
-                    if(fields.name === ''){
+                    if (fields.name === '') {
                       setError('message', 'List name is required.');
-                    }
-                    else if(fields.description === ''){
+                    } else if (fields.description === '') {
                       setError('message', 'List descrition is required.');
-                    }
-                    else{
+                    } else {
                       setError('message', '');
                       setFields({ name: '', description: '' });
-                      create(
-                        { form: fields },
-                      );
+                      create({ form: fields });
                       xAPICall(fields);
                     }
                   }}
@@ -238,14 +240,6 @@ export default function SaveModal({ courseId }) {
                       }}
                       className='w-full border outline-none rounded-md shadow focus:shadow-md p-2 focus:ring-4 ring-blue-400 transform transition-all duration-150'
                     />
-                    <span
-                      className={`absolute bottom-2 right-3 ${fields.description?.length > 200
-                        ? 'text-red-500'
-                        : 'text-gray-500'
-                        }`}
-                    >
-                      {fields.description?.length}/200
-                    </span>
                   </div>
                   <p className='text-red-600 mb-5'>{error.message}</p>
                   <input
