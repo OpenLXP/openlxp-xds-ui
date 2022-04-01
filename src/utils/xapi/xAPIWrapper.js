@@ -9,6 +9,7 @@ import xAPIMapper from "./xAPIMapper";
  * @param string
  * @returns {Promise}
  */
+
 export const sendStatement = (actor, verb, obj, resultExtName, resultExtValue) => {
 
   const statement = {
