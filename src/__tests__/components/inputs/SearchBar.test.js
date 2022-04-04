@@ -20,28 +20,9 @@ describe('SearchBar', () => {
     );
 
     act(() => {
-      fireEvent.click(screen.getByTitle('search'));
+      fireEvent.click(screen.getByTitle('Search'));
     });
 
-    expect(console.log).toHaveBeenCalledTimes(1);
-  });
-
-  it('should execute on click, on enter', () => {
-    console.log = jest.fn();
-
-    render(
-      <SearchBar
-        parameters={{ keyword: 'test' }}
-        onClick={() => console.log('tada')}
-        onChange={() => {}}
-      />
-    );
-
-    act(() => {
-      fireEvent.keyPress(screen.getByPlaceholderText('Search the catalog'), {
-        charCode: '13',
-      });
-    });
     expect(console.log).toHaveBeenCalledTimes(1);
   });
 
