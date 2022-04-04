@@ -203,7 +203,9 @@ export default function SaveModal({ courseId }) {
 
                 <form
                   className='my-2 flex flex-col w-full'
+
                   onSubmit={handleSubmit}
+
                 >
                   <div>
                     <label htmlFor='name'>List Name</label>
