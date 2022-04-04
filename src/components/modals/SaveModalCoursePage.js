@@ -1,12 +1,12 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
-import { PlusCircleIcon } from '@heroicons/react/outline';
-import { sendStatement } from '@/utils/xapi/xAPIWrapper';
+import { Fragment, useCallback, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserOwnedLists } from '@/hooks/useUserOwnedLists';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import InputField from '@/components/inputs/InputField';
+import useField from '@/hooks/useField';
 
 export default function SaveModal({ courseId }) {
   // authentication
@@ -16,6 +16,9 @@ export default function SaveModal({ courseId }) {
   const { data: userLists, isSuccess } = useUserOwnedLists(user?.token);
   const { mutate } = useUpdateUserList(user?.token);
   const { mutate: create } = useCreateUserList(user?.token);
+  const { fields: error, updateKeyValuePair: setError } = useField({
+    message: '',
+  });
 
   // new list form
   const [fields, setFields] = useState({
@@ -23,29 +26,51 @@ export default function SaveModal({ courseId }) {
     description: '',
   });
 
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
 
-  //xAPI Statement
-  const xAPISendStatement = (data) => {
-    if (user) {
-      const verb = {
-        id: 'https://w3id.org/xapi/dod-isd/verbs/curated',
-        display: 'curated',
-      };
+      // verify the required fields are filled
+      if (fields.name === '')
+        return setError('message', 'List name is required.');
+      if (fields.description === '')
+        return setError('message', 'List description is required.');
 
-      const domain = new URL(window.location);
-      const objectId = `${domain.origin}/lists`;
-      const resultExtName =
-        'https://w3id.org/xapi/ecc/result/extensions/CuratedListId';
+      // update states
+      setError('message', '');
+      setFields({ name: '', description: '' });
+      create(
+        { form: fields },
+        {
+          onSuccess: (data) => {
+            // note: It assumed that the user is present if the button is available.
+            // create the context
+            const context = {
+              actor: {
+                first_name: user?.user?.first_name,
+                last_name: user?.user?.last_name,
+              },
+              verb: {
+                id: 'https://w3id.org/xapi/dod-isd/verbs/curated',
+                display: 'curated',
+              },
+              object: {
+                definitionName: fields.name,
+                description: fields.description,
+              },
+              resultExtName:
+                'https://w3id.org/xapi/ecc/result/extensions/CuratedListId',
+              resultExtValue: data.id,
+            };
 
-      const obj = {
-        id: objectId,
-        definitionName: data.name,
-        description: data.description
-      }
+            xAPISendStatement(context);
+          },
+        }
+      );
+    },
+    [fields, user?.user]
+  );
 
-      sendStatement(user.user, verb, obj, resultExtName, data.id);
-    }
-  };
   // add a course to the selected list
   const addCourseToList = (listId) => {
     const listData = userLists.find((list) => list.id === listId);
@@ -159,19 +184,10 @@ export default function SaveModal({ courseId }) {
 
                 <form
                   className='my-2 flex flex-col w-full'
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    setFields({ name: '', description: '' });
-                    create(
-                      { form: fields },
-                      {
-                        onSuccess: (data) => xAPISendStatement(data),
-                      }
-                    );
-                  }}
+                  onSubmit={handleSubmit}
                 >
                   <div>
-                    <label>List Name</label>
+                    <label htmlFor='name'>List Name</label>
                     <InputField
                       placeholder='Name'
                       type='text'
@@ -187,7 +203,7 @@ export default function SaveModal({ courseId }) {
                     />
                   </div>
                   <div className='relative'>
-                    <label>List Description</label>
+                    <label htmlFor='description'>List Description</label>
                     <textarea
                       placeholder='List Description...'
                       name='description'
@@ -205,15 +221,9 @@ export default function SaveModal({ courseId }) {
                       }}
                       className='w-full border outline-none rounded-md shadow focus:shadow-md p-2 focus:ring-4 ring-blue-400 transform transition-all duration-150'
                     />
-                    <span
-                      className={`absolute bottom-2 right-3 ${fields.description?.length > 200
-                          ? 'text-red-500'
-                          : 'text-gray-500'
-                        }`}
-                    >
-                      {fields.description?.length}/200
-                    </span>
                   </div>
+
+                  <p className='text-red-600 mb-5'>{error.message}</p>
                   <input
                     type='submit'
                     name='submit'

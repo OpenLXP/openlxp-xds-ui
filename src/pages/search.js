@@ -1,29 +1,19 @@
 import { Pagination } from '@/components/buttons/Pagination';
-import { QueryClient, dehydrate } from 'react-query';
-import { URLSearchParams } from 'url';
-import { axiosInstance } from '@/config/axiosConfig';
 import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import { unstable_batchedUpdates } from 'react-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import { useConfig } from '@/hooks/useConfig';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
+import { useSearch } from '@/hooks/useSearch';
+import { useSearchUrl } from '@/hooks/useSearchUrl';
 import CreateSavedSearchModal from '@/components/modals/CreateSavedSearch';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import MoreLikeThis from '@/components/cards/MoreLikeThis';
 import SearchBar from '@/components/inputs/SearchBar';
 import SearchResult from '@/components/cards/SearchResult';
 import SelectList from '@/components/inputs/SelectList';
-
-// contexts
-import { useAuth } from '@/contexts/AuthContext';
-
-// hooks
-import { useConfig } from '@/hooks/useConfig';
-import { useSearch } from '@/hooks/useSearch';
-import { useSearchUrl } from '@/hooks/useSearchUrl';
-
-// config
-import { oneHour } from '@/config/timeConstants';
-import { searchUrl } from '@/config/endpoints';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 
 export default function Search({ query }) {
   const router = useRouter();
@@ -41,26 +31,6 @@ export default function Search({ query }) {
       });
     }
   }, [router]);
-
-    //xAPI Statement
-    const xAPISendStatement = (searchTerm) => {
-      if (user) {
-        const verb = {
-          id: "https://w3id.org/xapi/acrossx/verbs/searched",
-          display: "searched"
-        }
-  
-        const objectId = `${window.location}search`;
-        const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/searchTerm";
-  
-        const obj = {
-          id: objectId,
-          definitionName: "ECC Search Capability",
-        }
-  
-        sendStatement(user.user, verb, obj, resultExtName, searchTerm);
-      }
-    }
 
   function handleChange(event) {
     setParams((previous) => ({
@@ -110,7 +80,25 @@ export default function Search({ query }) {
 
       setParams(modified);
       setUrl(modified);
-      xAPISendStatement(modified.keyword);
+
+      const context = {
+        actor: {
+          first_name: user?.user?.first_name,
+          last_name: user?.user?.last_name,
+        },
+        verb: {
+          id: 'https://w3id.org/xapi/acrossx/verbs/searched',
+          display: 'searched',
+        },
+        object: {
+          definitionName: 'ECC Search Capability',
+        },
+        resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
+        resultExtValue: modified.keyword,
+      };
+
+      xAPISendStatement(context);
+
       router.push({ pathname: '/search', query: modified });
     }
   }

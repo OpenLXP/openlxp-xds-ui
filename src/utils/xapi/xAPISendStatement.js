@@ -6,6 +6,8 @@ import { sendStatement } from './xAPIWrapper';
  * actor:{first_name:string, last_name:string},
  * verb:{id:string, display:string},
  * object:{id?:string, definitionName:string, description?:string},
+ * resultExtName:string,
+ * resultExtValue:string,
  * }} context
  * @returns
  */
@@ -29,7 +31,7 @@ export function xAPISendStatement(context) {
   // if the object has an id, use it otherwise populate it with the window location
   if (!context.object?.id) context.object.id = windowLocation;
 
-  console.log('xAPISendStatement', context);
+  console.table(context);
   sendStatement(
     context.actor,
     context.verb,
