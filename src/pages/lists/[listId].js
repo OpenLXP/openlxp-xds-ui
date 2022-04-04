@@ -12,7 +12,12 @@ export default function ListsView() {
   // user data
   const { user } = useAuth();
 
-  const { data: list, isSuccess, isError, error } = useList(router.query.listId);
+  const {
+    data: list,
+    isSuccess,
+    isError,
+    error,
+  } = useList(router.query.listId);
 
   // verify a user is logged in otherwise redirect to home page
   useEffect(() => {
@@ -25,23 +30,30 @@ export default function ListsView() {
   const xAPISendStatement = (course) => {
     if (user) {
       const verb = {
-        id: "https://w3id.org/xapi/tla/verbs/explored",
-        display: "explored"
-      }
+        id: 'https://w3id.org/xapi/tla/verbs/explored',
+        display: 'explored',
+      };
 
-      const domain = (new URL(window.location));
+      const domain = new URL(window.location);
       const objectId = `${domain.origin}/course`;
-      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/CourseId";
+      const resultExtName =
+        'https://w3id.org/xapi/ecc/result/extensions/CourseId';
 
       const obj = {
         id: objectId,
         definitionName: course.Course.CourseTitle,
-        description: course.Course.CourseShortDescription
-      }
+        description: course.Course.CourseShortDescription,
+      };
 
-      sendStatement(user.user, verb, obj, resultExtName, course.meta.metadata_key_hash);
+      sendStatement(
+        user.user,
+        verb,
+        obj,
+        resultExtName,
+        course.meta.metadata_key_hash
+      );
     }
-  }
+  };
 
   return (
     <DefaultLayout footerLocation='absolute'>
@@ -105,12 +117,16 @@ export default function ListsView() {
                         {course.Course.CourseProviderName}
                       </div>
                       <div className='max-w-min justify-self-end pr-4'>
-                        <Link href={`/course/${course.meta.metadata_key_hash}`}>
-                          <a
+                        <Link
+                          href={`/course/${course.meta.metadata_key_hash}`}
+                          passHref
+                        >
+                          <button
                             onClick={() => xAPISendStatement(course)}
-                            className='text-blue-500 bg-blue-50 px-2 py-1 rounded-md border-blue-500 border hover:bg-blue-500 outline-none hover:text-white transform transition-colors duration-150 ease-in-out'>
+                            className='text-blue-500 bg-blue-50 px-2 py-1 rounded-md border-blue-500 border hover:bg-blue-500 outline-none hover:text-white transform transition-colors duration-150 ease-in-out'
+                          >
                             View
-                          </a>
+                          </button>
                         </Link>
                       </div>
                     </div>

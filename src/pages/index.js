@@ -27,23 +27,25 @@ export default function Home() {
   const xAPISendStatement = (searchTerm) => {
     if (user) {
       const verb = {
-        id: "https://w3id.org/xapi/acrossx/verbs/searched",
-        display: "searched"
-      }
+        id: 'https://w3id.org/xapi/acrossx/verbs/searched',
+        display: 'searched',
+      };
 
       const objectId = `${window.location}search`;
-      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/searchTerm";
+      const resultExtName =
+        'https://w3id.org/xapi/ecc/result/extensions/searchTerm';
 
       const obj = {
         id: objectId,
-        definitionName: "ECC Search Capability",
-      }
+        definitionName: 'ECC Search Capability',
+      };
 
       sendStatement(user.user, verb, obj, resultExtName, searchTerm);
     }
-  }
+  };
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
     if (fields.keyword && fields.keyword !== '') {
       xAPISendStatement(fields.keyword);
       router.push({ pathname: '/search/', query: fields });
@@ -71,7 +73,11 @@ export default function Home() {
         />
       </div>
       {spotlight.isSuccess && spotlight.data.length > 0 && (
-        <span className={'text-gray-400 italic block mt-24 font-sans px-2 max-w-7xl mx-auto'}>
+        <span
+          className={
+            'text-gray-400 italic block mt-24 font-sans px-2 max-w-7xl mx-auto'
+          }
+        >
           Spotlight Courses
         </span>
       )}

@@ -1,5 +1,4 @@
 import { Pagination } from '@/components/buttons/Pagination';
-import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';
@@ -7,13 +6,13 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { useSearch } from '@/hooks/useSearch';
 import { useSearchUrl } from '@/hooks/useSearchUrl';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import CreateSavedSearchModal from '@/components/modals/CreateSavedSearch';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import MoreLikeThis from '@/components/cards/MoreLikeThis';
 import SearchBar from '@/components/inputs/SearchBar';
 import SearchResult from '@/components/cards/SearchResult';
 import SelectList from '@/components/inputs/SelectList';
-import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 
 export default function Search({ query }) {
   const router = useRouter();
@@ -70,7 +69,9 @@ export default function Search({ query }) {
     setParams(modified);
   }
 
-  function handleSearch() {
+  function handleSearch(e) {
+    e.preventDefault();
+
     // if there is a key word
     if (params.keyword && params.keyword !== '') {
       const modified = { ...params };

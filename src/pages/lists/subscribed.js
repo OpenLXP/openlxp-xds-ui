@@ -65,10 +65,10 @@ export default function Subscribed() {
                       Unsubscribe
                     </button>
 
-                    <Link href={`/lists/${list.id}`}>
-                      <a className='cursor-pointer flex-shrink-0 py-4 hover:bg-gray-100 w-1/2 text-center'>
+                    <Link href={`/lists/${list.id}`} passHref>
+                      <button className='cursor-pointer flex-shrink-0 py-4 hover:bg-gray-100 w-1/2 text-center'>
                         View
-                      </a>
+                      </button>
                     </Link>
                   </div>
                 </div>

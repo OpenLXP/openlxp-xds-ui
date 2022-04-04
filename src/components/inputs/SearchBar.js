@@ -1,46 +1,43 @@
 import { SearchIcon, XIcon } from '@heroicons/react/solid';
 
 export default function SearchBar({ parameters, onChange, onClick, onReset }) {
-  const handleEnterKey = (event) => {
-    event.key === 'Enter' && onClick();
+  // handle the case where a search bar doesn't need to be activated to search
+  const defaultClick = (event) => {
+    event.preventDefault();
   };
-
   return (
-    <div
-      onKeyPress={(event) => handleEnterKey(event)}
-      className={
-        'w-full flex flex-row rounded-full shadow bg-white justify-center items-center focus-within:ring-4 ring-blue-400 focus-within:shadow-lg transform transition-all duration-150 ease-in-out z-10'
-      }
+    <form
+      onSubmit={onClick || defaultClick}
+      className='w-full flex flex-row rounded-full shadow bg-white justify-center items-center focus-within:ring-4 ring-blue-400 focus-within:shadow-lg transform transition-all duration-150 ease-in-out z-10'
     >
       <input
-        id={'search-bar'}
+        id='search-bar'
         value={parameters.keyword}
-        name={'keyword'}
-        type={'text'}
-        className={'w-full py-4 rounded-full outline-none pl-6'}
+        name='keyword'
+        type='text'
+        className='w-full py-4 rounded-full outline-none pl-6'
         onChange={onChange}
-        autoComplete={'off'}
-        placeholder={'Search the catalog'}
+        autoComplete='off'
+        placeholder='Search the catalog'
       />
-      <div className={'inline-flex'}>
+      <div id='button-group' className='inline-flex'>
+        <button
+          title='Search'
+          type='submit'
+          className='outline-none rounded-full  mr-2 p-2 focus:bg-gray-100 text-gray-400 hover:text-blue-400 hover:text-shadow cursor-pointer'
+        >
+          <SearchIcon className='h-5 w-5' />
+        </button>
+        <div className={'border-l'} />
         <button
           id={'reset'}
           title='reset'
           onClick={() => onReset('keyword')}
-          className='outline-none focus:bg-gray-100 p-2 mr-2 text-gray-400 hover:text-blue-400 hover:text-shadow cursor-pointer rounded-full hover:bg-gray-100 w-min'
+          className='outline-none focus:bg-gray-100 p-2 ml-2 mr-4 text-gray-400 hover:text-blue-400 hover:text-shadow cursor-pointer rounded-full hover:bg-gray-100 w-min'
         >
           <XIcon className={'h-5 w-5'} />
         </button>
-        <div className={'border-l'} />
-        <button
-          id={'search'}
-          title={'search'}
-          onClick={onClick}
-          className='outline-none rounded-full ml-2 mr-4 p-2 focus:bg-gray-100 text-gray-400 hover:text-blue-400 hover:text-shadow cursor-pointer'
-        >
-          <SearchIcon className={'h-5 w-5'} />
-        </button>
       </div>
-    </div>
+    </form>
   );
 }

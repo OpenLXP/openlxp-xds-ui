@@ -6,9 +6,10 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserOwnedLists } from '@/hooks/useUserOwnedLists';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import InputField from '@/components/inputs/InputField';
 import useField from '@/hooks/useField';
-import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
+
 /**
  * TODO: to be removed before merging back to dev
  * Current status: in the process of trying to get the updated isSuccess ( useCreateUserList hook) value
