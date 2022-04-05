@@ -48,15 +48,15 @@ export default function Owned({}) {
                   {list.description}
                 </p>
                 <div className='absolute bottom-0 left-0 w-full flex justify-around items-center border-t divide-x mt-2'>
-                  <Link href={`/lists/edit/${list.id}`}>
-                    <a className='cursor-pointer flex-shrink-0 py-4 hover:bg-gray-100 w-1/2 text-center'>
+                  <Link href={`/lists/edit/${list.id}`} passHref>
+                    <button className='cursor-pointer flex-shrink-0 py-4 hover:bg-gray-100 w-1/2 text-center'>
                       Edit
-                    </a>
+                    </button>
                   </Link>
-                  <Link href={`/lists/${list.id}`}>
-                    <a className='cursor-pointer flex-shrink-0 py-4 hover:bg-gray-100 w-1/2 text-center'>
+                  <Link href={`/lists/${list.id}`} passHref>
+                    <button className='cursor-pointer flex-shrink-0 py-4 hover:bg-gray-100 w-1/2 text-center'>
                       View
-                    </a>
+                    </button>
                   </Link>
                 </div>
               </div>
@@ -69,8 +69,8 @@ export default function Owned({}) {
             </h2>
             <p className='inline-flex w-[80%] pt-8'>
               To create a new list, head over to the search courses page and
-              find a course you'd like to save. Click the save button and you'll
-              be able to add it a list or create a new one.
+              find a course you&apos;d like to save. Click the save button and
+              you&apos;ll be able to add it a list or create a new one.
             </p>
           </div>
         )}

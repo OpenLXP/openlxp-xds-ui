@@ -2,11 +2,12 @@ import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';
 import { useRouter } from 'next/router';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Image from 'next/image';
-import React from 'react';
+import React, { useCallback } from 'react';
 import SearchBar from '@/components/inputs/SearchBar';
 import logo from '@/public/logo.png';
 import useField from '@/hooks/useField';
@@ -17,38 +18,34 @@ export default function Home() {
   const { user } = useAuth();
 
   const spotlight = useSpotlightCourses();
-  const uiConfig = useConfig();
   const { fields, updateKeyValuePair, resetKey } = useField({
     keyword: '',
     p: 1,
   });
 
-  //xAPI Statement
-  const xAPISendStatement = (searchTerm) => {
-    if (user) {
-      const verb = {
-        id: "https://w3id.org/xapi/acrossx/verbs/searched",
-        display: "searched"
-      }
-
-      const objectId = `${window.location}search`;
-      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/searchTerm";
-
-      const obj = {
-        id: objectId,
-        definitionName: "ECC Search Capability",
-      }
-
-      sendStatement(user.user, verb, obj, resultExtName, searchTerm);
-    }
-  }
-
-  const handleSearch = () => {
-    if (fields.keyword && fields.keyword !== '') {
-      xAPISendStatement(fields.keyword);
+  const handleSearch = useCallback(
+    (e) => {
+      if (!fields.keyword || fields.keyword === '') return;
+      const context = {
+        actor: {
+          first_name: user?.user?.first_name,
+          last_name: user?.user?.last_name,
+        },
+        verb: {
+          id: 'https://w3id.org/xapi/acrossx/verbs/searched',
+          display: 'searched',
+        },
+        object: {
+          definitionName: 'ECC Search Capability',
+        },
+        resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
+        resultExtValue: fields.keyword,
+      };
+      xAPISendStatement(context);
       router.push({ pathname: '/search/', query: fields });
-    }
-  };
+    },
+    [fields, user]
+  );
 
   const handleChange = (event) => {
     updateKeyValuePair(event.target.name, event.target.value);
@@ -62,7 +59,7 @@ export default function Home() {
         <h1 className='text-3xl font-bold mt-4'>Enterprise Course Catalog</h1>
         <h2 className='text-xl font-sans mt-2'>Department of Defense</h2>
       </div>
-      <div className='w-6/12 mx-auto mt-6'>
+      <div className='w-[45rem] mx-auto mt-6'>
         <SearchBar
           parameters={fields}
           onReset={resetKey}
@@ -71,19 +68,23 @@ export default function Home() {
         />
       </div>
       {spotlight.isSuccess && spotlight.data.length > 0 && (
-        <span className={'text-gray-400 italic block mt-24 font-sans px-2 max-w-7xl mx-auto'}>
-          Spotlight Courses
-        </span>
+        <>
+          <span
+            className={
+              'text-gray-400 italic block mt-24 font-sans px-2 max-w-7xl mx-auto'
+            }
+          >
+            Spotlight Courses
+          </span>
+          <div className='flex flex-col justify-center w-full mt-4 px-2 max-w-7xl mx-auto'>
+            <div className='inline-flex overflow-x-auto gap-2 pb-4 custom-scroll '>
+              {spotlight.data.map((course) => {
+                return <CourseSpotlight course={course} key={course.meta.id} />;
+              })}
+            </div>
+          </div>
+        </>
       )}
-      <div className='flex flex-col justify-center w-full mt-4 px-2 max-w-7xl mx-auto'>
-        <div className='inline-flex overflow-x-auto gap-2 pb-4 custom-scroll '>
-          {spotlight.isSuccess &&
-            spotlight.data.length > 0 &&
-            spotlight.data.map((course) => {
-              return <CourseSpotlight course={course} key={course.meta.id} />;
-            })}
-        </div>
-      </div>
       <Footer />
     </>
   );

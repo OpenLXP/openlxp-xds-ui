@@ -1,9 +1,10 @@
-import { CheckCircleIcon } from '@heroicons/react/outline';
+import { CheckCircleIcon, RefreshIcon } from '@heroicons/react/outline';
 import { Fragment } from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateSaveSearch } from '@/hooks/useCreateSaveSearch';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import ActionButton from '@/components/buttons/ActionButton';
 import InputField from '@/components/inputs/InputField';
 import useField from '@/hooks/useField';
@@ -13,82 +14,84 @@ export default function CreateSavedSearchModal({ path }) {
   const { fields, updateKeyValuePair, resetKey } = useField({
     name: '',
   });
-  const { mutate, isSuccess } = useCreateSaveSearch(user?.token);
+  const { mutate, isSuccess, isLoading } = useCreateSaveSearch(user?.token);
 
   const handleChange = (event) => {
     updateKeyValuePair(event.target.name, event.target.value);
   };
 
-  //xAPI Statement
-  const xAPISendStatement = (savedTerm) => {
-    if (user) {
-      const verb = {
-        id: "https://w3id.org/xapi/tla/verbs/prioritized",
-        display: "prioritized"
-      }
+  const handleCreate = (event) => {
+    event.preventDefault();
 
-      const domain = (new URL(window.location))
-      const objectId = `${domain.origin}/search`
+    if (!fields.name || fields.name === '') return;
 
-      const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/searchTerm";
+    // send the statement
+    mutate({
+      name: fields.name,
+      path,
+    });
 
-      const obj = {
-        id: objectId,
-        definitionName: "ECC Search Term Saving",
-      }
+    //xAPI Statement
+    const context = {
+      actor: {
+        first_name: user?.user?.first_name,
+        last_name: user?.user?.last_name,
+      },
+      verb: {
+        id: 'https://w3id.org/xapi/acrossx/verbs/prioritized',
+        display: 'prioritized',
+      },
+      object: {
+        definitionName: 'ECC Search Term Saving',
+      },
+      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
+      resultExtValue: fields.name,
+    };
 
-      sendStatement(user.user, verb, obj, resultExtName, savedTerm);
-    }
-  }
+    xAPISendStatement(context);
 
-  const createSavedSearch = () => {
-    // list must me named
-    if (fields.name && fields.name !== '') {
-      mutate({ name: fields.name, path: path }, {
-        onSuccess: (data) => {
-          xAPISendStatement(new URLSearchParams(data.query).get('/search?keyword'))
-        }
-      });
-      resetKey('name');
-    }
+    // reset the form
+    resetKey('name');
   };
 
   return (
-    <div>
-      <Popover className='relative'>
-        <Popover.Button className='flex self-end w-full justify-center pr-6 items-center'>
-          <span className='italic text-sm font-sans text-blue-400 hover:underline hover:text-blue-500'>
-            Save this search
-          </span>
-        </Popover.Button>
-        <Transition
-          as={Fragment}
-          enter='transition ease-out duration-200'
-          enterFrom='opacity-0 translate-y-1'
-          enterTo='opacity-100 translate-y-0'
-          leave='transition ease-in duration-100'
-          leaveFrom='opacity-100 translate-y-0'
-          leaveTo='opacity-0 translate-y-1'
-        >
-          <Popover.Panel className='absolute right-0 z-20 w-screen max-w-sm px-4 mt-3 sm:px-0 lg:max-w-3xl'>
-            <div className='flex bg-white rounded-md shadow-md px-2 py-2 items-center gap-2'>
-              <InputField
-                placeholder='Query Name'
-                value={fields.name}
-                type='text'
-                name='name'
-                onChange={handleChange}
-              />
-              <Popover.Button>
-                <ActionButton onClick={createSavedSearch}>
-                  {isSuccess && <CheckCircleIcon className='h-4 w-4' />}
-                  Save
-                </ActionButton>
-              </Popover.Button>
-            </div>
-          </Popover.Panel>
-        </Transition>
-      </Popover>
-    </div>
+    <Popover className='relative'>
+      <Popover.Button className='flex self-end w-full justify-center pr-6 items-center'>
+        <span className='italic text-sm font-sans text-blue-400 hover:underline hover:text-blue-500'>
+          Save this search
+        </span>
+      </Popover.Button>
+      <Transition
+        as={Fragment}
+        enter='transition ease-out duration-200'
+        enterFrom='opacity-0 translate-y-1'
+        enterTo='opacity-100 translate-y-0'
+        leave='transition ease-in duration-100'
+        leaveFrom='opacity-100 translate-y-0'
+        leaveTo='opacity-0 translate-y-1'
+      >
+        <Popover.Panel className='absolute right-0 z-20 w-screen max-w-sm px-4 mt-3 sm:px-0 lg:max-w-3xl'>
+          <form
+            onSubmit={handleCreate}
+            className='flex bg-white rounded-md shadow-md px-2 py-2 items-center gap-2'
+          >
+            <InputField
+              placeholder='Query Name'
+              value={fields.name}
+              type='text'
+              name='name'
+              onChange={handleChange}
+            />
+            <Popover.Button
+              as='button'
+              type='submit'
+              className='outline-none max-w-max items-center inline-flex gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white px-4 py-2 transform transition-all duration-150 ease-in-out border-blue-400 border-2 focus:ring-2 ring-blue-400'
+            >
+              Save
+            </Popover.Button>
+          </form>
+        </Popover.Panel>
+      </Transition>
+    </Popover>
   );
 }

@@ -1,14 +1,26 @@
 {
   // "ignoreDuringBuilds": true,
-  "extends": ["next/core-web-vitals", "plugin:jsx-a11y/recommended"],
-  "plugins": ["sort-imports-es6-autofix", "jsx-a11y"],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:jsx-a11y/recommended"
+  ],
+  "plugins": [
+    "sort-imports-es6-autofix",
+    "jsx-a11y"
+  ],
   "rules": {
+    "react-hooks/exhaustive-deps": "off",
     "sort-imports-es6-autofix/sort-imports-es6": [
       2,
       {
         "ignoreCase": false,
         "ignoreMemberSort": false,
-        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
+        "memberSyntaxSortOrder": [
+          "none",
+          "all",
+          "multiple",
+          "single"
+        ]
       }
     ],
     "lines-around-comment": [

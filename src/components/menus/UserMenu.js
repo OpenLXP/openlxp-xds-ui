@@ -86,7 +86,7 @@ export default function UserMenu() {
             <div className='line-clamp-1'>{first_name}</div>
             
             <ChevronUpIcon
-              className={`${open && 'rotate-180 shadow-inner-sm group-hover:bg-blue-500 '
+              className={`${!open && 'rotate-180 shadow-inner-sm group-hover:bg-blue-500 '
                 } text-white h-5 rounded-md transition-all ease-in-out duration-75`}
             />
             {/* <ChevronDownIcon className='h-4 w-4' /> */}

@@ -1,29 +1,18 @@
 import { Pagination } from '@/components/buttons/Pagination';
-import { QueryClient, dehydrate } from 'react-query';
-import { URLSearchParams } from 'url';
-import { axiosInstance } from '@/config/axiosConfig';
-import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import { unstable_batchedUpdates } from 'react-dom';
-import { useEffect, useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useConfig } from '@/hooks/useConfig';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
+import { useSearch } from '@/hooks/useSearch';
+import { useSearchUrl } from '@/hooks/useSearchUrl';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import CreateSavedSearchModal from '@/components/modals/CreateSavedSearch';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import MoreLikeThis from '@/components/cards/MoreLikeThis';
 import SearchBar from '@/components/inputs/SearchBar';
 import SearchResult from '@/components/cards/SearchResult';
 import SelectList from '@/components/inputs/SelectList';
-
-// contexts
-import { useAuth } from '@/contexts/AuthContext';
-
-// hooks
-import { useConfig } from '@/hooks/useConfig';
-import { useSearch } from '@/hooks/useSearch';
-import { useSearchUrl } from '@/hooks/useSearchUrl';
-
-// config
-import { oneHour } from '@/config/timeConstants';
-import { searchUrl } from '@/config/endpoints';
 
 export default function Search({ query }) {
   const router = useRouter();
@@ -41,26 +30,6 @@ export default function Search({ query }) {
       });
     }
   }, [router]);
-
-    //xAPI Statement
-    const xAPISendStatement = (searchTerm) => {
-      if (user) {
-        const verb = {
-          id: "https://w3id.org/xapi/acrossx/verbs/searched",
-          display: "searched"
-        }
-  
-        const objectId = `${window.location}search`;
-        const resultExtName = "https://w3id.org/xapi/ecc/result/extensions/searchTerm";
-  
-        const obj = {
-          id: objectId,
-          definitionName: "ECC Search Capability",
-        }
-  
-        sendStatement(user.user, verb, obj, resultExtName, searchTerm);
-      }
-    }
 
   function handleChange(event) {
     setParams((previous) => ({
@@ -88,8 +57,10 @@ export default function Search({ query }) {
       const modified = { ...params };
       modified[event.target.name] = event.target.value;
       modified.p = 1;
-      setUrl(modified);
-      setParams(modified);
+      unstable_batchedUpdates(() => {
+        setUrl(modified);
+        setParams(modified);
+      });
       router.push({ pathname: '/search', query: modified });
     }
   }
@@ -100,26 +71,52 @@ export default function Search({ query }) {
     setParams(modified);
   }
 
-  function handleSearch() {
-    // if there is a key word
-    if (params.keyword && params.keyword !== '') {
-      const modified = { ...params };
+  const handleSearch = useCallback(
+    (event) => {
+      event.preventDefault();
 
-      // setting the page to 1
+      // if there is a key word
+      if (!params.keyword || params.keyword === '') return;
+
+      // set the start page to 1
+      const modified = { ...params };
       modified.p = 1;
 
-      setParams(modified);
-      setUrl(modified);
-      xAPISendStatement(modified.keyword);
+      unstable_batchedUpdates(() => {
+        setParams(modified);
+        setUrl(modified);
+      });
+
+      const context = {
+        actor: {
+          first_name: user?.user?.first_name,
+          last_name: user?.user?.last_name,
+        },
+        verb: {
+          id: 'https://w3id.org/xapi/acrossx/verbs/searched',
+          display: 'searched',
+        },
+        object: {
+          definitionName: 'ECC Search Capability',
+        },
+        resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
+        resultExtValue: modified.keyword,
+      };
+
+      xAPISendStatement(context);
+
       router.push({ pathname: '/search', query: modified });
-    }
-  }
+    },
+    [params, user]
+  );
 
   function handleSpecificPage(page) {
     const modified = { ...params };
     modified.p = page;
-    setParams(modified);
-    setUrl(modified);
+    unstable_batchedUpdates(() => {
+      setParams(modified);
+      setUrl(modified);
+    });
     router.push({ pathname: '/search', query: modified }, undefined, {
       scroll: true,
     });
