@@ -2,7 +2,7 @@ import { Pagination } from '@/components/buttons/Pagination';
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { useSearch } from '@/hooks/useSearch';
 import { useSearchUrl } from '@/hooks/useSearchUrl';
@@ -57,8 +57,10 @@ export default function Search({ query }) {
       const modified = { ...params };
       modified[event.target.name] = event.target.value;
       modified.p = 1;
-      setUrl(modified);
-      setParams(modified);
+      unstable_batchedUpdates(() => {
+        setUrl(modified);
+        setParams(modified);
+      });
       router.push({ pathname: '/search', query: modified });
     }
   }
@@ -69,18 +71,21 @@ export default function Search({ query }) {
     setParams(modified);
   }
 
-  function handleSearch(e) {
-    e.preventDefault();
+  const handleSearch = useCallback(
+    (event) => {
+      event.preventDefault();
 
-    // if there is a key word
-    if (params.keyword && params.keyword !== '') {
+      // if there is a key word
+      if (!params.keyword || params.keyword === '') return;
+
+      // set the start page to 1
       const modified = { ...params };
-
-      // setting the page to 1
       modified.p = 1;
 
-      setParams(modified);
-      setUrl(modified);
+      unstable_batchedUpdates(() => {
+        setParams(modified);
+        setUrl(modified);
+      });
 
       const context = {
         actor: {
@@ -101,14 +106,17 @@ export default function Search({ query }) {
       xAPISendStatement(context);
 
       router.push({ pathname: '/search', query: modified });
-    }
-  }
+    },
+    [params, user]
+  );
 
   function handleSpecificPage(page) {
     const modified = { ...params };
     modified.p = page;
-    setParams(modified);
-    setUrl(modified);
+    unstable_batchedUpdates(() => {
+      setParams(modified);
+      setUrl(modified);
+    });
     router.push({ pathname: '/search', query: modified }, undefined, {
       scroll: true,
     });

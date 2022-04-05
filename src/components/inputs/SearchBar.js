@@ -24,20 +24,20 @@ export default function SearchBar({
         autoComplete='off'
         placeholder='Search the catalog'
       />
-      <div id='button-group' className='inline-flex'>
+      <div id='button-group' className='inline-flex flex-row-reverse'>
         <button
           title='Search'
           type='submit'
-          className='outline-none rounded-full  mr-2 p-2 focus:bg-gray-100 text-gray-400 hover:text-blue-400 hover:text-shadow cursor-pointer'
+          className='outline-none rounded-full p-2 ml-2 mr-4  focus:bg-gray-100 text-gray-400 hover:text-blue-400 hover:text-shadow cursor-pointer'
         >
           <SearchIcon className='h-5 w-5' />
         </button>
-        <div className={'border-l'} />
+        <div className='border-l' />
         <button
           id={'reset'}
           title='reset'
           onClick={() => onReset('keyword')}
-          className='outline-none focus:bg-gray-100 p-2 ml-2 mr-4 text-gray-400 hover:text-blue-400 hover:text-shadow cursor-pointer rounded-full hover:bg-gray-100 w-min'
+          className='outline-none focus:bg-gray-100 mr-2 p-2 text-gray-400 hover:text-blue-400 hover:text-shadow cursor-pointer rounded-full hover:bg-gray-100 w-min'
         >
           <XIcon className={'h-5 w-5'} />
         </button>

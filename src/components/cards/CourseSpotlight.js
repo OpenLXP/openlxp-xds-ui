@@ -28,7 +28,7 @@ export default function CourseSpotlight({ course }) {
     (e) => {
       if (!user)
         return router.push(`/course/${meta.metadata_key_hash || meta.id}`);
-        
+
       const context = {
         actor: {
           first_name: user?.user?.first_name,
@@ -49,7 +49,7 @@ export default function CourseSpotlight({ course }) {
       xAPISendStatement(context);
       router.push('/course/' + (meta.metadata_key_hash || meta.id));
     },
-    [Course, meta, user, router]
+    [Course, meta, user]
   );
 
   return (
