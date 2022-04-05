@@ -1,17 +1,19 @@
-import { render, act, fireEvent } from '@testing-library/react';
-import { useUserList } from '@/hooks/useUserList';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { act, fireEvent, render } from '@testing-library/react';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
+import { useUserList } from '@/hooks/useUserList';
 import EditList from '@/pages/lists/edit/[listId]';
-import mockRouter from 'next-router-mock';
-import { QueryClientProvider, QueryClient } from 'react-query';
 import courseData from '@/__mocks__/data/course.data';
+import mockRouter from 'next-router-mock';
 
 // mocking router
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
+
 // mocking user lists
 jest.mock('@/hooks/useUserList', () => ({
   useUserList: jest.fn(),
 }));
+
 // mocking mutation
 jest.mock('@/hooks/useUpdateUserList', () => ({
   useUpdateUserList: jest.fn(),
@@ -35,6 +37,7 @@ describe('Edit List', () => {
           name: 'test name',
         },
       }));
+
       // default
       useUpdateUserList.mockImplementation(() => ({
         mutate: jest.fn(),
@@ -48,7 +51,9 @@ describe('Edit List', () => {
 
     it('should render update button', () => {
       const { getByRole } = renderer(<EditList />);
-      expect(getByRole('button', { name: /update/i })).toBeInTheDocument();
+      expect(
+        getByRole('button', { name: /apply changes/i })
+      ).toBeInTheDocument();
     });
 
     it('should render cancel button', () => {
@@ -65,8 +70,11 @@ describe('Edit List', () => {
         data: {
           name: 'test name',
           description: 'test description',
+          experiences: [],
+          public: false,
         },
       }));
+
       // default
       useUpdateUserList.mockImplementation(() => ({
         mutate: jest.fn(),
@@ -90,6 +98,12 @@ describe('Edit List', () => {
 
       expect(getByText('/200')).toBeInTheDocument();
     });
+
+    it('should render input for public state', () => {
+      const { getByText } = renderer(<EditList />);
+
+      expect(getByText(/Set Visibility/i)).toBeInTheDocument();
+    });
   });
   describe('table', () => {
     //
@@ -101,9 +115,11 @@ describe('Edit List', () => {
           name: 'test name',
           description: 'test description',
           experiences: [courseData],
+          public: false,
         },
         isSuccess: true,
       }));
+
       // default
       useUpdateUserList.mockImplementation(() => ({
         mutate: jest.fn(),
@@ -115,7 +131,6 @@ describe('Edit List', () => {
       expect(getByText('Course Title')).toBeInTheDocument();
       expect(getByText(/course provider/i)).toBeInTheDocument();
       fireEvent.click(getByText('Remove'));
-
     });
     it('should render course title', () => {
       const { getByText } = renderer(<EditList />);
@@ -141,22 +156,34 @@ describe('Edit List', () => {
           name: 'test name',
           description: 'test description',
           experiences: [courseData],
+          public: false,
         },
         isSuccess: true,
       }));
+
       // default
       useUpdateUserList.mockImplementation(() => ({
         mutation: { mutate: jest.fn() },
       }));
     });
-    it.skip('should call mutation on click of update', () => {
-      const { getByText } = renderer(<EditList />);
-      act(() => {
-        const button = getByText(/update/i);
 
-        fireEvent.click(button);
+    it('should update color of count text when greater than 200 characters', () => {
+      const { getByTitle, getByPlaceholderText } = renderer(<EditList />);
+
+      // verify the color is not red
+      expect(
+        getByTitle(/character count/i).className.includes('text-gray-500')
+      ).toBe(true);
+
+      // update the description
+      fireEvent.change(getByPlaceholderText(/list description.../i), {
+        target: { value: 'a'.repeat(201) },
       });
-      expect(useUpdateUserList).toHaveBeenCalled();
+
+      // verify the color is red
+      expect(
+        getByTitle(/character count/i).className.includes('text-red-500')
+      ).toBe(true);
     });
     it('should reset inputs on clear', () => {
       const { getByPlaceholderText, getByText } = renderer(<EditList />);
@@ -165,12 +192,25 @@ describe('Edit List', () => {
       act(() => {
         fireEvent.change(input, { target: { value: 'new' } });
       });
-      expect( input.value ).toBe( 'new' );
-      act( () => {
-        const button = getByText('Cancel')
-        fireEvent.click(button)
-      })
-      expect( input.value ).toBe( 'test description' );
+      expect(input.value).toBe('new');
+      act(() => {
+        const button = getByText('Cancel');
+        fireEvent.click(button);
+      });
+      expect(input.value).toBe('test description');
+    });
+
+    it('should toggle the public status on click', () => {
+      const { getByText, getByTitle } = renderer(<EditList />);
+
+      expect(
+        getByText(/Private list, only you can see it./i)
+      ).toBeInTheDocument();
+      fireEvent.click(getByTitle(/Private/i));
+
+      expect(
+        getByText(/Public list, viewable by other users./i)
+      ).toBeInTheDocument();
     });
   });
 });

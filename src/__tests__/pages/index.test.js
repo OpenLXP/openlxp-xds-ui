@@ -3,12 +3,29 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import Home from '@/pages/index';
 import mockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
+<<<<<<< HEAD
+=======
+import { useAuth } from '@/contexts/AuthContext';
+import xAPIMapper from "@/utils/xapi/xAPIMapper";
+>>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
+
+// mock auth
+jest.mock('@/contexts/AuthContext', () => ({
+  useAuth: jest.fn(),
+}));
 
 describe('should render the title', () => {
   beforeEach(() => {
     mockRouter.setCurrentUrl('/');
+
+    useAuth.mockImplementation(() =>  {
+      return {
+        user: { user: {email: 'test@email.com'}},
+      };
+    });
+
     render(
       <QueryClientWrapper>
         <Home />
@@ -37,17 +54,6 @@ describe('should render the title', () => {
     expect(screen.getByRole('textbox', { id: /search-bar/i }).value).toBe('');
   });
 
-  it.skip('should navigate away from the page when a field.keyword is present', () => {
-    act(() => {
-      fireEvent.change(screen.getByPlaceholderText('Search the catalog'), {
-        target: { value: 'updated value' },
-      });
-    });
-
-    act(() => {
-      fireEvent.click(screen.getByTitle(/search/i));
-    });
-  });
   it('should update the value of the search bar', () => {
     act(() => {
       fireEvent.change(screen.getByPlaceholderText('Search the catalog'), {
@@ -65,5 +71,24 @@ describe('should render the title', () => {
     expect(singletonRouter).toMatchObject({
       asPath: '/search/?keyword=updated%20value&p=1',
     });
+  });
+
+  it('should send xAPI Statement', () => {
+
+    const spy = jest.spyOn(xAPIMapper, 'sendStatement')
+    .mockImplementation(() => Promise.resolve({})
+    );
+
+    act(() => {
+      fireEvent.change(screen.getByRole('textbox'), {
+        target: { value: 'data' },
+      });
+    });
+    act(() => {
+      fireEvent.click(screen.getByTitle(/search/i));
+    });
+
+    expect(spy).toHaveBeenCalled();
+
   });
 });

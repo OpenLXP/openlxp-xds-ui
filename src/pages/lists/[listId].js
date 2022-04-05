@@ -1,9 +1,18 @@
+<<<<<<< HEAD
+=======
+import { sendStatement } from '@/utils/xapi/xAPIWrapper';
+>>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 import { useAuth } from '@/contexts/AuthContext';
 import { useList } from '@/hooks/useList';
 import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Link from 'next/link';
+<<<<<<< HEAD
 import React, { useEffect } from 'react';
+=======
+import React, { useCallback, useEffect } from 'react';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
+>>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 
 export default function ListsView() {
   const router = useRouter();
@@ -11,7 +20,12 @@ export default function ListsView() {
   // user data
   const { user } = useAuth();
 
-  const { data: list, isSuccess, isError, error } = useList(router.query.listId);
+  const {
+    data: list,
+    isSuccess,
+    isError,
+    error,
+  } = useList(router.query.listId);
 
   // verify a user is logged in otherwise redirect to home page
   useEffect(() => {
@@ -20,24 +34,50 @@ export default function ListsView() {
     if (isError && error.response.status === 403) router.push('/403');
   }, [user, isError]);
 
+  const handleViewCourse = useCallback(
+    (course) => {
+      if (!user) return;
+      const context = {
+        actor: {
+          first_name: user?.user?.first_name,
+          last_name: user?.user?.last_name,
+        },
+        verb: {
+          id: 'https://w3id.org/xapi/acrossx/verbs/explored',
+          display: 'explored',
+        },
+        object: {
+          id: `${window.origin}/course/${course.meta.metadata_key_hash}`,
+          definitionName: course.Course.CourseTitle,
+          description: course.Course.CourseShortDescription,
+        },
+        resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
+        resultExtValue: course.meta.metadata_key_hash,
+      };
+      xAPISendStatement(context);
+      router.push(`/course/${course.meta.metadata_key_hash}`);
+    },
+    [user]
+  );
+
   return (
     <DefaultLayout footerLocation='absolute'>
-      <div className='py-32 font-sans'>
+      <div className='mt-10 pb-20 font-sans'>
         <h1 className='font-semibold text-3xl pb-4 mb-8 border-b'>
-          {isSuccess && list.name}
+          {isSuccess && list?.name}
         </h1>
 
         <div className='grid grid-cols-2 gap-4 font-sans text-lg'>
           <div className='col-span-1'>
             <label>
               <span className='font-semibold'>Owner:</span>&nbsp;
-              {isSuccess && list.owner.email}
+              {isSuccess && list?.owner.email}
             </label>
           </div>
           <div className='col-span-1'>
             <label>
               <span className='font-semibold'>Updated:</span>&nbsp;
-              {isSuccess && new Date(list.modified).toString()}
+              {isSuccess && new Date(list?.modified).toString()}
             </label>
           </div>
         </div>
@@ -60,14 +100,13 @@ export default function ListsView() {
             <div className='col-span-2'>Course Provider</div>
           </div>
           <div className='max-h-96 overflow-y-auto custom-scroll'>
-            {isSuccess && list.experiences.length < 1 && (
+            {isSuccess && list?.experiences.length < 1 ? (
               <div className='flex justify-center items-center bg-white'>
                 <p className='text-center text-gray-500'>
                   No courses in this list
                 </p>
               </div>
-            )}
-            {isSuccess &&
+            ) : (
               list?.experiences?.map((course, index) => {
                 return (
                   <div
@@ -82,16 +121,18 @@ export default function ListsView() {
                         {course.Course.CourseProviderName}
                       </div>
                       <div className='max-w-min justify-self-end pr-4'>
-                        <Link href={`/course/${course.meta.metadata_key_hash}`}>
-                          <a className='text-blue-500 bg-blue-50 px-2 py-1 rounded-md border-blue-500 border hover:bg-blue-500 outline-none hover:text-white transform transition-colors duration-150 ease-in-out'>
-                            View
-                          </a>
-                        </Link>
+                        <button
+                          onClick={() => handleViewCourse(course)}
+                          className='text-blue-500 bg-blue-50 px-2 py-1 rounded-md border-blue-500 border hover:bg-blue-500 outline-none hover:text-white transform transition-colors duration-150 ease-in-out'
+                        >
+                          View
+                        </button>
                       </div>
                     </div>
                   </div>
                 );
-              })}
+              })
+            )}
           </div>
         </div>
       </div>

@@ -2,9 +2,15 @@ import React from 'react';
 
 export default function Footer({ location }) {
   const leftLinks = [
+<<<<<<< HEAD
     { name: 'DOD', url: 'https://dodcio.defense.gov/' },
     { name: 'About DOD', url: 'https://dodcio.defense.gov/About-DoD-CIO/' },
     { name: 'Web Policy', url: 'https://dodcio.defense.gov/DoD-Web-Policy/' }
+=======
+    { name: 'DOD Home Page', url: 'https://www.defense.gov/' },
+    { name: 'About ADL', url: 'https://adlnet.gov/about/' },
+    { name: 'Web Policy', url: 'https://dodcio.defense.gov/DoD-Web-Policy/' },
+>>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
   ];
   const rightLinks = [
     {
@@ -28,10 +34,15 @@ export default function Footer({ location }) {
     });
 
   return (
+<<<<<<< HEAD
     <div
       className='absolute bg-gray-200 bg-opacity-90 w-full shadow z-50'
     >
       <nav className={'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'}>
+=======
+    <div className='mt-10 bottom-0 bg-opacity-90 w-full mx-auto z-50'>
+      <nav className={'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t'}>
+>>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
         <div className={'w-full py-4 inline-flex items-center justify-between'}>
           <div className={'flex items-center gap-4'}>
             {makeExternalLinks(leftLinks)}

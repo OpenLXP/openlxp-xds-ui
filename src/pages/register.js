@@ -23,7 +23,7 @@ import {
   containsSpecialCharacter,
   containsUppercase,
   isLongEnough,
-  isValidEmail
+  isValidEmail,
 } from '@/utils/validation';
 
 // config
@@ -36,11 +36,11 @@ export default function Register() {
     password: '',
     confirmationPassword: '',
     first_name: '',
-    last_name: ''
+    last_name: '',
   });
 
   const { fields: error, updateKeyValuePair: setError } = useField({
-    message: ''
+    message: '',
   });
 
   const setCredentials = (event) => {
@@ -59,20 +59,31 @@ export default function Register() {
     }
 
     // verify password
-    else if (credentials.password === '') { // not empty
+    else if (credentials.password === '') {
+      // not empty
       setError('message', 'Password is required');
     } else if (!isLongEnough(credentials.password, 8)) {
       setError('message', 'Password must be at least 8 characters');
     } else if (!containsLowercase(credentials.password)) {
-      setError('message', 'Password must contain at least one lowercase letter');
+      setError(
+        'message',
+        'Password must contain at least one lowercase letter'
+      );
     } else if (!containsUppercase(credentials.password)) {
-      setError('message', 'Password must contain at least one uppercase letter');
+      setError(
+        'message',
+        'Password must contain at least one uppercase letter'
+      );
     } else if (!containsSpecialCharacter(credentials.password)) {
-      setError('message', 'Password must contain at least one special character');
+      setError(
+        'message',
+        'Password must contain at least one special character'
+      );
     }
 
     // verify password confirmation
-    else if (credentials.confirmationPassword === '') { // not empty
+    else if (credentials.confirmationPassword === '') {
+      // not empty
       setError('message', 'Password confirmation is required');
     } else if (credentials.confirmationPassword !== credentials.password) {
       setError('message', 'Password confirmation does not match password');
@@ -101,28 +112,39 @@ export default function Register() {
           router.push('/');
         })
         .catch((error) => {
-          setError('message', error.message || 'There was an error during registration');
+          setError(
+            'message',
+            error.message || 'There was an error during registration'
+          );
         });
     }
   };
 
   const handleEnterKey = (event) => {
+<<<<<<< HEAD
     if (event.key === 'Enter'){
+=======
+    if (event.key === 'Enter') {
+>>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
       registerUser();
     }
   };
 
   return (
     <DefaultLayout footerLocation='relative'>
+<<<<<<< HEAD
       <div className={'pt-32 mb-16'}>
+=======
+      <div className={'mt-10 pb-20'}>
+>>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
         <div className='mt-10 mx-52 flex flex-col items-center justify-between'>
-          <Image src={logo} alt={'home'} height={'100'} width={'100'} />
+          <Image src={logo} alt={'home'} height={'200'} width={'200'} />
           <p className='mt-2 text-2xl font-extrabold'>Create your account</p>
           <span>
             or &nbsp;
             <Link href={'/login'} passHref>
               <button
-                id={'create-account-button'}
+                id={'login-button'}
                 className='text-blue-400 hover:underline hover:text-blue-500 cursor-pointer transition-all duration-150 ease-in-out'
               >
                 Sign in to your account
@@ -130,6 +152,7 @@ export default function Register() {
             </Link>
           </span>
         </div>
+<<<<<<< HEAD
         <div
           className='w-1/2 p-8 mx-auto mt-10 bg-white flex flex-col items-center justify-between shadow-md rounded-md'>
           <div className='space-y-4 mb-8 w-full' onKeyPress={(event) => handleEnterKey(event)}>  
@@ -151,6 +174,13 @@ export default function Register() {
               name={'confirmationPassword'}
               onChange={(event) => setCredentials(event)}
             />
+=======
+        <div className='w-1/2 p-8 mx-auto mt-10 bg-white flex flex-col items-center justify-between shadow-md rounded-md'>
+          <form
+            className='space-y-4 mb-8 w-full flex-col flex '
+            onSubmit={registerUser}
+          >
+>>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
             <div className='flex gap-4'>
               <InputField
                 type='text'
@@ -167,26 +197,36 @@ export default function Register() {
                 placeholder='Last Name'
               />
             </div>
-          </div>
-          <p className='text-red-600 mb-5'>{error.message}</p>
-          <ActionButton onClick={() => registerUser()} id='create-account-button'>
-            <UserAddIcon className='h-5 w-5' />
-            Create
-          </ActionButton>
-          <p className={'my-8 relative border-b-2 w-full'}>
-            <span
-              className='absolute top-1/2 left-1/2 transform text-center -translate-x-1/2 -translate-y-1/2 bg-white px-2 w-max'>
-              or continue with
-            </span>
-          </p>
-          <Link href={'/sso'}>
-            <a
-              id={'sso-button'}
-              className='bg-blue-500 py-2 px-4 mt-5 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'
+            <InputField
+              required={true}
+              type={'text'}
+              placeholder={'Email'}
+              name={'email'}
+              onChange={(event) => setCredentials(event)}
+            />
+            <InputField
+              required={true}
+              type={'password'}
+              placeholder={'Password'}
+              name={'password'}
+              onChange={(event) => setCredentials(event)}
+            />
+            <InputField
+              required={true}
+              type={'password'}
+              placeholder={'Confirm Password'}
+              name={'confirmationPassword'}
+              onChange={(event) => setCredentials(event)}
+            />
+            <button
+              type='submit'
+              className='max-w-max self-center items-center inline-flex gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white px-4 py-2 transform transition-all duration-150 ease-in-out border-blue-400 border-2 outline-none focus:ring-2 ring-blue-400'
             >
-              Single Sign On
-            </a>
-          </Link>
+              <UserAddIcon className='h-5 w-5' />
+              Create Account
+            </button>
+          </form>
+          <p className='text-red-600 mb-5'>{error.message}</p>
         </div>
       </div>
     </DefaultLayout>

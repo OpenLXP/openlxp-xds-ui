@@ -1,91 +1,30 @@
-<<<<<<< HEAD
-import {Dialog, Transition} from '@headlessui/react';
-import {Fragment, useState} from 'react';
-import {PlusCircleIcon} from '@heroicons/react/outline';
-import { sendStatement } from '@/utils/xapi/xAPIWrapper';
-import {useAuth} from '@/contexts/AuthContext';
-import {useCreateUserList} from '@/hooks/useCreateUserList';
-import {useUpdateUserList} from '@/hooks/useUpdateUserList';
-import {useUserOwnedLists} from '@/hooks/useUserOwnedLists';
-=======
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useState } from 'react';
-import { PlusCircleIcon } from '@heroicons/react/outline';
-import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserOwnedLists } from '@/hooks/useUserOwnedLists';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 import InputField from '@/components/inputs/InputField';
 import useField from '@/hooks/useField';
-
-/**
- * TODO: to be removed before merging back to dev
- * Current status: in the process of trying to get the updated isSuccess ( useCreateUserList hook) value
- * to be used to determine whether or not xAPISendStatement should be executed.
- * Even with the useCallback, it seems like isSuccess (useCreateUserList hook) is still one step behind.
- *
- * The reason for using this approach instead of calling the xAPISendStatement in the onSuccess is
- * because testing that onSuccess is difficult especially when the mutation is being mocked.
- *
- */
 
 export default function SaveModal({ courseId }) {
   // authentication
   const { user } = useAuth();
 
   // user lists
-  const { data: userLists, isSuccess } = useUserOwnedLists();
+  const { data: userLists, isSuccess } = useUserOwnedLists(user?.token);
   const { mutate } = useUpdateUserList(user?.token);
-  const { mutate: create, isSuccess: createSuccess } = useCreateUserList(
-    user?.token
-  );
+  const { mutate: create } = useCreateUserList(user?.token);
+  const { fields: error, updateKeyValuePair: setError } = useField({
+    message: '',
+  });
 
   // new list form
   const [fields, setFields] = useState({
     name: '',
     description: '',
   });
-
-<<<<<<< HEAD
-    //xAPI Statement
-    const xAPISendStatement = (objectId) => {
-      if (user) {
-        const verb = {
-          id: "https://w3id.org/xapi/dod-isd/verbs/curated",
-          display: "curated" 
-        }
-        sendStatement(user.user, verb, objectId);
-      }
-    }
-=======
-  const { fields: error, updateKeyValuePair: setError } = useField({
-    message: '',
-  });
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
-
-  // add a course to the selected list
-  const addCourseToList = useCallback(
-    (listId) => {
-      const listData = userLists.find((list) => list.id === listId);
-      listData.experiences.push(courseId);
-      mutate({ listData: listData, id: listId });
-    },
-    [courseId, mutate, userLists]
-  );
-
-  // remove a course from the selected list
-  const removeCourseFromList = (listId) => {
-    const listData = userLists.find((list) => list.id === listId);
-    const modified = {
-      name: listData.name,
-      description: listData.description,
-      experiences: listData.experiences.filter((exp) => exp !== courseId),
-    };
-    mutate({ listData: modified, id: listId });
-  };
 
   const handleSubmit = useCallback(
     (e) => {
@@ -132,6 +71,24 @@ export default function SaveModal({ courseId }) {
     [fields, user?.user]
   );
 
+  // add a course to the selected list
+  const addCourseToList = (listId) => {
+    const listData = userLists.find((list) => list.id === listId);
+    listData.experiences.push(courseId);
+    mutate({ listData: listData, id: listId });
+  };
+
+  // remove a course from the selected list
+  const removeCourseFromList = (listId) => {
+    const listData = userLists.find((list) => list.id === listId);
+    const modified = {
+      name: listData.name,
+      description: listData.description,
+      experiences: listData.experiences.filter((exp) => exp !== courseId),
+    };
+    mutate({ listData: modified, id: listId });
+  };
+
   // modal states
   let [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
@@ -143,10 +100,9 @@ export default function SaveModal({ courseId }) {
         title='save course'
         type='button'
         onClick={openModal}
-        className='inline-flex justify-center items-center gap-2 text-blue-400 rounded-r-lg rounded-l-3xl hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white py-1 pl-1 font-medium pr-2 transform transition-all duration-150 ease-in-out border-blue-400 border-2 focus:ring-2 ring-blue-400 outline-none'
+        className='inline-flex justify-center items-center gap-2 text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600 py-1.5 px-2 font-medium transform transition-all duration-150 ease-in-out focus:ring-2 ring-blue-400 outline-none'
       >
-        <PlusCircleIcon className='h-6 w-6' />
-        Save
+        Save Course
       </button>
 
       <Transition appear show={isOpen} as={Fragment}>
@@ -228,22 +184,7 @@ export default function SaveModal({ courseId }) {
 
                 <form
                   className='my-2 flex flex-col w-full'
-<<<<<<< HEAD
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    setFields({name: '', description: ''});
-                    create({form: fields}, { 
-                      onSuccess: (data) => {
-                        const domain = (new URL(window.location));
-                        const objectId = `${domain.origin}/lists/${data.id}`;
-                        xAPISendStatement(objectId);
-                      } });
-                  }}
-=======
-
                   onSubmit={handleSubmit}
-
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
                 >
                   <div>
                     <label htmlFor='name'>List Name</label>
@@ -262,11 +203,7 @@ export default function SaveModal({ courseId }) {
                     />
                   </div>
                   <div className='relative'>
-<<<<<<< HEAD
-                    <label>List Description</label>
-=======
                     <label htmlFor='description'>List Description</label>
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
                     <textarea
                       placeholder='List Description...'
                       name='description'
@@ -285,6 +222,7 @@ export default function SaveModal({ courseId }) {
                       className='w-full border outline-none rounded-md shadow focus:shadow-md p-2 focus:ring-4 ring-blue-400 transform transition-all duration-150'
                     />
                   </div>
+
                   <p className='text-red-600 mb-5'>{error.message}</p>
                   <input
                     type='submit'
