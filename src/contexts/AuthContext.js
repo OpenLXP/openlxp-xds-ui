@@ -1,10 +1,8 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import { useRouter } from 'next/dist/client/router';
-import { useLocalStorage } from '../hooks/useStorage';
-import axios from 'axios';
-import { userOwnedLists } from '../config/endpoints';
 import { axiosInstance } from '@/config/axiosConfig';
 import { backendHost } from '../config/endpoints';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { useLocalStorage } from '../hooks/useStorage';
+import { useRouter } from 'next/dist/client/router';
 
 export const AuthContext = createContext({});
 
@@ -13,7 +11,6 @@ export function useAuth() {
 }
 export function AuthProvider({ children }) {
   const router = useRouter();
-  // const [nothing, setUser] = useState(null);
   const [error, setError] = useState(null);
   const [isError, setIsError] = useState(false);
   const [user, setLocal, removeLocal] = useLocalStorage('user', null);
@@ -52,7 +49,7 @@ export function AuthProvider({ children }) {
       if (user) {
         axiosInstance.get(`${backendHost}/api/auth/validate`).catch((error) => {
           removeLocal();
-          logout()
+          logout();
         });
       }
     }

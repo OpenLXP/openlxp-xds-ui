@@ -3,7 +3,7 @@
 import { backendHost } from '@/config/endpoints';
 import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 
-export default function usePrepareCourseData(config, data) {
+export default function PrepareCourseData(config, data) {
   let preparedData = null;
   const { course_highlights, course_information, course_img_fallback } = config;
   preparedData = {

@@ -1,5 +1,8 @@
+import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '@/contexts/AuthContext';
-import Link from 'next/link';
+import { useCallback } from 'react';
+import { useRouter } from 'next/router';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import SaveModal from '@/components/modals/SaveModal';
 import ViewBtn from '@/components/buttons/ViewBtn';
 
@@ -24,13 +27,35 @@ const Description = ({ description }) => {
 
 export default function SearchResult({ result }) {
   const { user } = useAuth();
-  const { CourseTitle, CourseShortDescription, CourseProviderName } =
-    result.Course;
-  const { id } = result.meta;
+  const router = useRouter();
+
+  const handleClick = useCallback(() => {
+    const context = {
+      actor: {
+        first_name: user?.user?.first_name,
+        last_name: user?.user?.last_name,
+      },
+      verb: {
+        id: 'https://w3id.org/xapi/tla/verbs/explored',
+        display: 'explored',
+      },
+      object: {
+        id: `${window.origin}/course/${result.meta.id}`,
+        definitionName: result.Course.CourseTitle,
+        description: result.Course.CourseShortDescription,
+      },
+      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
+      resultExtValue: result.meta.id,
+    };
+
+    xAPISendStatement(context);
+    router.push(`/course/${result.meta.id}`);
+  }, [result, user, router]);
 
   return (
-    <div className={'overflow-x-hidden py-2 pr-2'}>
+    <div className='py-2 pr-2'>
       <div className='inline-flex gap-2 justify-between items-center w-full'>
+<<<<<<< HEAD
         <Link href={'/course/' + id} passHref>
           <h2
             id='link-to-course'
@@ -44,12 +69,36 @@ export default function SearchResult({ result }) {
           <ViewBtn id={id} />
           {user && <SaveModal courseId={id} />}
         </div>
+=======
+        <button
+          id='link-to-course'
+          className='text-lg font-semibold line-clamp-2 hover:underline hover:text-blue-400 cursor-pointer hover:text-shadow'
+          title={result.Course.CourseTitle}
+          onClick={handleClick}
+        >
+          <h3>{result.Course.CourseTitle}</h3>
+        </button>
+        <span className='inline-flex flex-shrink-0 gap-2'>
+          <ViewBtn
+            id={result.meta.id}
+            courseTitle={result.Course.CourseTitle}
+            courseDescription={result.Course.CourseShortDescription}
+          />
+          {user && <SaveModal courseId={result.meta.id} />}
+        </span>
+>>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
       </div>
       <h2 className={'font-normal font-sans'}>
         <span className={'font-semibold'}>Provider:&nbsp;</span>
-        {CourseProviderName}
+        {result.Course.CourseProviderName}
       </h2>
+<<<<<<< HEAD
       <Description description={CourseShortDescription} />
+=======
+      <p className={'line-clamp-4'}>
+        {removeHTML(result.Course.CourseShortDescription)}
+      </p>
+>>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
     </div>
   );
 }

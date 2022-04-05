@@ -1,9 +1,8 @@
-import { renderHook, act } from '@testing-library/react-hooks';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { act, renderHook } from '@testing-library/react-hooks';
 import { useCourse } from '../../hooks/useCourse.js';
 import courseData from '../../__mocks__/data/course.data';
 import mockAxios from 'jest-mock-axios';
-
 
 const queryClient = new QueryClient();
 const wrapper = ({ children }) => (
@@ -11,12 +10,22 @@ const wrapper = ({ children }) => (
 );
 
 jest.mock('axios');
-test('should should return course data', async () => {
+test('should return course data', async () => {
+  mockAxios.get.mockResolvedValue({ data: courseData });
+  const { result, waitForNextUpdate } = renderHook(() => useCourse(12), {
+    wrapper,
+  });
+
+  await waitForNextUpdate(result.current.isSuccess);
+  expect(result.current.data).toEqual(courseData);
+});
+
+test('should return null if no course is passed', async () => {
   mockAxios.get.mockResolvedValue({ data: courseData });
   const { result, waitForNextUpdate } = renderHook(() => useCourse(), {
     wrapper,
   });
 
   await waitForNextUpdate(result.current.isSuccess);
-  expect(result.current.data).toEqual(courseData);
+  expect(result.current.data).toEqual(null);
 });

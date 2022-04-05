@@ -1,21 +1,29 @@
+import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '../../contexts/AuthContext';
 import { useConfig } from '../../hooks/useConfig';
 import { useMoreCoursesLikeThis } from '../../hooks/useMoreCoursesLikeThis';
+<<<<<<< HEAD
 import React, { useEffect } from 'react';
 import SaveModal from '../modals/SaveModal'
+=======
+import React from 'react';
+import SaveModal from '../modals/SaveModal';
+>>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 import ViewBtn from '../buttons/ViewBtn';
-import useTimeout from '../../hooks/useTimeout';
 
 export default function MoreLikeThis({ course }) {
   const { data, isLoading } = useMoreCoursesLikeThis(course?.meta.id);
   const config = useConfig();
   const { user } = useAuth();
+<<<<<<< HEAD
   const { state: view, show } = useTimeout(500);
 
 
   useEffect(() => {
     show();
   }, []);
+=======
+>>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 
   // if loading
   if (isLoading) {
@@ -68,35 +76,47 @@ export default function MoreLikeThis({ course }) {
   // show suggested card
   return (
     <div>
-      <span className={'text-gray-400 italic block pb-5 font-sans px-px'}>Similar Course</span>
+      <span className={'text-gray-400 italic block pb-5 font-sans px-px'}>
+        Similar Course
+      </span>
       <div className='w-full bg-white border rounded-md border-gray-200 p-4 shadow'>
         <h1 className='text-lg font-semibold'>
           {data.hits[0].Course.CourseTitle}
         </h1>
         <p className='mt-4 font-sans line-clamp-6 text-sm'>
-          {data.hits[0].Course.CourseShortDescription.replace(/(<([^>]+)>)/ig, '')}
+          {removeHTML(data.hits[0].Course.CourseShortDescription)}
         </p>
         <div className='flex flex-col gap-1 mt-4'>
           <div>
             <span className='font-semibold'>Course Code:&nbsp;</span>
-            {data.hits[0].Course.CourseCode}
+            {data.hits[0].Course.CourseCode || 'Not Available'}
           </div>
           <div>
             <span className='font-semibold'>Course Type:&nbsp;</span>
-            {data.hits[0].Course.CourseType}
+            {data.hits[0].Course.CourseType || 'Not Available'}
           </div>
           <div>
             <span className='font-semibold'>Estimated Time:&nbsp;</span>
-            {data.hits[0].Course.EstimatedCompletionTime}
+            {data.hits[0].Course.EstimatedCompletionTime || 'Not Available'}
           </div>
           <div>
             <span className='font-semibold'>Course Provider:&nbsp;</span>
-            {data.hits[0].Course.CourseProviderName}
+            {data.hits[0].Course.CourseProviderName || 'Not Available'}
           </div>
         </div>
         <div className='flex justify-between mt-10'>
           <div className='flex gap-2'>
+<<<<<<< HEAD
             <ViewBtn id={data.hits[0].meta.id} />
+=======
+            <ViewBtn
+              id={data.hits[0].meta.id}
+              courseTitle={data.hits[0].Course.CourseTitle}
+              courseDescription={removeHTML(
+                data.hits[0].Course.CourseShortDescription
+              )}
+            />
+>>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
           </div>
           {user && <SaveModal courseId={data.hits[0].meta.id} />}
         </div>

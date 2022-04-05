@@ -27,8 +27,8 @@ describe('Default Layout', () => {
     expect(screen.getByAltText('home')).toBeInTheDocument();
   });
   it('should show the footer component', () => {
-    // expect(screen.getByText('Home')).toBeInTheDocument();
-    expect(screen.getByText('About DOD')).toBeInTheDocument();
+    expect(screen.getByText('DOD Home Page')).toBeInTheDocument();
+    expect(screen.getByText('About ADL')).toBeInTheDocument();
     expect(screen.getByText('Web Policy')).toBeInTheDocument();
 
     expect(screen.getByText('Privacy')).toBeInTheDocument();

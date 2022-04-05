@@ -19,7 +19,7 @@ export default function Forbidden({ errorMessage }) {
         if (count < 1) {
             router.push("/")
         }
-    }, []);
+    }, [count]);
 
     return (
         <div className='flex flex-col items-center justify-center min-h-screen gap-8'>

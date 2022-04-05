@@ -77,14 +77,15 @@ describe('Course Page', () => {
         isSuccess: true,
       }));
       useMoreCoursesLikeThis.mockImplementation(() => ({
-        data: [],
+        data: { hits: [courseData] },
+        isSuccess: true,
       }));
 
       // render the component
-      const { getByText } = renderer();
+      const { getByText, getAllByText } = renderer();
 
       // assert
-      expect(getByText(courseData.Course.CourseTitle)).toBeInTheDocument();
+      expect(getAllByText(courseData.Course.CourseTitle).length).toBe(2);
       expect(
         getByText(courseData.Course.CourseShortDescription)
       ).toBeInTheDocument();
@@ -99,36 +100,17 @@ describe('Course Page', () => {
           isSuccess: true,
         }));
         useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: [],
-        }));
-
-        // render the component
-        const { getByTitle } = renderer();
-
-        // assert
-        expect(getByTitle(/view course/i)).toBeInTheDocument();
-      });
-    });
-
-    describe('share link', () => {
-      it.skip('should show the share button', () => {
-        // mock course data
-        useCourse.mockImplementation(() => ({
-          data: courseData,
+          data: { hits: [courseData] },
           isSuccess: true,
         }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: [],
-        }));
 
         // render the component
-        const { getByTitle } = renderer();
+        const { getByText } = renderer();
 
         // assert
-        expect(getByTitle(/share course/i)).toBeInTheDocument();
+        expect(getByText(/Go to Enrollment/i)).toBeInTheDocument();
       });
     });
-
     describe('with moreLikeThis data', () => {
       it('should show the moreLikeThis section', () => {
         // mock course data
@@ -147,7 +129,7 @@ describe('Course Page', () => {
         // assert
         expect(getByText(/test course/i)).toBeInTheDocument();
       });
-      it('should navigate to new course page when card is clicked', () => {
+      it('should navigate to new course page when card is clicked', () => { 
         // mock course data
         useCourse.mockImplementation(() => ({
           data: courseData,
@@ -178,7 +160,8 @@ describe('Course Page', () => {
         isSuccess: true,
       }));
       useMoreCoursesLikeThis.mockImplementation(() => ({
-        data: [],
+        data: { hits: [courseData] },
+        isSuccess: true,
       }));
 
       // render the component
