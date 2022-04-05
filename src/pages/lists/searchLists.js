@@ -31,7 +31,6 @@ export default function SearchLists() {
   const { mutate: subscribe } = useSubscribeToList(user?.token);
   const { mutate: unsubscribe } = useUnsubscribeFromList(user?.token);
 
-  console.log(interestLists);
 
   // search query
   const [search, setSearch] = useState('');
@@ -72,6 +71,7 @@ export default function SearchLists() {
 
       // chunk the list into pages of 10
       if (filteredLists.length > 0) {
+        setPage(0);
         return chunkArray(filteredLists, 10);
       }
 
@@ -107,16 +107,11 @@ export default function SearchLists() {
         <h1 className='pb-4 border-b mb-8 text-3xl font-semibold'>
           Search List Catalog
         </h1>
-        <SearchBar
-          onReset={handleReset}
-          parameters={{ keyword: search }}
-          onChange={handleChange}
-        />
-        <div className='pt-8 -mb-5'>
-          <Pagination
-            currentPage={page + 1}
-            totalPages={listToDisplay?.length}
-            handleSpecificPage={handleSpecificPage}
+        <div className='w-[44rem]'>
+          <SearchBar
+            onReset={handleReset}
+            parameters={{ keyword: search }}
+            onChange={handleChange}
           />
         </div>
         <div className='bg-gray-50 shadow border rounded-md mt-8 overflow-hidden mb-8'>
@@ -155,6 +150,15 @@ export default function SearchLists() {
                 );
               })}
           </div>
+        </div>
+        <div className='pt-8 -mb-5'>
+          {listToDisplay?.length > 1 && (
+            <Pagination
+              currentPage={page + 1}
+              totalPages={listToDisplay?.length}
+              handleSpecificPage={handleSpecificPage}
+            />
+          )}
         </div>
       </div>
     </DefaultLayout>

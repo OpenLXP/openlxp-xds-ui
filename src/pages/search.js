@@ -1,8 +1,8 @@
 import { Pagination } from '@/components/buttons/Pagination';
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { useConfig } from '@/hooks/useConfig';
 import { useCallback, useEffect, useState } from 'react';
+import { useConfig } from '@/hooks/useConfig';
 import { useRouter } from 'next/dist/client/router';
 import { useSearch } from '@/hooks/useSearch';
 import { useSearchUrl } from '@/hooks/useSearchUrl';
@@ -146,23 +146,25 @@ export default function Search({ query }) {
   return (
     <DefaultLayout>
       <div className='mt-10 pb-4'>
-        <div className='flex flex-col py-2 mb-4 w-8/12 sticky top-0 z-10 bg-gray-50'>
+        <span className='flex flex-col py-2 mb-4 max-w-min sticky top-0 z-10 bg-gray-50'>
           <div className='max-w-max self-end'>
             {user && <CreateSavedSearchModal path={router.asPath} />}
           </div>
-          <SearchBar
-            parameters={params}
-            onChange={handleChange}
-            onReset={handleReset}
-            onClick={handleSearch}
-          />
+          <div className='w-[44rem]'>
+            <SearchBar
+              parameters={params}
+              onChange={handleChange}
+              onReset={handleReset}
+              onClick={handleSearch}
+            />
+          </div>
           {data && !isLoading && (
             <div className='flex gap-2 pl-6 pt-2'>{data && createLists()}</div>
           )}
-        </div>
-        {data && (
+        </span>
+        {data?.total > 10 && (
           <span className={'text-gray-400 italic pt-12 font-sans px-px'}>
-            About {data.total} results
+            About {data.total} results.
           </span>
         )}
         <div className={'grid grid-cols-12 pt-2 gap-12 '}>
