@@ -28,8 +28,8 @@ export default function Home() {
       if (!fields.keyword || fields.keyword === '') return;
       const context = {
         actor: {
-          first_name: user?.user?.first_name,
-          last_name: user?.user?.last_name,
+          first_name: user?.user?.first_name || 'Anonymous',
+          last_name: user?.user?.last_name || 'User',
         },
         verb: {
           id: 'https://w3id.org/xapi/acrossx/verbs/searched',
