@@ -51,19 +51,6 @@ describe('User Menu', () => {
         asPath: '/lists/savedSearches',
       });
 
-<<<<<<< HEAD
-      expect(screen.getByText(/Search Courses/i)).toBeInTheDocument();
-      fireEvent.click(screen.getByText(/Search Courses/i));
-      expect(singletonRouter).toMatchObject({
-        asPath: '/',
-      });
-
-      expect(screen.getByText(/Search Lists/i)).toBeInTheDocument();
-      fireEvent.click(screen.getByText(/Search Lists/i));
-      expect(singletonRouter).toMatchObject({
-        asPath: '/lists/searchLists',
-      });
-=======
       // expect(screen.getByText(/Search Courses/i)).toBeInTheDocument();
       // fireEvent.click(screen.getByText(/Search Courses/i));
       // expect(singletonRouter).toMatchObject({
@@ -75,7 +62,6 @@ describe('User Menu', () => {
       // expect(singletonRouter).toMatchObject({
       //   asPath: '/lists/searchLists',
       // });
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
     });
 
     it('applies the correct styling', () => {

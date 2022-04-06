@@ -43,32 +43,6 @@ describe('Login Page', () => {
     // expect(screen.getByText(`Single Sign On`)).toBeInTheDocument();
   });
 
-  it('should render the sso button', () => {
-    useAuth.mockImplementation(() => ({
-      login: jest.fn(),
-      logout: jest.fn(),
-    }));
-    render(
-      <QueryClientWrapper>
-        <Login />
-      </QueryClientWrapper>
-    );
-    expect(screen.getByText(`Single Sign On`)).toBeInTheDocument();
-  });
-
-  it.skip('should render the forgot password button', () => {
-    useAuth.mockImplementation(() => ({
-      login: jest.fn(),
-      logout: jest.fn(),
-    }));
-    render(
-      <QueryClientWrapper>
-        <Login />
-      </QueryClientWrapper>
-    );
-    expect(screen.getByText(/Forgot Password/i)).toBeInTheDocument();
-  });
-
   describe('Actions', () => {
     beforeEach(() => {
       useAuth.mockImplementation(() => ({
@@ -84,15 +58,10 @@ describe('Login Page', () => {
 
     it('should change values on input: Email', () => {
       const input = screen.getByPlaceholderText('Email');
-<<<<<<< HEAD
 
-      fireEvent.change(input, { target: { value: 'email' } });
-=======
-      
       act(() => {
         fireEvent.change(input, { target: { value: 'email' } });
       });
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 
       expect(input.value).toBe('email');
     });

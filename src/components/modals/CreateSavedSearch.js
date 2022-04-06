@@ -20,29 +20,6 @@ export default function CreateSavedSearchModal({ path }) {
     updateKeyValuePair(event.target.name, event.target.value);
   };
 
-<<<<<<< HEAD
-    //xAPI Statement
-    const xAPISendStatement = (objectId) => {
-      if (user) {
-        const verb = {
-          id: "https://w3id.org/xapi/tla/verbs/prioritized",
-          display: "prioritized"
-        }
-        sendStatement(user.user, verb, objectId);
-      }
-    }
-
-  const createSavedSearch = () => {
-    // list must me named
-    if (fields.name && fields.name !== '') {
-      mutate({ name: fields.name, path: path }, { onSuccess: (data) => {
-        const domain = (new URL(window.location))
-        const objectId = `${domain.origin}/search?keyword=${data.name}&p=1`
-        xAPISendStatement(objectId)
-      }});
-      resetKey('name');
-    }
-=======
   const handleCreate = (event) => {
     event.preventDefault();
 
@@ -75,7 +52,6 @@ export default function CreateSavedSearchModal({ path }) {
 
     // reset the form
     resetKey('name');
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
   };
 
   return (

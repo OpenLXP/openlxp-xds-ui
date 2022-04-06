@@ -1,17 +1,9 @@
 import { useAuth } from '@/contexts/AuthContext';
-<<<<<<< HEAD
-=======
 import { useRouter } from 'next/router';
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 import Image from 'next/image';
 import Link from 'next/link';
 import UserMenu from '@/components/menus/UserMenu';
 import logo from '@/public/logo.png';
-<<<<<<< HEAD
-
-export default function Header({}) {
-  const { user } = useAuth();
-=======
 
 const menuItems = [
   {
@@ -44,7 +36,6 @@ function Button({ data }) {
       </Link>
     );
   }
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
   return (
     <Link href={data.path}>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
@@ -79,8 +70,6 @@ export default function Header() {
                 <Image src={logo} alt={'home'} height={'60'} width={'60'} />
               </a>
             </Link>
-<<<<<<< HEAD
-=======
             {menuItems.map((item) => {
               if (item.label != 'Search Lists') {
                 return <Button key={item.label} data={item} />;
@@ -89,8 +78,8 @@ export default function Header() {
                 return <Button key={item.label} data={item} />;
               }
             })}
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
           </div>
+
           {!user && (
             <div className={'space-x-4'}>
               <Link href={'/login'}>
