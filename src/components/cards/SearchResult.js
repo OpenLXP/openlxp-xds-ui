@@ -6,25 +6,6 @@ import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import SaveModal from '@/components/modals/SaveModal';
 import ViewBtn from '@/components/buttons/ViewBtn';
 
-const removeHtmlTags = (str) => {
-  if (str) {
-    return str.replace(/<[^>]*>?/gm, '');
-  }
-  return '';
-};
-
-const Description = ({ description }) => {
-  if (description) {
-    return (
-      <p className={'line-clamp-4'}>
-        {removeHtmlTags(description)}
-      </p>
-    );
-  }
-  return null;
-};
-
-
 export default function SearchResult({ result }) {
   const { user } = useAuth();
   const router = useRouter();
@@ -55,21 +36,6 @@ export default function SearchResult({ result }) {
   return (
     <div className='py-2 pr-2'>
       <div className='inline-flex gap-2 justify-between items-center w-full'>
-<<<<<<< HEAD
-        <Link href={'/course/' + id} passHref>
-          <h2
-            id='link-to-course'
-            className='text-lg font-semibold line-clamp-2 hover:underline hover:text-blue-400 cursor-pointer hover:text-shadow'
-            title={CourseTitle}
-          >
-            {CourseTitle}
-          </h2>
-        </Link>
-        <div className='inline-flex flex-shrink-0 gap-2'>
-          <ViewBtn id={id} />
-          {user && <SaveModal courseId={id} />}
-        </div>
-=======
         <button
           id='link-to-course'
           className='text-lg font-semibold line-clamp-2 hover:underline hover:text-blue-400 cursor-pointer hover:text-shadow'
@@ -86,19 +52,14 @@ export default function SearchResult({ result }) {
           />
           {user && <SaveModal courseId={result.meta.id} />}
         </span>
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
       </div>
       <h2 className={'font-normal font-sans'}>
         <span className={'font-semibold'}>Provider:&nbsp;</span>
         {result.Course.CourseProviderName}
       </h2>
-<<<<<<< HEAD
-      <Description description={CourseShortDescription} />
-=======
       <p className={'line-clamp-4'}>
         {removeHTML(result.Course.CourseShortDescription)}
       </p>
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
     </div>
   );
 }

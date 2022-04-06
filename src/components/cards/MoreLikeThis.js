@@ -2,28 +2,14 @@ import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '../../contexts/AuthContext';
 import { useConfig } from '../../hooks/useConfig';
 import { useMoreCoursesLikeThis } from '../../hooks/useMoreCoursesLikeThis';
-<<<<<<< HEAD
-import React, { useEffect } from 'react';
-import SaveModal from '../modals/SaveModal'
-=======
 import React from 'react';
 import SaveModal from '../modals/SaveModal';
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 import ViewBtn from '../buttons/ViewBtn';
 
 export default function MoreLikeThis({ course }) {
   const { data, isLoading } = useMoreCoursesLikeThis(course?.meta.id);
   const config = useConfig();
   const { user } = useAuth();
-<<<<<<< HEAD
-  const { state: view, show } = useTimeout(500);
-
-
-  useEffect(() => {
-    show();
-  }, []);
-=======
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 
   // if loading
   if (isLoading) {
@@ -106,9 +92,6 @@ export default function MoreLikeThis({ course }) {
         </div>
         <div className='flex justify-between mt-10'>
           <div className='flex gap-2'>
-<<<<<<< HEAD
-            <ViewBtn id={data.hits[0].meta.id} />
-=======
             <ViewBtn
               id={data.hits[0].meta.id}
               courseTitle={data.hits[0].Course.CourseTitle}
@@ -116,7 +99,6 @@ export default function MoreLikeThis({ course }) {
                 data.hits[0].Course.CourseShortDescription
               )}
             />
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
           </div>
           {user && <SaveModal courseId={data.hits[0].meta.id} />}
         </div>

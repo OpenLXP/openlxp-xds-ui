@@ -1,7 +1,4 @@
 import { Pagination } from '@/components/buttons/Pagination';
-<<<<<<< HEAD
-import { sendStatement } from '@/utils/xapi/xAPIWrapper';
-=======
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';
@@ -10,7 +7,6 @@ import { useRouter } from 'next/dist/client/router';
 import { useSearch } from '@/hooks/useSearch';
 import { useSearchUrl } from '@/hooks/useSearchUrl';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 import CreateSavedSearchModal from '@/components/modals/CreateSavedSearch';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import MoreLikeThis from '@/components/cards/MoreLikeThis';
@@ -26,18 +22,6 @@ export default function Search({ query }) {
   const { data, refetch, isError, isSuccess, isLoading } = useSearch(url);
   const { user } = useAuth();
 
-<<<<<<< HEAD
-  //xAPI Statement
-  const xAPISendStatement = (objectId) => {
-    if (user && isSuccess) {
-      const verb = {
-        id: "https://w3id.org/xapi/dod-isd/verbs/searched",
-        display: "searched"
-      }
-      sendStatement(user.user, verb, objectId);
-    }
-  }
-=======
   useEffect(() => {
     if (router?.query) {
       unstable_batchedUpdates(() => {
@@ -46,7 +30,6 @@ export default function Search({ query }) {
       });
     }
   }, [router]);
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 
   function handleChange(event) {
     setParams((previous) => ({
@@ -99,13 +82,6 @@ export default function Search({ query }) {
       const modified = { ...params };
       modified.p = 1;
 
-<<<<<<< HEAD
-      setParams(modified);
-      setUrl(modified);
-      const domain = (new URL(window.location));
-      const objectId = `${domain.origin}/search?keyword=${modified.keyword}&p=1`;
-      xAPISendStatement(objectId);
-=======
       unstable_batchedUpdates(() => {
         setParams(modified);
         setUrl(modified);
@@ -128,7 +104,6 @@ export default function Search({ query }) {
       };
 
       xAPISendStatement(context);
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 
       router.push({ pathname: '/search', query: modified });
     },

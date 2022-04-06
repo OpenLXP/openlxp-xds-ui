@@ -13,10 +13,6 @@ export default function SavedSearches() {
   const { mutate } = useDeleteSavedSearch(user?.token);
   const router = useRouter();
 
-<<<<<<< HEAD
-  // if a user is not logged in (syncronusly render the content)
-=======
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
   useEffect(() => {
     if (!user) router.push('/');
     if (isError && error?.response.status === 401) router.push('/401');
@@ -56,8 +52,9 @@ export default function SavedSearches() {
                 return (
                   <div
                     key={list.id}
-                    className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-                      } grid grid-cols-8 w-full p-2 items-center`}
+                    className={`${
+                      index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                    } grid grid-cols-8 w-full p-2 items-center`}
                   >
                     <h2 className='col-span-3 line-clamp-1'>{list.name}</h2>
                     <div className='col-span-4 line-clamp-1' title={list.query}>

@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-import {Dialog, Transition} from '@headlessui/react';
-import {Fragment, useState} from 'react';
-import {PlusCircleIcon} from '@heroicons/react/outline';
-import { sendStatement } from '@/utils/xapi/xAPIWrapper';
-import {useAuth} from '@/contexts/AuthContext';
-import {useCreateUserList} from '@/hooks/useCreateUserList';
-import {useUpdateUserList} from '@/hooks/useUpdateUserList';
-import {useUserOwnedLists} from '@/hooks/useUserOwnedLists';
-=======
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useState } from 'react';
 import { PlusCircleIcon } from '@heroicons/react/outline';
@@ -17,7 +7,6 @@ import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserOwnedLists } from '@/hooks/useUserOwnedLists';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 import InputField from '@/components/inputs/InputField';
 import useField from '@/hooks/useField';
 
@@ -49,22 +38,9 @@ export default function SaveModal({ courseId }) {
     description: '',
   });
 
-<<<<<<< HEAD
-    //xAPI Statement
-    const xAPISendStatement = (objectId) => {
-      if (user) {
-        const verb = {
-          id: "https://w3id.org/xapi/dod-isd/verbs/curated",
-          display: "curated" 
-        }
-        sendStatement(user.user, verb, objectId);
-      }
-    }
-=======
   const { fields: error, updateKeyValuePair: setError } = useField({
     message: '',
   });
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 
   // add a course to the selected list
   const addCourseToList = useCallback(
@@ -228,22 +204,9 @@ export default function SaveModal({ courseId }) {
 
                 <form
                   className='my-2 flex flex-col w-full'
-<<<<<<< HEAD
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    setFields({name: '', description: ''});
-                    create({form: fields}, { 
-                      onSuccess: (data) => {
-                        const domain = (new URL(window.location));
-                        const objectId = `${domain.origin}/lists/${data.id}`;
-                        xAPISendStatement(objectId);
-                      } });
-                  }}
-=======
 
                   onSubmit={handleSubmit}
 
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
                 >
                   <div>
                     <label htmlFor='name'>List Name</label>
@@ -262,11 +225,7 @@ export default function SaveModal({ courseId }) {
                     />
                   </div>
                   <div className='relative'>
-<<<<<<< HEAD
-                    <label>List Description</label>
-=======
                     <label htmlFor='description'>List Description</label>
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
                     <textarea
                       placeholder='List Description...'
                       name='description'

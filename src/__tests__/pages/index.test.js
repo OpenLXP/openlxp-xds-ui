@@ -3,11 +3,8 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import Home from '@/pages/index';
 import mockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
-<<<<<<< HEAD
-=======
 import { useAuth } from '@/contexts/AuthContext';
 import xAPIMapper from "@/utils/xapi/xAPIMapper";
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
 

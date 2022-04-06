@@ -1,27 +1,13 @@
 {
-<<<<<<< HEAD
-
   // "ignoreDuringBuilds": true,
-
-=======
-  // "ignoreDuringBuilds": true,
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
   "extends": [
     "next/core-web-vitals",
     "plugin:jsx-a11y/recommended"
   ],
-<<<<<<< HEAD
-
-=======
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
   "plugins": [
     "sort-imports-es6-autofix",
     "jsx-a11y"
   ],
-<<<<<<< HEAD
-
-=======
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
   "rules": {
     "react-hooks/exhaustive-deps": "off",
     "sort-imports-es6-autofix/sort-imports-es6": [

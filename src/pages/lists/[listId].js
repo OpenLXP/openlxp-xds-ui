@@ -1,18 +1,11 @@
-<<<<<<< HEAD
-=======
 import { sendStatement } from '@/utils/xapi/xAPIWrapper';
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 import { useAuth } from '@/contexts/AuthContext';
 import { useList } from '@/hooks/useList';
 import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Link from 'next/link';
-<<<<<<< HEAD
-import React, { useEffect } from 'react';
-=======
 import React, { useCallback, useEffect } from 'react';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 
 export default function ListsView() {
   const router = useRouter();

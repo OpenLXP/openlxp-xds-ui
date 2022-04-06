@@ -7,10 +7,7 @@ import {
   XCircleIcon,
   XIcon,
 } from '@heroicons/react/outline';
-<<<<<<< HEAD
-=======
 import { Switch } from '@headlessui/react';
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
@@ -52,11 +49,7 @@ export function Toggle({ enabled, onToggle }) {
 export default function EditList() {
   const { user } = useAuth();
   const router = useRouter();
-<<<<<<< HEAD
-  const list = useUserList(parseInt(router.query.listId));
-=======
   const list = useUserList(parseInt(router.query?.listId));
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 
   // handles the mutation
   const mutation = useUpdateUserList(user?.token);
@@ -184,7 +177,6 @@ export default function EditList() {
         <div className='flex justify-between items-center w-full mt-8'>
           <ActionButton
             onClick={() => {
-              console.log(router.query)
               mutation.mutate({
                 listData: prepareListDataToSend(currentListInfo),
                 id: parseInt(router.query.listId),

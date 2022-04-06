@@ -3,10 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import { useSubscribedLists } from '@/hooks/useSubscribedLists';
 import { useUnsubscribeFromList } from '@/hooks/useUnsubscribeFromList';
-<<<<<<< HEAD
-=======
 import ActionButton from '@/components/buttons/ActionButton';
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Link from 'next/link';
 import React, { useEffect } from 'react';

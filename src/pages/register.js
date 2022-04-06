@@ -121,22 +121,14 @@ export default function Register() {
   };
 
   const handleEnterKey = (event) => {
-<<<<<<< HEAD
-    if (event.key === 'Enter'){
-=======
     if (event.key === 'Enter') {
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
       registerUser();
     }
   };
 
   return (
     <DefaultLayout footerLocation='relative'>
-<<<<<<< HEAD
-      <div className={'pt-32 mb-16'}>
-=======
       <div className={'mt-10 pb-20'}>
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
         <div className='mt-10 mx-52 flex flex-col items-center justify-between'>
           <Image src={logo} alt={'home'} height={'200'} width={'200'} />
           <p className='mt-2 text-2xl font-extrabold'>Create your account</p>
@@ -152,35 +144,11 @@ export default function Register() {
             </Link>
           </span>
         </div>
-<<<<<<< HEAD
-        <div
-          className='w-1/2 p-8 mx-auto mt-10 bg-white flex flex-col items-center justify-between shadow-md rounded-md'>
-          <div className='space-y-4 mb-8 w-full' onKeyPress={(event) => handleEnterKey(event)}>  
-            <InputField
-              type={'text'}
-              placeholder={'Email'}
-              name={'email'}
-              onChange={(event) => setCredentials(event)}
-            />
-            <InputField
-              type={'password'}
-              placeholder={'Password'}
-              name={'password'}
-              onChange={(event) => setCredentials(event)}
-            />
-            <InputField
-              type={'password'}
-              placeholder={'Confirm Password'}
-              name={'confirmationPassword'}
-              onChange={(event) => setCredentials(event)}
-            />
-=======
         <div className='w-1/2 p-8 mx-auto mt-10 bg-white flex flex-col items-center justify-between shadow-md rounded-md'>
           <form
             className='space-y-4 mb-8 w-full flex-col flex '
             onSubmit={registerUser}
           >
->>>>>>> 2eec44bdb58fe8e42955ef22f25b5a308bdb9985
             <div className='flex gap-4'>
               <InputField
                 type='text'
