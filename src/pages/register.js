@@ -1,202 +1,375 @@
-import { UserAddIcon } from '@heroicons/react/outline';
-import { useRouter } from 'next/router';
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
-
-// components
-import ActionButton from '@/components/buttons/ActionButton';
-import DefaultLayout from '@/components/layouts/DefaultLayout';
-import InputField from '@/components/inputs/InputField';
-import logo from '@/public/logo.png';
-
-// contexts
-import { useAuth } from '@/contexts/AuthContext';
-
-// hooks
-import useField from '@/hooks/useField';
-
+import {
+  CheckCircleIcon,
+  LoginIcon,
+  RefreshIcon,
+  UserAddIcon,
+  XCircleIcon,
+} from '@heroicons/react/outline';
 import { authRegister } from '@/config/endpoints';
 import { axiosInstance } from '@/config/axiosConfig';
 import {
   containsLowercase,
+  containsNumber,
+  containsSpace,
   containsSpecialCharacter,
   containsUppercase,
   isLongEnough,
   isValidEmail,
 } from '@/utils/validation';
-
-// config
+import { unstable_batchedUpdates } from 'react-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import DefaultLayout from '@/components/layouts/DefaultLayout';
+import Image from 'next/image';
+import Link from 'next/link';
+import logo from '@/public/logo.png';
 
 export default function Register() {
   const router = useRouter();
-
-  const { fields: credentials, updateKeyValuePair: setCredential } = useField({
+  const { register, user } = useAuth();
+  const [credentials, setCredentials] = useState({
     email: '',
     password: '',
     confirmationPassword: '',
     first_name: '',
     last_name: '',
   });
+  const [emailError, setEmailError] = useState(true);
+  const [passwordError, setPasswordError] = useState(true);
+  const [confPasswordError, setConfPasswordError] = useState(true);
+  const [firstNameError, setFirstNameError] = useState(true);
+  const [lastNameError, setLastNameError] = useState(true);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const { fields: error, updateKeyValuePair: setError } = useField({
-    message: '',
-  });
+  const validateEmail = (email) => {
+    if (email === '') {
+      return unstable_batchedUpdates(() => {
+        setEmailError(true);
+        setError('Email is required');
+      });
+    }
 
-  const setCredentials = (event) => {
-    setCredential(event.target.name, event.target.value);
+    if (!isValidEmail(email)) {
+      return unstable_batchedUpdates(() => {
+        setEmailError(true);
+        setError('Email is invalid');
+      });
+    }
+
+    return unstable_batchedUpdates(() => {
+      setEmailError(false);
+      setError('');
+    });
+  };
+  const validatePassword = (password) => {
+    if (password === '') {
+      return unstable_batchedUpdates(() => {
+        setPasswordError(true);
+        setError('Password is required');
+      });
+    }
+
+    if (!isLongEnough(password, 8)) {
+      return unstable_batchedUpdates(() => {
+        setPasswordError(true);
+        setError('Password must be at least 8 characters');
+      });
+    }
+
+    if (!containsLowercase(password)) {
+      return unstable_batchedUpdates(() => {
+        setPasswordError(true);
+        setError('Password must contain at least one lowercase letter');
+      });
+    }
+
+    if (!containsUppercase(password)) {
+      return unstable_batchedUpdates(() => {
+        setPasswordError(true);
+        setError('Password must contain at least one uppercase letter');
+      });
+    }
+
+    if (!containsSpecialCharacter(password)) {
+      return unstable_batchedUpdates(() => {
+        setPasswordError(true);
+        setError('Password must contain at least one special character');
+      });
+    }
+
+    if (!containsNumber(password)) {
+      return unstable_batchedUpdates(() => {
+        setPasswordError(true);
+        setError('Password must contain at least one number');
+      });
+    }
+
+    if (containsSpace(password)) {
+      return unstable_batchedUpdates(() => {
+        setPasswordError(true);
+        setError('Password must not contain any spaces');
+      });
+    }
+
+    return unstable_batchedUpdates(() => {
+      setPasswordError(false);
+      setError('');
+    });
   };
 
-  const { register, logout } = useAuth();
-
-  // TODO: Should rename to validateRegistration
-  const registerUser = () => {
-    // verify email is not empty
-    if (credentials.email === '') {
-      setError('message', 'Email is required');
-    } else if (!isValidEmail(credentials.email)) {
-      setError('message', 'Email is invalid');
+  const validateConfPassword = (confPassword) => {
+    if (confPassword === '') {
+      return unstable_batchedUpdates(() => {
+        setConfPasswordError(true);
+        setError('Confirmation password is required');
+      });
     }
 
-    // verify password
-    else if (credentials.password === '') {
-      // not empty
-      setError('message', 'Password is required');
-    } else if (!isLongEnough(credentials.password, 8)) {
-      setError('message', 'Password must be at least 8 characters');
-    } else if (!containsLowercase(credentials.password)) {
-      setError(
-        'message',
-        'Password must contain at least one lowercase letter'
-      );
-    } else if (!containsUppercase(credentials.password)) {
-      setError(
-        'message',
-        'Password must contain at least one uppercase letter'
-      );
-    } else if (!containsSpecialCharacter(credentials.password)) {
-      setError(
-        'message',
-        'Password must contain at least one special character'
-      );
+    if (confPassword !== credentials.password) {
+      return unstable_batchedUpdates(() => {
+        setConfPasswordError(true);
+        setError('Passwords do not match');
+      });
     }
 
-    // verify password confirmation
-    else if (credentials.confirmationPassword === '') {
-      // not empty
-      setError('message', 'Password confirmation is required');
-    } else if (credentials.confirmationPassword !== credentials.password) {
-      setError('message', 'Password confirmation does not match password');
-    }
-
-    // verify first name
-    else if (credentials.first_name === '') {
-      setError('message', 'First name is required');
-    } else if (!isLongEnough(credentials.first_name, 2)) {
-      setError('message', 'First name must be at least 2 characters');
-    }
-
-    // verify last name
-    else if (credentials.last_name === '') {
-      setError('message', 'Last name is required');
-    } else if (!isLongEnough(credentials.last_name, 2)) {
-      setError('message', 'Last name must be at least 2 characters');
-    }
-
-    // if no errors, register
-    else {
-      axiosInstance
-        .post(authRegister, credentials)
-        .then((res) => {
-          register(res.data);
-          router.push('/');
-        })
-        .catch((error) => {
-          setError(
-            'message',
-            error.message || 'There was an error during registration'
-          );
-        });
-    }
+    return unstable_batchedUpdates(() => {
+      setConfPasswordError(false);
+      setError('');
+    });
   };
 
-  const handleEnterKey = (event) => {
-    if (event.key === 'Enter') {
-      registerUser();
+  const validateName = (name, updateFn, subject) => {
+    if (!isLongEnough(name, 2)) {
+      return unstable_batchedUpdates(() => {
+        updateFn(true);
+        setError(`${subject} must be at least 2 characters`);
+      });
     }
+
+    return unstable_batchedUpdates(() => {
+      updateFn(false);
+      setError('');
+    });
   };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (error) return console.log(error);
+    setLoading(true);
+
+    axiosInstance
+      .post(authRegister, {
+        email: credentials.email,
+        password: credentials.password,
+        first_name: credentials.first_name,
+        last_name: credentials.last_name,
+      })
+      .then((res) => {
+        router.push('/');
+        register(res.data);
+      })
+      .catch((err) => {
+        // setError(err.response);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleUpdateCredentials = (event) => {
+    setCredentials({
+      ...credentials,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const isError = () => {
+    return (
+      emailError ||
+      passwordError ||
+      confPasswordError ||
+      firstNameError ||
+      lastNameError
+    );
+  };
+
+  // updaters for each field
+  useEffect(() => {
+    validatePassword(credentials.password);
+  }, [credentials.password]);
+
+  useEffect(() => {
+    validateConfPassword(credentials.confirmationPassword);
+  }, [credentials.confirmationPassword]);
+
+  useEffect(() => {
+    validateEmail(credentials.email);
+  }, [credentials.email]);
+
+  useEffect(() => {
+    validateName(credentials.last_name, setLastNameError, 'Last name');
+  }, [credentials.last_name]);
+
+  useEffect(() => {
+    validateName(credentials.first_name, setFirstNameError, 'First name');
+  }, [credentials.first_name]);
+
+  useEffect(() => {
+    if (user) {
+      router.push('/');
+    }
+  }, []);
 
   return (
-    <DefaultLayout footerLocation='relative'>
-      <div className={'mt-10 pb-20'}>
-        <div className='mt-10 mx-52 flex flex-col items-center justify-between'>
-          <Image src={logo} alt={'home'} height={'200'} width={'200'} />
-          <p className='mt-2 text-2xl font-extrabold'>Create your account</p>
-          <span>
-            or &nbsp;
+    <DefaultLayout>
+      <>
+        <div className='text-center mt-10'>
+          <Image src={logo} alt='logo' width={100} height={100} />
+          <h1 className='font-bold text-xl'>Create your account</h1>
+          <p className='text-sm'>
+            or&nbsp;
             <Link href={'/login'} passHref>
-              <button
-                id={'login-button'}
-                className='text-blue-400 hover:underline hover:text-blue-500 cursor-pointer transition-all duration-150 ease-in-out'
-              >
+              <button className='text-blue-400 hover:text-blue-600 hover:text-shadow'>
                 Sign in to your account
               </button>
             </Link>
-          </span>
+          </p>
         </div>
-        <div className='w-1/2 p-8 mx-auto mt-10 bg-white flex flex-col items-center justify-between shadow-md rounded-md'>
-          <form
-            className='space-y-4 mb-8 w-full flex-col flex '
-            onSubmit={registerUser}
-          >
-            <div className='flex gap-4'>
-              <InputField
-                type='text'
-                required={true}
-                name='first_name'
-                placeholder='First Name'
-                onChange={(event) => setCredentials(event)}
-              />
-              <InputField
-                type='text'
-                required={true}
-                name='last_name'
-                onChange={(event) => setCredentials(event)}
-                placeholder='Last Name'
-              />
+        <form
+          onSubmit={handleSubmit}
+          className='mt-8 w-[34rem] mx-auto bg-white px-10 py-6 shadow-md rounded-md flex flex-col justify-center items-center'
+        >
+          <div className='w-full flex gap-4'>
+            <input
+              onChange={handleUpdateCredentials}
+              value={credentials.first_name}
+              type='text'
+              name='first_name'
+              placeholder='First Name'
+              className='w-1/2 rounded p-2 mt-4 shadow'
+              required
+            />
+            <input
+              onChange={handleUpdateCredentials}
+              value={credentials.last_name}
+              type='text'
+              name='last_name'
+              placeholder='Last Name'
+              className='w-1/2 rounded p-2 mt-4 shadow'
+              required
+            />
+          </div>
+          <input
+            onChange={handleUpdateCredentials}
+            value={credentials.email}
+            type='email'
+            name='email'
+            placeholder='Email'
+            className='w-full rounded p-2 mt-4 shadow'
+            required
+          />
+          <input
+            onChange={handleUpdateCredentials}
+            value={credentials.password}
+            type='password'
+            name='password'
+            placeholder='Password'
+            className='w-full rounded p-2 mt-4 shadow'
+            required
+          />
+          <input
+            onChange={handleUpdateCredentials}
+            value={credentials.confirmationPassword}
+            type='password'
+            name='confirmationPassword'
+            placeholder='Confirm Password'
+            className='w-full rounded p-2 mt-4 shadow'
+            required
+          />
+          <div className='text-gray-500 mt-2'>
+            <h4 className='text-center font-semibold'>
+              New Account Requirements
+            </h4>
+            <div className='text-xs'>
+              <p
+                className={`${
+                  firstNameError || lastNameError
+                    ? 'text-red-400'
+                    : 'text-green-600'
+                } flex`}
+              >
+                {firstNameError || lastNameError ? (
+                  <XCircleIcon className='inline-block h-4 w-4 mr-2' />
+                ) : (
+                  <CheckCircleIcon className='inline-block h-4 w-4 mr-2' />
+                )}
+                First & Last names must be at least 2 characters long
+              </p>
+              <p
+                className={`${
+                  emailError ? 'text-red-400' : 'text-green-600'
+                } flex`}
+              >
+                {emailError ? (
+                  <XCircleIcon className='inline-block h-4 w-4 mr-2' />
+                ) : (
+                  <CheckCircleIcon className='inline-block h-4 w-4 mr-2' />
+                )}
+                Email must be valid
+              </p>
+              <p
+                className={`${
+                  passwordError ? 'text-red-400' : 'text-green-600'
+                }`}
+              >
+                {passwordError ? (
+                  <XCircleIcon className='inline-block h-4 w-4 mr-2' />
+                ) : (
+                  <CheckCircleIcon className='inline-block h-4 w-4 mr-2' />
+                )}
+                Password must be at least 8 characters long and contain at least
+                one of each:
+              </p>
+              <ul
+                className={`pl-6 list-disc list-inside ${
+                  passwordError ? 'text-red-400' : 'text-green-600'
+                }`}
+              >
+                <li>Uppercase letter</li>
+                <li>Lowercase letter</li>
+                <li>Special character</li>
+                <li>Number</li>
+              </ul>
+              <p
+                className={`${
+                  confPasswordError ? 'text-red-400' : 'text-green-600'
+                }`}
+              >
+                {confPasswordError ? (
+                  <XCircleIcon className='inline-block h-4 w-4 mr-2' />
+                ) : (
+                  <CheckCircleIcon className='inline-block h-4 w-4 mr-2' />
+                )}
+                Confirmation: Passwords must match
+              </p>
             </div>
-            <InputField
-              required={true}
-              type={'text'}
-              placeholder={'Email'}
-              name={'email'}
-              onChange={(event) => setCredentials(event)}
-            />
-            <InputField
-              required={true}
-              type={'password'}
-              placeholder={'Password'}
-              name={'password'}
-              onChange={(event) => setCredentials(event)}
-            />
-            <InputField
-              required={true}
-              type={'password'}
-              placeholder={'Confirm Password'}
-              name={'confirmationPassword'}
-              onChange={(event) => setCredentials(event)}
-            />
-            <button
-              type='submit'
-              className='max-w-max self-center items-center inline-flex gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white px-4 py-2 transform transition-all duration-150 ease-in-out border-blue-400 border-2 outline-none focus:ring-2 ring-blue-400'
-            >
-              <UserAddIcon className='h-5 w-5' />
-              Create Account
-            </button>
-          </form>
-          <p className='text-red-600 mb-5'>{error.message}</p>
-        </div>
-      </div>
+          </div>
+          <p className='text-red-500 text-sm block h-2 mt-2'>{error}</p>
+          <button
+            disabled={isError()}
+            type='submit'
+            className='disabled:opacity-50 disabled:saturate-50 disabled:cursor-not-allowed mt-6 items-center inline-flex gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white px-4 py-2 transition-all duration-75 ease-in-out border-blue-400 border-2 outline-none focus:ring-2 ring-blue-400 max-w-max'
+          >
+            {loading && (
+              <RefreshIcon className='inline-block h-4 w-4 mr-2 animate-spin' />
+            )}
+            {!loading && <UserAddIcon className='inline-block h-4 w-4 mr-2' />}
+            Create Account
+          </button>
+        </form>
+      </>
     </DefaultLayout>
   );
 }
