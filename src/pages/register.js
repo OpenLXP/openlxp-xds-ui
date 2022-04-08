@@ -156,7 +156,6 @@ export default function Register() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (error) return console.log(error);
     setLoading(true);
 
     axiosInstance
@@ -356,7 +355,7 @@ export default function Register() {
               </p>
             </div>
           </div>
-          <p className='text-red-500 text-sm block h-2 mt-2'>{error}</p>
+          <p data-testid='error-message' className='text-red-500 text-sm block h-2 mt-2'>{error}</p>
           <button
             disabled={isError()}
             type='submit'
