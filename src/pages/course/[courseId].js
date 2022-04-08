@@ -16,108 +16,12 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import SaveModalCoursePage from '@/components/modals/SaveModalCoursePage';
 
-function CourseHeader({ title, description, courseCode, photo, url }) {
-  return (
-    <div className='flex w-full gap-8 max-w-7xl px-4 mx-auto mt-10'>
-      <div className='w-2/3'>
-        <h1 className='text-4xl font-semibold'>{title}</h1>
-        <div className='flex w-full gap-2 justify-between items-center my-2 font-medium'>
-          <div>
-            <span className='font-semibold'>Course Code:&nbsp;</span>{' '}
-            {courseCode}
-          </div>
-          <a href={url} rel='noopener noreferrer' target='_blank'>
-            <button className='inline-flex justify-center items-center gap-2 text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600 py-1 px-2 font-medium transform transition-all duration-150 ease-in-out focus:ring-2 ring-blue-400 outline-none'>
-              Go to Enrollment
-            </button>
-          </a>
-        </div>
-        <p className='text-sm p-0.5'>{description}</p>
-      </div>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={photo}
-        alt='Course'
-        className='w-1/3 aspect-video object-contain'
-      />
-    </div>
-  );
-}
-
-function DetailsDivider({ provider, instructor, delivery, id }) {
-  const { user } = useAuth();
-  return (
-    <div className='bg-stone-200 mt-4'>
-      <div className='flex max-w-7xl mx-auto p-4 justify-between'>
-        <div className='flex items-center min-w-max gap-8'>
-          <div className='flex justify-center items-center gap-2'>
-            <ArchiveIcon className='h-10' />
-            <span>
-              <div className='text-sm font-semibold'>Course Provider</div>
-              <div className='text-sm'>{provider}</div>
-            </span>
-          </div>
-          <div className='flex justify-center items-center gap-2'>
-            <UserIcon className='h-10' />
-            <span>
-              <div className='text-sm font-semibold'>Course Instructor</div>
-              <div className='text-sm'>{instructor}</div>
-            </span>
-          </div>
-          <div className='flex justify-center items-center gap-2'>
-            <AcademicCapIcon className='h-10' />
-            <span>
-              <div className='text-sm font-semibold'>Delivery Mode</div>
-              <div className='text-sm'>{delivery || 'Not Available'}</div>
-            </span>
-          </div>
-          {user && <SaveModalCoursePage courseId={id} />}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Dates({ start, end }) {
-  return (
-    <div className=' w-full gap-10 max-w-7xl px-4 my-4 mx-auto'>
-      <div>
-        <span className='font-semibold'>Start Date:&nbsp;</span> {start}
-      </div>
-      <div>
-        <span className='font-semibold'>End Date:&nbsp;</span> {end}
-      </div>
-    </div>
-  );
-}
-
-function AboutCourse({ details = [] }) {
-  return (
-    <div className='py-10 grid gap-4'>
-      {details.map((detail, index) => {
-        return (
-          <div
-            key={detail.title}
-            className='grid grid-cols-5 w-full max-w-7xl px-4 mt-5 mx-auto'
-          >
-            <h2 className='min-w-max col-span-1 font-semibold'>
-              {detail.title}
-            </h2>
-            <p className='col-span-4'>{detail.content}</p>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
 function RelatedCourses({ id }) {
   const moreLikeThis = useMoreCoursesLikeThis(id);
-
   if (moreLikeThis.data?.hits < 1) return null;
   return (
     <>
-      <div className='bg-stone-200 mt-10 font-bold block font-sans p-4 '>
+      <div className='bg-gray-200 mt-10 font-bold block font-sans p-4 '>
         <div className='w-full gap-10 max-w-7xl mx-auto'>Related Courses</div>
       </div>
 
@@ -134,30 +38,17 @@ function RelatedCourses({ id }) {
 
 export default function Course() {
   const router = useRouter();
+  const { user } = useAuth();
 
   // state of the fetching
   const course = useCourse(router.query?.courseId);
   const config = useConfig();
 
-  // generate the course dates randomly
-  // @SONAR_STOP@
-  const dates = useMemo(() => {
-    // get the start date (today or random day in the future)
-    const start = new Date();
-    start.setDate(start.getDate() + Math.floor(Math.random() * 30));
-
-    // get the end date (start date + random number of days between 20 and 400)
-    const end = new Date(start);
-    end.setDate(end.getDate() + Math.floor(Math.random() * 400) + 20);
-
-    return { start: start.toDateString(), end: end.toDateString() };
-  }, []);
-  
-  // @SONAR_START@
-
   // prepare the course data
-  const courseData = useMemo(() => {
+  const data = useMemo(() => {
     if (!course.isSuccess || !config.isSuccess) return null;
+
+    console.log(course.data?.Course_Instance.EndDate);
     return {
       title: removeHTML(
         getDeeplyNestedData(
@@ -165,6 +56,14 @@ export default function Course() {
           course.data
         )
       ),
+      date: {
+        start: course.data?.Course_Instance?.StartDate?.replace(' ', '').split(
+          'T'
+        )[0],
+        end: course.data?.Course_Instance.EndDate?.replace(' ', '').split(
+          'T'
+        )[0],
+      },
       description: removeHTML(
         getDeeplyNestedData(
           config.data?.course_information?.course_description,
@@ -189,37 +88,109 @@ export default function Course() {
         'Course.CourseSectionDeliveryMode',
         course.data
       ),
-      details: [
-        {
-          title: 'Course Audience',
-          content: removeHTML(course.data?.Course?.CourseAudience),
-        },
-        {
-          title: 'Course Prerequisites',
-          content: removeHTML(course.data?.Course?.CoursePrerequisites),
-        },
-      ],
+      details: config.data?.course_highlights?.map((highlight) => {
+        return {
+          title: highlight.display_name,
+          content: removeHTML(
+            getDeeplyNestedData(highlight.field_name, course.data)
+          ),
+        };
+      }),
     };
   }, [course.isSuccess, course.data, config.isSuccess, config.data]);
 
   return (
     <>
       <Header />
-      <CourseHeader
-        title={courseData?.title}
-        description={courseData?.description}
-        courseCode={courseData?.code}
-        photo={courseData?.photo}
-        url={courseData?.url}
-      />
-      <Dates start={dates.start} end={dates.end} />
-      <DetailsDivider
-        provider={courseData?.provider}
-        instructor={courseData?.instructor}
-        delivery={courseData?.delivery}
-        id={router.query?.courseId}
-      />
-      <AboutCourse details={courseData?.details} />
+      {/* content */}
+      <div className='flex max-w-7xl px-4 mx-auto gap-8 mt-10'>
+        <div className='w-2/3'>
+          <div className='flex justify-between items-center'>
+            <h1 className='font-semibold text-4xl'>{data?.title}</h1>
+            <a
+              className='min-w-max whitespace-nowrap p-2 text-center text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600  font-medium transform transition-all duration-150 ease-in-out focus:ring-2 ring-blue-400 outline-none'
+              href={data?.url}
+              rel='noopener noreferrer'
+              target='_blank'
+            >
+              Go to Enrollment
+            </a>
+          </div>
+          <p className='my-2'>
+            <strong>Course Code:&nbsp;</strong>
+            {data?.code}
+          </p>
+          <p>{data?.description}</p>
+        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={data?.photo}
+          alt='Course'
+          className='w-1/3 aspect-video object-contain'
+        />
+      </div>
+
+      {/* Dates */}
+      <div className='grid max-w-7xl px-4 mx-auto mt-10'>
+        <span>
+          <strong>Start Date:&nbsp;</strong>
+          {data?.date?.start}
+        </span>
+        <span>
+          <strong>End Date:&nbsp;</strong>
+          {data?.date?.end}
+        </span>
+      </div>
+
+      {/* Details divider */}
+      <div id='details-divider' className='bg-gray-200 mt-4 '>
+        <div className='flex max-w-7xl mx-auto p-4 justify-between'>
+          <div className='flex items-center min-w-max gap-8'>
+            <div className='flex justify-center items-center gap-2'>
+              <ArchiveIcon className='h-10' />
+              <span>
+                <div className='text-sm font-semibold'>Provider</div>
+                <div className='text-sm'>{data?.provider}</div>
+              </span>
+            </div>
+            <div className='flex justify-center items-center gap-2'>
+              <UserIcon className='h-10' />
+              <span>
+                <div className='text-sm font-semibold'>Instructor</div>
+                <div className='text-sm'>{data?.instructor}</div>
+              </span>
+            </div>
+            <div className='flex justify-center items-center gap-2'>
+              <AcademicCapIcon className='h-10' />
+              <span>
+                <div className='text-sm font-semibold'>Delivery Mode</div>
+                <div className='text-sm'>
+                  {data?.delivery || 'Not Available'}
+                </div>
+              </span>
+            </div>
+            {user && <SaveModalCoursePage courseId={router.query?.courseId} />}
+          </div>
+        </div>
+      </div>
+      {/* Extra Details */}
+      <div className='py-10 grid gap-4'>
+        {data?.details.map((detail, index) => {
+          return (
+            <div
+              key={detail.title}
+              className='grid grid-cols-5 w-full max-w-7xl px-4 mt-5 mx-auto'
+            >
+              <h2 className='min-w-max col-span-1 font-semibold'>
+                {detail.title}
+              </h2>
+              <p className='col-span-4'>{detail.content}</p>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Related courses */}
       <RelatedCourses id={router.query?.courseId} />
       <Footer />
     </>
