@@ -50,8 +50,9 @@ const MenuButton = ({ name, icon, href }) => {
         <button
           onClick={() => router.push(href)}
           id={name.toLowerCase().replace(/\s/g, '-')}
-          className={`${active ? 'bg-gray-100' : 'bg-white'
-            } p-1 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full flex justify-start gap-2 items-center`}
+          className={`${
+            active ? 'bg-gray-100' : 'bg-white'
+          } p-1 transition-colors duration-75 ease-in-out cursor-pointer rounded-md w-full flex justify-start gap-2 items-center`}
         >
           {icon}
           {name}
@@ -84,10 +85,13 @@ export default function UserMenu() {
               <UserIcon className='h-6 text-blue-500 text-shadow' />
             </div>
             <div className='line-clamp-1'>{first_name}</div>
-            
+
             <ChevronUpIcon
-              className={`${!open && 'rotate-180 shadow-inner-sm group-hover:bg-blue-500 '
-                } text-white h-5 rounded-md transition-all ease-in-out duration-75`}
+              className={`${
+                !open
+                  ? 'rotate-180  group-hover:bg-blue-500'
+                  : 'shadow-inner-sm'
+              } text-white h-5 rounded-md transition-all ease-in-out duration-75 `}
             />
             {/* <ChevronDownIcon className='h-4 w-4' /> */}
           </Menu.Button>
@@ -128,7 +132,9 @@ export default function UserMenu() {
                   {({ active }) => (
                     <button
                       onClick={logout}
-                      className={`flex justify-start items-center gap-2 hover:bg-gray-50 rounded-md p-1 transition-all duration-75 ease-in-out text-sm hover:shadow-inner-sm shadow-md border-gray-200 border hover:border-transparent ${active && 'ring-2 ring-blue-500 ring-offset-1'} hover:ring-transparent`}
+                      className={`flex justify-start items-center gap-2 hover:bg-gray-50 rounded-md p-1 transition-all duration-75 ease-in-out text-sm hover:shadow-inner-sm shadow-md border-gray-200 border hover:border-transparent ${
+                        active && 'ring-2 ring-blue-500 ring-offset-1'
+                      } hover:ring-transparent`}
                     >
                       <LogoutIcon className='h-4 w-4' />
                       Logout
