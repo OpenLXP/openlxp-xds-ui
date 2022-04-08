@@ -1,8 +1,8 @@
 import { Pagination } from '@/components/buttons/Pagination';
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { useConfig } from '@/hooks/useConfig';
 import { useCallback, useEffect, useState } from 'react';
+import { useConfig } from '@/hooks/useConfig';
 import { useRouter } from 'next/dist/client/router';
 import { useSearch } from '@/hooks/useSearch';
 import { useSearchUrl } from '@/hooks/useSearchUrl';
