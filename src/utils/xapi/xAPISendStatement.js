@@ -31,7 +31,6 @@ export function xAPISendStatement(context) {
   // if the object has an id, use it otherwise populate it with the window location
   if (!context.object?.id) context.object.id = windowLocation;
 
-  console.table(context);
   sendStatement(
     context.actor,
     context.verb,

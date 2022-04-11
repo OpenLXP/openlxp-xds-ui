@@ -1,5 +1,4 @@
 import {
-  CheckCircleIcon,
   EyeIcon,
   EyeOffIcon,
   RefreshIcon,
@@ -8,69 +7,56 @@ import {
   XIcon,
 } from '@heroicons/react/outline';
 import { Switch } from '@headlessui/react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserList } from '@/hooks/useUserList';
-import ActionButton from '@/components/buttons/ActionButton';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
-import React, { useMemo, useState } from 'react';
-import UserListResult from '@/components/cards/UserListEditResult';
 import prepareListDataToSend from '@/utils/prepListDataToSend';
 
-export function Toggle({ enabled, onToggle }) {
-  return (
-    <div className='flex gap-2 items-center'>
-      <label htmlFor='public toggle'>Set Visibility:</label>
-      <Switch
-        title={enabled ? 'Public' : 'Private'}
-        checked={enabled}
-        onChange={onToggle}
-        className={`${enabled ? 'bg-blue-400' : 'bg-gray-400'}
-          relative inline-flex flex-shrink-0 h-[28px] w-[48px] border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-      >
-        <span className='sr-only'>Use setting</span>
-        <span
-          aria-hidden='true'
-          className={`${enabled ? 'translate-x-[20px]' : 'translate-x-0'}
-            pointer-events-none inline-flex h-[24px] w-[24px] rounded-full bg-white shadow-lg transform ring-0 transition ease-in-out duration-200 justify-center items-center`}
-        >
-          {enabled ? (
-            <EyeIcon className='h-4 text-gray-700' />
-          ) : (
-            <EyeOffIcon className='h-4 text-gray-500' />
-          )}
-        </span>
-      </Switch>
-    </div>
-  );
+export async function getServerSideProps({ query }) {
+  return {
+    props: {
+      listId: query.listId,
+    },
+  };
 }
 
-export default function EditList() {
-  const { user } = useAuth();
+export default function EditList({ listId }) {
   const router = useRouter();
-  const list = useUserList(parseInt(router.query?.listId));
 
   // handles the mutation
-  const mutation = useUpdateUserList(user?.token);
+  const mutation = useUpdateUserList();
+  const initialList = useUserList(parseInt(listId));
 
   // single source of truth for editing
-  const [currentListInfo, setCurrentListInfo] = useState({});
+  const [currentListInfo, setCurrentListInfo] = useState({
+    name: '',
+    description: '',
+    public: false,
+    experiences: [],
+  });
 
   // when the state of the data updates
-  const memoData = useMemo(() => {
+  useEffect(() => {
     // if success populate the data
-    if (list.isSuccess) {
+    if (initialList.isSuccess) {
       setCurrentListInfo({
-        name: list?.data.name,
-        description: list?.data?.description,
-        experiences: list?.data?.experiences,
-        public: list?.data?.public,
+        name: initialList.data?.name,
+        description: initialList.data?.description,
+        experiences: initialList.data?.experiences,
+        public: initialList.data?.public,
       });
     }
-  }, [list.isSuccess]);
 
-  // toggle the public state of the list
+    // if error 401
+    if (initialList.isError && initialList.error.response.status === 401) {
+      router.push('/401');
+    }
+    if (initialList.isError && initialList.error.response.status === 403) {
+      router.push('/403');
+    }
+  }, [initialList.isFetching]);
 
   const handleChange = (event) => {
     setCurrentListInfo((prev) => ({
@@ -79,15 +65,19 @@ export default function EditList() {
     }));
   };
 
-  const handleTogglePublic = () => {
+  const visitCourse = (event, id) => {
+    event.preventDefault();
+    router.push(`/course/${id}`);
+  };
+
+  const toggleListVisibility = () => {
     setCurrentListInfo((prev) => ({
       ...prev,
       public: !prev.public,
     }));
   };
 
-  // filters through the available courses
-  const handleCourseRemoval = (id) => {
+  const removeCourse = (id) => {
     setCurrentListInfo((prev) => {
       return {
         ...prev,
@@ -98,108 +88,158 @@ export default function EditList() {
     });
   };
 
+  const resetData = (e) => {
+    e.preventDefault();
+    setCurrentListInfo(initialList.data);
+  };
+
+  const submitData = (e) => {
+    e.preventDefault();
+    mutation.mutate({
+      listData: prepareListDataToSend(currentListInfo),
+      id: parseInt(listId),
+    });
+  };
+
   return (
     <DefaultLayout>
-      <div className='mt-10 pb-20'>
-        <h1 className='font-sans font-semibold text-3xl pb-4 mb-8 border-b'>
-          {list?.data?.name}
-        </h1>
-        <Toggle
-          enabled={currentListInfo.public}
-          onToggle={handleTogglePublic}
-        />
-        <div className='text-sm text-gray-600 pt-1'>
+      <div className='flex justify-between items-center mt-10 '>
+        <h1 className='text-3xl font-semibold'>{initialList?.data?.name}</h1>
+        <button
+          className='items-center inline-flex gap-2 text-gray-500 rounded-md hover:shadow-md bg-gray-50 hover:bg-gray-400 hover:text-white px-4 py-2 border-gray-400 border-2 outline-none focus:ring-2 ring-gray-400'
+          onClick={() => {
+            router.push(`/lists/${listId}`);
+          }}
+        >
+          View public list
+        </button>
+      </div>
+
+      <form onSubmit={submitData} onReset={resetData} className='mt-10'>
+        {/* toggle switch */}
+        <div className='flex gap-2 items-center font-semibold text-lg'>
+          <label htmlFor='public toggle'>Set Visibility:</label>
+          <Switch
+            title='toggle'
+            checked={currentListInfo.public}
+            onChange={toggleListVisibility}
+            className={`${
+              currentListInfo.public ? 'bg-green-500' : 'bg-gray-400'
+            }
+          relative inline-flex flex-shrink-0 h-[28px] w-[48px] border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-offset-1 focus-visible:ring-blue-400 focus-visible:ring-opacity-75`}
+          >
+            <span className='sr-only'>Use setting</span>
+            <span
+              aria-hidden='true'
+              className={`${
+                currentListInfo.public ? 'translate-x-[20px]' : 'translate-x-0'
+              }
+            pointer-events-none inline-flex h-[24px] w-[24px] rounded-full bg-white shadow-lg transform ring-0 transition ease-in-out duration-200 justify-center items-center`}
+            >
+              {currentListInfo.public ? (
+                <EyeIcon className='h-4 text-gray-700' />
+              ) : (
+                <EyeOffIcon className='h-4 text-gray-500' />
+              )}
+            </span>
+          </Switch>
+        </div>
+
+        {/* info about the toggle */}
+        <p className='my-2'>
           {currentListInfo.public
             ? 'Public list, viewable by other users.'
-            : 'Private list, only you can see it.'}
-        </div>
-        <input
-          placeholder='List Name'
-          className='w-1/2 border outline-none rounded-md shadow focus:shadow-md p-2 my-4 focus:ring-4 ring-blue-400 transform transition-all duration-150'
-          name='name'
-          value={currentListInfo.name || ''}
-          onChange={handleChange}
-        />
-        <div className='relative mb-4 mt-2'>
-          <textarea
-            placeholder='List Description...'
-            name='description'
-            id='description'
-            rows={Math.max(
-              currentListInfo.description?.length / 72,
-              4
-            ).toString()}
-            value={currentListInfo.description || ''}
+            : 'Private List, only you can see it.'}
+        </p>
+
+        {/* Title & description input */}
+        <div className='grid grid-cols-2 gap-6 mt-10'>
+          <input
+            className='outline-none rounded shadow-sm p-2 text-xl border focus:shadow-md focus:shadow-blue-400  focus:ring-4 focus:ring-blue-400 focus:ring-offset-1'
+            type='text'
+            placeholder='List Name'
+            value={currentListInfo.name}
             onChange={handleChange}
-            className='w-full border outline-none rounded-md shadow focus:shadow-md p-2 focus:ring-4 ring-blue-400 transform transition-all duration-150'
+            name='name'
           />
-          <span
-            title='Character Count'
-            className={`absolute bottom-2 right-3 ${
-              currentListInfo.description?.length > 200
-                ? 'text-red-500'
-                : 'text-gray-500'
-            }`}
-          >
-            {currentListInfo.description?.length}/200
-          </span>
+          <textarea
+            className='col-span-2 outline-none rounded shadow-sm py-4 px-2 border focus:shadow-md focus:shadow-blue-400  focus:ring-4 focus:ring-blue-400 focus:ring-offset-1'
+            name='description'
+            placeholder='List Description'
+            onChange={handleChange}
+            value={currentListInfo.description}
+          />
         </div>
-        <div
-          id='course-list'
-          className='grid divide-y border rounded-md overflow-hidden shadow'
-        >
-          <div className='grid grid-cols-6 bg-gray-50 h-12 items-center px-2 font-sans font-semibold'>
-            <div className='col-span-3'>Course Title</div>
-            <div className='col-span-2'>Course Provider</div>
-          </div>
-          <div className='max-h-96 overflow-y-auto custom-scroll'>
-            {list.isSuccess &&
-              currentListInfo?.experiences?.map((course, index) => {
-                return (
-                  <div
-                    key={course.meta.id}
-                    className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}
+
+        {/* Course list display */}
+        <table className='w-full bg-white rounded-md overflow-hidden shadow mt-8'>
+          <thead className='border-b '>
+            <tr className=''>
+              <th className='text-left px-2 py-6 text-lg'>Title</th>
+              <th className='text-left px-2 py-6 text-lg'>Provider</th>
+              <th className='sr-only'>Remove</th>
+            </tr>
+          </thead>
+          <tbody className=''>
+            {currentListInfo.experiences.map((exp) => (
+              <tr
+                key={exp.meta.metadata_key_hash}
+                className='odd:bg-gray-100 even:bg-white'
+              >
+                <td className='p-2 overflow-hidden text-ellipsis'>
+                  <button
+                    className='hover:underline hover:text-blue-400
+                    cursor-pointer w-full h-full text-left '
+                    onClick={(e) => visitCourse(e, exp.meta.metadata_key_hash)}
                   >
-                    <UserListResult
-                      result={course}
-                      onRemove={handleCourseRemoval}
-                    />
-                  </div>
-                );
-              })}
-            {list.isSuccess && currentListInfo?.experiences?.length === 0 && (
-              <div className='text-center bg-white p-2'>
-                No courses added yet.
-              </div>
-            )}
+                    {exp.Course.CourseTitle}
+                  </button>
+                </td>
+                <td className='p-2'>{exp.Course.CourseProviderName}</td>
+                <td className='text-right p-2'>
+                  <button
+                    className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
+                    onClick={() => removeCourse(exp.meta.metadata_key_hash)}
+                  >
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {/* message for no courses */}
+        {currentListInfo.experiences.length < 0 && (
+          <div className='text-center font-medium border-b border-l border-r py-2 bg-white/90 rounded-b'>
+            No courses added yet.
           </div>
-        </div>
-        <div className='flex justify-between items-center w-full mt-8'>
-          <ActionButton
-            onClick={() => {
-              mutation.mutate({
-                listData: prepareListDataToSend(currentListInfo),
-                id: parseInt(router.query.listId),
-              });
-            }}
-          >
-            {mutation.isIdle && <UploadIcon className='h-5 w-5' />}
-            {mutation.isSuccess && <CheckCircleIcon className='h-5 w-5' />}
-            {mutation.isLoading && <RefreshIcon className='h-5 w-5' />}
-            {mutation.isError && <XCircleIcon className='h-5 w-5' />}
-            Apply Changes
-          </ActionButton>
+        )}
+
+        {/* Action buttons */}
+        <div className='mt-8 flex justify-between'>
           <button
-            onClick={() => {
-              setCurrentListInfo(list.data);
-            }}
-            className='items-center inline-flex gap-2 text-gray-500 rounded-md hover:shadow-md bg-gray-50 hover:bg-gray-400 hover:text-white px-4 py-2 transform transition-all duration-150 ease-in-out border-gray-400 border-2 outline-none focus:ring-2 ring-gray-400'
+            className='max-w-max items-center inline-flex gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white px-4 py-2 border-blue-400 border-2 outline-none focus:ring-2 ring-blue-400'
+            type='submit'
+          >
+            {(mutation.isIdle || mutation.isSuccess) && (
+              <UploadIcon className='h-5 w-5' />
+            )}
+            {mutation.isLoading && (
+              <RefreshIcon className='h-5 w-5 animate-spin' />
+            )}
+            {mutation.isError && <XCircleIcon className='h-5 w-5' />}
+            Save
+          </button>
+          <button
+            type='reset'
+            className='items-center inline-flex gap-2 text-gray-500 rounded-md hover:shadow-md bg-gray-50 hover:bg-gray-400 hover:text-white px-4 py-2 border-gray-400 border-2 outline-none focus:ring-2 ring-gray-400'
           >
             <XIcon className='h-5 w-5' />
             Cancel
           </button>
         </div>
-      </div>
+      </form>
     </DefaultLayout>
   );
 }
