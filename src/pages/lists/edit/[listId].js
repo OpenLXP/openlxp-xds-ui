@@ -103,8 +103,10 @@ export default function EditList({ listId }) {
 
   return (
     <DefaultLayout>
-      <div className='flex justify-between items-center mt-10 '>
-        <h1 className='text-3xl font-semibold'>{initialList?.data?.name}</h1>
+      <div className='flex justify-between items-center border-b'>
+        <h1 className='font-semibold text-3xl pb-4 mt-10 border-b font-sans'>
+          {initialList.data?.name}
+        </h1>
         <button
           className='items-center inline-flex gap-2 text-gray-500 rounded-md hover:shadow-md bg-gray-50 hover:bg-gray-400 hover:text-white px-4 py-2 border-gray-400 border-2 outline-none focus:ring-2 ring-gray-400'
           onClick={() => {
@@ -176,7 +178,9 @@ export default function EditList({ listId }) {
           <thead className='border-b '>
             <tr className=''>
               <th className='text-left px-2 py-6 text-lg'>Title</th>
-              <th className='text-left px-2 py-6 text-lg'>Provider</th>
+              <th className='text-left px-2 py-6 text-lg w-[13rem]'>
+                Provider
+              </th>
               <th className='sr-only'>Remove</th>
             </tr>
           </thead>
