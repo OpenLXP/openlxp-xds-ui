@@ -2,265 +2,214 @@
 
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
-import { fireEvent, render, act } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';
-import MockRouter from 'next-router-mock';
+import {
+  useAuthenticatedUser,
+  useUnauthenticatedUser,
+  useListMock,
+  useListMockWith401,
+  useListMockWith403,
+  useListMockWithNoExperiences,
+} from '@/__mocks__/predefinedMocks';
 import { useList } from '@/hooks/useList';
-import xAPIMapper from "@/utils/xapi/xAPIMapper";
-
-import List from '@/pages/lists/[listId]';
+import List, { getServerSideProps } from '@/pages/lists/[listId]';
+import MockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
+import xAPIMapper from '@/utils/xapi/xAPIMapper';
+import xAPISendStatement from '@/utils/xapi/xAPISendStatement';
 
-// mocking the useAuth hook
-jest.mock('@/contexts/AuthContext', () => ({
-  useAuth: jest.fn(),
-}));
+// // mocking the useAuth hook
+// jest.mock('@/contexts/AuthContext', () => ({
+//   useAuth: jest.fn(),
+// }));
 
-// mock useRouter
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
-// mocking the useList hook
-jest.mock('@/hooks/useList', () => ({
-  useList: jest.fn(),
-}));
+// // mock useRouter
+// jest.mock('next/dist/client/router', () => require('next-router-mock'));
 
-const useListMock = () => (
-  useList.mockImplementation(() => ({
-    data: {
-      id: '1',
-      name: 'test',
-      owner: {
-        id: '1',
-        username: '',
-        email: 'admin@example.com',
-      },
-      description: 'test description',
-      experiences: [
-        {
-          Course: {
-            CourseTitle: 'Test Title',
-            CourseProviderName: 'Course Provider Name',
-          },
-          meta: {
-            id: '1',
-            metadata_key_hash: '1',
-          },
-        },
-      ],
-    },
-    isSuccess: true,
-  }))
-)
+// // mocking the useList hook
+// jest.mock('@/hooks/useList', () => ({
+//   useList: jest.fn(),
+// }));
+
+// const useListMock = () =>
+//   useList.mockImplementation(() => ({
+//     data: {
+//       id: '1',
+//       name: 'Test List',
+//       owner: {
+//         id: '1',
+//         username: '',
+//         email: 'admin@example.com',
+//       },
+//       description: 'test description',
+//       experiences: [
+//         {
+//           Course: {
+//             CourseTitle: 'Test Title',
+//             CourseProviderName: 'Course Provider Name',
+//           },
+//           meta: {
+//             id: '1',
+//             metadata_key_hash: '1',
+//           },
+//         },
+//       ],
+//     },
+//     isSuccess: true,
+//     isError: false,
+//   }));
+
+// const useListMockWithNoExperiences = () =>
+//   useList.mockImplementation(() => ({
+//     data: {
+//       id: '1',
+//       name: 'Test List',
+//       owner: {
+//         id: '1',
+//         username: '',
+//         email: 'test@test.com',
+//       },
+//       description: 'test description',
+//       experiences: [],
+//     },
+//     isSuccess: true,
+//     isError: false,
+//   }));
+
+// const useListMockWith401 = () =>
+//   useList.mockImplementation(() => ({
+//     data: {},
+//     isSuccess: false,
+//     isError: true,
+//     error: {
+//       response: {
+//         status: 401,
+//       },
+//     },
+//   }));
+
+// const useListMockWith403 = () =>
+//   useList.mockImplementation(() => ({
+//     data: {},
+//     isSuccess: false,
+//     isError: true,
+//     error: {
+//       response: {
+//         status: 403,
+//       },
+//     },
+//   }));
+
+// const useAuthenticatedUser = () =>
+//   useAuth.mockReturnValue({
+//     user: {
+//       user: {
+//         id: '1',
+//         username: 'test',
+//         email: '',
+//       },
+//     },
+//   });
+
+// const useUnauthenticatedUser = () =>
+//   useAuth.mockReturnValue({
+//     user: null,
+//   });
 
 // render function that wraps the component with query client wrapper
 const renderer = (isAuth = true) => {
-  // defaults user to logged in
-  if (!isAuth) {
-    useAuth.mockReturnValue({
-      user: null,
-    });
-  } else {
-    useAuth.mockReturnValue({
-      user: {
-        user: {
-          id: '1',
-          username: 'test',
-          email: '',
-        },
-      },
-    });
-  }
   MockRouter.setCurrentUrl('/lists/1');
 
   // returns the wrapped render object
   return render(
     <MemoryRouterProvider>
       <QueryClientWrapper>
-        <List />
+        <List listId={1} />
       </QueryClientWrapper>
     </MemoryRouterProvider>
   );
 };
-// test for the component
-describe('[listId].js', () => {
-  // test for the component
-  it('renders the component', () => {
-    // render the component
-    useList.mockImplementation(() => ({
-      data: {
-        id: '1',
-        name: 'test',
-        owner: {
-          id: '1',
-          username: 'test',
-          email: '',
-        },
-        updated: '',
-        description: 'test description',
-        experiences: [],
-      },
-      isSuccess: true,
-    }));
-    const { container } = renderer();
-    // assert that the component is rendered
-    expect(container).toBeTruthy();
+
+describe('List page', () => {
+  test('should render', () => {
+    useListMock();
+    useAuthenticatedUser();
+    const { getByText } = renderer();
+    expect(getByText('Test List')).toBeInTheDocument();
   });
 
-  describe('when the user is not logged in', () => {
-    // test for the component
-    it('should navigate the user away from the page.', () => {
-      // render the component
-      useList.mockImplementation(() => ({
-        data: {
-          id: '1',
-          name: 'test',
-          owner: {
-            id: '1',
-            username: 'test',
-            email: '',
-          },
-          updated: '',
-          description: 'test description',
-          experiences: [],
-        },
-        isSuccess: true,
-      }));
-      const { container } = renderer(false);
-      // should navigate the user away from the page
-      expect(singletonRouter).toMatchObject({
-        asPath: '/',
-      });
-    });
+  test('should not render edit button when unauthenticated', () => {
+    useListMock();
+    useUnauthenticatedUser();
+    const { queryByText } = renderer();
+    expect(queryByText('Edit list')).not.toBeInTheDocument();
   });
 
-  describe('when the user is logged in', () => {
-    // test for the component
-    it('should render the title, owner, updated, and description.', () => {
-      // mock the useLists
-      useList.mockImplementation(() => ({
-        data: {
-          id: '1',
-          name: 'test',
-          owner: {
-            id: '1',
-            username: '',
-            email: 'admin@example.com',
-          },
-          updated: '',
-          description: 'test description',
-          experiences: [],
-        },
-        isSuccess: true,
-      }));
+  test('should render edit button when authenticated', () => {
+    useListMock();
+    useAuthenticatedUser();
+    const { getByText } = renderer();
+    expect(getByText('Edit list')).toBeInTheDocument();
+  });
 
-      // render the component
-      const { getByText } = renderer();
-      // assert that the title, owner, updated, and description are rendered
-      expect(getByText('test')).toBeInTheDocument();
-    });
-    it('should render the list of courses.', () => {
-      useListMock();
+  test('should navigate a user to the specific course', () => {
+    useListMock();
+    useAuthenticatedUser();
+    const { getByText } = renderer();
+    const course = getByText('Test Title');
+    fireEvent.click(course);
+    expect(singletonRouter).toMatchObject({ asPath: '/course/1' });
+  });
 
-      // render the component
-      const { getByText } = renderer();
-      // assert that the list of courses are rendered
-      expect(getByText('Test Title')).toBeInTheDocument();
-      expect(getByText('Course Provider Name')).toBeInTheDocument();
-      expect(getByText('View')).toBeInTheDocument();
-    });
+  test('should navigate a user to the edit page', () => {
+    useListMock();
+    useAuthenticatedUser();
+    const { getByText } = renderer();
+    const editButton = getByText('Edit list');
+    fireEvent.click(editButton);
+    expect(singletonRouter).toMatchObject({ asPath: '/lists/edit/1' });
+  });
 
-    it('should render a message when no courses are in the list', () => {
-      useList.mockImplementation(() => ({
-        data: {
-          id: '1',
-          name: 'test',
-          owner: {
-            id: '1',
-            username: '',
-            email: 'admin@example.com',
-          },
-          description: 'test description',
-          experiences: [],
-        },
-        isSuccess: true,
-      }));
+  test('should navigate user to 401 page', () => {
+    useListMockWith401();
+    useAuthenticatedUser();
+    renderer();
 
-      // render the component
-      const { getByText } = renderer();
+    expect(singletonRouter).toMatchObject({ asPath: '/401' });
+  });
 
-      // assert that the message is rendered
-      expect(getByText('No courses in this list')).toBeInTheDocument();
-    });
-    describe('actions', () => {
-      it('should navigate user away from page when view is clicked', () => {
-        useListMock();
+  test('should navigate user to 403 page', () => {
+    useListMockWith403();
+    useAuthenticatedUser();
+    renderer();
 
-        // render the component
-        const { getByText } = renderer();
-        // click the view button
-        fireEvent.click(getByText('View'));
-        // should navigate the user away from the page
-        expect(singletonRouter).toMatchObject({
-          asPath: '/course/1',
-        });
-      });
+    expect(singletonRouter).toMatchObject({ asPath: '/403' });
+  });
 
-      it('should send xAPI statement when view course is clicked.', () => {
-        
-        useListMock();
-        // render the component
-        const { getByText } = renderer();
-        // click the view button
+  test('should show "No courses added yet." message', () => {
+    useListMockWithNoExperiences();
+    useAuthenticatedUser();
 
-        const spy = jest.spyOn(xAPIMapper, 'sendStatement')
-          .mockImplementation(() => Promise.resolve({})
-          );
+    const { getByText } = renderer();
+    expect(getByText(/No courses added yet./i)).toBeInTheDocument();
+  });
 
-        act(() => {
-          fireEvent.click(getByText('View'));
-        });
+  test.skip('should send a statement to the LRS', async () => {
+    const spy = jest.spyOn(xAPISendStatement, '');
+    useListMock();
+    useAuthenticatedUser();
+    const { getByText } = renderer();
+    const course = getByText('Test Title');
+    fireEvent.click(course);
+    expect(spy.mock.calls[0][0]).toHaveBeenCalled();
+  });
+});
 
-        expect(spy).toHaveBeenCalled();
-      });
-    });
-
-    describe('error', () => {
-      it('should navigate to the 403 error page', () => {
-        useList.mockImplementation(() => ({
-          data: [
-          ],
-          isSuccess: false,
-          isError: true,
-          error: {
-            response: {
-              status: 403,
-            }
-          },
-        }));
-
-        const { getByText } = renderer();
-        expect(singletonRouter).toMatchObject({
-          asPath: '/403',
-        });
-      });
-
-      it('should navigate to the 403 error page', () => {
-        useList.mockImplementation(() => ({
-          data: [
-          ],
-          isSuccess: false,
-          isError: true,
-          error: {
-            response: {
-              status: 403,
-            }
-          },
-        }));
-
-        const { getByText } = renderer();
-        expect(singletonRouter).toMatchObject({
-          asPath: '/403',
-        });
-      });
-    });
+describe('List page server side', () => {
+  test('context', () => {
+    const context = { query: { listId: '1' } };
+    const data = getServerSideProps(context);
+    expect(data).toEqual({ props: { listId: '1' } });
   });
 });

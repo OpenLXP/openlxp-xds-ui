@@ -59,9 +59,9 @@ export default function ListsView({ listId }) {
     <DefaultLayout>
       <div className='flex justify-between items-center border-b'>
         <h1 className='font-semibold text-3xl pb-4 mt-10 border-b font-sans'>
-          {list.data?.name}
+          {list?.data?.name}
         </h1>
-        {user?.user?.id === list.data?.owner?.id && (
+        {user?.user?.id === list?.data?.owner?.id && (
           <button
             className='items-center inline-flex gap-2 text-gray-500 rounded-md hover:shadow-md bg-gray-50 hover:bg-gray-400 hover:text-white px-4 py-2 border-gray-400 border-2 outline-none focus:ring-2 ring-gray-400'
             onClick={() => {
@@ -75,16 +75,16 @@ export default function ListsView({ listId }) {
       <div className='flex justify-between font-sans text-lg mt-10'>
         <span>
           <span className='font-semibold'>Owner:&nbsp;</span>
-          {list.data?.owner?.email}
+          {list?.data?.owner?.email}
         </span>
         <span>
           <span className='font-semibold'>Updated:&nbsp;</span>
-          {new Date(list.data?.modified).toLocaleDateString()}
+          {new Date(list?.data?.modified).toLocaleDateString()}
         </span>
       </div>
       <h2 className='border-b text-lg mt-10 font-semibold'>Description</h2>
       <p className='mt-2 min-h-[8rem] bg-white rounded p-2'>
-        {list.data?.description}
+        {list?.data?.description}
       </p>
       <h2 className='border-b text-lg mt-10 font-semibold'>Included Courses</h2>
       <table className='w-full bg-white rounded-md overflow-hidden shadow mt-8'>
@@ -95,32 +95,32 @@ export default function ListsView({ listId }) {
           </tr>
         </thead>
         <tbody>
-          {list.data?.experiences.map((exp) => (
-            <tr
-              key={exp.meta.metadata_key_hash}
-              className='odd:bg-gray-100 even:bg-white'
-            >
-              <td className='p-2 overflow-hidden text-ellipsis'>
-                <button
-                  className='hover:underline hover:text-blue-400
+          {list.isSuccess &&
+            list?.data?.experiences.map((exp) => (
+              <tr
+                key={exp.meta.metadata_key_hash}
+                className='odd:bg-gray-100 even:bg-white'
+              >
+                <td className='p-2 overflow-hidden text-ellipsis'>
+                  <button
+                    className='hover:underline hover:text-blue-400
                     cursor-pointer w-full h-full text-left py-2'
-                  onClick={(e) => visitCourse(exp)}
-                >
-                  {exp.Course.CourseTitle}
-                </button>
-              </td>
-              <td className='p-2'>{exp.Course.CourseProviderName}</td>
-            </tr>
-          ))}
+                    onClick={(e) => visitCourse(exp)}
+                  >
+                    {exp.Course.CourseTitle}
+                  </button>
+                </td>
+                <td className='p-2'>{exp.Course.CourseProviderName}</td>
+              </tr>
+            ))}
         </tbody>
       </table>
       {/* When there are no courses */}
-      {list.data?.experiences.length === 0 && (
+      {list.isSuccess && list?.data?.experiences.length === 0 && (
         <div className='text-center font-medium py-2 bg-white/90 rounded-b'>
           No courses added yet.
         </div>
       )}
     </DefaultLayout>
-
   );
 }
