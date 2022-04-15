@@ -5,6 +5,9 @@ import mockAxios from 'jest-mock-axios';
 import { useSearch } from '@/hooks/useSearch';
 import searchData from '@/__mocks__/data/search.data';
 
+
+jest.unmock('@/hooks/useSearch');
+
 const queryClient = new QueryClient();
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

@@ -1,6 +1,8 @@
 const { renderHook, act } = require('@testing-library/react-hooks');
 import { useSearchUrl } from '../../hooks/useSearchUrl';
 
+jest.unmock('@/hooks/useSearchUrl');
+
 describe('useUrl', () => {
   it('creates query string from an object', () => {
     const { result } = renderHook(() => useSearchUrl({ test: 'value' }));

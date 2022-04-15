@@ -5,6 +5,8 @@ import { useSaveSearchList } from '@/hooks/useSaveSearch';
 
 import mockAxios from 'jest-mock-axios';
 
+jest.unmock('@/hooks/useSaveSearch');
+
 const wrapper = ({ children }) => (
   <QueryClientWrapper>{children}</QueryClientWrapper>
 );

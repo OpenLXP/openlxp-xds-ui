@@ -4,6 +4,8 @@ import { useUserList } from '@/hooks/useUserList';
 
 import mockAxios from 'jest-mock-axios';
 
+jest.unmock('@/hooks/useUserList');
+
 const wrapper = ({ children }) => (
   <QueryClientWrapper>{children}</QueryClientWrapper>
 );
