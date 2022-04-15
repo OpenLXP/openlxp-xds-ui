@@ -180,6 +180,8 @@ export const useAuthenticatedUser = () =>
         email: 'test@test.com',
       },
     },
+    login: jest.fn(),
+    logout: jest.fn(),
   }));
 
 /**
@@ -188,9 +190,13 @@ export const useAuthenticatedUser = () =>
  *
  */
 
+export const logoutFn = jest.fn();
+export const loginFn = jest.fn();
 export const useUnauthenticatedUser = () =>
   useAuth.mockReturnValue({
     user: null,
+    login: jest.fn(),
+    logout: jest.fn(),
   });
 
 export function useMockInterestLists() {

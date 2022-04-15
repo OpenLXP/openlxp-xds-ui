@@ -2,17 +2,12 @@ import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';
 import MockAxios from 'jest-mock-axios';
-import React from 'react';
+import React, { useContext } from 'react';
 import Register from '@/pages/register';
 import mockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
 import { axiosInstance } from '@/config/axiosConfig';
-
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
-
-jest.mock('../../contexts/AuthContext', () => ({
-  useAuth: jest.fn(),
-}));
+import { useMockConfig } from '@/__mocks__/predefinedMocks';
 
 const mockRegister = jest.fn();
 const logout = jest.fn();
@@ -29,6 +24,10 @@ const renderer = () => {
     </QueryClientWrapper>
   );
 };
+
+beforeEach(() => {
+  useMockConfig();
+});
 
 afterEach(() => {
   MockAxios.reset();

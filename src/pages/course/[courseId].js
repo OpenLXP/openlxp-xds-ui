@@ -18,7 +18,7 @@ import SaveModalCoursePage from '@/components/modals/SaveModalCoursePage';
 
 function RelatedCourses({ id }) {
   const moreLikeThis = useMoreCoursesLikeThis(id);
-  if (moreLikeThis.data?.hits < 1) return null;
+  if (moreLikeThis?.data?.hits < 1) return null;
   return (
     <>
       <div className='bg-gray-200 mt-10 font-bold block font-sans p-4 '>
@@ -27,9 +27,9 @@ function RelatedCourses({ id }) {
 
       <div className='flex justify-center w-full overflow-x-hidden my-10 max-w-7xl mx-auto'>
         <div className='inline-flex overflow-x-auto gap-2 py-4 custom-scroll '>
-          {moreLikeThis.data?.hits.map((course, index) => {
-            return <CourseSpotlight course={course} key={index} />;
-          })}
+          {moreLikeThis.data?.hits?.map((course, index) => (
+            <CourseSpotlight course={course} key={index} />
+          ))}
         </div>
       </div>
     </>
@@ -48,7 +48,6 @@ export default function Course() {
   const data = useMemo(() => {
     if (!course.isSuccess || !config.isSuccess) return null;
 
-    console.log(course.data?.Course_Instance.EndDate);
     return {
       title: removeHTML(
         getDeeplyNestedData(
@@ -60,7 +59,7 @@ export default function Course() {
         start: course.data?.Course_Instance?.StartDate?.replace(' ', '').split(
           'T'
         )[0],
-        end: course.data?.Course_Instance.EndDate?.replace(' ', '').split(
+        end: course.data?.Course_Instance?.EndDate?.replace(' ', '').split(
           'T'
         )[0],
       },
@@ -106,7 +105,9 @@ export default function Course() {
       <div className='flex max-w-7xl px-4 mx-auto gap-8 mt-10'>
         <div className='w-2/3'>
           <div className='flex justify-between items-center'>
-            <h1 className='font-semibold text-4xl'>{data?.title}</h1>
+            <h1 className='font-semibold text-4xl'>
+              {data?.title || 'Not Available'}
+            </h1>
             <a
               className='min-w-max whitespace-nowrap p-2 text-center text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600  font-medium transform transition-all duration-150 ease-in-out focus:ring-2 ring-blue-400 outline-none'
               href={data?.url}
@@ -118,9 +119,9 @@ export default function Course() {
           </div>
           <p className='my-2'>
             <strong>Course Code:&nbsp;</strong>
-            {data?.code}
+            {data?.code || 'Not Available'}
           </p>
-          <p>{data?.description}</p>
+          <p>{data?.description || 'Not Available'}</p>
         </div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -134,11 +135,11 @@ export default function Course() {
       <div className='grid max-w-7xl px-4 mx-auto mt-10'>
         <span>
           <strong>Start Date:&nbsp;</strong>
-          {data?.date?.start}
+          {data?.date?.start || 'Not Available'}
         </span>
         <span>
           <strong>End Date:&nbsp;</strong>
-          {data?.date?.end}
+          {data?.date?.end || 'Not Available'}
         </span>
       </div>
 
@@ -150,14 +151,18 @@ export default function Course() {
               <ArchiveIcon className='h-10' />
               <span>
                 <div className='text-sm font-semibold'>Provider</div>
-                <div className='text-sm'>{data?.provider}</div>
+                <div className='text-sm'>
+                  {data?.provider || 'Not Available'}
+                </div>
               </span>
             </div>
             <div className='flex justify-center items-center gap-2'>
               <UserIcon className='h-10' />
               <span>
                 <div className='text-sm font-semibold'>Instructor</div>
-                <div className='text-sm'>{data?.instructor}</div>
+                <div className='text-sm'>
+                  {data?.instructor || 'Not Available'}
+                </div>
               </span>
             </div>
             <div className='flex justify-center items-center gap-2'>
@@ -178,13 +183,13 @@ export default function Course() {
         {data?.details.map((detail, index) => {
           return (
             <div
-              key={detail.title}
+              key={detail.title + index}
               className='grid grid-cols-5 w-full max-w-7xl px-4 mt-5 mx-auto'
             >
               <h2 className='min-w-max col-span-1 font-semibold'>
                 {detail.title}
               </h2>
-              <p className='col-span-4'>{detail.content}</p>
+              <p className='col-span-4'>{detail.content || 'Not Available'}</p>
             </div>
           );
         })}

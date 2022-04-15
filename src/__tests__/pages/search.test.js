@@ -1,57 +1,42 @@
 import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider/MemoryRouterProvider-11.1';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render } from '@testing-library/react';
-import { useAuth } from '@/contexts/AuthContext';
-import { useConfig } from '@/hooks/useConfig';
-import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
-import { useSearch } from '@/hooks/useSearch';
-import { useSearchUrl } from '@/hooks/useSearchUrl';
+import {
+  useAuthenticatedUser,
+  useMockConfig,
+  useMockCreateSaveSearch,
+  useMockCreateUserList,
+  useMockMoreLikeThis,
+  useMockMoreLikeThisWithoutData,
+  useMockSearch,
+  useMockSearchUrl,
+  useMockSearchWithMultipleResults,
+  useMockSearchWithoutData,
+  useMockUpdateUserList,
+  useMockUserOwnedLists,
+  useUnauthenticatedUser,
+} from '@/__mocks__/predefinedMocks';
+import MockRouter from 'next-router-mock';
 import Search from '@/pages/search';
-import aggregationsData from '@/__mocks__/data/aggregations.data';
-import courseData from '@/__mocks__/data/course.data';
 import singletonRouter from 'next/router';
-import uiConfigData from '@/__mocks__/data/uiConfig.data';
-import xAPIMapper from '@/utils/xapi/xAPIMapper';
-
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
-
-jest.mock('@/hooks/useSearchUrl', () => ({
-  useSearchUrl: jest.fn(),
-}));
-jest.mock('../../hooks/useConfig', () => ({
-  useConfig: jest.fn(),
-}));
-jest.mock('../../hooks/useSearch', () => ({
-  useSearch: jest.fn(),
-}));
-jest.mock('../../hooks/useMoreCoursesLikeThis', () => ({
-  useMoreCoursesLikeThis: jest.fn(),
-}));
-jest.mock('../../contexts/AuthContext', () => ({
-  useAuth: jest.fn(),
-}));
 
 // mocking the jest fn
 console.log = jest.fn();
 
-const renderer = (isAuth) => {
-  isAuth
-    ? useAuth.mockImplementation(() => ({
-        user: { user: { token: 'token' } },
-      }))
-    : useAuth.mockImplementation(() => ({
-        user: null,
-      }));
+beforeEach(() => {
+  useMockConfig();
+  useMockSearchUrl();
+  useMockCreateSaveSearch();
+  useMockUserOwnedLists();
+  useMockUpdateUserList();
+  useMockCreateUserList();
+});
 
-  useSearchUrl.mockImplementation(() => ({
-    url: 'fake url',
-    setUrl: jest.fn(),
-  }));
+afterEach(() => {
+  jest.clearAllMocks();
+});
 
-  useConfig.mockImplementation(() => ({
-    data: uiConfigData,
-  }));
-
+const renderer = () => {
   return render(
     <MemoryRouterProvider>
       <QueryClientWrapper>
@@ -67,576 +52,271 @@ const renderer = (isAuth) => {
 };
 
 describe('Search Page', () => {
-  describe('without user', () => {
-    describe('save this search', () => {
-      it('should not show save this search button', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] },
-        }));
-        const { queryByText } = renderer(false);
-        expect(queryByText(/save this search/i)).not.toBeInTheDocument();
-      });
+  it('should render the page', () => {
+    useMockSearch();
+    useUnauthenticatedUser();
+    useMockMoreLikeThis();
+    const { getByPlaceholderText } = renderer();
+
+    expect(getByPlaceholderText('Search the catalog')).toBeInTheDocument();
+  });
+
+  it('should render the results', () => {
+    useMockSearch();
+    useUnauthenticatedUser();
+    useMockMoreLikeThis();
+    const { getByText } = renderer();
+
+    expect(getByText('About 1 results.')).toBeInTheDocument();
+
+    expect(getByText('Test Title')).toBeInTheDocument();
+    expect(getByText('More Like This Title')).toBeInTheDocument();
+  });
+
+  it('should not render the save button when the user is not authenticated', () => {
+    useMockSearch();
+    useUnauthenticatedUser();
+    useMockMoreLikeThis();
+    const { queryByText } = renderer();
+
+    expect(queryByText('Save')).not.toBeInTheDocument();
+  });
+
+  it('should render the save button when the user is authenticated', () => {
+    useAuthenticatedUser();
+    useMockSearch();
+    useMockUserOwnedLists();
+    useMockMoreLikeThisWithoutData();
+    const { getByText } = renderer();
+
+    expect(getByText('Save')).toBeInTheDocument();
+  });
+
+  it('should not render the "Save this search" button when the user is not authenticated', () => {
+    useMockSearch();
+    useUnauthenticatedUser();
+    useMockMoreLikeThis();
+    const { queryByText } = renderer();
+
+    expect(queryByText('Save this search')).not.toBeInTheDocument();
+  });
+
+  it('should render the "Save this search" button when the user is logged in', () => {
+    useAuthenticatedUser();
+    useMockSearch();
+    useMockUserOwnedLists();
+    useMockMoreLikeThisWithoutData();
+    const { getByText } = renderer();
+
+    expect(getByText('Save this search')).toBeInTheDocument();
+  });
+
+  it('should navigate to the course page when a course is clicked', () => {
+    useMockSearch();
+    useUnauthenticatedUser();
+    useMockMoreLikeThis();
+    const { getByText } = renderer();
+
+    act(() => {
+      fireEvent.click(getByText('Test Title'));
     });
 
-    describe('search bar', () => {
-      it('should show initial value', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] },
-        }));
-
-        const { getByPlaceholderText } = renderer(false);
-        expect(getByPlaceholderText(/search the catalog/i).value).toBe('');
-      });
-      it('should change value on change', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] },
-        }));
-
-        const { getByPlaceholderText } = renderer(false);
-
-        const input = getByPlaceholderText(/search the catalog/i);
-
-        act(() => {
-          fireEvent.change(input, { target: { value: 'updated' } });
-        });
-
-        expect(input.value).toBe('updated');
-      });
-      it('should reset value when reset is clicked', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] },
-        }));
-
-        const { getByPlaceholderText, getByTitle } = renderer(false);
-
-        const input = getByPlaceholderText(/search the catalog/i);
-        const resetBtn = getByTitle(/reset/i);
-        act(() => {
-          fireEvent.click(resetBtn);
-        });
-
-        expect(input.value).toBe('');
-      });
-      it('should change url on search', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] },
-        }));
-
-        const { getByPlaceholderText, getByTitle } = renderer(false);
-
-        const input = getByPlaceholderText(/search the catalog/i);
-        const searchBtn = getByTitle(/search/i);
-
-        act(() => {
-          fireEvent.change(input, { target: { value: 'updated' } });
-        });
-
-        act(() => {
-          fireEvent.click(searchBtn);
-        });
-
-        expect(singletonRouter).toMatchObject({
-          asPath: '/search?keyword=updated&p=1',
-        });
-      });
-    });
-
-    describe('select filters', () => {
-      it('should show default value', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-            aggregations: aggregationsData,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] },
-        }));
-
-        const { getByText } = renderer(false);
-
-        expect(getByText(/course type/i)).toBeInTheDocument();
-        expect(getByText(/provider/i)).toBeInTheDocument();
-      });
-      it('should show options when clicked', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-            aggregations: aggregationsData,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] },
-        }));
-
-        const { getByText } = renderer(false);
-
-        act(() => {
-          fireEvent.click(getByText(/course type/i));
-        });
-
-        expect(getByText(/test bucket 1/i)).toBeInTheDocument();
-      });
-      it('should show selected value when selected and clear', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-            aggregations: aggregationsData,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] },
-        }));
-
-        const { getByText, queryByText, getAllByText } = renderer(false);
-
-        act(() => {
-          fireEvent.click(getByText(/course type/i));
-        });
-
-        act(() => {
-          fireEvent.click(getByText(/test bucket 1/i));
-        });
-        expect(queryByText(/course type/i)).not.toBeInTheDocument();
-        act(() => {
-          fireEvent.click(getAllByText(/clear/i)[0]);
-        });
-        expect(queryByText(/course type/i)).toBeInTheDocument();
-        expect(singletonRouter).toMatchObject({
-          asPath: '/search?keyword=updated&p=1',
-        });
-      });
-    });
-
-    describe('search result', () => {
-      it('should show the number of results', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-            aggregations: [],
-            total: 1,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] },
-        }));
-
-        const { getByText } = renderer(false);
-
-        expect(getByText(/about 1 result/i)).toBeInTheDocument();
-      });
-      it('should show the result title', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [courseData],
-            aggregations: [],
-            total: 1,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] },
-        }));
-
-        const { getByText } = renderer(false);
-
-        expect(getByText(/test course title/i)).toBeInTheDocument();
-      });
-
-      it('should show the result description', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [courseData],
-            aggregations: [],
-            total: 1,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] },
-        }));
-
-        const { getByText } = renderer(false);
-
-        expect(getByText(/short description/i)).toBeInTheDocument();
-      });
-
-      it('should show the result provider', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [courseData],
-            aggregations: [],
-            total: 1,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] },
-        }));
-
-        const { getByText } = renderer(false);
-
-        expect(getByText(/provider name/i)).toBeInTheDocument();
-      });
-
-      it('should show the view button', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [courseData],
-            aggregations: [],
-            total: 1,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] },
-        }));
-
-        const { getByTitle } = renderer(false);
-
-        expect(getByTitle(/view course/i)).toBeInTheDocument();
-        expect(getByTitle(/view course/i).id).not.toBeUndefined();
-      });
-
-      it('should not show the save button', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [courseData],
-            aggregations: [],
-            total: 1,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] },
-        }));
-
-        const { queryByTitle } = renderer(false);
-
-        expect(queryByTitle(/save course/i)).not.toBeInTheDocument();
-      });
-    });
-
-    describe('pagination', () => {
-      it('should show the next button if more pages are available', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [courseData],
-            aggregations: [],
-            total: 100,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] },
-        }));
-
-        const { getByText } = renderer(false);
-        expect(getByText(/next/i)).toBeInTheDocument();
-      });
-      it('should not show the next button if there are no more pages', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [courseData],
-            aggregations: [],
-            total: 1,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] },
-        }));
-
-        const { queryByText } = renderer(false);
-        expect(
-          queryByText(/next/i).className.includes('invisible')
-        ).toBeTruthy();
-      });
-      it('should show the previous button if more pages are available', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [courseData],
-            aggregations: [],
-            total: 100,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] },
-        }));
-
-        const { getByText } = renderer(false);
-
-        act(() => {
-          fireEvent.click(getByText(/next/i));
-        });
-
-        expect(getByText(/previous/i)).toBeInTheDocument();
-      });
-      it('should not show the Previous button if there are no more pages.', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [courseData],
-            aggregations: [],
-            total: 100,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [] },
-        }));
-
-        const { queryByText } = renderer(false);
-
-        expect(
-          queryByText(/previous/i).className.includes('block')
-        ).toBeTruthy();
-      });
-    });
-
-    describe('more like this', () => {
-      it('should show title of a related course', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-            aggregations: [],
-            total: 100,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: {
-            hits: [courseData],
-          },
-        }));
-
-        const { getByText } = renderer(false);
-
-        expect(getByText(/test course title/i)).toBeInTheDocument();
-      });
-      it('should show description of a related course', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-            aggregations: [],
-            total: 100,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: {
-            hits: [courseData],
-          },
-        }));
-
-        const { getByText } = renderer(false);
-
-        expect(getByText(/short description/i)).toBeInTheDocument();
-      });
-      it('should show the details of a related course', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-            aggregations: [],
-            total: 100,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: {
-            hits: [courseData],
-          },
-        }));
-
-        const { getByText } = renderer(false);
-
-        expect(getByText(/1234/i)).toBeInTheDocument();
-        expect(getByText(/provider name/i)).toBeInTheDocument();
-        expect(getByText(/course type 1/i)).toBeInTheDocument();
-      });
-      it('should show the view button', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-            aggregations: [],
-            total: 100,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: {
-            hits: [courseData],
-          },
-        }));
-
-        const { getByTitle } = renderer(false);
-
-        expect(getByTitle(/view course/i)).toBeInTheDocument();
-      });
-      it('should not show the save button', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-            aggregations: [],
-            total: 100,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: {
-            hits: [courseData],
-          },
-        }));
-
-        const { queryByText } = renderer(false);
-
-        expect(queryByText(/save course/i)).not.toBeInTheDocument();
-      });
+    expect(singletonRouter).toMatchObject({
+      asPath: '/course/1',
     });
   });
 
-  describe('with user', () => {
-    describe('save this search', () => {
-      it('should show save this search button', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-            aggregations: [],
-            total: 100,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: {
-            hits: [],
-          },
-        }));
+  it('should render the "Save this search" button if the user is logged in', () => {
+    useAuthenticatedUser();
+    useMockSearch();
+    useMockUserOwnedLists();
+    useMockMoreLikeThisWithoutData();
+    const { getByText } = renderer();
 
-        const { getByText } = renderer(true);
+    expect(getByText('Save this search')).toBeInTheDocument();
+  });
 
-        expect(getByText(/save this search/i)).toBeInTheDocument();
-      });
-      it('should show modal for saving search', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-            aggregations: [],
-            total: 100,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: {
-            hits: [],
-          },
-        }));
+  it('should not render the "Save this search" button if the user is not logged in', () => {
+    useMockSearch();
+    useUnauthenticatedUser();
+    useMockMoreLikeThis();
+    useMockUserOwnedLists();
+    const { queryByText } = renderer();
 
-        const { getByText, getByRole } = renderer(true);
+    expect(queryByText('Save this search')).not.toBeInTheDocument();
+  });
 
-        act(() => {
-          const button = getByText(/save this search/i);
-          fireEvent.click(button);
-        });
+  it('should change value of the search input when the user types', () => {
+    useMockSearch();
+    useUnauthenticatedUser();
+    useMockMoreLikeThis();
+    useMockUserOwnedLists();
+    const { getByPlaceholderText } = renderer();
 
-        expect(getByText('Save')).toBeInTheDocument();
+    act(() => {
+      fireEvent.change(getByPlaceholderText('Search the catalog'), {
+        target: { value: 'test' },
       });
     });
 
-    describe('search results', () => {
-      it('should show save button', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [courseData],
-            aggregations: [],
-            total: 100,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: {
-            hits: [],
-          },
-        }));
+    expect(getByPlaceholderText('Search the catalog')).toHaveValue('test');
+  });
 
-        const { getByTitle } = renderer(true);
+  it('should render the initial value of the search input when the user first visits', () => {
+    MockRouter.setCurrentUrl('/search?keyword=initial');
+    useMockSearch();
+    useUnauthenticatedUser();
+    useMockMoreLikeThis();
+    useMockUserOwnedLists();
+    const { getByPlaceholderText } = renderer();
 
-        expect(getByTitle(/save course/i)).toBeInTheDocument();
-      });
+    expect(getByPlaceholderText('Search the catalog')).toHaveValue('initial');
+  });
+
+  it('should change the value on the search input when the user navigates to the search page', () => {
+    MockRouter.setCurrentUrl('/search?keyword=initial');
+    useMockSearchWithoutData();
+    useUnauthenticatedUser();
+    useMockMoreLikeThis();
+    useMockUserOwnedLists();
+
+    const { getByPlaceholderText, getByTitle } = renderer(false);
+
+    const input = getByPlaceholderText(/search the catalog/i);
+    const searchBtn = getByTitle(/search/i);
+
+    act(() => {
+      fireEvent.change(input, { target: { value: 'updated' } });
     });
-    describe('more like this', () => {
-      it('should show save button', () => {
-        useSearch.mockImplementation(() => ({
-          data: {
-            hits: [],
-            aggregations: [],
-            total: 100,
-          },
-          refetch: jest.fn(),
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: {
-            hits: [courseData],
-          },
-        }));
 
-        const { getByTitle } = renderer(true);
+    act(() => {
+      fireEvent.click(searchBtn);
+    });
 
-        expect(getByTitle(/save course/i)).toBeInTheDocument();
-      });
-      it.todo('should show save modal when clicked');
+    expect(singletonRouter).toMatchObject({
+      asPath: '/search?keyword=updated&p=1',
     });
   });
-  describe('xAPI', () => {
-    it('should send xAPI Statement', () => {
-      const spy = jest
-        .spyOn(xAPIMapper, 'sendStatement')
-        .mockImplementation(() => Promise.resolve({}));
 
-      const { getByRole, getByTitle } = renderer(true);
-      act(() => {
-        fireEvent.change(getByRole('textbox'), {
-          target: { value: 'data' },
-        });
-      });
-      act(() => {
-        fireEvent.click(getByTitle(/search/i));
-      });
+  it('should reset the form when "reset" is clicked', () => {
+    MockRouter.setCurrentUrl('/search?keyword=');
+    useMockSearch();
+    useUnauthenticatedUser();
+    useMockMoreLikeThis();
+    useMockUserOwnedLists();
+    const { getByTitle, getByPlaceholderText } = renderer();
+    const input = getByPlaceholderText('Search the catalog');
+    act(() => {
+      fireEvent.click(getByTitle('reset'));
+    });
 
-      expect(spy).toHaveBeenCalled();
+    expect(input.value).toBe('');
+  });
+
+  it('should render filters when there are aggregations', () => {
+    useMockSearch();
+    useUnauthenticatedUser();
+    useMockMoreLikeThisWithoutData();
+    useMockUserOwnedLists();
+    const { getByRole } = renderer();
+
+    expect(getByRole('button', { name: /course type/i })).toBeInTheDocument();
+  });
+
+  it('should show options for filters when clicked', () => {
+    useMockSearch();
+    useUnauthenticatedUser();
+    useMockMoreLikeThisWithoutData();
+    useMockUserOwnedLists();
+    const { getByText, queryByRole } = renderer();
+
+    act(() => {
+      fireEvent.click(queryByRole('button', { name: /course type/i }));
+    });
+
+    expect(getByText(/test bucket 1/i)).toBeInTheDocument();
+    expect(getByText(/test bucket 2/i)).toBeInTheDocument();
+  });
+
+  it('should clear filter selection when clicked', () => {
+    MockRouter.setCurrentUrl('/search?keyword=initial');
+
+    useMockSearch();
+    useUnauthenticatedUser();
+    useMockMoreLikeThisWithoutData();
+    useMockUserOwnedLists();
+    const { getByText, queryByRole } = renderer();
+
+    act(() => {
+      fireEvent.click(queryByRole('button', { name: /course type/i }));
+    });
+    act(() => {
+      fireEvent.click(getByText(/test bucket 1/i));
+    });
+    expect(singletonRouter).toMatchObject({
+      asPath: '/search?keyword=initial&Course.CourseType=test%20bucket%201&p=1',
+    });
+    act(() => {
+      fireEvent.click(queryByRole('button', { name: /clear/i }));
+    });
+    expect(singletonRouter).toMatchObject({
+      asPath: '/search?keyword=initial&p=1',
+    });
+  });
+
+  it('should show the current page', () => {
+    useMockSearch();
+    useUnauthenticatedUser();
+    useMockMoreLikeThisWithoutData();
+    useMockUserOwnedLists();
+    const { getByRole } = renderer();
+
+    expect(getByRole('button', { name: /1/i })).toBeInTheDocument();
+  });
+
+  it('should show the next button when there are more pages', () => {
+    useMockSearchWithMultipleResults();
+    useUnauthenticatedUser();
+    useMockMoreLikeThisWithoutData();
+    useMockUserOwnedLists();
+    const { getByRole, getByTitle } = renderer();
+
+    expect(getByRole('button', { name: /next/i })).toBeEnabled();
+    expect(getByTitle(/last/i)).toBeInTheDocument();
+
+    expect(getByRole('button', { name: /previous/i })).toBeDisabled();
+    expect(getByTitle(/first/i)).toBeDisabled();
+  });
+
+  it('should show previous when there are more pages', () => {
+    MockRouter.setCurrentUrl('/search?keyword=initial&p=2');
+    useUnauthenticatedUser();
+    useMockSearchWithMultipleResults();
+    useMockMoreLikeThisWithoutData();
+    useMockUserOwnedLists();
+
+    const { getByRole, getByTitle } = renderer();
+
+    expect(getByRole('button', { name: /next/i })).toBeDisabled();
+    expect(getByTitle(/last/i)).toBeDisabled();
+    expect(getByRole('button', { name: /previous/i })).toBeEnabled();
+    expect(getByTitle(/first/i)).toBeEnabled();
+  });
+
+  it('should navigate user to next page when next is clicked', () => {
+    MockRouter.setCurrentUrl('/search?keyword=initial&p=1');
+    useUnauthenticatedUser();
+    useMockSearchWithMultipleResults();
+    useMockMoreLikeThisWithoutData();
+    useMockUserOwnedLists();
+    const { getByRole } = renderer();
+
+    act(() => {
+      fireEvent.click(getByRole('button', { name: /next/i }));
+    });
+
+    expect(singletonRouter).toMatchObject({
+      asPath: '/search?keyword=initial&p=2',
     });
   });
 });

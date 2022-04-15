@@ -43,6 +43,10 @@ export default function Register() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (user) router.push('/');
+  }, []);
+
   const validateEmail = (email) => {
     if (email === '') {
       return unstable_batchedUpdates(() => {

@@ -3,7 +3,7 @@ import { useList } from '@/hooks/useList';
 import { useRouter } from 'next/router';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
-import React, { useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 export function getServerSideProps(context) {
   const { listId } = context.query;
@@ -24,36 +24,36 @@ export default function ListsView({ listId }) {
 
   // verify a user is logged in otherwise redirect to home page
   useEffect(() => {
+    // if the user is not logged in, redirect to the home page
     if (!user) router.push('/');
-    if (list.isError && list.error.response.status === 401) router.push('/401');
-    if (list.isError && list.error.response.status === 403) router.push('/403');
-  }, [user, list.isError, listId]);
+    if (list.isError && list.error.response.status === 401)
+      return router.push('/401');
+    if (list.isError && list.error.response.status === 403)
+      return router.push('/403');
+  }, []);
 
-  const visitCourse = useCallback(
-    (course) => {
-      if (!user) return;
-      const context = {
-        actor: {
-          first_name: user?.user?.first_name,
-          last_name: user?.user?.last_name,
-        },
-        verb: {
-          id: 'https://w3id.org/xapi/acrossx/verbs/explored',
-          display: 'explored',
-        },
-        object: {
-          id: `${window.origin}/course/${course.meta.metadata_key_hash}`,
-          definitionName: course.Course.CourseTitle,
-          description: course.Course.CourseShortDescription,
-        },
-        resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-        resultExtValue: course.meta.metadata_key_hash,
-      };
-      xAPISendStatement(context);
-      router.push(`/course/${course.meta.metadata_key_hash}`);
-    },
-    [user]
-  );
+  const visitCourse = useCallback((course) => {
+    if (!user) return;
+    const context = {
+      actor: {
+        first_name: user?.user?.first_name,
+        last_name: user?.user?.last_name,
+      },
+      verb: {
+        id: 'https://w3id.org/xapi/acrossx/verbs/explored',
+        display: 'explored',
+      },
+      object: {
+        id: `${window.origin}/course/${course.meta.metadata_key_hash}`,
+        definitionName: course.Course.CourseTitle,
+        description: course.Course.CourseShortDescription,
+      },
+      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
+      resultExtValue: course.meta.metadata_key_hash,
+    };
+    xAPISendStatement(context);
+    router.push(`/course/${course.meta.metadata_key_hash}`);
+  }, []);
 
   return (
     <DefaultLayout>

@@ -13,8 +13,9 @@ import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserList } from '@/hooks/useUserList';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import prepareListDataToSend from '@/utils/prepListDataToSend';
+import { useAuth } from '@/contexts/AuthContext';
 
-export async function getServerSideProps({ query }) {
+export function getServerSideProps({ query }) {
   return {
     props: {
       listId: query.listId,
@@ -24,6 +25,7 @@ export async function getServerSideProps({ query }) {
 
 export default function EditList({ listId }) {
   const router = useRouter();
+  const { user } = useAuth();
 
   // handles the mutation
   const mutation = useUpdateUserList();
@@ -49,14 +51,12 @@ export default function EditList({ listId }) {
       });
     }
 
-    // if error 401
-    if (initialList.isError && initialList.error.response.status === 401) {
+    if (!user) router.push('/');
+    if (initialList.isError && initialList.error.response.status === 401)
       router.push('/401');
-    }
-    if (initialList.isError && initialList.error.response.status === 403) {
+    if (initialList.isError && initialList.error.response.status === 403)
       router.push('/403');
-    }
-  }, [initialList.isFetching]);
+  }, []);
 
   const handleChange = (event) => {
     setCurrentListInfo((prev) => ({

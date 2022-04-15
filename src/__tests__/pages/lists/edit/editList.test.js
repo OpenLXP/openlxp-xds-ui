@@ -1,149 +1,149 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider/MemoryRouterProvider-11.1';
+import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import { useUpdateUserList } from '@/hooks/useUpdateUserList';
-import { useUserList } from '@/hooks/useUserList';
-import EditList from '@/pages/lists/edit/[listId]';
+import {
+  updateListMockFn,
+  useAuthenticatedUser,
+  useMockConfig,
+  useMockUpdateUserList,
+  useMockUserList,
+  useMockUserListWith401,
+  useMockUserListWith403,
+  useUnauthenticatedUser,
+} from '@/__mocks__/predefinedMocks';
+import EditList, { getServerSideProps } from '@/pages/lists/edit/[listId]';
+import MockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
 
-// mocking router
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
-
-// mocking user lists
-jest.mock('@/hooks/useUserList', () => ({
-  useUserList: jest.fn(),
-}));
-
-// mocking mutation
-jest.mock('@/hooks/useUpdateUserList', () => ({
-  useUpdateUserList: jest.fn(),
-}));
-
-const queryClient = new QueryClient();
-const renderer = (component) => {
+beforeEach(() => {
+  useMockConfig();
+});
+const renderer = () => {
+  MockRouter.setCurrentUrl('/lists/edit/1');
   return render(
-    <QueryClientProvider client={queryClient}>{component}</QueryClientProvider>
+    <MemoryRouterProvider>
+      <QueryClientWrapper>
+        <EditList listId={1} />
+      </QueryClientWrapper>
+    </MemoryRouterProvider>
   );
 };
 
-useUpdateUserList.mockImplementation(() => ({
-  mutate: jest.fn(),
-}));
-
-useUserList.mockImplementation(() => ({
-  data: {
-    id: 1,
-    name: 'test name',
-    description: 'test description',
-    public: true,
-    experiences: [],
-  },
-  isSuccess: true,
-}));
-
-beforeEach(() => {
-  // clear all mocks
-  jest.clearAllMocks();
-});
-
 describe('Edit List', () => {
   it('should render the page', () => {
+    useAuthenticatedUser();
+    useMockUserList();
+    useMockUpdateUserList();
     renderer(<EditList />);
     screen.getByText('View public list');
   });
 
-  it('should render the data from the list', () => {
-    renderer(<EditList listId={1} />);
-    const title = screen.getByPlaceholderText('List Name');
-    const description = screen.getByPlaceholderText('List Description');
-    expect(title.value).toBe('test name');
-    expect(description.value).toBe('test description');
+  it('should navigate the user to "/" if not authenticated', () => {
+    useUnauthenticatedUser();
+    useMockUserList();
+    useMockUpdateUserList();
+    renderer(<EditList />);
+    expect(singletonRouter).toMatchObject({ asPath: '/' });
   });
 
-  it('should navigate to the public list page', () => {
-    renderer(<EditList listId={1} />);
-    const publicList = screen.getByText('View public list');
+  it('should navigate the user to "/401" if the user is not the owner of the list', () => {
+    useAuthenticatedUser();
+    useMockUserListWith401();
+    useMockUpdateUserList();
+    renderer(<EditList />);
+    expect(singletonRouter).toMatchObject({ asPath: '/401' });
+  });
+
+  it('should navigate the user to "/403" if the user is not the owner of the list', () => {
+    useAuthenticatedUser();
+    useMockUserListWith403();
+    useMockUpdateUserList();
+    renderer(<EditList />);
+    expect(singletonRouter).toMatchObject({ asPath: '/403' });
+  });
+
+  it('should navigate user to the public view of the list on click', () => {
+    useAuthenticatedUser();
+    useMockUserList();
+    useMockUpdateUserList();
+    renderer(<EditList />);
     act(() => {
-      fireEvent.click(publicList);
+      fireEvent.click(screen.getByText('View public list'));
     });
     expect(singletonRouter).toMatchObject({ asPath: '/lists/1' });
   });
 
-  it('should start the visibility toggle as private', () => {
-    useUserList.mockImplementation(() => ({
-      data: {
-        id: 1,
-        name: 'test name',
-        description: 'test description',
-        public: false,
-        experiences: [],
-      },
-      isSuccess: true,
-    }));
+  it('should navigate user to the course page on click', () => {
+    useAuthenticatedUser();
+    useMockUserList();
+    useMockUpdateUserList();
     renderer(<EditList />);
-    const toggle = screen.getByText('Private List, only you can see it.');
-
-    expect(toggle).toBeInTheDocument();
+    act(() => {
+      fireEvent.click(screen.getByText('Test Title'));
+    });
+    expect(singletonRouter).toMatchObject({ asPath: '/course/1' });
   });
 
-  it('should update the visibility toggle to private when clicked', () => {
-    useUserList.mockImplementation(() => ({
-      data: {
-        id: 1,
-        name: 'test name',
-        description: 'test description',
-        public: false,
-        experiences: [],
-      },
-      isSuccess: true,
-    }));
-    renderer(<EditList listId={1} />);
-    const toggle = screen.getByTitle('toggle');
+  it('should load the list data', () => {
+    useAuthenticatedUser();
+    useMockUserList();
+    useMockUpdateUserList();
+    renderer(<EditList />);
+    expect(screen.getByText('Test List')).toBeInTheDocument();
+    expect(screen.getByText('test description')).toBeInTheDocument();
+    expect(screen.getByText('Test Title')).toBeInTheDocument();
+  });
+
+  it('should default the visibility to private', () => {
+    useAuthenticatedUser();
+    useMockUserList();
+    useMockUpdateUserList();
+    renderer(<EditList />);
+    expect(screen.getByText(/private/i)).toBeInTheDocument();
+  });
+
+  it('should allow the user to change the visibility', () => {
+    useAuthenticatedUser();
+    useMockUserList();
+    useMockUpdateUserList();
+    renderer(<EditList />);
     act(() => {
-      fireEvent.click(toggle);
+      fireEvent.click(screen.getByTitle(/toggle/i));
     });
     expect(
-      screen.getByText('Public list, viewable by other users.')
+      screen.getByText(/public list, viewable by other users/i)
     ).toBeInTheDocument();
   });
 
-  it('should remove course when "remove" is clicked', () => {
-    useUserList.mockImplementation(() => ({
-      data: {
-        id: 1,
-        name: 'test name',
-        description: 'test description',
-        public: false,
-        experiences: [
-          {
-            Course: {
-              CourseTitle: 'Test Title',
-              CourseProviderName: 'Course Provider Name',
-            },
-            meta: {
-              id: '1',
-              metadata_key_hash: '1',
-            },
-          },
-        ],
-      },
-      isSuccess: true,
-    }));
+  it('should remove a course when "remove" is clicked', () => {
+    useAuthenticatedUser();
+    useMockUserList();
+    useMockUpdateUserList();
     renderer(<EditList />);
-
-    const remove = screen.getByRole('button', { name: 'Remove' });
+    expect(screen.getByText(/Test Title/i)).toBeInTheDocument();
     act(() => {
-      fireEvent.click(remove);
+      fireEvent.click(screen.getByRole('button', { name: /remove/i }));
     });
-
     expect(screen.queryByText('Test Title')).not.toBeInTheDocument();
+    expect(updateListMockFn).toHaveBeenCalled();
   });
 
-  it('should call the api when save is clicked', () => {
+  it('should call the updateList mutation when the form is submitted', () => {
+    useAuthenticatedUser();
+    useMockUserList();
+    useMockUpdateUserList();
     renderer(<EditList />);
-    const save = screen.getByRole('button', { name: 'Save' });
     act(() => {
-      fireEvent.click(save);
+      fireEvent.click(screen.getByRole('button', { name: /save/i }));
     });
-    expect(useUpdateUserList).toHaveBeenCalled();
+    expect(updateListMockFn).toHaveBeenCalled();
+  });
+});
+
+describe('List page server side', () => {
+  it('context', () => {
+    const context = { query: { listId: '1' } };
+    const data = getServerSideProps(context);
+    expect(data).toEqual({ props: { listId: '1' } });
   });
 });

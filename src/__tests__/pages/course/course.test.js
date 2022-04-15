@@ -1,64 +1,27 @@
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
+import MockRouter from 'next-router-mock';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
-import { render } from '@testing-library/react';
-import { useAuth } from '@/contexts/AuthContext';
-import { useConfig } from '@/hooks/useConfig';
-import { useCourse } from '@/hooks/useCourse';
-import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
+import { act, fireEvent, render } from '@testing-library/react';
+import {
+  useAuthenticatedUser,
+  useMockConfig,
+  useMockConfigWithFailure,
+  useMockCourse,
+  useMockCourseWithFailure,
+  useMockCourseWithoutData,
+  useMockCreateUserList,
+  useMockMoreLikeThis,
+  useMockMoreLikeThisWithoutData,
+  useMockUpdateUserList,
+  useMockUserOwnedLists,
+  useUnauthenticatedUser,
+} from '@/__mocks__/predefinedMocks';
 import Course from '@/pages/course/[courseId]';
-import configData from '@/__mocks__/data/uiConfig.data';
-import courseData from '@/__mocks__/data/course.data';
 import singletonRouter from 'next/router';
 
-// mocking the router
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
 
-// mocking config
-jest.mock('@/hooks/useConfig', () => ({
-  useConfig: jest.fn(),
-}));
-jest.mock('@/hooks/useCourse', () => ({
-  useCourse: jest.fn(),
-}));
-jest.mock('@/hooks/useMoreCoursesLikeThis', () => ({
-  useMoreCoursesLikeThis: jest.fn(),
-}));
-
-// mock useAuth
-jest.mock('@/contexts/AuthContext', () => ({
-  useAuth: jest.fn(),
-}));
-
-const mockIntersectionObserver = jest.fn();
-mockIntersectionObserver.mockReturnValue({
-  observe: () => null,
-  unobserve: () => null,
-  disconnect: () => null,
-});
-window.IntersectionObserver = mockIntersectionObserver;
 
 const renderer = (isAuth = false) => {
-  if (isAuth) {
-    useAuth.mockImplementation(() => ({
-      user: {
-        user: {
-          id: '1',
-          email: '',
-        },
-      },
-    }));
-  } else {
-    useAuth.mockImplementation(() => ({
-      user: null,
-    }));
-  }
-
-  // mocking the config
-  useConfig.mockImplementation(() => ({
-    data: configData,
-    isSuccess: true,
-  }));
-
   return render(
     <MemoryRouterProvider>
       <QueryClientWrapper>
@@ -68,107 +31,148 @@ const renderer = (isAuth = false) => {
   );
 };
 
+beforeEach(() => {
+  useMockConfig();
+  useMockUserOwnedLists();
+  useMockUpdateUserList();
+  useMockCreateUserList();
+});
+
 describe('Course Page', () => {
-  describe('with out user', () => {
-    it('should show the course title', () => {
-      // mock course data
-      useCourse.mockImplementation(() => ({
-        data: courseData,
-        isSuccess: true,
-      }));
-      useMoreCoursesLikeThis.mockImplementation(() => ({
-        data: { hits: [courseData] },
-        isSuccess: true,
-      }));
+  it('should render the component', () => {
+    useAuthenticatedUser();
+    useMockMoreLikeThis();
+    useMockCourse();
+    const screen = renderer();
 
-      // render the component
-      const { getByText, getAllByText } = renderer();
-
-      // assert
-      expect(getAllByText(courseData.Course.CourseTitle).length).toBe(2);
-      expect(
-        getByText(courseData.Course.CourseShortDescription)
-      ).toBeInTheDocument();
-      expect(getByText(courseData.Course.CourseCode)).toBeInTheDocument();
-    });
-
-    describe('external link', () => {
-      it('should show the course external link', () => {
-        // mock course data
-        useCourse.mockImplementation(() => ({
-          data: courseData,
-          isSuccess: true,
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [courseData] },
-          isSuccess: true,
-        }));
-
-        // render the component
-        const { getByText } = renderer();
-
-        // assert
-        expect(getByText(/Go to Enrollment/i)).toBeInTheDocument();
-      });
-    });
-    describe('with moreLikeThis data', () => {
-      it('should show the moreLikeThis section', () => {
-        // mock course data
-        useCourse.mockImplementation(() => ({
-          data: courseData,
-          isSuccess: false,
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [courseData] },
-          isSuccess: true,
-        }));
-
-        // render the component
-        const { getByText } = renderer();
-
-        // assert
-        expect(getByText(/test course/i)).toBeInTheDocument();
-      });
-      it('should navigate to new course page when card is clicked', () => { 
-        // mock course data
-        useCourse.mockImplementation(() => ({
-          data: courseData,
-          isSuccess: false,
-        }));
-        useMoreCoursesLikeThis.mockImplementation(() => ({
-          data: { hits: [courseData] },
-          isSuccess: true,
-        }));
-
-        // render the component
-        const { getByText } = renderer();
-
-        // assert
-        const button = getByText(/test course/i);
-        button.click();
-        expect(singletonRouter).toMatchObject({
-          asPath: '/course/' + courseData.meta.metadata_key_hash,
-        });
-      });
-    });
+    expect(screen.getByText('Go to Enrollment')).toBeInTheDocument();
   });
-  describe('with user', () => {
-    it('should show the save course modal', () => {
-      // mock course data
-      useCourse.mockImplementation(() => ({
-        data: courseData,
-        isSuccess: true,
-      }));
-      useMoreCoursesLikeThis.mockImplementation(() => ({
-        data: { hits: [courseData] },
-        isSuccess: true,
-      }));
 
-      // render the component
-      const { getByTitle, getByText } = renderer(true);
+  it('should render the component with no auth', () => {
+    useUnauthenticatedUser();
+    useMockMoreLikeThis();
+    useMockCourse();
+    const screen = renderer(false);
 
-      // assert
-      expect(getByTitle(/save course/i)).toBeInTheDocument();
+    expect(screen.getByText('Go to Enrollment')).toBeInTheDocument();
+  });
+
+  it("should render course data if it's available", () => {
+    useAuthenticatedUser();
+    useMockMoreLikeThis();
+    useMockCourse();
+    const screen = renderer();
+
+    expect(screen.getByText('Test Title')).toBeInTheDocument();
+    expect(screen.getByText('Test Short Description')).toBeInTheDocument();
+    expect(screen.getByText('2023-03-20')).toBeInTheDocument();
+    expect(screen.getByText('2023-03-21')).toBeInTheDocument();
+    expect(screen.getByAltText('Course')).toBeInTheDocument();
+    expect(screen.getByText('Online')).toBeInTheDocument();
+    expect(
+      screen.getByAltText('Course').src.includes('Test_Thumbnail')
+    ).toBeTruthy();
+    expect(screen.getByText('Go to Enrollment').href).toBe(
+      'https://www.test.com/'
+    );
+  });
+
+  it('should display a save course button if the user is authenticated', () => {
+    useAuthenticatedUser();
+    useMockMoreLikeThis();
+    useMockCourse();
+    const screen = renderer();
+
+    expect(screen.getByText('Save Course')).toBeInTheDocument();
+  });
+
+  it('should not display a save course button if the user is not authenticated', () => {
+    useUnauthenticatedUser();
+    useMockMoreLikeThis();
+    useMockCourse();
+    const screen = renderer();
+
+    expect(screen.queryByText('Save Course')).not.toBeInTheDocument();
+  });
+
+  it('should display "Not Available" if specific course data is not available', () => {
+    useAuthenticatedUser();
+    useMockMoreLikeThis();
+    useMockCourseWithoutData();
+    const screen = renderer();
+
+    // number of elements on the page that can render the message
+    expect(screen.queryAllByText('Not Available').length).toBe(10);
+  });
+
+  it('should display "Not Available" if config is not available', () => {
+    useAuthenticatedUser();
+    useMockMoreLikeThis();
+    useMockCourseWithoutData();
+    useMockConfigWithFailure();
+    const screen = renderer();
+
+    // number of elements on the page that can render the message
+    // only 8 because details info will not be run
+    expect(screen.queryAllByText('Not Available').length).toBe(8);
+  });
+
+  it('should display "Not Available" if course data is not available', () => {
+    useAuthenticatedUser();
+    useMockMoreLikeThis();
+    useMockCourseWithFailure();
+    useMockConfig();
+    const screen = renderer();
+
+    // number of elements on the page that can render the message
+    // only 8 because details info will not be run
+    expect(screen.queryAllByText('Not Available').length).toBe(8);
+  });
+
+  it('should display a "Related Courses" section if the user is authenticated', () => {
+    useAuthenticatedUser();
+    useMockMoreLikeThis();
+    useMockCourse();
+    const screen = renderer();
+
+    expect(screen.getByText('Related Courses')).toBeInTheDocument();
+    expect(screen.getByText('More Like This Title')).toBeInTheDocument();
+    expect(
+      screen.getByText('More Like This Provider Name')
+    ).toBeInTheDocument();
+  });
+
+  it('should display a "Related Courses" section if the user is not authenticated', () => {
+    useUnauthenticatedUser();
+    useMockMoreLikeThis();
+    useMockCourse();
+    const screen = renderer();
+
+    expect(screen.getByText('Related Courses')).toBeInTheDocument();
+    expect(screen.getByText('More Like This Title')).toBeInTheDocument();
+    expect(
+      screen.getByText('More Like This Provider Name')
+    ).toBeInTheDocument();
+  });
+
+  it('should not display a "Related Courses" section if the there is no data', () => {
+    useAuthenticatedUser();
+    useMockMoreLikeThisWithoutData();
+    useMockCourse();
+    const screen = renderer();
+    expect(screen.queryByText('More Like This Title')).not.toBeInTheDocument();
+  });
+
+  it("should navigate to the course page on click of a related course's link", () => {
+    useAuthenticatedUser();
+    useMockMoreLikeThis();
+    useMockCourse();
+    const screen = renderer();
+
+    const relatedCourseLink = screen.getByText('More Like This Title');
+    act(() => {
+      fireEvent.click(relatedCourseLink);
     });
+    expect(singletonRouter).toMatchObject({ asPath: '/course/more_like_this' });
   });
 });

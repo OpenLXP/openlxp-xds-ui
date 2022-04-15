@@ -14,7 +14,7 @@ import SearchBar from '@/components/inputs/SearchBar';
 import SearchResult from '@/components/cards/SearchResult';
 import SelectList from '@/components/inputs/SelectList';
 
-export default function Search({ query }) {
+export default function Search() {
   const router = useRouter();
   const config = useConfig();
   const [params, setParams] = useState(router?.query);
@@ -66,9 +66,7 @@ export default function Search({ query }) {
   }
 
   function handleReset(key) {
-    const modified = { ...params };
-    modified[key] = '';
-    setParams(modified);
+    setParams((prev) => ({ ...prev, [key]: '' }));
   }
 
   const handleSearch = useCallback(
@@ -162,7 +160,7 @@ export default function Search({ query }) {
             <div className='flex gap-2 pl-6 pt-2'>{data && createLists()}</div>
           )}
         </span>
-        {data?.total > 10 && (
+        {data?.total > 0 && (
           <span className={'text-gray-400 italic pt-12 font-sans px-px'}>
             About {data.total} results.
           </span>

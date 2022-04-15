@@ -45,7 +45,7 @@ export default function SearchResult({ result }) {
         >
           <h3>{result.Course.CourseTitle}</h3>
         </button>
-        <SaveModal courseId={result.meta.id} />
+        {user && <SaveModal courseId={result.meta.id} />}
       </div>
       <div onClick={handleClick} className='text-left' aria-hidden='true'>
         <h4>

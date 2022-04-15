@@ -13,7 +13,10 @@ export default function SelectList({
   return (
     <Menu as='div' className='relative inline-block text-left mt-0.5'>
       <div className='flex flex-col gap-2'>
-        <Menu.Button className='text-gray-800 items-center gap-2 inline-flex  justify-between w-36 bg-white shadow-md px-2 py-1 rounded-md focus:ring-2 ring-blue-400 transform transition-all duration-150 ease-in-out outline-none'>
+        <Menu.Button
+          title={`${keyName} filter`}
+          className='text-gray-800 items-center gap-2 inline-flex  justify-between w-36 bg-white shadow-md px-2 py-1 rounded-md focus:ring-2 ring-blue-400 transform transition-all duration-150 ease-in-out outline-none'
+        >
           <div className='line-clamp-1'>{selected || keyName}</div>
           <ChevronDownIcon className='h-4 w-4 text-gray-600' />
         </Menu.Button>
@@ -53,8 +56,9 @@ export default function SelectList({
                         onChange(e);
                         setSelected(group.key);
                       }}
-                      className={`${active && 'bg-gray-50'
-                        } cursor-pointer rounded-md w-full text-left flex justify-between items-center `}
+                      className={`${
+                        active && 'bg-gray-50'
+                      } cursor-pointer rounded-md w-full text-left flex justify-between items-center `}
                     >
                       {group.key}
                     </button>
