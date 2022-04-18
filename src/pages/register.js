@@ -219,12 +219,6 @@ export default function Register() {
     validateName(credentials.first_name, setFirstNameError, 'First name');
   }, [credentials.first_name]);
 
-  useEffect(() => {
-    if (user) {
-      router.push('/');
-    }
-  }, []);
-
   return (
     <DefaultLayout>
       <>
@@ -359,7 +353,12 @@ export default function Register() {
               </p>
             </div>
           </div>
-          <p data-testid='error-message' className='text-red-500 text-sm block h-2 mt-2'>{error}</p>
+          <p
+            data-testid='error-message'
+            className='text-red-500 text-sm block h-2 mt-2'
+          >
+            {error}
+          </p>
           <button
             disabled={isError()}
             type='submit'
