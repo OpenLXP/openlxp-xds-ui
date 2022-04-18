@@ -2,7 +2,6 @@ import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { axiosInstance } from '@/config/axiosConfig';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { useAuth } from '@/contexts/AuthContext';
 import {
   useAuthenticatedUser,
   useMockConfig,
@@ -13,9 +12,6 @@ import React, { useContext } from 'react';
 import Register from '@/pages/register';
 import mockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
-
-const mockRegister = jest.fn();
-const logout = jest.fn();
 
 const renderer = () => {
   mockRouter.setCurrentUrl('/register');

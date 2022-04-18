@@ -9,7 +9,7 @@ describe('useUrl', () => {
     act(() => {});
 
     // no localhost is provided during the mock
-    expect(result.current.url).toBe('undefined/es-api/?test=value');
+    expect(result.current.url.includes('/es-api/?test=value')).toBeTruthy();
   });
 
   it('updates value from a new object', () => {
@@ -19,6 +19,6 @@ describe('useUrl', () => {
       result.current.setUrl({ test: 'updated' });
     });
 
-    expect(result.current.url).toBe('undefined/es-api/?test=updated');
+    expect(result.current.url.includes('/es-api/?test=updated')).toBeTruthy();
   });
 });
