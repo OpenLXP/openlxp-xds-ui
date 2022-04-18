@@ -1,14 +1,16 @@
 # Open LXP: Experience Discovery Service UI
 
-This is the UI for the Open LXP: Experience Discovery Service. It allows you to create and manage your own experience collection, subscribe to other people's experience collections, and search for experiences indexed in the service. 
+This is the UI for the Open LXP: Experience Discovery Service. It allows you to create and manage your own experience collection, subscribe to other people's experience collections, and search for experiences indexed in the service.
 
-*Note*: For this service to work properly you will need the XDS Backend component to accompany it.
+_Note_: For this service to work properly you will need the XDS Backend component to accompany it.
 
 ## Table of Contents
 
 - [**Installation**](#installation)
 - [**Development**](#development)
   - [**Frontend Stack Documentation**](#frontend-stack-documentation)
+  - [**Devtools Documentation**](#dev-tools-documentation)
+- [**Testing**](#testing)
 
 ## Installation
 
@@ -103,31 +105,38 @@ docker run -p 3000:3000 openlxp-xds-ui
 [HeadlessUi Documentation can be found here](https://headlessui.dev/)
 
 ### Dev Tools Documentation
+
 [Eslint Documentation can be found here](https://eslint.org/docs/user-guide/configuring)
 
 [Prettier Documentation can be found here](https://prettier.io/docs/en/install.html)
 
 [Jest Documentation can be found here](https://jestjs.io/docs/en/getting-started)
 
-## Testing  
+## Testing
+
 All of the components in the project are unit tested and are covered by the [Jest](https://jestjs.io/) testing framework. When testing components there are three key files to utilize:
+
 1. **jest.setup.js**: This file is used to configure the testing environment including any mocks and setup functions for the code to work.
 2. **mockSetUp.js**: This file is used to mock any functions that are reliant on external APIs or services.
-3. **.test.js**: This file is used to test the components. Any file in the __tests__ directory will be run by the testing framework as long as the child components are appended with `.test.js` or `.spec.js`.
+3. **.test.js**: This file is used to test the components. Any file in the **tests** directory will be run by the testing framework as long as the child components are appended with `.test.js` or `.spec.js`.
 
 ### Our current threshold for testing coverage is:
+
 - **Statement Coverage**: 80%
 - **Branch Coverage**: 80%
 - **Function Coverage**: 80%
 - **Line Coverage**: 80%
 
 ### Command to run tests
+
 > Runs all the tests in the project with cached results
+
 ```terminal
 yarn test
 ```
 
 > Runs all the tests in the project without cached results produces a coverage report which can be viewed in the terminal or in the browser by opening the `/coverage/Icov-report/index.html` file in the project directory.
+
 ```terminal
 yarn coverage
 ```
