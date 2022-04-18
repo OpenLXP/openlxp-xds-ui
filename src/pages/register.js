@@ -236,11 +236,11 @@ export default function Register() {
         </div>
         <form
           onSubmit={handleSubmit}
+          onChange={handleUpdateCredentials}
           className='mt-8 w-[34rem] mx-auto bg-white px-10 py-6 shadow-md rounded-md flex flex-col justify-center items-center'
         >
           <div className='w-full flex gap-4'>
             <input
-              onChange={handleUpdateCredentials}
               value={credentials.first_name}
               type='text'
               name='first_name'
@@ -249,7 +249,6 @@ export default function Register() {
               required
             />
             <input
-              onChange={handleUpdateCredentials}
               value={credentials.last_name}
               type='text'
               name='last_name'
@@ -259,7 +258,6 @@ export default function Register() {
             />
           </div>
           <input
-            onChange={handleUpdateCredentials}
             value={credentials.email}
             type='email'
             name='email'
@@ -268,7 +266,6 @@ export default function Register() {
             required
           />
           <input
-            onChange={handleUpdateCredentials}
             value={credentials.password}
             type='password'
             name='password'
@@ -277,7 +274,6 @@ export default function Register() {
             required
           />
           <input
-            onChange={handleUpdateCredentials}
             value={credentials.confirmationPassword}
             type='password'
             name='confirmationPassword'
@@ -370,6 +366,18 @@ export default function Register() {
             {!loading && <UserAddIcon className='inline-block h-4 w-4 mr-2' />}
             Create Account
           </button>
+          <p className={'my-8 relative border-b-2 w-full'}>
+            <span className='absolute top-1/2 left-1/2 transform text-center -translate-x-1/2 -translate-y-1/2 bg-white px-2 w-max'>
+              or continue with
+            </span>
+          </p>
+          <a
+            href='/sso'
+            id={'sso-button'}
+            className='bg-blue-500 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold max-w-max mx-auto'
+          >
+            Single Sign On
+          </a>
         </form>
       </>
     </DefaultLayout>
