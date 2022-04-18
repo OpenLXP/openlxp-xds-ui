@@ -1,36 +1,37 @@
+import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider/MemoryRouterProvider-11.1';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
+import { axiosInstance } from '@/config/axiosConfig';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';
+import {
+  useAuthenticatedUser,
+  useMockConfig,
+  useUnauthenticatedUser,
+} from '@/__mocks__/predefinedMocks';
 import MockAxios from 'jest-mock-axios';
 import React, { useContext } from 'react';
 import Register from '@/pages/register';
 import mockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
-import { axiosInstance } from '@/config/axiosConfig';
-import { useMockConfig } from '@/__mocks__/predefinedMocks';
 
 const mockRegister = jest.fn();
 const logout = jest.fn();
 
 const renderer = () => {
   mockRouter.setCurrentUrl('/register');
-  useAuth.mockImplementation(() => ({
-    register: mockRegister,
-    logout,
-  }));
   return render(
-    <QueryClientWrapper>
-      <Register />
-    </QueryClientWrapper>
+    <MemoryRouterProvider>
+      <QueryClientWrapper>
+        <Register />
+      </QueryClientWrapper>
+    </MemoryRouterProvider>
   );
 };
 
 beforeEach(() => {
+  mockRouter.setCurrentUrl('/register');
+  useUnauthenticatedUser();
   useMockConfig();
-});
-
-afterEach(() => {
-  MockAxios.reset();
 });
 
 describe('Register Page', () => {
@@ -45,7 +46,14 @@ describe('Register Page', () => {
       screen.getByRole('button', { name: /Sign in to your account/i })
     ).toBeInTheDocument();
   });
-  it.todo('should navigate to homepage when a user is logged in');
+
+  it('should navigate to homepage when a user is logged in', () => {
+    useAuthenticatedUser();
+    renderer();
+    expect(singletonRouter).toMatchObject({
+      asPath: '/',
+    });
+  });
 
   it('should navigate user to login page when sign-in button is clicked', () => {
     renderer();
