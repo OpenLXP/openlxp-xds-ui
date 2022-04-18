@@ -236,12 +236,12 @@ export default function Register() {
         </div>
         <form
           onSubmit={handleSubmit}
-          onChange={handleUpdateCredentials}
           className='mt-8 w-[34rem] mx-auto bg-white px-10 py-6 shadow-md rounded-md flex flex-col justify-center items-center'
         >
           <div className='w-full flex gap-4'>
             <input
               value={credentials.first_name}
+              onChange={handleUpdateCredentials}
               type='text'
               name='first_name'
               placeholder='First Name'
@@ -250,6 +250,7 @@ export default function Register() {
             />
             <input
               value={credentials.last_name}
+              onChange={handleUpdateCredentials}
               type='text'
               name='last_name'
               placeholder='Last Name'
@@ -259,6 +260,7 @@ export default function Register() {
           </div>
           <input
             value={credentials.email}
+            onChange={handleUpdateCredentials}
             type='email'
             name='email'
             placeholder='Email'
@@ -266,6 +268,7 @@ export default function Register() {
             required
           />
           <input
+            onChange={handleUpdateCredentials}
             value={credentials.password}
             type='password'
             name='password'
@@ -274,6 +277,7 @@ export default function Register() {
             required
           />
           <input
+            onChange={handleUpdateCredentials}
             value={credentials.confirmationPassword}
             type='password'
             name='confirmationPassword'
