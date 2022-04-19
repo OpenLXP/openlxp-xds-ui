@@ -7,6 +7,11 @@ import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 export default function ShareButton({ id, courseTitle, courseDescription }) {
   const { user } = useAuth();
 
+  // handle the copy to clipboard action
+  const handleCopy = () => {
+    navigator.clipboard.writeText(`${window.origin}/course/${id}`);
+  };
+
   const handleClick = useCallback(() => {
     if (!user) return;
     console.count('share button clicked');
@@ -29,6 +34,7 @@ export default function ShareButton({ id, courseTitle, courseDescription }) {
       resultExtValue: id,
     };
 
+    handleCopy();
     xAPISendStatement(context);
   }, [id, courseTitle, courseDescription, user]);
 
