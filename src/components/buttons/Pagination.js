@@ -2,12 +2,11 @@ import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
   ChevronLeftIcon,
-  ChevronRightIcon
+  ChevronRightIcon,
 } from '@heroicons/react/solid';
 import React from 'react';
 
 export const Pagination = ({ handleSpecificPage, totalPages, currentPage }) => {
-
   // show the first three pages and the last three pages of the pagination
   // if the total number of pages is less than 3 show them all
   const pages = [];
@@ -20,11 +19,10 @@ export const Pagination = ({ handleSpecificPage, totalPages, currentPage }) => {
   const end = Math.min(totalPages, currentPage + 3);
 
   // if the total number of pages is less than 6 show all pages
-  // *centers the pages arond the current page*  
+  // *centers the pages arond the current page*
   for (let i = start; i <= end; i++) {
     pages.push(i);
   }
-
 
   return (
     <div className='flex flex-row justify-between'>
@@ -32,30 +30,32 @@ export const Pagination = ({ handleSpecificPage, totalPages, currentPage }) => {
         <button
           onClick={() => handleSpecificPage(1)}
           title='First'
-          className={`${currentPage > 1 ? 'block' : 'invisible'
-            } flex justify-center items-center gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white px-2 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`}
+          className={`disabled:saturate-0 disabled:cursor-not-allowed disabled:pointer-events-none disabled:hover:bg-inherit flex justify-center items-center gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white px-2 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`}
+          disabled={currentPage === 1 ? true : false}
         >
           <ChevronDoubleLeftIcon className='h-6 w-6' />
         </button>
 
         <button
           onClick={() => handleSpecificPage(currentPage - 1)}
-          className={`${currentPage > 1 ? 'block' : 'invisible'
-            } flex justify-center items-center gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white pl-2 pr-4 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`}
+          className={`disabled:saturate-0 disabled:cursor-not-allowed disabled:pointer-events-none disabled:hover:bg-inherit flex justify-center items-center gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white pl-2 pr-4 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`}
+          disabled={currentPage === 1 ? true : false}
         >
           <ChevronLeftIcon className='h-6 w-6' />
           Previous
         </button>
-
       </div>
 
       <div className='inline-flex justify-center items-center gap-2'>
-        {pages.map(page => (
+        {pages.map((page) => (
           <button
             key={page}
             onClick={() => handleSpecificPage(page)}
-            className={`${currentPage === page ? 'bg-blue-400 text-white' : 'bg-blue-50 text-blue-400'
-              } flex justify-center items-center gap-2 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white px-2 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`}
+            className={`${
+              currentPage === page
+                ? 'bg-blue-400 text-white'
+                : 'bg-blue-50 text-blue-400'
+            } flex justify-center items-center gap-2 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white px-2 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`}
           >
             {page}
           </button>
@@ -63,11 +63,10 @@ export const Pagination = ({ handleSpecificPage, totalPages, currentPage }) => {
       </div>
 
       <div className='inline-flex justify-left items-center gap-2'>
-
         <button
           onClick={() => handleSpecificPage(currentPage + 1)}
-          className={`${totalPages > currentPage ? 'block' : 'invisible'
-            } flex justify-center items-center gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white pl-4 pr-2 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`}
+          className={`disabled:saturate-0 disabled:cursor-not-allowed disabled:pointer-events-none disabled:hover:bg-inherit flex justify-center items-center gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white pl-4 pr-2 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`}
+          disabled={totalPages <= currentPage ? true : false}
         >
           Next
           <ChevronRightIcon className='h-6 w-6' />
@@ -75,8 +74,8 @@ export const Pagination = ({ handleSpecificPage, totalPages, currentPage }) => {
         <button
           title='Last'
           onClick={() => handleSpecificPage(totalPages)}
-          className={`${totalPages > currentPage ? 'block' : 'invisible'
-            } flex justify-center items-center gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white p-2 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`}
+          disabled={totalPages <= currentPage ? true : false}
+          className={`disabled:saturate-0 disabled:cursor-not-allowed disabled:pointer-events-none disabled:hover:bg-inherit flex justify-center items-center gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white p-2 py-2 transform transition-all duration-150 ease-in-out border-blue-300 border-2 outline-none focus:ring-2 ring-blue-300`}
         >
           <ChevronDoubleRightIcon className='h-6 w-6' />
         </button>

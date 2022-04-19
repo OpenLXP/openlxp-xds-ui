@@ -1,54 +1,50 @@
-import { Fragment } from 'react';
-import { ShareIcon } from '@heroicons/react/solid';
-import { Transition } from '@headlessui/react';
-import useTimeout from '../../hooks/useTimeout';
+import { ShareIcon } from '@heroicons/react/outline';
 
-export default function ShareBtn({ id }) {
-  const { state: view, show } = useTimeout(1000);
-  function copyToClipboard() {
-    if (typeof window === 'undefined') return;
+import { useAuth } from '@/contexts/AuthContext';
+import { useCallback } from 'react';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 
-    // get the current address
-    const hostName = window.location.hostname;
+export default function ShareButton({ id, courseTitle, courseDescription }) {
+  const { user } = useAuth();
 
-    // get the current port
-    const portNumber = window.location.port;
+  // handle the copy to clipboard action
+  const handleCopy = () => {
+    navigator.clipboard.writeText(`${window.origin}/course/${id}`);
+  };
 
-    if (hostName && portNumber) {
-      navigator.clipboard.writeText(`${hostName}:${portNumber}/course/${id}`);
-    } else if (hostName && !portNumber) {
-      navigator.clipboard.writeText(`${hostName}/course/${id}`);
-    }
+  const handleClick = useCallback(() => {
+    if (!user) return;
+    console.count('share button clicked');
 
-    // showing the copy message
-    show();
-  }
+    const context = {
+      actor: {
+        first_name: user?.user?.first_name || 'anonymous',
+        last_name: user?.user?.last_name || 'user',
+      },
+      verb: {
+        id: 'https://w3id.org/xapi/tla/verbs/socialized',
+        display: 'socialized',
+      },
+      object: {
+        definitionName: courseTitle,
+        description: courseDescription,
+        id: `${window.origin}/course/${id}`,
+      },
+      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
+      resultExtValue: id,
+    };
 
-  return (<></>
+    handleCopy();
+    xAPISendStatement(context);
+  }, [id, courseTitle, courseDescription, user]);
 
-    // <button
-    //   onClick={copyToClipboard}
-    //   title='share course'
-    //   className='flex justify-center items-center gap-2 text-blue-400 rounded-full hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white p-1.5 transform transition-all duration-150 ease-in-out border-blue-400 border-2 focus:ring-2 ring-blue-400 outline-none'
-    // >
-    //   <ShareIcon className='h-5 w-5' />
-    //   <Transition
-    //     show={view}
-    //     as={Fragment}
-    //     enter='transition ease-out duration-200'
-    //     enterFrom='transform opacity-0 scale-95'
-    //     enterTo='transform opacity-100 scale-100'
-    //     leave='transition ease-in duration-100'
-    //     leaveFrom='transform opacity-100 scale-100'
-    //     leaveTo='transform opacity-0 scale-95'
-    //   >
-    //     <div className='absolute -bottom-12 text-white text-xs px-2 py-2 flex items-center justify-center flex-col'>
-    //       <span className='w-4 h-4 bg-blue-400 transform rotate-45 rounded-sm -mb-2 z-10 shadow-md'></span>
-    //       <div className='min-w-min bg-blue-400 px-4 py-1 z-20 rounded-sm shadow-md font-semibold'>
-    //         Copied!
-    //       </div>
-    //     </div>
-    //   </Transition>
-    // </button>
+  return (
+    <button
+      onClick={handleClick}
+      className='flex items-center gap-2 min-w-max whitespace-nowrap p-2 text-center text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600  font-medium transform transition-all duration-75 ease-in-out focus:ring-2 ring-blue-400 outline-none'
+    >
+      <ShareIcon className='h-5 w-5' />
+      Share
+    </button>
   );
 }

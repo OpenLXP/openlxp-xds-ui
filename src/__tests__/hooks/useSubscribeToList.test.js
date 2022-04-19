@@ -4,6 +4,8 @@ import { renderHook } from '@testing-library/react-hooks';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { useSubscribeToList } from '@/hooks/useSubscribeToList';
 
+jest.unmock('@/hooks/useSubscribeToList');
+
 const wrapper = ({ children }) => (
   <QueryClientWrapper>{children}</QueryClientWrapper>
 );

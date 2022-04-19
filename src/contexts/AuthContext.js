@@ -33,13 +33,8 @@ export function AuthProvider({ children }) {
   const logout = async () => {
     axiosInstance
       .post(`${backendHost}/api/auth/logout`)
-      .then((res) => {
-        removeLocal();
-        router.push('/');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      .then((res) => removeLocal())
+      .catch((error) => console.log(error));
     removeLocal();
   };
 

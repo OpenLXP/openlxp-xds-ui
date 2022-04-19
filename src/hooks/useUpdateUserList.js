@@ -3,13 +3,11 @@ import { interestLists } from '@/config/endpoints';
 import { axiosInstance } from '@/config/axiosConfig';
 
 const updateUserList = ({ id, listData }, token) => {
-  return axiosInstance
-    .patch(interestLists + id, listData, {
-      headers: {
-        Authorization: `Token ${token}`,
-      },
-    })
-    .then((res) => res.data);
+  return axiosInstance.patch(interestLists + id, listData, {
+    headers: {
+      Authorization: `Token ${token}`,
+    },
+  });
 };
 
 export function useUpdateUserList(token) {

@@ -3,6 +3,8 @@ import { renderHook } from '@testing-library/react-hooks';
 import { useList } from '@/hooks/useList';
 import mockAxios from 'jest-mock-axios';
 
+jest.unmock('@/hooks/useList');
+
 const wrapper = ({ children }) => (
   <QueryClientWrapper>{children}</QueryClientWrapper>
 );

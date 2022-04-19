@@ -8,6 +8,8 @@ import searchData from '@/__mocks__/data/search.data';
 
 const queryClient = new QueryClient();
 
+jest.unmock('@/hooks/useMoreCoursesLikeThis');
+
 // wrapper function for queryClient
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

@@ -97,10 +97,11 @@ export default function SaveModal({ courseId }) {
   return (
     <>
       <button
+        disabled={!user}
         title='save course'
         type='button'
         onClick={openModal}
-        className='inline-flex justify-center items-center gap-2 text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600 py-1.5 px-2 font-medium transform transition-all duration-150 ease-in-out focus:ring-2 ring-blue-400 outline-none'
+        className='disabled:hidden inline-flex justify-center items-center gap-2 text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600 py-1.5 px-2 font-medium transform transition-all duration-150 ease-in-out focus:ring-2 ring-blue-400 outline-none'
       >
         Save Course
       </button>

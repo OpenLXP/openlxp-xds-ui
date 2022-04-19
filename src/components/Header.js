@@ -54,24 +54,20 @@ export default function Header() {
         className={'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'}
         aria-label={'Top'}
       >
-        <div
-          className={
-            'w-full py-4 inline-flex items-center justify-between z-50'
-          }
-        >
+        <div className='w-full py-4 inline-flex items-center justify-between z-50'>
           <div className={'flex items-center justify-start gap-2'}>
-            <Link href={'/'}>
+            <Link href={'/'} passHref>
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <a
+              <button
                 title='home'
                 id={'homepage-button'}
                 className={'cursor-pointer'}
               >
                 <Image src={logo} alt={'home'} height={'60'} width={'60'} />
-              </a>
+              </button>
             </Link>
             {menuItems.map((item) => {
-              if (item.label != 'Search Lists') {
+              if (item.label !== 'Search Lists') {
                 return <Button key={item.label} data={item} />;
               }
               if (user) {
@@ -79,24 +75,24 @@ export default function Header() {
               }
             })}
           </div>
-
-          {!user && (
-            <div className={'space-x-4'}>
-              <Link href={'/login'}>
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a className='bg-blue-500 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
-                  Sign in
-                </a>
-              </Link>
-              <Link href={'/register'}>
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a className='bg-blue-300 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
-                  Sign up
-                </a>
-              </Link>
-            </div>
-          )}
-
+          <div className='space-x-4'>
+            <Link href={'/login'} passHref>
+              <button
+                disabled={user}
+                className='disabled:hidden bg-blue-500 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'
+              >
+                Sign in
+              </button>
+            </Link>
+            <Link href={'/register'} passHref>
+              <button
+                disabled={user}
+                className='disabled:hidden bg-blue-300 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'
+              >
+                Sign up
+              </button>
+            </Link>
+          </div>
           {user && <UserMenu />}
         </div>
       </nav>

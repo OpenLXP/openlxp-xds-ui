@@ -5,6 +5,7 @@ import mockAxios from 'jest-mock-axios';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { renderHook } from '@testing-library/react-hooks';
 
+jest.unmock('@/hooks/useInterestLists');
 const wrapper = ({ children }) => (
   <QueryClientWrapper>{children}</QueryClientWrapper>
 );
