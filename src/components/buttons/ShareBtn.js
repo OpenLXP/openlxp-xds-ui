@@ -29,7 +29,6 @@ export default function ShareButton({ id, courseTitle, courseDescription }) {
       resultExtValue: id,
     };
 
-    console.log(context);
     xAPISendStatement(context);
   }, [id, courseTitle, courseDescription, user]);
 

@@ -1,14 +1,13 @@
-import { render, act, fireEvent, screen } from '@testing-library/react';
-import DefaultLayout from '../../components/layouts/DefaultLayout';
-import { QueryClientProvider, QueryClient } from 'react-query';
-import mockRouter from 'next-router-mock';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import {
   useAuthenticatedUser,
   useMockConfig,
   useUnauthenticatedUser,
 } from '@/__mocks__/predefinedMocks';
-import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
+import DefaultLayout from '../../components/layouts/DefaultLayout';
+import mockRouter from 'next-router-mock';
 
 const Wrapper = ({ children }) => {
   const queryClient = new QueryClient();
@@ -49,8 +48,8 @@ describe('Default Layout', () => {
     useAuthenticatedUser();
     renderer();
     expect(screen.getByText('Test')).toBeInTheDocument();
-    expect(screen.queryByText('Sign in')).not.toBeInTheDocument();
-    expect(screen.queryByText('Sign up')).not.toBeInTheDocument();
+    expect(screen.queryByText('Sign in')).toBeDisabled();
+    expect(screen.queryByText('Sign up')).toBeDisabled();
   });
 
   it('should show the child components', () => {
