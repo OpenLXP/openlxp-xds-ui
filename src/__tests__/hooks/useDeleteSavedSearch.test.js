@@ -5,6 +5,8 @@ import { renderHook } from '@testing-library/react-hooks';
 import mockAxios from 'jest-mock-axios';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 
+jest.unmock('@/hooks/useDeleteSavedSearch');
+
 const wrapper = ({ children }) => (
   <QueryClientWrapper>{children}</QueryClientWrapper>
 );

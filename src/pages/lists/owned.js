@@ -16,7 +16,7 @@ export default function Owned({}) {
     if (!user) router.push('/');
     if (isError && error.response.status === 403) router.push('/403');
     if (isError && error.response.status === 401) router.push('/401');
-  }, [isError]);
+  }, []);
 
   return (
     <DefaultLayout footerLocation='absolute'>

@@ -1,134 +1,126 @@
-import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import { useAuth } from '@/contexts/AuthContext';
 import { useList } from '@/hooks/useList';
 import { useRouter } from 'next/router';
-import DefaultLayout from '@/components/layouts/DefaultLayout';
-import Link from 'next/link';
-import React, { useCallback, useEffect } from 'react';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
+import DefaultLayout from '@/components/layouts/DefaultLayout';
+import { useCallback, useEffect } from 'react';
 
-export default function ListsView() {
+export function getServerSideProps(context) {
+  const { listId } = context.query;
+  return {
+    props: {
+      listId,
+    },
+  };
+}
+
+export default function ListsView({ listId }) {
   const router = useRouter();
 
   // user data
   const { user } = useAuth();
 
-  const {
-    data: list,
-    isSuccess,
-    isError,
-    error,
-  } = useList(router.query.listId);
+  const list = useList(listId);
 
   // verify a user is logged in otherwise redirect to home page
   useEffect(() => {
+    // if the user is not logged in, redirect to the home page
     if (!user) router.push('/');
-    if (isError && error.response.status === 401) router.push('/401');
-    if (isError && error.response.status === 403) router.push('/403');
-  }, [user, isError]);
+    if (list.isError && list.error.response.status === 401)
+      return router.push('/401');
+    if (list.isError && list.error.response.status === 403)
+      return router.push('/403');
+  }, []);
 
-  const handleViewCourse = useCallback(
-    (course) => {
-      if (!user) return;
-      const context = {
-        actor: {
-          first_name: user?.user?.first_name,
-          last_name: user?.user?.last_name,
-        },
-        verb: {
-          id: 'https://w3id.org/xapi/acrossx/verbs/explored',
-          display: 'explored',
-        },
-        object: {
-          id: `${window.origin}/course/${course.meta.metadata_key_hash}`,
-          definitionName: course.Course.CourseTitle,
-          description: course.Course.CourseShortDescription,
-        },
-        resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-        resultExtValue: course.meta.metadata_key_hash,
-      };
-      xAPISendStatement(context);
-      router.push(`/course/${course.meta.metadata_key_hash}`);
-    },
-    [user]
-  );
+  const visitCourse = useCallback((course) => {
+    if (!user) return;
+    const context = {
+      actor: {
+        first_name: user?.user?.first_name,
+        last_name: user?.user?.last_name,
+      },
+      verb: {
+        id: 'https://w3id.org/xapi/acrossx/verbs/explored',
+        display: 'explored',
+      },
+      object: {
+        id: `${window.origin}/course/${course.meta.metadata_key_hash}`,
+        definitionName: course.Course.CourseTitle,
+        description: course.Course.CourseShortDescription,
+      },
+      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
+      resultExtValue: course.meta.metadata_key_hash,
+    };
+    xAPISendStatement(context);
+    router.push(`/course/${course.meta.metadata_key_hash}`);
+  }, []);
 
   return (
-    <DefaultLayout footerLocation='absolute'>
-      <div className='mt-10 pb-20 font-sans'>
-        <h1 className='font-semibold text-3xl pb-4 mb-8 border-b'>
-          {isSuccess && list?.name}
+    <DefaultLayout>
+      <div className='flex justify-between items-center border-b'>
+        <h1 className='font-semibold text-3xl pb-4 mt-10 border-b font-sans'>
+          {list?.data?.name}
         </h1>
-
-        <div className='grid grid-cols-2 gap-4 font-sans text-lg'>
-          <div className='col-span-1'>
-            <label>
-              <span className='font-semibold'>Owner:</span>&nbsp;
-              {isSuccess && list?.owner.email}
-            </label>
-          </div>
-          <div className='col-span-1'>
-            <label>
-              <span className='font-semibold'>Updated:</span>&nbsp;
-              {isSuccess && new Date(list?.modified).toString()}
-            </label>
-          </div>
-        </div>
-        {/*  description of the list*/}
-        <h3 className='mt-10 font-semibold text-lg'>Description</h3>
-        <textarea
-          readOnly
-          value={list?.description}
-          rows={Math.max(list?.description?.length / 72, 4).toString()}
-          className='w-full rounded-md border p-2'
-        />
-        {/*  table showing the list of items currently in the experiences array*/}
-        <h3 className='mt-10 font-semibold text-lg'>Courses</h3>
-        <div
-          id='course-list'
-          className='grid divide-y border rounded-md overflow-hidden shadow'
-        >
-          <div className='grid grid-cols-6 bg-gray-50 h-12 items-center px-2 font-sans font-semibold'>
-            <div className='col-span-3'>Course Title</div>
-            <div className='col-span-2'>Course Provider</div>
-          </div>
-          <div className='max-h-96 overflow-y-auto custom-scroll'>
-            {isSuccess && list?.experiences.length < 1 ? (
-              <div className='flex justify-center items-center bg-white'>
-                <p className='text-center text-gray-500'>
-                  No courses in this list
-                </p>
-              </div>
-            ) : (
-              list?.experiences?.map((course, index) => {
-                return (
-                  <div
-                    key={course.meta.id}
-                    className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}
-                  >
-                    <div className='grid grid-cols-6 h-12 items-center px-2'>
-                      <div className='col-span-3'>
-                        {course.Course.CourseTitle}
-                      </div>
-                      <div className='col-span-2'>
-                        {course.Course.CourseProviderName}
-                      </div>
-                      <div className='max-w-min justify-self-end pr-4'>
-                        <button
-                          onClick={() => handleViewCourse(course)}
-                          className='text-blue-500 bg-blue-50 px-2 py-1 rounded-md border-blue-500 border hover:bg-blue-500 outline-none hover:text-white transform transition-colors duration-150 ease-in-out'
-                        >
-                          View
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })
-            )}
-          </div>
-        </div>
+        {user?.user?.id === list?.data?.owner?.id && (
+          <button
+            className='items-center inline-flex gap-2 text-gray-500 rounded-md hover:shadow-md bg-gray-50 hover:bg-gray-400 hover:text-white px-4 py-2 border-gray-400 border-2 outline-none focus:ring-2 ring-gray-400'
+            onClick={() => {
+              router.push('/lists/edit/' + listId);
+            }}
+          >
+            Edit list
+          </button>
+        )}
       </div>
+      <div className='flex justify-between font-sans text-lg mt-10'>
+        <span>
+          <span className='font-semibold'>Owner:&nbsp;</span>
+          {list?.data?.owner?.email}
+        </span>
+        <span>
+          <span className='font-semibold'>Updated:&nbsp;</span>
+          {new Date(list?.data?.modified).toLocaleDateString()}
+        </span>
+      </div>
+      <h2 className='border-b text-lg mt-10 font-semibold'>Description</h2>
+      <p className='mt-2 min-h-[8rem] bg-white rounded p-2'>
+        {list?.data?.description}
+      </p>
+      <h2 className='border-b text-lg mt-10 font-semibold'>Included Courses</h2>
+      <table className='w-full bg-white rounded-md overflow-hidden shadow mt-8'>
+        <thead className='border-b'>
+          <tr>
+            <th className='text-left px-2 py-6 text-lg'>Title</th>
+            <th className='text-left px-2 py-6 text-lg w-96'>Provider</th>
+          </tr>
+        </thead>
+        <tbody>
+          {list.isSuccess &&
+            list?.data?.experiences.map((exp) => (
+              <tr
+                key={exp.meta.metadata_key_hash}
+                className='odd:bg-gray-100 even:bg-white'
+              >
+                <td className='p-2 overflow-hidden text-ellipsis'>
+                  <button
+                    className='hover:underline hover:text-blue-400
+                    cursor-pointer w-full h-full text-left py-2'
+                    onClick={(e) => visitCourse(exp)}
+                  >
+                    {exp.Course.CourseTitle}
+                  </button>
+                </td>
+                <td className='p-2'>{exp.Course.CourseProviderName}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+      {/* When there are no courses */}
+      {list.isSuccess && list?.data?.experiences.length === 0 && (
+        <div className='text-center font-medium py-2 bg-white/90 rounded-b'>
+          No courses added yet.
+        </div>
+      )}
     </DefaultLayout>
   );
 }

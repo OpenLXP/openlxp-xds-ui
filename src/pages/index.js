@@ -28,8 +28,8 @@ export default function Home() {
       if (!fields.keyword || fields.keyword === '') return;
       const context = {
         actor: {
-          first_name: user?.user?.first_name,
-          last_name: user?.user?.last_name,
+          first_name: user?.user?.first_name || 'Anonymous',
+          last_name: user?.user?.last_name || 'User',
         },
         verb: {
           id: 'https://w3id.org/xapi/acrossx/verbs/searched',
@@ -54,12 +54,12 @@ export default function Home() {
   return (
     <>
       <Header />
-      <div className='max-w-7xl mx-auto flex flex-col items-center justify-center mt-10'>
-        <Image src={logo} height={250} width={250} alt='' />
+      <div className='max-w-7xl mx-auto flex flex-col items-center justify-center mt-52'>
+        <Image src={logo} height={150} width={150} alt='' />
         <h1 className='text-3xl font-bold mt-4'>Enterprise Course Catalog</h1>
         <h2 className='text-xl font-sans mt-2'>Department of Defense</h2>
       </div>
-      <div className='w-[45rem] mx-auto mt-6'>
+      <div className='w-[44rem] mx-auto mt-10'>
         <SearchBar
           parameters={fields}
           onReset={resetKey}
@@ -69,11 +69,7 @@ export default function Home() {
       </div>
       {spotlight.isSuccess && spotlight.data.length > 0 && (
         <>
-          <span
-            className={
-              'text-gray-400 italic block mt-24 font-sans px-2 max-w-7xl mx-auto'
-            }
-          >
+          <span className='text-gray-400 italic block mt-24 font-sans px-2 max-w-7xl mx-auto'>
             Spotlight Courses
           </span>
           <div className='flex flex-col justify-center w-full mt-4 px-2 max-w-7xl mx-auto'>

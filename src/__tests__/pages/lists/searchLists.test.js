@@ -1,348 +1,277 @@
-import { act, fireEvent, render } from '@testing-library/react';
+import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
+import { act, fireEvent, render } from '@testing-library/react';
+import MockRouter from 'next-router-mock';
 import SearchLists from '@/pages/lists/searchLists';
-import { useAuth } from '@/contexts/AuthContext';
-import { useSubscribedLists } from '@/hooks/useSubscribedLists';
-import { useUnsubscribeFromList } from '@/hooks/useUnsubscribeFromList';
-import { useSubscribeToList } from '@/hooks/useSubscribeToList';
-import { useInterestLists } from '@/hooks/useInterestLists';
 import singletonRouter from 'next/router';
 
-// mocks
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
+import {
+  subscribeToListMockFn,
+  unsubscribeFromListMockFn,
+  useAuthenticatedUser,
+  useMockConfig,
+  useMockInterestLists,
+  useMockInterestListsEmpty,
+  useMockInterestListsWith401,
+  useMockInterestListsWith403,
+  useMockSubscribeToList,
+  useMockSubscribedLists,
+  useMockSubscribedListsEmpty,
+  useMockUnsubscribeFromList,
+  useUnauthenticatedUser,
+} from '@/__mocks__/predefinedMocks';
+import { useSubscribeToList } from '@/hooks/useSubscribeToList';
 
-// mock useInterestLists
-jest.mock('@/hooks/useInterestLists', () => ({
-  useInterestLists: jest.fn(),
-}));
-
-// mock useSubscribedLists
-jest.mock('@/hooks/useSubscribedLists', () => ({
-  useSubscribedLists: jest.fn(),
-}));
-// mock useUnsubscribeFromList
-jest.mock('@/hooks/useUnsubscribeFromList', () => ({
-  useUnsubscribeFromList: jest.fn(),
-}));
-
-// mock useSubscribeToList
-jest.mock('@/hooks/useSubscribeToList', () => ({
-  useSubscribeToList: jest.fn(),
-}));
-
-// mock auth
-jest.mock('@/contexts/AuthContext', () => ({
-  useAuth: jest.fn(),
-}));
-
-const unsubscribeFromList = jest.fn();
-const subscribeToList = jest.fn();
+beforeEach(() => {
+  useMockConfig();
+});
 
 const renderer = () => {
-  useUnsubscribeFromList.mockImplementation(() => ({
-    mutate: unsubscribeFromList,
-  }));
-  useSubscribeToList.mockImplementation(() => ({
-    mutate: subscribeToList,
-  }));
-
-  useAuth.mockImplementation(() => ({
-    user: {
-      user: {
-        id: '1',
-        name: 'test',
-        email: '',
-      },
-    },
-  }));
-
+  MockRouter.setCurrentUrl('/lists/searchLists');
   return render(
-    <QueryClientWrapper>
-      <SearchLists />
-    </QueryClientWrapper>
+    <MemoryRouterProvider>
+      <QueryClientWrapper>
+        <SearchLists />
+      </QueryClientWrapper>
+    </MemoryRouterProvider>
   );
 };
 describe('Search Lists', () => {
-  describe('static', () => {
-    useSubscribedLists.mockImplementation(() => ({
-      data: [],
-    }));
-    useInterestLists.mockImplementation(() => ({
-      data: [],
-      isSuccess: true,
-    }));
-    it('should render the title', () => {
-      const { getByText } = renderer();
-      expect(getByText(/search list catalog/i)).toBeInTheDocument();
-    });
-    it('should render the search bar', () => {
-      const { getByPlaceholderText } = renderer();
-      expect(getByPlaceholderText(/search the catalog/i)).toBeInTheDocument();
+  it('should render the title', () => {
+    useAuthenticatedUser();
+    useMockInterestListsEmpty();
+    useMockSubscribedListsEmpty();
+    useMockSubscribeToList();
+    useMockUnsubscribeFromList();
+    const { getByText } = renderer();
+    expect(getByText(/search list catalog/i)).toBeInTheDocument();
+  });
+
+  it('should navigate user to "/" when not authenticated', () => {
+    useUnauthenticatedUser();
+    useMockInterestListsEmpty();
+    useMockSubscribedListsEmpty();
+    useMockSubscribeToList();
+    useMockUnsubscribeFromList();
+    const { getByText } = renderer();
+    expect(singletonRouter).toMatchObject({
+      asPath: '/',
     });
   });
 
-  describe('with data', () => {
-    it('should show a list of lists available', () => {
-      useSubscribedLists.mockImplementation(() => ({
-        data: [],
-        isSuccess: true,
-      }));
-      useInterestLists.mockImplementation(() => ({
-        data: [
-          {
-            name: 'test',
-            id: '123',
-            owner: {
-              id: '2',
-              name: 'test',
-              email: '',
-            },
-          },
-        ],
-        isSuccess: true,
-      }));
-
-      const { getByText } = renderer();
-      expect(getByText(/test/i)).toBeInTheDocument();
+  it('should navigate a user to "401" page when user has no permissions', () => {
+    useAuthenticatedUser();
+    useMockInterestListsWith401();
+    useMockSubscribedListsEmpty();
+    useMockSubscribeToList();
+    useMockUnsubscribeFromList();
+    const { getByText } = renderer();
+    expect(singletonRouter).toMatchObject({
+      asPath: '/401',
     });
-    it('should not show the list if the user is the owner', () => {
-      useSubscribedLists.mockImplementation(() => ({
-        data: [],
-        isSuccess: true,
-      }));
-      useInterestLists.mockImplementation(() => ({
-        data: [
-          {
-            name: 'test',
-            id: '123',
-            owner: {
-              id: '1',
-              name: 'test',
-              email: '',
-            },
-          },
-        ],
-        isSuccess: true,
-      }));
+  });
 
-      const { queryByText } = renderer();
-      expect(queryByText(/test/i)).not.toBeInTheDocument();
+  it('should navigate a user to "403" page when user has no permissions', () => {
+    useAuthenticatedUser();
+    useMockInterestListsWith403();
+    useMockSubscribedListsEmpty();
+    useMockSubscribeToList();
+    useMockUnsubscribeFromList();
+    const { getByText } = renderer();
+    expect(singletonRouter).toMatchObject({
+      asPath: '/403',
     });
-    it('should show subscribe', () => {
-      useSubscribedLists.mockImplementation(() => ({
-        data: [],
-        isSuccess: true,
-      }));
-      useInterestLists.mockImplementation(() => ({
-        data: [
-          {
-            name: 'test',
-            id: '123',
-            owner: {
-              id: '2',
-              name: 'test',
-              email: '',
-            },
-          },
-        ],
-        isSuccess: true,
-      }));
+  });
 
-      const { getByText } = renderer();
-      expect(getByText(/subscribe/i)).toBeInTheDocument();
-      act(() => {
-        fireEvent.click(getByText(/subscribe/i));
+  it('should render the list of interest lists', () => {
+    useAuthenticatedUser();
+    useMockInterestLists();
+    useMockSubscribedListsEmpty();
+    useMockSubscribeToList();
+    useMockUnsubscribeFromList();
+    const { getByText, queryAllByText } = renderer();
+    expect(getByText('Test List 1')).toBeInTheDocument();
+    expect(queryAllByText('Subscribe').length).toBe(10);
+  });
+
+  it('should render the list of interest lists and show unsubscribe', () => {
+    useAuthenticatedUser();
+    useMockInterestLists();
+    useMockSubscribedLists();
+    useSubscribeToList();
+    useMockUnsubscribeFromList();
+    const { getByText } = renderer();
+
+    expect(getByText('Test List 1')).toBeInTheDocument();
+    expect(getByText('Unsubscribe')).toBeInTheDocument();
+  });
+
+  it('should render the next and previous buttons', () => {
+    useAuthenticatedUser();
+    useMockInterestLists();
+    useMockSubscribedListsEmpty();
+    useMockSubscribeToList();
+    useMockUnsubscribeFromList();
+    const { getByText } = renderer();
+    expect(getByText('Next')).toBeInTheDocument();
+    expect(getByText('Prev')).toBeInTheDocument();
+    expect(getByText('Prev')).toBeDisabled();
+  });
+
+  it('should navigate to next page', () => {
+    useAuthenticatedUser();
+    useMockInterestLists();
+    useMockSubscribedListsEmpty();
+    useMockSubscribeToList();
+    useMockUnsubscribeFromList();
+    const { getByText } = renderer();
+    act(() => {
+      fireEvent.click(getByText('Next'));
+    });
+
+    expect(getByText('Prev')).toBeInTheDocument();
+    expect(getByText('Prev')).toBeEnabled();
+    expect(getByText('Next')).toBeInTheDocument();
+    expect(getByText('Next')).toBeDisabled();
+  });
+
+  it('should navigate to previous page', () => {
+    useAuthenticatedUser();
+    useMockInterestLists();
+    useMockSubscribedListsEmpty();
+    useMockSubscribeToList();
+    useMockUnsubscribeFromList();
+    const { getByText } = renderer();
+    act(() => {
+      fireEvent.click(getByText('Next'));
+    });
+    expect(getByText('Prev')).toBeInTheDocument();
+    expect(getByText('Prev')).toBeEnabled();
+    act(() => {
+      fireEvent.click(getByText('Prev'));
+    });
+    expect(getByText('Prev')).toBeInTheDocument();
+    expect(getByText('Prev')).toBeDisabled();
+  });
+
+  it('should only show results that contain the search term', () => {
+    useAuthenticatedUser();
+    useMockInterestLists();
+    useMockSubscribedListsEmpty();
+    useMockSubscribeToList();
+    useMockUnsubscribeFromList();
+    const { getByPlaceholderText, queryAllByText } = renderer();
+    act(() => {
+      fireEvent.change(getByPlaceholderText('Search the catalog'), {
+        target: { value: '11' },
       });
     });
-    it('should show unsubscribe', () => {
-      useSubscribedLists.mockImplementation(() => ({
-        data: [
-          {
-            name: 'test',
-            id: '123',
-            owner: {
-              id: '2',
-              name: 'test',
-              email: '',
-            },
-          },
-        ],
-        isSuccess: true,
-      }));
-      useInterestLists.mockImplementation(() => ({
-        data: [
-          {
-            name: 'test',
-            id: '123',
-            owner: {
-              id: '2',
-              name: 'test',
-              email: '',
-            },
-          },
-        ],
-        isSuccess: true,
-      }));
+    expect(queryAllByText(/Test List/i)).toHaveLength(1);
+  });
 
-      const { getByText } = renderer();
-      expect(getByText(/unsubscribe/i)).toBeInTheDocument();
-      act(() => {
-        fireEvent.click(getByText(/unsubscribe/i));
+  it('should reset the search query when the reset button is clicked', () => {
+    useAuthenticatedUser();
+    useMockInterestLists();
+    useMockSubscribedListsEmpty();
+    useMockSubscribeToList();
+    useMockUnsubscribeFromList();
+    const { getByTitle, getByPlaceholderText, queryAllByText } = renderer();
+    act(() => {
+      fireEvent.change(getByPlaceholderText('Search the catalog'), {
+        target: { value: '11' },
       });
-      expect(getByText(/subscribe/i)).toBeInTheDocument();
-
     });
-    it('should show next when more than 10 lists exist.', () => {
-      const interestListsCreated = [...Array(11).keys()].map((i) => ({
-        name: `test${i}`,
-        id: `${i}`,
-        owner: {
-          id: '2',
-          name: 'test',
-          email: '',
-        },
-      }));
-
-      useSubscribedLists.mockImplementation(() => ({
-        data: [
-          {
-            name: 'test',
-            id: '123',
-            owner: {
-              id: '2',
-              name: 'test',
-              email: '',
-            },
-          },
-        ],
-        isSuccess: true,
-      }));
-      useInterestLists.mockImplementation(() => ({
-        data: interestListsCreated,
-        isSuccess: true,
-      }));
-
-      const { getByText } = renderer();
-      expect(getByText(/next/i)).toBeInTheDocument();
+    expect(queryAllByText(/Test List/i)).toHaveLength(1);
+    act(() => {
+      fireEvent.click(getByTitle('reset'));
     });
 
-    it('should show previous button after clicking the next button', () => {
-      const interestListsCreated = [...Array(11).keys()].map((i) => ({
-        name: `test${i}`,
-        id: `${i}`,
-        owner: {
-          id: '2',
-          name: 'test',
-          email: '',
-        },
-      }));
+    expect(queryAllByText(/Test List/i)).toHaveLength(10);
+  });
 
-      useSubscribedLists.mockImplementation(() => ({
-        data: [
-          {
-            name: 'test',
-            id: '123',
-            owner: {
-              id: '2',
-              name: 'test',
-              email: '',
-            },
-          },
-        ],
-        isSuccess: true,
-      }));
-      useInterestLists.mockImplementation(() => ({
-        data: interestListsCreated,
-        isSuccess: true,
-      }));
+  it('should show the number of results being shown', () => {
+    useAuthenticatedUser();
+    useMockInterestLists();
+    useMockSubscribedListsEmpty();
+    useMockSubscribeToList();
+    useMockUnsubscribeFromList();
+    const { queryByText } = renderer();
+    expect(queryByText(/1-10/i)).toBeInTheDocument();
+  });
 
-      const { getByText } = renderer();
-
-      act(() => {
-        fireEvent.click(getByText(/next/i));
-      });
-
-      expect(getByText(/previous/i)).toBeInTheDocument();
-
-      act(() => {
-        fireEvent.click(getByText(/previous/i));
+  it('should show the number of results being shown when there are less than 10', () => {
+    useAuthenticatedUser();
+    useMockInterestLists();
+    useMockSubscribedListsEmpty();
+    useMockSubscribeToList();
+    useMockUnsubscribeFromList();
+    const { getByText, getByPlaceholderText } = renderer();
+    act(() => {
+      fireEvent.change(getByPlaceholderText('Search the catalog'), {
+        target: { value: '11' },
       });
     });
 
-    it('should navigate to the 401 error page', () => {
-      useSubscribedLists.mockImplementation(() => ({
-        data: [
-        ],
-        isSuccess: false,
-        isError: true,
-        error:{
-          response:{
-            status:401,
-          }
-        },
-      }));
+    expect(getByText(/1-1/i)).toBeInTheDocument();
+  });
 
-      const { getByText } = renderer();
-      expect(singletonRouter).toMatchObject({
-        asPath: '/401',
+  it('should show the "0" if there are no matches', () => {
+    useAuthenticatedUser();
+    useMockInterestLists();
+    useMockSubscribedListsEmpty();
+    useMockSubscribeToList();
+    useMockUnsubscribeFromList();
+    const { getByText, getByPlaceholderText } = renderer();
+    act(() => {
+      fireEvent.change(getByPlaceholderText('Search the catalog'), {
+        target: { value: 'no matches' },
       });
     });
 
-    it('should navigate to the 401 error page', () => {
-      useInterestLists.mockImplementation(() => ({
-        data: [
-        ],
-        isSuccess: false,
-        isError: true,
-        error:{
-          response:{
-            status:401,
-          }
-        },
-      }));
+    expect(getByText(/0/i)).toBeInTheDocument();
+  });
 
-      const { getByText } = renderer();
-      expect(singletonRouter).toMatchObject({
-        asPath: '/401',
-      });
+  it('should navigate user to list when clicked', () => {
+    useAuthenticatedUser();
+    useMockInterestLists();
+    useMockSubscribedListsEmpty();
+    useMockSubscribeToList();
+    useMockUnsubscribeFromList();
+    const { getByText } = renderer();
+    act(() => {
+      fireEvent.click(getByText('Test List 1'));
     });
 
-    it('should navigate to the 403 error page', () => {
-      useSubscribedLists.mockImplementation(() => ({
-        data: [
-        ],
-        isSuccess: false,
-        isError: true,
-        error:{
-          response:{
-            status:403,
-          }
-        },
-      }));
+    expect(singletonRouter).toMatchObject({
+      asPath: '/lists/1',
+    });
+  });
 
-      const { getByText } = renderer();
-      expect(singletonRouter).toMatchObject({
-        asPath: '/403',
-      });
+  it('should call the subscribeToList function when clicked', () => {
+    useAuthenticatedUser();
+    useMockInterestLists();
+    useMockSubscribedListsEmpty();
+    useMockSubscribeToList();
+    useMockUnsubscribeFromList();
+    const { getAllByText } = renderer();
+    act(() => {
+      fireEvent.click(getAllByText('Subscribe')[0]);
     });
 
-    it('should navigate to the 403 error page', () => {
-      useInterestLists.mockImplementation(() => ({
-        data: [
-        ],
-        isSuccess: false,
-        isError: true,
-        error:{
-          response:{
-            status:403,
-          }
-        },
-      }));
+    expect(subscribeToListMockFn).toHaveBeenCalled();
+  });
 
-      const { getByText } = renderer();
-      expect(singletonRouter).toMatchObject({
-        asPath: '/403',
-      });
+  it('should call the unsubscribeFromList function when clicked', () => {
+    useAuthenticatedUser();
+    useMockInterestLists();
+    useMockSubscribedLists();
+    useMockSubscribeToList();
+    useMockUnsubscribeFromList();
+    const { getAllByText } = renderer();
+    act(() => {
+      fireEvent.click(getAllByText('Unsubscribe')[0]);
     });
+
+    expect(unsubscribeFromListMockFn).toHaveBeenCalled();
   });
 });
