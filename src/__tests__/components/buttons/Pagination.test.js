@@ -1,82 +1,87 @@
-import { render, act, fireEvent, screen, container } from '@testing-library/react';
+import { render, act, fireEvent, screen } from '@testing-library/react';
 
 import { Pagination } from '@/components/buttons/Pagination';
 
 describe('Pagination', () => {
-  it('should not show the previous button', () => {
-    render(<Pagination currentPage={1} />);
-    expect(
-      screen.queryByText('Previous').className.includes('invisible')
-    ).toBeTruthy();
-  });
-  it('shoul not show left double chevron button', () => {
-    render(<Pagination currentPage={1} />);
-    expect(
-      screen.getByTitle('First').className.includes('invisible')
-    ).toBeTruthy();
-  })
-  it('shoul not show right double chevron button', () => {
-    render(<Pagination currentPage={10} totalPages={10} />);
-    expect(
-      screen.getByTitle('Last').className.includes('invisible')
-    ).toBeTruthy();
-  })
-  it('should not show the next button', () => {
-    render(<Pagination currentPage={10} totalPages={10} />);
-    expect(
-      screen.queryByText('Next').className.includes('invisible')
-    ).toBeTruthy();
-  });
-  it('should execute the passed fn when next is clicked', () => {
-    console.log = jest.fn();
-
+  const testMock = jest.fn();
+  it('should render the pagination component', () => {
     render(
       <Pagination
+        totalPages={10}
         currentPage={2}
-        totalPages={4}
-        handleSpecificPage={() => console.log('next')}
+        onChangePage={testMock}
+        handleSpecificPage={testMock}
       />
     );
 
     act(() => {
-      const button = screen.getByText('Next');
-      fireEvent.click(button);
+      fireEvent.click(screen.getByRole('button', { name: 'First' }));
     });
 
-    expect(console.log).toHaveBeenCalledTimes(1);
-    expect(console.log).toHaveBeenCalledWith('next');
-  });
-  it('should execute the passed fn when back is clicked', () => {
-    console.log = jest.fn();
+    expect(testMock).toHaveBeenCalledTimes(1);
 
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'Previous' }));
+    });
+
+    expect(testMock).toHaveBeenCalledTimes(2);
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: '1' }));
+    });
+
+    expect(testMock).toHaveBeenCalledTimes(3);
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    });
+
+    expect(testMock).toHaveBeenCalledTimes(4);
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'Last' }));
+    });
+
+    expect(testMock).toHaveBeenCalledTimes(5);
+
+    expect(screen.getByRole('button', { name: '1' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '2' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '3' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '4' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '5' })).toBeInTheDocument();
+
+    expect(screen.getByRole('button', { name: 'Next' })).toBeEnabled();
+    expect(screen.getByRole('button', { name: 'Last' })).toBeEnabled();
+
+    expect(screen.getByRole('button', { name: 'Previous' })).toBeEnabled();
+    expect(screen.getByRole('button', { name: 'First' })).toBeEnabled();
+  });
+
+  it('should show previous buttons as disabled when on first page', () => {
     render(
       <Pagination
-        currentPage={2}
-        totalPages={4}
-        handleSpecificPage={() => console.log('previous')}
+        totalPages={10}
+        currentPage={1}
+        onChangePage={testMock}
+        handleSpecificPage={testMock}
       />
     );
 
-    act(() => {
-      const button = screen.getByText('Previous');
-      fireEvent.click(button);
-    });
-
-    expect(console.log).toHaveBeenCalledTimes(1);
-    expect(console.log).toHaveBeenCalledWith('previous');
+    expect(screen.getByRole('button', { name: 'Previous' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'First' })).toBeDisabled();
   });
-  it('should move to page 4 when page 4 is selected', () => {
-    render(<Pagination
-      currentPage={1}
-      totalPages={6}
-      handleSpecificPage={(page) => console.log(page)} />
+
+  it('should show next buttons as disabled when on last page', () => {
+    render(
+      <Pagination
+        totalPages={10}
+        currentPage={10}
+        onChangePage={testMock}
+        handleSpecificPage={testMock}
+      />
     );
 
-    act(() => {
-      const button = screen.getByRole('button', {name: /4/i});
-      fireEvent.click(button);
-    });
-
-    expect(console.log).toHaveBeenCalledWith(4);
-  })
+    expect(screen.getByRole('button', { name: 'Next' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Last' })).toBeDisabled();
+  });
 });

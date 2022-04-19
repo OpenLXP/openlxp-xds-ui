@@ -5,6 +5,7 @@ import { useUnsubscribeFromList } from '@/hooks/useUnsubscribeFromList';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import mockAxios from 'jest-mock-axios';
 
+jest.unmock('@/hooks/useUnsubscribeFromList');
 const wrapper = ({ children }) => (
   <QueryClientWrapper>
     <div>{children}</div>

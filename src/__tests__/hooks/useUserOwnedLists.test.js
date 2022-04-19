@@ -5,6 +5,8 @@ import mockAxios from 'jest-mock-axios';
 import {useUserOwnedLists} from '@/hooks/useUserOwnedLists';
 import userOwnedListsData from '@/__mocks__/data/userLists.data';
 
+jest.unmock('@/hooks/useUserOwnedLists');
+
 const queryClient = new QueryClient();
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

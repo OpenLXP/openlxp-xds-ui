@@ -37,7 +37,8 @@ export default function ViewBtn({ id, courseTitle, courseDescription }) {
         title='view course'
         onClick={handleClick}
       >
-        <EyeIcon className='h-5 w-5' /> View Course
+        <EyeIcon className='h-5 w-5' />
+        View Course
       </button>
     </Link>
   );

@@ -1,13 +1,13 @@
-import uiConfigData from '@/__mocks__/data/uiConfig.data';
 import courseData from '@/__mocks__/data/course.data';
+import uiConfigData from '@/__mocks__/data/uiConfig.data';
 import usePrepareCourseData from '@/hooks/usePrepareCourseData';
 
 describe('usePrepareCourseData', () => {
   it('should return correct data when passed a uiConfig & data', () => {
     const data = usePrepareCourseData(uiConfigData, courseData);
 
-    expect(data).toEqual({
-      courseDescription: "Short Description",
+    expect(data).toMatchObject({
+      courseDescription: 'Short Description',
       courseDetails: [
         {
           displayName: 'Course Code',
@@ -16,8 +16,10 @@ describe('usePrepareCourseData', () => {
       ],
       courseTitle: 'Test Course Title',
       courseUrl: 'CourseURL',
-      coursePhoto: 'undefinedsome/fallback',
     });
+
+    // check that the photo is a valid url 
+    expect(data.coursePhoto.includes('/fallback')).toBeTruthy();
   });
   it('should return the correct number of highlights based on active state', () => {
     const data = usePrepareCourseData(uiConfigData, courseData);

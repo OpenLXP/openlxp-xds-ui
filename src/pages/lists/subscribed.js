@@ -3,7 +3,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import { useSubscribedLists } from '@/hooks/useSubscribedLists';
 import { useUnsubscribeFromList } from '@/hooks/useUnsubscribeFromList';
-import ActionButton from '@/components/buttons/ActionButton';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
@@ -20,9 +19,10 @@ export default function Subscribed() {
   const router = useRouter();
 
   useEffect(() => {
+    if (!user) router.push('/');
     if (isError && error.response.status === 401) router.push('/401');
     if (isError && error.response.status === 403) router.push('/403');
-  }, [isError]);
+  }, []);
 
   return (
     <DefaultLayout>

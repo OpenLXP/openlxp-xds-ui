@@ -2,6 +2,9 @@ import mockAxios from 'jest-mock-axios';
 import { renderHook } from '@testing-library/react-hooks';
 import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
+
+jest.unmock('@/hooks/useCreateUserList');
+
 const wrapper = ({ children }) => (
   <QueryClientWrapper>{children}</QueryClientWrapper>
 );

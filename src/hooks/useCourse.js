@@ -3,6 +3,7 @@ import { courseUrl } from '@/config/endpoints';
 import { oneHour } from '@/config/timeConstants';
 import { useQuery } from 'react-query';
 
+
 export function getCourse(id) {
   if (!id) return null;
   return axiosInstance.get(courseUrl + id + '/').then((res) => res.data);
