@@ -19,8 +19,6 @@ import {
 import Course from '@/pages/course/[courseId]';
 import singletonRouter from 'next/router';
 
-
-
 const renderer = (isAuth = false) => {
   return render(
     <MemoryRouterProvider>
@@ -83,7 +81,7 @@ describe('Course Page', () => {
     useMockCourse();
     const screen = renderer();
 
-    expect(screen.getByText('Save Course')).toBeInTheDocument();
+    expect(screen.getByText('Save Course')).toBeEnabled();
   });
 
   it('should not display a save course button if the user is not authenticated', () => {
@@ -92,7 +90,8 @@ describe('Course Page', () => {
     useMockCourse();
     const screen = renderer();
 
-    expect(screen.queryByText('Save Course')).not.toBeInTheDocument();
+    // expect(screen.queryByText('Save Course')).not.toBeInTheDocument();
+    expect(screen.queryByText('Save Course')).toBeDisabled();
   });
 
   it('should display "Not Available" if specific course data is not available', () => {

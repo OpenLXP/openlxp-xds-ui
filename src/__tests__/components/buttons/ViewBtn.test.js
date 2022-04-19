@@ -1,9 +1,9 @@
-import { act, screen, render, fireEvent } from '@testing-library/react';
-import ViewBtn from "../../../components/buttons/ViewBtn";
-import xAPIMapper from "@/utils/xapi/xAPIMapper";
-import courseData from '@/__mocks__/data/course.data';
-import { useAuth } from '@/contexts/AuthContext';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { useAuth } from '@/contexts/AuthContext';
+import ViewBtn from "@/components/buttons/ViewBtn";
+import courseData from '@/__mocks__/data/course.data';
+import xAPIMapper from "@/utils/xapi/xAPIMapper";
 
 // mock auth
 jest.mock('@/contexts/AuthContext', () => ({
