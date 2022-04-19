@@ -1,9 +1,9 @@
 import { useAuth } from '@/contexts/AuthContext';
+import { useCallback, useEffect } from 'react';
 import { useList } from '@/hooks/useList';
 import { useRouter } from 'next/router';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
-import { useCallback, useEffect } from 'react';
 
 export function getServerSideProps(context) {
   const { listId } = context.query;

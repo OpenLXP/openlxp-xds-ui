@@ -7,13 +7,13 @@ import {
   XIcon,
 } from '@heroicons/react/outline';
 import { Switch } from '@headlessui/react';
+import { useAuth } from '@/contexts/AuthContext';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserList } from '@/hooks/useUserList';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import prepareListDataToSend from '@/utils/prepListDataToSend';
-import { useAuth } from '@/contexts/AuthContext';
 
 export function getServerSideProps({ query }) {
   return {
