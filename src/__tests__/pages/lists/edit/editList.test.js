@@ -34,7 +34,7 @@ describe('Edit List', () => {
     useAuthenticatedUser();
     useMockUserList();
     useMockUpdateUserList();
-    renderer(<EditList />);
+    renderer();
     screen.getByText('View public list');
   });
 
@@ -42,7 +42,7 @@ describe('Edit List', () => {
     useUnauthenticatedUser();
     useMockUserList();
     useMockUpdateUserList();
-    renderer(<EditList />);
+    renderer();
     expect(singletonRouter).toMatchObject({ asPath: '/' });
   });
 
@@ -50,7 +50,7 @@ describe('Edit List', () => {
     useAuthenticatedUser();
     useMockUserListWith401();
     useMockUpdateUserList();
-    renderer(<EditList />);
+    renderer();
     expect(singletonRouter).toMatchObject({ asPath: '/401' });
   });
 
@@ -58,7 +58,7 @@ describe('Edit List', () => {
     useAuthenticatedUser();
     useMockUserListWith403();
     useMockUpdateUserList();
-    renderer(<EditList />);
+    renderer();
     expect(singletonRouter).toMatchObject({ asPath: '/403' });
   });
 
@@ -66,7 +66,7 @@ describe('Edit List', () => {
     useAuthenticatedUser();
     useMockUserList();
     useMockUpdateUserList();
-    renderer(<EditList />);
+    renderer();
     act(() => {
       fireEvent.click(screen.getByText('View public list'));
     });
@@ -77,7 +77,7 @@ describe('Edit List', () => {
     useAuthenticatedUser();
     useMockUserList();
     useMockUpdateUserList();
-    renderer(<EditList />);
+    renderer();
     act(() => {
       fireEvent.click(screen.getByText('Test Title'));
     });
@@ -88,7 +88,7 @@ describe('Edit List', () => {
     useAuthenticatedUser();
     useMockUserList();
     useMockUpdateUserList();
-    renderer(<EditList />);
+    renderer();
     expect(screen.getByText('Test List')).toBeInTheDocument();
     expect(screen.getByText('test description')).toBeInTheDocument();
     expect(screen.getByText('Test Title')).toBeInTheDocument();
@@ -98,7 +98,7 @@ describe('Edit List', () => {
     useAuthenticatedUser();
     useMockUserList();
     useMockUpdateUserList();
-    renderer(<EditList />);
+    renderer();
     expect(screen.getByText(/private/i)).toBeInTheDocument();
   });
 
@@ -106,7 +106,7 @@ describe('Edit List', () => {
     useAuthenticatedUser();
     useMockUserList();
     useMockUpdateUserList();
-    renderer(<EditList />);
+    renderer();
     act(() => {
       fireEvent.click(screen.getByTitle(/toggle/i));
     });
@@ -119,7 +119,7 @@ describe('Edit List', () => {
     useAuthenticatedUser();
     useMockUserList();
     useMockUpdateUserList();
-    renderer(<EditList />);
+    renderer();
     expect(screen.getByText(/Test Title/i)).toBeInTheDocument();
     act(() => {
       fireEvent.click(screen.getByRole('button', { name: /remove/i }));
@@ -132,7 +132,7 @@ describe('Edit List', () => {
     useAuthenticatedUser();
     useMockUserList();
     useMockUpdateUserList();
-    renderer(<EditList />);
+    renderer();
     act(() => {
       fireEvent.click(screen.getByRole('button', { name: /save/i }));
     });

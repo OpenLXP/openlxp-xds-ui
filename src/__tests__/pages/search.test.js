@@ -180,7 +180,7 @@ describe('Search Page', () => {
     useMockMoreLikeThis();
     useMockUserOwnedLists();
 
-    const { getByPlaceholderText, getByTitle } = renderer(false);
+    const { getByPlaceholderText, getByTitle } = renderer();
 
     const input = getByPlaceholderText(/search the catalog/i);
     const searchBtn = getByTitle(/search/i);
