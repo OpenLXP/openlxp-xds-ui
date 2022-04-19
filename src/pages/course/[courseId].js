@@ -15,6 +15,7 @@ import CourseSpotlight from '@/components/cards/CourseSpotlight';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import SaveModalCoursePage from '@/components/modals/SaveModalCoursePage';
+import ShareButton from '@/components/buttons/ShareBtn';
 
 function RelatedCourses({ id }) {
   const moreLikeThis = useMoreCoursesLikeThis(id);
@@ -24,7 +25,6 @@ function RelatedCourses({ id }) {
       <div className='bg-gray-200 mt-10 font-bold block font-sans p-4 '>
         <div className='w-full gap-10 max-w-7xl mx-auto'>Related Courses</div>
       </div>
-
       <div className='flex justify-center w-full overflow-x-hidden my-10 max-w-7xl mx-auto'>
         <div className='inline-flex overflow-x-auto gap-2 py-4 custom-scroll '>
           {moreLikeThis.data?.hits?.map((course, index) => (
@@ -108,14 +108,21 @@ export default function Course() {
             <h1 className='font-semibold text-4xl'>
               {data?.title || 'Not Available'}
             </h1>
-            <a
-              className='min-w-max whitespace-nowrap p-2 text-center text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600  font-medium transform transition-all duration-150 ease-in-out focus:ring-2 ring-blue-400 outline-none'
-              href={data?.url}
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              Go to Enrollment
-            </a>
+            <div className='flex gap-2'>
+              <ShareButton
+                id={router.query?.courseId}
+                courseTitle={data?.title}
+                courseDescription={data?.description}
+              />
+              <a
+                className='min-w-max whitespace-nowrap p-2 text-center text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600  font-medium transform transition-all duration-75 ease-in-out focus:ring-2 ring-blue-400 outline-none'
+                href={data?.url}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                Go to Enrollment
+              </a>
+            </div>
           </div>
           <p className='my-2'>
             <strong>Course Code:&nbsp;</strong>
@@ -174,7 +181,7 @@ export default function Course() {
                 </div>
               </span>
             </div>
-            {user && <SaveModalCoursePage courseId={router.query?.courseId} />}
+            <SaveModalCoursePage courseId={router.query?.courseId} />
           </div>
         </div>
       </div>
