@@ -1,5 +1,5 @@
 # Install dependencies only when needed
-FROM node:14.18.1-alpine AS deps
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS deps
 
 # RUN apk add libc6-compat
 WORKDIR /app
@@ -7,7 +7,7 @@ COPY package.json ./
 RUN yarn install --production
 
 # Rebuild the source code only when needed
-FROM node:14.18.1-alpine AS builder
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS builder
 WORKDIR /app
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
@@ -17,7 +17,7 @@ RUN yarn build
 
 
 # Production image, copy all the files and run next
-FROM node:14.18.1-alpine AS runner
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
