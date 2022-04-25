@@ -1,14 +1,33 @@
+import { searchUrl } from '@/config/endpoints';
 import { tenMinutes } from '@/config/timeConstants';
+import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
+import { useRouter } from 'next/router';
 import axios from 'axios';
+import queryString from 'querystring';
 
 const getSearchResults = (searchTerm) => {
   return axios.get(searchTerm).then((res) => res.data);
 };
 
-export function useSearch(url) {
+function makePath(params) {
+  return `${searchUrl}?${queryString.stringify(params)}`;
+}
+
+export function useSearch() {
+  const router = useRouter();
+
+  // state of the search term
+  const [url, setNewUrl] = useState(makePath(router?.query));
+
+  const setUrl = (params) => {
+    setNewUrl(makePath(params));
+  };
+
+  // access to the client
   const queryClient = useQueryClient();
-  return useQuery(['search', url], () => getSearchResults(url), {
+
+  const searchQuery = useQuery(['search', url], () => getSearchResults(url), {
     staleTime: tenMinutes,
     onSuccess: (data) => {
       // add each of the hits to the query client as a course
@@ -18,4 +37,16 @@ export function useSearch(url) {
       });
     },
   });
+
+  useEffect(() => {
+    searchQuery.refetch();
+  }, [router, url]);
+
+  // return the state of the url, the setter, and all the attributes from the query
+  return {
+    url,
+    setUrl,
+    router: useRouter(),
+    ...searchQuery,
+  };
 }

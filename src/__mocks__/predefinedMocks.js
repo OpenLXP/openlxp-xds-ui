@@ -765,6 +765,8 @@ export function useMockSavedSearchWith403() {
 
 export function useMockSearch() {
   return useSearch.mockImplementation(() => ({
+    url: 'https://www.test.com',
+    setUrl: jest.fn(),
     data: {
       hits: [
         {
@@ -814,6 +816,8 @@ export function useMockSearch() {
 
 export function useMockSearchWithMultipleResults() {
   return useSearch.mockImplementation(() => ({
+    url: 'https://www.test.com',
+    setUrl: jest.fn(),
     data: {
       // 11 results
       hits: [
@@ -1019,6 +1023,8 @@ export function useMockSearchWithMultipleResults() {
 
 export function useMockSearchWithoutData() {
   return useSearch.mockImplementation(() => ({
+    url: 'https://www.test.com',
+    setUrl: jest.fn(),
     data: {
       hits: [],
       total: 1,
