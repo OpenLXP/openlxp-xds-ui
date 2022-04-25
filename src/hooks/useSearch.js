@@ -51,7 +51,6 @@ export function useSearch() {
   return {
     url,
     setUrl,
-    router: useRouter(),
     ...searchQuery,
   };
 }
