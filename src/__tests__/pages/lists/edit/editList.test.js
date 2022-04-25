@@ -9,6 +9,7 @@ import {
   useMockUserList,
   useMockUserListWith401,
   useMockUserListWith403,
+  useMockUserListWithDifferentUserId,
   useUnauthenticatedUser,
 } from '@/__mocks__/predefinedMocks';
 import EditList, { getServerSideProps } from '@/pages/lists/edit/[listId]';
@@ -41,6 +42,14 @@ describe('Edit List', () => {
   it('should navigate the user to "/" if not authenticated', () => {
     useUnauthenticatedUser();
     useMockUserList();
+    useMockUpdateUserList();
+    renderer();
+    expect(singletonRouter).toMatchObject({ asPath: '/' });
+  });
+
+  it('should navigate the user to "/" if the user id does not match the list owner id', () => {
+    useAuthenticatedUser();
+    useMockUserListWithDifferentUserId();
     useMockUpdateUserList();
     renderer();
     expect(singletonRouter).toMatchObject({ asPath: '/' });

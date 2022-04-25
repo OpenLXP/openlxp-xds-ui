@@ -14,6 +14,7 @@ import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserList } from '@/hooks/useUserList';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import prepareListDataToSend from '@/utils/prepListDataToSend';
+import { interestLists } from '@/config/endpoints';
 
 export function getServerSideProps({ query }) {
   return {
@@ -39,9 +40,20 @@ export default function EditList({ listId }) {
     experiences: [],
   });
 
-  // when the state of the data updates
   useEffect(() => {
-    // if success populate the data
+    // no user
+    if (!user) router.push('/');
+
+    // if there is a authorization error
+    if (!initialList.isSuccess) {
+      if (initialList.error.response.status === 401) router.push('/401');
+      if (initialList.error.response.status === 403) router.push('/403');
+    }
+
+    // if the owner of the list is not the current user, redirect to homepage
+    if (initialList.data?.owner?.id !== user?.id) router.push('/');
+
+    // set the source of truth
     if (initialList.isSuccess) {
       setCurrentListInfo({
         name: initialList.data?.name,
@@ -50,12 +62,6 @@ export default function EditList({ listId }) {
         public: initialList.data?.public,
       });
     }
-
-    if (!user) router.push('/');
-    if (initialList.isError && initialList.error.response.status === 401)
-      router.push('/401');
-    if (initialList.isError && initialList.error.response.status === 403)
-      router.push('/403');
   }, []);
 
   const handleChange = (event) => {

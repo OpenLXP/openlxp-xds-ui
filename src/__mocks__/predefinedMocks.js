@@ -1036,3 +1036,46 @@ export function useMockSearchUrl() {
     setUrl: jest.fn(),
   }));
 }
+
+/** @returns {{
+    data: {
+      id: '1',
+      owner: {
+        id: '1337',
+        email: 'test@test.com',
+        first_name: 'Test',
+        last_name: 'User',
+      },
+      subscribers: [],
+      created: '2020-03-20T16:00:00Z',
+      description: 'test description',
+      name: 'test name',
+      public: true,
+      experiences: [],
+    },
+    isSuccess: true,
+    isError: false,
+  }}
+ */
+
+export function useMockUserListWithDifferentUserId() {
+  return useUserList.mockImplementation(() => ({
+    data: {
+      id: '1',
+      owner: {
+        id: '1337',
+        email: 'test@test.com',
+        first_name: 'Test',
+        last_name: 'User',
+      },
+      subscribers: [],
+      created: '2020-03-20T16:00:00Z',
+      description: 'test description',
+      name: 'test name',
+      public: true,
+      experiences: [],
+    },
+    isSuccess: true,
+    isError: false,
+  }));
+}
