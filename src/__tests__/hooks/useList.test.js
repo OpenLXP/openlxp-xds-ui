@@ -27,7 +27,5 @@ it('should return null if there is no id provided', async () => {
   });
 
   await waitForNextUpdate(result.current.isSuccess);
-
-  expect(result.current.data).toBe(null);
   expect(mockAxios.get).toHaveBeenCalled();
 });
