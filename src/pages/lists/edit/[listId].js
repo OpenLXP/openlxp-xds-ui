@@ -42,16 +42,17 @@ export default function EditList({ listId }) {
 
   useEffect(() => {
     // no user
-    if (!user) router.push('/');
+    if (!user) return router.push('/');
 
     // if there is a authorization error
-    if (!initialList.isSuccess) {
-      if (initialList.error.response.status === 401) router.push('/401');
-      if (initialList.error.response.status === 403) router.push('/403');
-    }
 
-    // if the owner of the list is not the current user, redirect to homepage
-    if (initialList.data?.owner?.id !== user?.id) router.push('/');
+    if (initialList?.error?.response?.status === 401)
+      return router.push('/401');
+    if (initialList?.error?.response?.status === 403)
+      return router.push('/403');
+
+    // // if the owner of the list is not the current user, redirect to homepage
+    if (initialList?.data?.owner?.id !== user?.user?.id) router.push('/');
 
     // set the source of truth
     if (initialList.isSuccess) {
@@ -101,10 +102,15 @@ export default function EditList({ listId }) {
 
   const submitData = (e) => {
     e.preventDefault();
-    mutation.mutate({
-      listData: prepareListDataToSend(currentListInfo),
-      id: parseInt(listId),
-    });
+    mutation.mutate(
+      {
+        listData: prepareListDataToSend(currentListInfo),
+        id: parseInt(listId),
+      },
+      {
+        onSuccess: () => initialList.refetch(),
+      }
+    );
   };
 
   return (
