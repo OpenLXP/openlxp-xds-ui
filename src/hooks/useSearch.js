@@ -14,6 +14,11 @@ function makePath(params) {
   return `${searchUrl}?${queryString.stringify(params)}`;
 }
 
+/**
+ * Hook to get search results
+ * @returns the state of the url, a setter for the url, and all the attributes from the query
+ */
+
 export function useSearch() {
   const router = useRouter();
 
