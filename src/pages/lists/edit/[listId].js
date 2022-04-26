@@ -45,11 +45,14 @@ export default function EditList({ listId }) {
     if (!user) return router.push('/');
 
     // if there is a authorization error
-
-    if (initialList?.error?.response?.status === 401)
-      return router.push('/401');
-    if (initialList?.error?.response?.status === 403)
-      return router.push('/403');
+    if (initialList.isError) {
+      if (initialList?.error?.response?.status === 401) {
+        return router.push('/401');
+      }
+      if (initialList?.error?.response?.status === 403) {
+        return router.push('/403');
+      }
+    }
 
     // // if the owner of the list is not the current user, redirect to homepage
     if (initialList?.data?.owner?.id !== user?.user?.id) router.push('/');
