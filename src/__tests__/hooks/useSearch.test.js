@@ -1,11 +1,11 @@
-import { renderHook, act } from '@testing-library/react-hooks';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { act, renderHook } from '@testing-library/react-hooks';
 import mockAxios from 'jest-mock-axios';
 
 import { useSearch } from '@/hooks/useSearch';
 import searchData from '@/__mocks__/data/search.data';
 
-
+// dont mock this hook
 jest.unmock('@/hooks/useSearch');
 
 const queryClient = new QueryClient();
@@ -22,5 +22,5 @@ test('should return a list of courses found', async () => {
 
   await waitForNextUpdate(result.current.isSuccess);
 
-  expect(result.current.data).toEqual(searchData);
+  expect(result.current.data).toMatchObject(searchData);
 });

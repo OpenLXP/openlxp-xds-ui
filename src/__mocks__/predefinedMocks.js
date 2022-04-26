@@ -765,6 +765,8 @@ export function useMockSavedSearchWith403() {
 
 export function useMockSearch() {
   return useSearch.mockImplementation(() => ({
+    url: 'https://www.test.com',
+    setUrl: jest.fn(),
     data: {
       hits: [
         {
@@ -814,6 +816,8 @@ export function useMockSearch() {
 
 export function useMockSearchWithMultipleResults() {
   return useSearch.mockImplementation(() => ({
+    url: 'https://www.test.com',
+    setUrl: jest.fn(),
     data: {
       // 11 results
       hits: [
@@ -1019,6 +1023,8 @@ export function useMockSearchWithMultipleResults() {
 
 export function useMockSearchWithoutData() {
   return useSearch.mockImplementation(() => ({
+    url: 'https://www.test.com',
+    setUrl: jest.fn(),
     data: {
       hits: [],
       total: 1,
@@ -1034,5 +1040,48 @@ export function useMockSearchUrl() {
   return useSearchUrl.mockImplementation(() => ({
     url: 'https://www.test.com',
     setUrl: jest.fn(),
+  }));
+}
+
+/** @returns {{
+    data: {
+      id: '1',
+      owner: {
+        id: '1337',
+        email: 'test@test.com',
+        first_name: 'Test',
+        last_name: 'User',
+      },
+      subscribers: [],
+      created: '2020-03-20T16:00:00Z',
+      description: 'test description',
+      name: 'test name',
+      public: true,
+      experiences: [],
+    },
+    isSuccess: true,
+    isError: false,
+  }}
+ */
+
+export function useMockUserListWithDifferentUserId() {
+  return useUserList.mockImplementation(() => ({
+    data: {
+      id: '1',
+      owner: {
+        id: '1337',
+        email: 'test@test.com',
+        first_name: 'Test',
+        last_name: 'User',
+      },
+      subscribers: [],
+      created: '2020-03-20T16:00:00Z',
+      description: 'test description',
+      name: 'test name',
+      public: true,
+      experiences: [],
+    },
+    isSuccess: true,
+    isError: false,
   }));
 }

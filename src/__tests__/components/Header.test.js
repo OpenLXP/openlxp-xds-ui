@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';
-import mockRouter from 'next-router-mock';
 import Header from '@/components/Header';
+import mockRouter from 'next-router-mock';
 
 //mocks
 jest.mock('next/dist/client/router', () => require('next-router-mock'));

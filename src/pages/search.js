@@ -5,7 +5,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { useConfig } from '@/hooks/useConfig';
 import { useRouter } from 'next/dist/client/router';
 import { useSearch } from '@/hooks/useSearch';
-import { useSearchUrl } from '@/hooks/useSearchUrl';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import CreateSavedSearchModal from '@/components/modals/CreateSavedSearch';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
@@ -18,8 +17,7 @@ export default function Search() {
   const router = useRouter();
   const config = useConfig();
   const [params, setParams] = useState(router?.query);
-  const { url, setUrl } = useSearchUrl(router?.query);
-  const { data, refetch, isError, isSuccess, isLoading } = useSearch(url);
+  const { setUrl, data, isLoading } = useSearch();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -29,7 +27,7 @@ export default function Search() {
         setUrl(router?.query);
       });
     }
-  }, [router]);
+  }, [router.query]);
 
   function handleChange(event) {
     setParams((previous) => ({
