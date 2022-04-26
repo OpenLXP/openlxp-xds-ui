@@ -19,14 +19,15 @@ function makePath(params) {
  * @returns the state of the url, a setter for the url, and all the attributes from the query
  */
 
-export function useSearch() {
+export function useSearch(queryObject) {
   const router = useRouter();
 
   // state of the search term
   const [url, setNewUrl] = useState(makePath(router?.query));
 
-  const setUrl = (params) => {
-    setNewUrl(makePath(params));
+  // set new search term
+  const setUrl = (queryParams) => {
+    setNewUrl(makePath(queryParams));
   };
 
   // access to the client
@@ -44,8 +45,13 @@ export function useSearch() {
   });
 
   useEffect(() => {
+    let isMounted = true;
+    if (!isMounted) return;
     searchQuery.refetch();
-  }, [router, url]);
+    return () => {
+      isMounted = false;
+    };
+  }, [queryObject, url]);
 
   // return the state of the url, the setter, and all the attributes from the query
   return {

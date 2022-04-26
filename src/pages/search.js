@@ -27,7 +27,7 @@ export default function Search() {
         setUrl(router?.query);
       });
     }
-  }, [router]);
+  }, [router.query]);
 
   function handleChange(event) {
     setParams((previous) => ({
