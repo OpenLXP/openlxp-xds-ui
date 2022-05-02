@@ -3,12 +3,8 @@
 module.exports = {
   // dont collect coverage from tailwind.config.js
 
-  collectCoverageFrom: [
-    '<rootDir>/src/**/*.js'
-  ],
-  coveragePathIgnorePatterns: [
-    '<rootDir>/src/pages/_app.js',
-  ],
+  collectCoverageFrom: ['<rootDir>/src/**/*.js'],
+  coveragePathIgnorePatterns: ['<rootDir>/src/pages/_app.js'],
   moduleNameMapper: {
     /* Handle CSS imports (with CSS modules)
      https://jestjs.io/docs/webpack#mocking-css-modules */
@@ -25,8 +21,7 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
 
-  testPathIgnorePatterns: [
-  ],
+  testPathIgnorePatterns: [],
   testEnvironment: 'jsdom',
   transform: {
     /* Use babel-jest to transpile tests with the next/babel preset

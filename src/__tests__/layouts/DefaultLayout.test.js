@@ -48,8 +48,8 @@ describe('Default Layout', () => {
     useAuthenticatedUser();
     renderer();
     expect(screen.getByText('Test')).toBeInTheDocument();
-    expect(screen.queryByText('Sign in')).toBeDisabled();
-    expect(screen.queryByText('Sign up')).toBeDisabled();
+    expect(screen.queryByText('Sign in')).not.toBeInTheDocument();
+    expect(screen.queryByText('Sign up')).not.toBeInTheDocument();
   });
 
   it('should show the child components', () => {

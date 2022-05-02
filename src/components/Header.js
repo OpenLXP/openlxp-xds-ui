@@ -75,25 +75,22 @@ export default function Header() {
               }
             })}
           </div>
-          <div className='space-x-4'>
-            <Link href={'/login'} passHref>
-              <button
-                disabled={user}
-                className='disabled:hidden bg-blue-500 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'
-              >
-                Sign in
-              </button>
-            </Link>
-            <Link href={'/register'} passHref>
-              <button
-                disabled={user}
-                className='disabled:hidden bg-blue-300 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'
-              >
-                Sign up
-              </button>
-            </Link>
-          </div>
-          {user && <UserMenu />}
+          {!user ? (
+            <div className='space-x-4'>
+              <Link href={'/login'} passHref>
+                <button className='disabled:hidden bg-blue-500 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
+                  Sign in
+                </button>
+              </Link>
+              <Link href={'/register'} passHref>
+                <button className='disabled:hidden bg-blue-300 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
+                  Sign up
+                </button>
+              </Link>
+            </div>
+          ) : (
+            <UserMenu />
+          )}
         </div>
       </nav>
     </header>
