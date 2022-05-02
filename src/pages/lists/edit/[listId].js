@@ -7,6 +7,7 @@ import {
   XIcon,
 } from '@heroicons/react/outline';
 import { Switch } from '@headlessui/react';
+import { interestLists } from '@/config/endpoints';
 import { useAuth } from '@/contexts/AuthContext';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -14,7 +15,6 @@ import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserList } from '@/hooks/useUserList';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import prepareListDataToSend from '@/utils/prepListDataToSend';
-import { interestLists } from '@/config/endpoints';
 
 export function getServerSideProps({ query }) {
   return {
