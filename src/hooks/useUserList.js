@@ -8,5 +8,7 @@ const getUserList = (id) => {
 };
 
 export function useUserList(id) {
-  return useQuery(['user-list', id], getUserList(id), {});
+  return useQuery(['user-list', id], getUserList(id), {
+    refetchOnMount: true,
+  });
 }

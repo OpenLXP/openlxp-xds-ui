@@ -3,7 +3,7 @@ import Footer from '../Footer';
 import Header from '../Header';
 
 export default function DefaultLayout({ children, footerLocation }) {
-  const { data } = useConfig();
+  useConfig();
   return (
     <div className={'relative custom-scroll min-h-screen'}>
       <Header />

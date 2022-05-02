@@ -116,16 +116,6 @@ export default function UserMenu() {
                     ))}
                   </div>
                 </div>
-                {/* <div className='p-2'>
-                  <h3 className='text-md font-semibold w-full border-b'>
-                    Search
-                  </h3>
-                  <div className='grid gap-1 pt-1'>
-                    {searchMenuButtons.map((button) => {
-                      return <MenuButton key={button.name} {...button} />;
-                    })}
-                  </div>
-                </div> */}
               </div>
               <div className='p-2 flex w-full justify-between items-center'>
                 <Menu.Item>

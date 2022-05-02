@@ -8,7 +8,6 @@ import ViewBtn from '../buttons/ViewBtn';
 
 export default function MoreLikeThis({ course }) {
   const { data, isLoading } = useMoreCoursesLikeThis(course?.meta.id);
-  const config = useConfig();
   const { user } = useAuth();
 
   // if loading

@@ -6,7 +6,7 @@ import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 
-export default function Owned({}) {
+export default function Owned() {
   const router = useRouter();
 
   const { user } = useAuth();
