@@ -14,7 +14,7 @@ export default function SaveModal({ courseId }) {
 
   // user lists
   const { data: userLists, isSuccess } = useUserOwnedLists(user?.token);
-  const { mutate } = useUpdateUserList(user?.token);
+  const { mutate: update } = useUpdateUserList(user?.token);
   const { mutate: create } = useCreateUserList(user?.token);
   const { fields: error, updateKeyValuePair: setError } = useField({
     message: '',
@@ -75,7 +75,7 @@ export default function SaveModal({ courseId }) {
   const addCourseToList = (listId) => {
     const listData = userLists.find((list) => list.id === listId);
     listData.experiences.push(courseId);
-    mutate({ listData: listData, id: listId });
+    update({ listData: listData, id: listId });
   };
 
   // remove a course from the selected list
@@ -86,7 +86,7 @@ export default function SaveModal({ courseId }) {
       description: listData.description,
       experiences: listData.experiences.filter((exp) => exp !== courseId),
     };
-    mutate({ listData: modified, id: listId });
+    update({ listData: modified, id: listId });
   };
 
   // modal states

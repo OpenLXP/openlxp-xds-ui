@@ -1,6 +1,5 @@
 import {
   CheckCircleIcon,
-  LoginIcon,
   RefreshIcon,
   UserAddIcon,
   XCircleIcon,
@@ -18,7 +17,7 @@ import {
 } from '@/utils/validation';
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Image from 'next/image';

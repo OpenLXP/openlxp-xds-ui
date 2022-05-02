@@ -2,7 +2,6 @@ import { axiosInstance } from '@/config/axiosConfig';
 import { backendHost } from '../config/endpoints';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useLocalStorage } from '../hooks/useStorage';
-import { useRouter } from 'next/dist/client/router';
 
 export const AuthContext = createContext({});
 
@@ -10,9 +9,7 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 export function AuthProvider({ children }) {
-  const router = useRouter();
   const [error, setError] = useState(null);
-  const [isError, setIsError] = useState(false);
   const [user, setLocal, removeLocal] = useLocalStorage('user', null);
 
   useEffect(() => checkUserLoggedIn(), []);
@@ -33,7 +30,7 @@ export function AuthProvider({ children }) {
   const logout = async () => {
     axiosInstance
       .post(`${backendHost}/api/auth/logout`)
-      .then((res) => removeLocal())
+      .then(() => removeLocal())
       .catch((err) => {
         console.log(err);
       });

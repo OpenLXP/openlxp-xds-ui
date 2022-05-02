@@ -1,7 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useState } from 'react';
 import { PlusCircleIcon } from '@heroicons/react/outline';
-import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
@@ -27,10 +26,8 @@ export default function SaveModal({ courseId }) {
 
   // user lists
   const { data: userLists, isSuccess } = useUserOwnedLists();
-  const { mutate } = useUpdateUserList(user?.token);
-  const { mutate: create, isSuccess: createSuccess } = useCreateUserList(
-    user?.token
-  );
+  const { mutate: update } = useUpdateUserList();
+  const { mutate: create } = useCreateUserList();
 
   // new list form
   const [fields, setFields] = useState({
@@ -47,9 +44,9 @@ export default function SaveModal({ courseId }) {
     (listId) => {
       const listData = userLists.find((list) => list.id === listId);
       listData.experiences.push(courseId);
-      mutate({ listData: listData, id: listId });
+      update({ listData: listData, id: listId });
     },
-    [courseId, mutate, userLists]
+    [courseId, update, userLists]
   );
 
   // remove a course from the selected list
@@ -60,7 +57,7 @@ export default function SaveModal({ courseId }) {
       description: listData.description,
       experiences: listData.experiences.filter((exp) => exp !== courseId),
     };
-    mutate({ listData: modified, id: listId });
+    update({ listData: modified, id: listId });
   };
 
   const handleSubmit = useCallback(
