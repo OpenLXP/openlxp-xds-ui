@@ -14,7 +14,6 @@ import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserList } from '@/hooks/useUserList';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import prepareListDataToSend from '@/utils/prepListDataToSend';
-import { interestLists } from '@/config/endpoints';
 
 export function getServerSideProps({ query }) {
   return {
@@ -22,6 +21,36 @@ export function getServerSideProps({ query }) {
       listId: query.listId,
     },
   };
+}
+
+export function ToggleButton() {
+  return (
+    <div className='flex gap-2 items-center font-semibold text-lg'>
+      <label htmlFor='public toggle'>Set Visibility:</label>
+      <Switch
+        title='toggle'
+        checked={currentListInfo.public}
+        onChange={toggleListVisibility}
+        className={`${currentListInfo.public ? 'bg-green-500' : 'bg-gray-400'}
+    relative inline-flex flex-shrink-0 h-[28px] w-[48px] border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-offset-1 focus-visible:ring-blue-400 focus-visible:ring-opacity-75`}
+      >
+        <span className='sr-only'>Use setting</span>
+        <span
+          aria-hidden='true'
+          className={`${
+            currentListInfo.public ? 'translate-x-[20px]' : 'translate-x-0'
+          }
+      pointer-events-none inline-flex h-[24px] w-[24px] rounded-full bg-white shadow-lg transform ring-0 transition ease-in-out duration-200 justify-center items-center`}
+        >
+          {currentListInfo.public ? (
+            <EyeIcon className='h-4 text-gray-700' />
+          ) : (
+            <EyeOffIcon className='h-4 text-gray-500' />
+          )}
+        </span>
+      </Switch>
+    </div>
+  );
 }
 
 export default function EditList({ listId }) {
@@ -45,17 +74,16 @@ export default function EditList({ listId }) {
     if (!user) return router.push('/');
 
     // if there is a authorization error
-    if (initialList.isError) {
-      if (initialList?.error?.response?.status === 401) {
-        return router.push('/401');
-      }
-      if (initialList?.error?.response?.status === 403) {
-        return router.push('/403');
-      }
+    if (initialList.isError && initialList?.error?.response?.status === 401) {
+      return router.push('/401');
+    }
+    if (initialList.isError && initialList?.error?.response?.status === 403) {
+      return router.push('/403');
     }
 
     // // if the owner of the list is not the current user, redirect to homepage
-    if (initialList?.data?.owner?.id !== user?.user?.id) router.push('/');
+    if (initialList?.data?.owner?.id !== user?.user?.id)
+      return router.push('/');
 
     // set the source of truth
     if (initialList.isSuccess) {
