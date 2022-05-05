@@ -10,9 +10,7 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 export function AuthProvider({ children }) {
-  const router = useRouter();
   const [error, setError] = useState(null);
-  const [isError, setIsError] = useState(false);
   const [user, setLocal, removeLocal] = useLocalStorage('user', null);
 
   useEffect(() => checkUserLoggedIn(), []);
@@ -43,12 +41,15 @@ export function AuthProvider({ children }) {
   // // Check if user is logged in
   const checkUserLoggedIn = async () => {
     if (typeof window !== 'undefined') {
-      if (user) {
-        axiosInstance.get(`${backendHost}/api/auth/validate`).catch((error) => {
+      axiosInstance
+        .get(`${backendHost}/api/auth/validate`)
+        .then((res) => {
+          setLocal(res.data);
+        })
+        .catch((error) => {
           removeLocal();
           logout();
         });
-      }
     }
   };
 
