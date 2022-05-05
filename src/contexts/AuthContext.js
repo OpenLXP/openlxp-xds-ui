@@ -34,8 +34,10 @@ export function AuthProvider({ children }) {
       .then((res) => removeLocal())
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        removeLocal();
       });
-    removeLocal();
   };
 
   // // Check if user is logged in
