@@ -14,7 +14,7 @@ export default function useSpotlightCourses() {
     staleTime: oneHour,
     onSuccess: (data) => {
       if (!Array.isArray(data)) return;
-      data?.map((course) => {
+      return data?.forEach((course) => {
         queryClient.setQueryData(
           ['course', course.meta.metadata_key_hash],
           course

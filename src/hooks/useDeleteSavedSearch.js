@@ -16,7 +16,6 @@ export function useDeleteSavedSearch(token) {
   const queryClient = useQueryClient();
 
   return useMutation(({ id }) => deleteSearch(id, token), {
-    onSuccess: () => {},
     onSettled: () => {
       queryClient.invalidateQueries(['saved-search-list']);
     },
