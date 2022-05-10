@@ -1,5 +1,6 @@
 import {
   CheckCircleIcon,
+  ColorSwatchIcon,
   RefreshIcon,
   UserAddIcon,
   XCircleIcon,
@@ -173,7 +174,7 @@ export default function Register() {
         register(res.data);
       })
       .catch((err) => {
-        // setError(err.response);
+        console.log(err);
       })
       .finally(() => {
         setLoading(false);

@@ -38,7 +38,6 @@ function RelatedCourses({ id }) {
 
 export default function Course() {
   const router = useRouter();
-  const { user } = useAuth();
 
   // state of the fetching
   const course = useCourse(router.query?.courseId);
