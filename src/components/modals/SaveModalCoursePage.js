@@ -214,10 +214,10 @@ export default function SaveModal({ courseId }) {
                         2
                       ).toString()}
                       value={fields.description || ''}
-                      onChange={(event) => {
+                      onChange={(e) => {
                         setFields((prev) => ({
                           ...prev,
-                          [event.target.name]: event.target.value,
+                          [e.target.name]: e.target.value,
                         }));
                       }}
                       className='w-full border outline-none rounded-md shadow focus:shadow-md p-2 focus:ring-4 ring-blue-400 transform transition-all duration-150'
