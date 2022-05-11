@@ -11,7 +11,7 @@
   "rules": {
     "react-hooks/exhaustive-deps": "off",
     "at-rule-no-unknown": [
-      true,
+      "off",
       {
           "ignoreAtRules": [
             "tailwind",
@@ -19,7 +19,7 @@
             "responsive"
           ]
       }
-  ],
+    ],
     "sort-imports-es6-autofix/sort-imports-es6": [
       2,
       {
