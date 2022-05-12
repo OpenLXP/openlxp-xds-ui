@@ -352,10 +352,8 @@ export default function Register() {
           type='submit'
           className='disabled:opacity-50 disabled:saturate-50 disabled:cursor-not-allowed mt-6 items-center inline-flex gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white px-4 py-2 transition-all duration-75 ease-in-out border-blue-400 border-2 outline-none focus:ring-2 ring-blue-400 max-w-max'
         >
-          {loading && (
-            <RefreshIcon className='inline-block h-4 w-4 mr-2 animate-spin' />
-          )}
-          {!loading && <UserAddIcon className='inline-block h-4 w-4 mr-2' />}
+          {loading ? (<RefreshIcon className='inline-block h-4 w-4 mr-2 animate-spin' />) 
+          : ( <UserAddIcon className='inline-block h-4 w-4 mr-2' />)}
           Create Account
         </button>
         <p className={'my-8 relative border-b-2 w-full'}>
