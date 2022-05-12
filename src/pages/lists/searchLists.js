@@ -8,6 +8,15 @@ import DefaultLayout from '@/components/layouts/DefaultLayout';
 import React, { useEffect, useMemo, useState } from 'react';
 import SearchBar from '@/components/inputs/SearchBar';
 
+// chunk the lists into pages of a given size
+function chunkArray (array, chunkSize) {
+  let results = [];
+  while (array.length) {
+    results.push(array.splice(0, chunkSize));
+  }
+  return results;
+};
+
 export default function SearchLists() {
   const router = useRouter();
 
@@ -41,15 +50,6 @@ export default function SearchLists() {
     router.push(`/lists/${id}`);
   };
 
-  // chunk the lists into pages of a given size
-  const chunkArray = (array, chunkSize) => {
-    let results = [];
-    while (array.length) {
-      results.push(array.splice(0, chunkSize));
-    }
-    return results;
-  };
-
   // returns a list of lists that match the search query and are chunked into
   // pages of 10
   const listToDisplay = useMemo(() => {
@@ -74,7 +74,7 @@ export default function SearchLists() {
   useEffect(() => {
     // if the user is not logged in, redirect to the home page
     if (!user) router.push('/');
-    if (interestLists.isError ){
+    else if (interestLists.isError){
       if(interestLists.error.response.status === 401)
         return router.push('/401');
       if(interestLists.error.response.status === 403)
