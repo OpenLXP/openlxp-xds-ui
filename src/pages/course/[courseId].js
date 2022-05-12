@@ -5,7 +5,6 @@ import {
 } from '@heroicons/react/outline';
 import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 import { removeHTML } from '@/utils/cleaning';
-import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';
 import { useCourse } from '@/hooks/useCourse';
 import { useMemo } from 'react';

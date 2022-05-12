@@ -1,6 +1,5 @@
 import {
   CheckCircleIcon,
-  ColorSwatchIcon,
   RefreshIcon,
   UserAddIcon,
   XCircleIcon,
