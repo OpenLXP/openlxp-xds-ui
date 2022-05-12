@@ -25,6 +25,118 @@ import Image from 'next/image';
 import Link from 'next/link';
 import logo from '@/public/logo.png';
 
+function validateEmail (email, setEmailError, setError) {
+  if (email === '') {
+    return unstable_batchedUpdates(() => {
+      setEmailError(true);
+      setError('Email is required');
+    });
+  }
+
+  else if (!isValidEmail(email)) {
+    return unstable_batchedUpdates(() => {
+      setEmailError(true);
+      setError('Email is invalid');
+    });
+  }
+
+  return unstable_batchedUpdates(() => {
+    setEmailError(false);
+    setError('');
+  });
+};
+
+function validatePassword (password, setPasswordError, setError) {
+  if (password === '') {
+    return unstable_batchedUpdates(() => {
+      setPasswordError(true);
+      setError('Password is required');
+    });
+  }
+
+  else if (!isLongEnough(password, 8)) {
+    return unstable_batchedUpdates(() => {
+      setPasswordError(true);
+      setError('Password must be at least 8 characters');
+    });
+  }
+
+  else if (!containsLowercase(password)) {
+    return unstable_batchedUpdates(() => {
+      setPasswordError(true);
+      setError('Password must contain at least one lowercase letter');
+    });
+  }
+
+  else if (!containsUppercase(password)) {
+    return unstable_batchedUpdates(() => {
+      setPasswordError(true);
+      setError('Password must contain at least one uppercase letter');
+    });
+  }
+
+  else if (!containsSpecialCharacter(password)) {
+    return unstable_batchedUpdates(() => {
+      setPasswordError(true);
+      setError('Password must contain at least one special character');
+    });
+  }
+
+  else if (!containsNumber(password)) {
+    return unstable_batchedUpdates(() => {
+      setPasswordError(true);
+      setError('Password must contain at least one number');
+    });
+  }
+
+  else if (containsSpace(password)) {
+    return unstable_batchedUpdates(() => {
+      setPasswordError(true);
+      setError('Password must not contain any spaces');
+    });
+  }
+
+  return unstable_batchedUpdates(() => {
+    setPasswordError(false);
+    setError('');
+  });
+};
+
+function validateConfPassword (confPassword, password, setConfPasswordError, setError) {
+  if (confPassword === '') {
+    return unstable_batchedUpdates(() => {
+      setConfPasswordError(true);
+      setError('Confirmation password is required');
+    });
+  }
+
+  if (confPassword !== password) {
+    return unstable_batchedUpdates(() => {
+      setConfPasswordError(true);
+      setError('Passwords do not match');
+    });
+  }
+
+  return unstable_batchedUpdates(() => {
+    setConfPasswordError(false);
+    setError('');
+  });
+};
+
+function validateName (name, updateFn, subject, setError) {
+  if (!isLongEnough(name, 2)) {
+    return unstable_batchedUpdates(() => {
+      updateFn(true);
+      setError(`${subject} must be at least 2 characters`);
+    });
+  }
+
+  return unstable_batchedUpdates(() => {
+    updateFn(false);
+    setError('');
+  });
+};
+
 export default function Register() {
   const router = useRouter();
   const { register, user } = useAuth();
@@ -46,117 +158,6 @@ export default function Register() {
   useEffect(() => {
     if (user) router.push('/');
   }, []);
-
-  const validateEmail = (email) => {
-    if (email === '') {
-      return unstable_batchedUpdates(() => {
-        setEmailError(true);
-        setError('Email is required');
-      });
-    }
-
-    if (!isValidEmail(email)) {
-      return unstable_batchedUpdates(() => {
-        setEmailError(true);
-        setError('Email is invalid');
-      });
-    }
-
-    return unstable_batchedUpdates(() => {
-      setEmailError(false);
-      setError('');
-    });
-  };
-  const validatePassword = (password) => {
-    if (password === '') {
-      return unstable_batchedUpdates(() => {
-        setPasswordError(true);
-        setError('Password is required');
-      });
-    }
-
-    if (!isLongEnough(password, 8)) {
-      return unstable_batchedUpdates(() => {
-        setPasswordError(true);
-        setError('Password must be at least 8 characters');
-      });
-    }
-
-    if (!containsLowercase(password)) {
-      return unstable_batchedUpdates(() => {
-        setPasswordError(true);
-        setError('Password must contain at least one lowercase letter');
-      });
-    }
-
-    if (!containsUppercase(password)) {
-      return unstable_batchedUpdates(() => {
-        setPasswordError(true);
-        setError('Password must contain at least one uppercase letter');
-      });
-    }
-
-    if (!containsSpecialCharacter(password)) {
-      return unstable_batchedUpdates(() => {
-        setPasswordError(true);
-        setError('Password must contain at least one special character');
-      });
-    }
-
-    if (!containsNumber(password)) {
-      return unstable_batchedUpdates(() => {
-        setPasswordError(true);
-        setError('Password must contain at least one number');
-      });
-    }
-
-    if (containsSpace(password)) {
-      return unstable_batchedUpdates(() => {
-        setPasswordError(true);
-        setError('Password must not contain any spaces');
-      });
-    }
-
-    return unstable_batchedUpdates(() => {
-      setPasswordError(false);
-      setError('');
-    });
-  };
-
-  const validateConfPassword = (confPassword) => {
-    if (confPassword === '') {
-      return unstable_batchedUpdates(() => {
-        setConfPasswordError(true);
-        setError('Confirmation password is required');
-      });
-    }
-
-    if (confPassword !== credentials.password) {
-      return unstable_batchedUpdates(() => {
-        setConfPasswordError(true);
-        setError('Passwords do not match');
-      });
-    }
-
-    return unstable_batchedUpdates(() => {
-      setConfPasswordError(false);
-      setError('');
-    });
-  };
-
-  const validateName = (name, updateFn, subject) => {
-    if (!isLongEnough(name, 2)) {
-      return unstable_batchedUpdates(() => {
-        updateFn(true);
-        setError(`${subject} must be at least 2 characters`);
-      });
-    }
-
-    return unstable_batchedUpdates(() => {
-      updateFn(false);
-      setError('');
-    });
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -200,23 +201,23 @@ export default function Register() {
 
   // updaters for each field
   useEffect(() => {
-    validatePassword(credentials.password);
+    validatePassword(credentials.password,  setPasswordError, setError);
   }, [credentials.password]);
 
   useEffect(() => {
-    validateConfPassword(credentials.confirmationPassword);
+    validateConfPassword(credentials.confirmationPassword, credentials.password, setConfPasswordError, setError);
   }, [credentials.confirmationPassword]);
 
   useEffect(() => {
-    validateEmail(credentials.email);
+    validateEmail(credentials.email, setEmailError, setError);
   }, [credentials.email]);
 
   useEffect(() => {
-    validateName(credentials.last_name, setLastNameError, 'Last name');
+    validateName(credentials.last_name, setLastNameError, 'Last name', setError);
   }, [credentials.last_name]);
 
   useEffect(() => {
-    validateName(credentials.first_name, setFirstNameError, 'First name');
+    validateName(credentials.first_name, setFirstNameError, 'First name', setError);
   }, [credentials.first_name]);
 
   return (

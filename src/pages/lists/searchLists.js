@@ -74,10 +74,12 @@ export default function SearchLists() {
   useEffect(() => {
     // if the user is not logged in, redirect to the home page
     if (!user) router.push('/');
-    if (interestLists.isError && interestLists.error.response.status === 401)
-      return router.push('/401');
-    if (interestLists.isError && interestLists.error.response.status === 403)
-      return router.push('/403');
+    if (interestLists.isError ){
+      if(interestLists.error.response.status === 401)
+        return router.push('/401');
+      if(interestLists.error.response.status === 403)
+        return router.push('/403');
+    }
   }, []);
 
   return (
