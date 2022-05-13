@@ -7,6 +7,7 @@ import { useUnsubscribeFromList } from '@/hooks/useUnsubscribeFromList';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import React, { useEffect, useMemo, useState } from 'react';
 import SearchBar from '@/components/inputs/SearchBar';
+import SearchListPagination from '@/components/buttons/SearchListPagination';
 
 // chunk the lists into pages of a given size
 function chunkArray (array, chunkSize) {
@@ -42,10 +43,6 @@ export default function SearchLists() {
     setSearch('');
   };
 
-  const changePage = (number) => {
-    setPage(page + number);
-  };
-
   const goToList = (id) => {
     router.push(`/lists/${id}`);
   };
@@ -74,12 +71,10 @@ export default function SearchLists() {
   useEffect(() => {
     // if the user is not logged in, redirect to the home page
     if (!user) router.push('/');
-    else if (interestLists.isError){
-      if(interestLists.error.response.status === 401)
-        return router.push('/401');
-      if(interestLists.error.response.status === 403)
-        return router.push('/403');
-    }
+    if (interestLists.isError && interestLists.error.response.status === 401)
+      return router.push('/401');
+    if(interestLists.isError && interestLists.error.response.status === 403)
+      return router.push('/403');
   }, []);
 
   return (
@@ -95,39 +90,11 @@ export default function SearchLists() {
             onReset={resetSearch}
           />
         </div>
-        <div>
-          <div className='flex gap-2 items-center justify-end'>
-            <button
-              onClick={() => changePage(-1)}
-              className='py-1 px-2 bg-blue-100 rounded-md border-blue-500 border text-blue-500 disabled:cursor-not-allowed disabled:opacity-50'
-              disabled={page === 0 || listToDisplay?.length === 0}
-            >
-              Prev
-            </button>
-            <button
-              onClick={() => changePage(1)}
-              className='py-1 px-2 bg-blue-100 rounded-md border-blue-500 border text-blue-500 disabled:cursor-not-allowed disabled:opacity-50'
-              disabled={
-                listToDisplay?.length === page + 1 ||
-                listToDisplay?.length === 0
-              }
-            >
-              Next
-            </button>
-          </div>
-          <div className='mt-2'>
-            Showing{' '}
-            <strong>
-              {/* lower bound */}
-              {listToDisplay[page]?.length > 0 ? page * 10 + 1 + '-' : ''}
-              {/* upper bound */}
-              {listToDisplay[page]?.length === 10
-                ? page * 10 + 10
-                : page * 10 + listToDisplay[page]?.length || '0'}
-            </strong>
-            &nbsp;out of {interestLists?.data?.length}
-          </div>
-        </div>
+        <SearchListPagination page={page} 
+          setPage={setPage} 
+          listToDisplayLength={listToDisplay?.length} 
+          pageLength={listToDisplay[page]?.length} 
+          interestListsLength={interestLists?.data?.length}/>        
       </div>
       <table className='bg-white w-full rounded-md shadow mt-6 border-'>
         <thead className='font-normal border-b'>
