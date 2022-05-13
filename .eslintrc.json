@@ -10,16 +10,6 @@
   ],
   "rules": {
     "react-hooks/exhaustive-deps": "off",
-    "at-rule-no-unknown": [
-      "off",
-      {
-          "ignoreAtRules": [
-            "tailwind",
-            "layer",
-            "responsive"
-          ]
-      }
-    ],
     "sort-imports-es6-autofix/sort-imports-es6": [
       2,
       {
