@@ -206,6 +206,7 @@ export default function SaveModal({ courseId }) {
                   className='my-2 flex flex-col w-full'
                   onSubmit={handleSubmit}
                 >
+                  <h4 className='py-2 text-lg font-medium leading-6 text-gray-900'>Create a new list</h4>
                   <div>
                     <label htmlFor='name'>List Name</label>
                     <InputField
