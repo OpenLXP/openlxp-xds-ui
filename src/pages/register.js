@@ -23,6 +23,7 @@ import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '@/public/logo.png';
+import { useConfig } from '@/hooks/useConfig';
 
 function validateEmail (email, setEmailError, setError) {
   if (email === '') {
@@ -361,13 +362,18 @@ export default function Register() {
             or continue with
           </span>
         </p>
-        <a
-          href='/sso'
-          id={'sso-button'}
-          className='bg-blue-500 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold max-w-max mx-auto'
-        >
-          Single Sign On
-        </a>
+        {config.isSuccess &&
+          config.data.single_sign_on_options.map(({ name, path }) => {
+            return (
+              <a
+                href={path}
+                className='bg-blue-500 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold max-w-max mx-auto'
+                key={name}
+              >
+                {name}
+              </a>
+            );
+          })}
       </form>
     </DefaultLayout>
   );

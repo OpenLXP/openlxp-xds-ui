@@ -33,19 +33,24 @@ export function AuthProvider({ children }) {
       .then(() => removeLocal())
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        removeLocal();
       });
-    removeLocal();
   };
 
   // // Check if user is logged in
   const checkUserLoggedIn = async () => {
     if (typeof window !== 'undefined') {
-      if (user) {
-        axiosInstance.get(`${backendHost}/api/auth/validate`).catch((err) => {
+      axiosInstance
+        .get(`${backendHost}/api/auth/validate`)
+        .then((res) => {
+          setLocal(res.data);
+        })
+        .catch((error) => {
           removeLocal();
           logout();
         });
-      }
     }
   };
 

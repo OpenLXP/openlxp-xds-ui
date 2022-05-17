@@ -73,7 +73,6 @@ export default function EditList({ listId }) {
   useEffect(() => {
     // no user
     if (!user) return router.push('/');
-
     // if there is a authorization error
     if (initialList.isError) {
       if( initialList?.error?.response?.status === 401)
@@ -84,10 +83,17 @@ export default function EditList({ listId }) {
     
 
     // // if the owner of the list is not the current user, redirect to homepage
-    if (initialList?.data?.owner?.id !== user?.user?.id)
-      return router.push('/');
+    if (initialList?.isSuccess && user?.user?.id){
+      if (initialList?.data?.owner?.id !== user?.user?.id){
+        return router.push(`/lists/${listId}`);
+      } 
+    }
+    
+  }, []);
 
+  useEffect(() => {
     // set the source of truth
+
     if (initialList.isSuccess) {
       setCurrentListInfo({
         name: initialList.data?.name,
@@ -96,7 +102,7 @@ export default function EditList({ listId }) {
         public: initialList.data?.public,
       });
     }
-  }, []);
+  }, [initialList.isSuccess]);
 
   const handleChange = (event) => {
     setCurrentListInfo((prev) => ({
@@ -197,7 +203,7 @@ export default function EditList({ listId }) {
             </tr>
           </thead>
           <tbody className=''>
-            {currentListInfo.experiences.map((exp) => (
+            {currentListInfo.experiences?.map((exp) => (
               <tr
                 key={exp.meta.metadata_key_hash}
                 className='odd:bg-gray-100 even:bg-white'
@@ -226,7 +232,7 @@ export default function EditList({ listId }) {
         </table>
 
         {/* message for no courses */}
-        {currentListInfo.experiences.length < 0 && (
+        {currentListInfo.experiences?.length < 0 && (
           <div className='text-center font-medium border-b border-l border-r py-2 bg-white/90 rounded-b'>
             No courses added yet.
           </div>
