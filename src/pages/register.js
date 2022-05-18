@@ -365,6 +365,7 @@ export default function Register() {
             or continue with
           </span>
         </p>
+        <div className='flex flex-col gap-4'>
         {config.isSuccess &&
           config.data.single_sign_on_options.map(({ name, path }) => {
             return (
@@ -377,6 +378,7 @@ export default function Register() {
               </a>
             );
           })}
+        </div>
       </form>
     </DefaultLayout>
   );
