@@ -52,7 +52,7 @@ describe('Edit List', () => {
     useMockUserListWithDifferentUserId();
     useMockUpdateUserList();
     renderer();
-    expect(singletonRouter).toMatchObject({ asPath: '/lists/1' });
+    expect(singletonRouter).toMatchObject({ asPath: '/' });
   });
 
   it('should navigate the user to "/401" if the user is not the owner of the list', () => {

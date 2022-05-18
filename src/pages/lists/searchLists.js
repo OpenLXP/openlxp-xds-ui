@@ -100,8 +100,8 @@ export default function SearchLists() {
         <thead className='font-normal border-b'>
           <tr className=''>
             <th className='text-left grid pl-2 py-2 gap-1.5 w-full'>
-              <span className='text-xl font-medium font-sans'>List Name</span>
-              <span className='font-normal'>List Description</span>
+              <span className='text-xl font-medium font-sans'>Name</span>
+              <span className='font-normal'>Identification Number</span>
             </th>
             <th className='sr-only' />
           </tr>
@@ -121,7 +121,7 @@ export default function SearchLists() {
                       {list.name}
                     </h4>
                     <span className='text-sm text-gray-800 group-hover:text-blue-600'>
-                      {list.description}
+                      #{list.id}
                     </span>
                   </button>
                 </td>

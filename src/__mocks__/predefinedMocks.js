@@ -639,12 +639,6 @@ export function useMockConfig() {
       },
       course_img_fallback: 'some/fallback',
       search_results_per_page: 10,
-      single_sign_on_options: [
-        {
-          name: 'Google',
-          path: 'test.com',
-        },
-      ],
     },
     isSuccess: true,
     isError: false,
