@@ -17,13 +17,13 @@ import {
 } from '@/utils/validation';
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { useConfig } from '@/hooks/useConfig';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '@/public/logo.png';
+import { useConfig } from '@/hooks/useConfig';
 
 function validateEmail (email, setEmailError, setError) {
   if (email === '') {
@@ -140,6 +140,7 @@ function validateName (name, updateFn, subject, setError) {
 export default function Register() {
   const router = useRouter();
   const { register, user } = useAuth();
+  const config = useConfig();
   const [credentials, setCredentials] = useState({
     email: '',
     password: '',
