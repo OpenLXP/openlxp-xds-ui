@@ -140,6 +140,7 @@ function validateName (name, updateFn, subject, setError) {
 export default function Register() {
   const router = useRouter();
   const { register, user } = useAuth();
+  const config = useConfig();
   const [credentials, setCredentials] = useState({
     email: '',
     password: '',
