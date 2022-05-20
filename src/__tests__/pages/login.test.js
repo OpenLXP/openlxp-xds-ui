@@ -147,9 +147,9 @@ describe('Login Page', () => {
       expect(MockAxios.post).toHaveBeenCalled();
     });
     it('should navigate user to sso login page', () => {
-      const button = screen.getByText(/single sign on/i);
+      const button = screen.getByText(/google/i);
 
-      expect(button.href.includes('/sso')).toBeTruthy();
+      expect(button.href.includes('/test.com')).toBeTruthy();
     });
   });
 });

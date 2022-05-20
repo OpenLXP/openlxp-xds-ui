@@ -17,6 +17,7 @@ import {
 } from '@/utils/validation';
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useConfig } from '@/hooks/useConfig';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
@@ -361,13 +362,20 @@ export default function Register() {
             or continue with
           </span>
         </p>
-        <a
-          href='/sso'
-          id={'sso-button'}
-          className='bg-blue-500 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold max-w-max mx-auto'
-        >
-          Single Sign On
-        </a>
+        <div className='flex flex-col gap-4'>
+        {config.isSuccess &&
+          config.data.single_sign_on_options.map(({ name, path }) => {
+            return (
+              <a
+                href={path}
+                className='bg-blue-500 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold max-w-max mx-auto'
+                key={name}
+              >
+                {name}
+              </a>
+            );
+          })}
+        </div>
       </form>
     </DefaultLayout>
   );
