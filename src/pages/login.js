@@ -2,6 +2,7 @@ import { LoginIcon } from '@heroicons/react/outline';
 import { authLogin } from '@/config/endpoints';
 import { axiosInstance } from '@/config/axiosConfig';
 import { useAuth } from '@/contexts/AuthContext';
+import { useConfig } from '@/hooks/useConfig';
 import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Image from 'next/image';
@@ -12,6 +13,7 @@ import logo from '@/public/logo.png';
 export default function Login() {
   const router = useRouter();
   const { user, login } = useAuth();
+  const config = useConfig();
   const [credentials, setCredentials] = useState({
     username: '',
     password: '',
@@ -100,13 +102,18 @@ export default function Login() {
               or continue with
             </span>
           </p>
-          <a
-            href='/sso'
-            id={'sso-button'}
-            className='bg-blue-500 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold max-w-max mx-auto'
-          >
-            Single Sign On
-          </a>
+          {config.isSuccess &&
+            config.data.single_sign_on_options.map(({ name, path }) => {
+              return (
+                <a
+                  href={path}
+                  className='bg-blue-500 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold max-w-max mx-auto'
+                  key={name}
+                >
+                  {name}
+                </a>
+              );
+            })}
         </form>
       </div>
     </DefaultLayout>

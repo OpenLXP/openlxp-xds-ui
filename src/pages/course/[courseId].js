@@ -5,11 +5,13 @@ import {
 } from '@heroicons/react/outline';
 import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 import { removeHTML } from '@/utils/cleaning';
+import { useAuth } from '@/contexts/AuthContext';
+import { useCallback, useMemo } from 'react';
 import { useConfig } from '@/hooks/useConfig';
 import { useCourse } from '@/hooks/useCourse';
-import { useMemo } from 'react';
 import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
 import { useRouter } from 'next/router';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
@@ -37,6 +39,7 @@ function RelatedCourses({ id }) {
 
 export default function Course() {
   const router = useRouter();
+  const { user } = useAuth();
 
   // state of the fetching
   const course = useCourse(router.query?.courseId);
@@ -96,6 +99,31 @@ export default function Course() {
     };
   }, [course.isSuccess, course.data, config.isSuccess, config.data]);
 
+  const handleClick = useCallback(() => {
+    if (!user) return;
+    console.count('enrollment button clicked');
+
+    const context = {
+      actor: {
+        first_name: user?.user?.first_name || 'anonymous',
+        last_name: user?.user?.last_name || 'user',
+      },
+      verb: {
+        id: 'https://w3id.org/xapi/tla/verbs/registered',
+        display: 'enrolled',
+      },
+      object: {
+        definitionName: data?.title,
+        description: data?.description,
+        id: `${window.origin}/course/${router.query?.courseId}`,
+      },
+      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
+      resultExtValue: router.query?.courseId,
+    };
+
+    xAPISendStatement(context);
+  }, [router.query?.courseId, data?.title, data?.description, user]);
+  
   return (
     <>
       <Header />
@@ -117,6 +145,7 @@ export default function Course() {
                 href={data?.url}
                 rel='noopener noreferrer'
                 target='_blank'
+                onClick={handleClick}
               >
                 Go to Enrollment
               </a>
