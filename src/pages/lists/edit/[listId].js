@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/outline';
 import { Switch } from '@headlessui/react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserList } from '@/hooks/useUserList';
@@ -60,7 +60,6 @@ export default function EditList({ listId }) {
 
   // handles the mutation
   const mutation = useUpdateUserList();
-  const initialList = useUserList(parseInt(listId));
 
   // single source of truth for editing
   const [currentListInfo, setCurrentListInfo] = useState({
@@ -70,31 +69,26 @@ export default function EditList({ listId }) {
     experiences: [],
   });
 
+  const initialList = useUserList(parseInt(listId), setCurrentListInfo);
+
   useEffect(() => {
     // no user
     if (!user) return router.push('/');
     // if there is a authorization error
-    if (initialList.isError) {
+    if (initialList?.isError) {
       if( initialList?.error?.response?.status === 401)
        return router.push('/401');
       if (initialList?.error?.response?.status === 403)
         return router.push('/403');
     }
     
-
     // if the owner of the list is not the current user, redirect to homepage
     if (initialList?.isSuccess && user?.user?.id){
       if (initialList?.data?.owner?.id !== user?.user?.id){
         return router.push(`/lists/${listId}`);
       } 
     }
-    
-  }, []);
-
-  useEffect(() => {
-    // set the source of truth
-
-    if (initialList.isSuccess) {
+    if (initialList?.isSuccess) {
       setCurrentListInfo({
         name: initialList.data?.name,
         description: initialList.data?.description,
@@ -102,7 +96,7 @@ export default function EditList({ listId }) {
         public: initialList.data?.public,
       });
     }
-  }, [initialList.data.experiences]);
+  }, []);
 
   const handleChange = (event) => {
     setCurrentListInfo((prev) => ({
@@ -156,7 +150,7 @@ export default function EditList({ listId }) {
     <DefaultLayout>
       <div className='flex justify-between items-center border-b'>
         <h1 className='font-semibold text-3xl pb-4 mt-10 border-b font-sans'>
-          {initialList.data?.name}
+          {initialList?.data?.name}
         </h1>
         <button
           className='items-center inline-flex gap-2 text-gray-500 rounded-md hover:shadow-md bg-gray-50 hover:bg-gray-400 hover:text-white px-4 py-2 border-gray-400 border-2 outline-none focus:ring-2 ring-gray-400'
@@ -178,7 +172,7 @@ export default function EditList({ listId }) {
             className='outline-none rounded shadow-sm p-2 text-xl border focus:shadow-md focus:shadow-blue-400  focus:ring-4 focus:ring-blue-400 focus:ring-offset-1'
             type='text'
             placeholder='List Name'
-            value={currentListInfo.name}
+            value={currentListInfo?.name}
             onChange={handleChange}
             name='name'
           />
