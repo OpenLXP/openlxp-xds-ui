@@ -1,5 +1,5 @@
-import { Switch } from "@headlessui/react";
 import {EyeIcon, EyeOffIcon} from "@heroicons/react/outline";
+import { Switch } from "@headlessui/react";
 
 
 export default function PublicPrivateToggle({currentListInfo, toggleListVisibility }) {
