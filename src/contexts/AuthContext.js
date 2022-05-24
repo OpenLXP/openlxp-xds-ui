@@ -47,7 +47,7 @@ export function AuthProvider({ children }) {
         .then((res) => {
           setLocal(res.data);
         })
-        .catch((error) => {
+        .catch((err) => {
           removeLocal();
           logout();
         });
