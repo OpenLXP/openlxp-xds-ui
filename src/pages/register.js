@@ -296,18 +296,14 @@ export default function Register() {
               )}
               First & Last names must be at least 2 characters long
             </p>
-            <p
-              className={`${
-                emailError ? 'text-red-400' : 'text-green-600'
-              } flex`}
-            >
-              {emailError ? (
-                <XCircleIcon className='inline-block h-4 w-4 mr-2' />
-              ) : (
-                <CheckCircleIcon className='inline-block h-4 w-4 mr-2' />
-              )}
-              Email must be valid
-            </p>
+            {emailError ? 
+              <p className= 'text-red-400'>
+                <XCircleIcon className='inline-block h-4 w-4 mr-2'/>
+                Email must be valid </p> : 
+              <p className= 'text-green-600'>
+                <CheckCircleIcon className='inline-block h-4 w-4 mr-2'/>
+                Email must be valid</p>
+            }
             <p
               className={`${passwordError ? 'text-red-400' : 'text-green-600'}`}
             >
