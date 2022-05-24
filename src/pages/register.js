@@ -17,13 +17,13 @@ import {
 } from '@/utils/validation';
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { useConfig } from '@/hooks/useConfig';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '@/public/logo.png';
+import { useConfig } from '@/hooks/useConfig';
 
 function validateEmail (email, setEmailError, setError) {
   if (email === '') {
@@ -296,18 +296,14 @@ export default function Register() {
               )}
               First & Last names must be at least 2 characters long
             </p>
-            <p
-              className={`${
-                emailError ? 'text-red-400' : 'text-green-600'
-              } flex`}
-            >
-              {emailError ? (
-                <XCircleIcon className='inline-block h-4 w-4 mr-2' />
-              ) : (
-                <CheckCircleIcon className='inline-block h-4 w-4 mr-2' />
-              )}
-              Email must be valid
-            </p>
+            {emailError ? 
+              <p className= 'text-red-400'>
+                <XCircleIcon className='inline-block h-4 w-4 mr-2'/>
+                Email must be valid </p> : 
+              <p className= 'text-green-600'>
+                <CheckCircleIcon className='inline-block h-4 w-4 mr-2'/>
+                Email must be valid</p>
+            }
             <p
               className={`${passwordError ? 'text-red-400' : 'text-green-600'}`}
             >
