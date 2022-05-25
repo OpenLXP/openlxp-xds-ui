@@ -1,6 +1,5 @@
 import {
   CheckCircleIcon,
-  LoginIcon,
   RefreshIcon,
   UserAddIcon,
   XCircleIcon,
@@ -18,13 +17,125 @@ import {
 } from '@/utils/validation';
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '@/public/logo.png';
 import { useConfig } from '@/hooks/useConfig';
+
+function validateEmail (email, setEmailError, setError) {
+  if (email === '') {
+    return unstable_batchedUpdates(() => {
+      setEmailError(true);
+      setError('Email is required');
+    });
+  }
+
+  else if (!isValidEmail(email)) {
+    return unstable_batchedUpdates(() => {
+      setEmailError(true);
+      setError('Email is invalid');
+    });
+  }
+
+  return unstable_batchedUpdates(() => {
+    setEmailError(false);
+    setError('');
+  });
+};
+
+function validatePassword (password, setPasswordError, setError) {
+  if (password === '') {
+    return unstable_batchedUpdates(() => {
+      setPasswordError(true);
+      setError('Password is required');
+    });
+  }
+
+  else if (!isLongEnough(password, 8)) {
+    return unstable_batchedUpdates(() => {
+      setPasswordError(true);
+      setError('Password must be at least 8 characters');
+    });
+  }
+
+  else if (!containsLowercase(password)) {
+    return unstable_batchedUpdates(() => {
+      setPasswordError(true);
+      setError('Password must contain at least one lowercase letter');
+    });
+  }
+
+  else if (!containsUppercase(password)) {
+    return unstable_batchedUpdates(() => {
+      setPasswordError(true);
+      setError('Password must contain at least one uppercase letter');
+    });
+  }
+
+  else if (!containsSpecialCharacter(password)) {
+    return unstable_batchedUpdates(() => {
+      setPasswordError(true);
+      setError('Password must contain at least one special character');
+    });
+  }
+
+  else if (!containsNumber(password)) {
+    return unstable_batchedUpdates(() => {
+      setPasswordError(true);
+      setError('Password must contain at least one number');
+    });
+  }
+
+  else if (containsSpace(password)) {
+    return unstable_batchedUpdates(() => {
+      setPasswordError(true);
+      setError('Password must not contain any spaces');
+    });
+  }
+
+  return unstable_batchedUpdates(() => {
+    setPasswordError(false);
+    setError('');
+  });
+};
+
+function validateConfPassword (confPassword, password, setConfPasswordError, setError) {
+  if (confPassword === '') {
+    return unstable_batchedUpdates(() => {
+      setConfPasswordError(true);
+      setError('Confirmation password is required');
+    });
+  }
+
+  if (confPassword !== password) {
+    return unstable_batchedUpdates(() => {
+      setConfPasswordError(true);
+      setError('Passwords do not match');
+    });
+  }
+
+  return unstable_batchedUpdates(() => {
+    setConfPasswordError(false);
+    setError('');
+  });
+};
+
+function validateName (name, updateFn, subject, setError) {
+  if (!isLongEnough(name, 2)) {
+    return unstable_batchedUpdates(() => {
+      updateFn(true);
+      setError(`${subject} must be at least 2 characters`);
+    });
+  }
+
+  return unstable_batchedUpdates(() => {
+    updateFn(false);
+    setError('');
+  });
+};
 
 export default function Register() {
   const router = useRouter();
@@ -49,117 +160,6 @@ export default function Register() {
     if (user) router.push('/');
   }, []);
 
-  const validateEmail = (email) => {
-    if (email === '') {
-      return unstable_batchedUpdates(() => {
-        setEmailError(true);
-        setError('Email is required');
-      });
-    }
-
-    if (!isValidEmail(email)) {
-      return unstable_batchedUpdates(() => {
-        setEmailError(true);
-        setError('Email is invalid');
-      });
-    }
-
-    return unstable_batchedUpdates(() => {
-      setEmailError(false);
-      setError('');
-    });
-  };
-  const validatePassword = (password) => {
-    if (password === '') {
-      return unstable_batchedUpdates(() => {
-        setPasswordError(true);
-        setError('Password is required');
-      });
-    }
-
-    if (!isLongEnough(password, 8)) {
-      return unstable_batchedUpdates(() => {
-        setPasswordError(true);
-        setError('Password must be at least 8 characters');
-      });
-    }
-
-    if (!containsLowercase(password)) {
-      return unstable_batchedUpdates(() => {
-        setPasswordError(true);
-        setError('Password must contain at least one lowercase letter');
-      });
-    }
-
-    if (!containsUppercase(password)) {
-      return unstable_batchedUpdates(() => {
-        setPasswordError(true);
-        setError('Password must contain at least one uppercase letter');
-      });
-    }
-
-    if (!containsSpecialCharacter(password)) {
-      return unstable_batchedUpdates(() => {
-        setPasswordError(true);
-        setError('Password must contain at least one special character');
-      });
-    }
-
-    if (!containsNumber(password)) {
-      return unstable_batchedUpdates(() => {
-        setPasswordError(true);
-        setError('Password must contain at least one number');
-      });
-    }
-
-    if (containsSpace(password)) {
-      return unstable_batchedUpdates(() => {
-        setPasswordError(true);
-        setError('Password must not contain any spaces');
-      });
-    }
-
-    return unstable_batchedUpdates(() => {
-      setPasswordError(false);
-      setError('');
-    });
-  };
-
-  const validateConfPassword = (confPassword) => {
-    if (confPassword === '') {
-      return unstable_batchedUpdates(() => {
-        setConfPasswordError(true);
-        setError('Confirmation password is required');
-      });
-    }
-
-    if (confPassword !== credentials.password) {
-      return unstable_batchedUpdates(() => {
-        setConfPasswordError(true);
-        setError('Passwords do not match');
-      });
-    }
-
-    return unstable_batchedUpdates(() => {
-      setConfPasswordError(false);
-      setError('');
-    });
-  };
-
-  const validateName = (name, updateFn, subject) => {
-    if (!isLongEnough(name, 2)) {
-      return unstable_batchedUpdates(() => {
-        updateFn(true);
-        setError(`${subject} must be at least 2 characters`);
-      });
-    }
-
-    return unstable_batchedUpdates(() => {
-      updateFn(false);
-      setError('');
-    });
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoading(true);
@@ -176,7 +176,7 @@ export default function Register() {
         register(res.data);
       })
       .catch((err) => {
-        // setError(err.response);
+        console.log(err);
       })
       .finally(() => {
         setLoading(false);
@@ -202,23 +202,23 @@ export default function Register() {
 
   // updaters for each field
   useEffect(() => {
-    validatePassword(credentials.password);
+    validatePassword(credentials.password,  setPasswordError, setError);
   }, [credentials.password]);
 
   useEffect(() => {
-    validateConfPassword(credentials.confirmationPassword);
+    validateConfPassword(credentials.confirmationPassword, credentials.password, setConfPasswordError, setError);
   }, [credentials.confirmationPassword]);
 
   useEffect(() => {
-    validateEmail(credentials.email);
+    validateEmail(credentials.email, setEmailError, setError);
   }, [credentials.email]);
 
   useEffect(() => {
-    validateName(credentials.last_name, setLastNameError, 'Last name');
+    validateName(credentials.last_name, setLastNameError, 'Last name', setError);
   }, [credentials.last_name]);
 
   useEffect(() => {
-    validateName(credentials.first_name, setFirstNameError, 'First name');
+    validateName(credentials.first_name, setFirstNameError, 'First name', setError);
   }, [credentials.first_name]);
 
   return (
@@ -296,18 +296,14 @@ export default function Register() {
               )}
               First & Last names must be at least 2 characters long
             </p>
-            <p
-              className={`${
-                emailError ? 'text-red-400' : 'text-green-600'
-              } flex`}
-            >
-              {emailError ? (
-                <XCircleIcon className='inline-block h-4 w-4 mr-2' />
-              ) : (
-                <CheckCircleIcon className='inline-block h-4 w-4 mr-2' />
-              )}
-              Email must be valid
-            </p>
+            {emailError ? 
+              <p className= 'text-red-400'>
+                <XCircleIcon className='inline-block h-4 w-4 mr-2'/>
+                Email must be valid </p> : 
+              <p className= 'text-green-600'>
+                <CheckCircleIcon className='inline-block h-4 w-4 mr-2'/>
+                Email must be valid</p>
+            }
             <p
               className={`${passwordError ? 'text-red-400' : 'text-green-600'}`}
             >
@@ -354,10 +350,8 @@ export default function Register() {
           type='submit'
           className='disabled:opacity-50 disabled:saturate-50 disabled:cursor-not-allowed mt-6 items-center inline-flex gap-2 text-blue-400 rounded-md hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white px-4 py-2 transition-all duration-75 ease-in-out border-blue-400 border-2 outline-none focus:ring-2 ring-blue-400 max-w-max'
         >
-          {loading && (
-            <RefreshIcon className='inline-block h-4 w-4 mr-2 animate-spin' />
-          )}
-          {!loading && <UserAddIcon className='inline-block h-4 w-4 mr-2' />}
+          {loading ? (<RefreshIcon className='inline-block h-4 w-4 mr-2 animate-spin' />) 
+          : ( <UserAddIcon className='inline-block h-4 w-4 mr-2' />)}
           Create Account
         </button>
         <p className={'my-8 relative border-b-2 w-full'}>

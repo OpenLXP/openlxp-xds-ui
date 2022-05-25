@@ -1,11 +1,8 @@
-import { CheckCircleIcon, RefreshIcon } from '@heroicons/react/outline';
 import { Fragment } from 'react';
 import { Popover, Transition } from '@headlessui/react';
-import { sendStatement } from '@/utils/xapi/xAPIWrapper';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateSaveSearch } from '@/hooks/useCreateSaveSearch';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
-import ActionButton from '@/components/buttons/ActionButton';
 import InputField from '@/components/inputs/InputField';
 import useField from '@/hooks/useField';
 
@@ -14,7 +11,7 @@ export default function CreateSavedSearchModal({ path }) {
   const { fields, updateKeyValuePair, resetKey } = useField({
     name: '',
   });
-  const { mutate, isSuccess, isLoading } = useCreateSaveSearch(user?.token);
+  const { mutate } = useCreateSaveSearch(user?.token);
 
   const handleChange = (event) => {
     updateKeyValuePair(event.target.name, event.target.value);

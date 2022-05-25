@@ -2,7 +2,6 @@ import { axiosInstance } from '@/config/axiosConfig';
 import { backendHost } from '../config/endpoints';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useLocalStorage } from '../hooks/useStorage';
-import { useRouter } from 'next/dist/client/router';
 
 export const AuthContext = createContext({});
 
@@ -48,7 +47,7 @@ export function AuthProvider({ children }) {
         .then((res) => {
           setLocal(res.data);
         })
-        .catch((error) => {
+        .catch((err) => {
           removeLocal();
           logout();
         });
