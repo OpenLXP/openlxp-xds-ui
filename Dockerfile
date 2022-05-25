@@ -25,12 +25,11 @@ ENV NODE_ENV production
 
 # You only need to copy next.config.js if you are NOT using the default configuration
 #COPY --from=builder /tmp/next.config.js ./
+USER nextjs
 COPY --from=builder /tmp/src/public ./public
 COPY --from=builder --chown=nextjs:nodejs /tmp/.next ./.next
 COPY --from=builder /tmp/node_modules ./node_modules
 COPY --from=builder /tmp/package.json ./package.json
-
-USER nextjs
 
 EXPOSE 3000
 
