@@ -21,7 +21,7 @@ WORKDIR /tmp
 
 ENV NODE_ENV production
 
-RUN addgroup -g 1001 -S nodejs
+#RUN addgroup -g 1001 -S nodejs
 
 # You only need to copy next.config.js if you are NOT using the default configuration
 COPY --from=builder /tmp/next.config.js ./
