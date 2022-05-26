@@ -8,13 +8,13 @@ import {
 } from '@heroicons/react/outline';
 import { Switch } from '@headlessui/react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserList } from '@/hooks/useUserList';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import prepareListDataToSend from '@/utils/prepListDataToSend';
-import { interestLists } from '@/config/endpoints';
+import PublicPrivateToggle from '@/components/inputs/PublicPrivateToggle';
 
 export function getServerSideProps({ query }) {
   return {
@@ -30,7 +30,6 @@ export default function EditList({ listId }) {
 
   // handles the mutation
   const mutation = useUpdateUserList();
-  const initialList = useUserList(parseInt(listId));
 
   // single source of truth for editing
   const [currentListInfo, setCurrentListInfo] = useState({
@@ -40,32 +39,26 @@ export default function EditList({ listId }) {
     experiences: [],
   });
 
+  const initialList = useUserList(parseInt(listId), setCurrentListInfo);
+
   useEffect(() => {
     // no user
     if (!user) return router.push('/');
     // if there is a authorization error
-    if (initialList.isError) {
-      if (initialList?.error?.response?.status === 401) {
-        return router.push('/401');
-      }
-      if (initialList?.error?.response?.status === 403) {
+    if (initialList?.isError) {
+      if( initialList?.error?.response?.status === 401)
+       return router.push('/401');
+      if (initialList?.error?.response?.status === 403)
         return router.push('/403');
-      }
     }
-
-    // // if the owner of the list is not the current user, redirect to homepage
+    
+    // if the owner of the list is not the current user, redirect to homepage
     if (initialList?.isSuccess && user?.user?.id){
       if (initialList?.data?.owner?.id !== user?.user?.id){
         return router.push(`/lists/${listId}`);
       } 
     }
-    
-  }, []);
-
-  useEffect(() => {
-    // set the source of truth
-
-    if (initialList.isSuccess) {
+    if (initialList?.isSuccess) {
       setCurrentListInfo({
         name: initialList.data?.name,
         description: initialList.data?.description,
@@ -73,7 +66,7 @@ export default function EditList({ listId }) {
         public: initialList.data?.public,
       });
     }
-  }, [initialList.isSuccess]);
+  }, []);
 
   const handleChange = (event) => {
     setCurrentListInfo((prev) => ({
@@ -127,7 +120,7 @@ export default function EditList({ listId }) {
     <DefaultLayout>
       <div className='flex justify-between items-center border-b'>
         <h1 className='font-semibold text-3xl pb-4 mt-10 border-b font-sans'>
-          {initialList.data?.name}
+          {initialList?.data?.name}
         </h1>
         <button
           className='items-center inline-flex gap-2 text-gray-500 rounded-md hover:shadow-md bg-gray-50 hover:bg-gray-400 hover:text-white px-4 py-2 border-gray-400 border-2 outline-none focus:ring-2 ring-gray-400'
@@ -140,13 +133,16 @@ export default function EditList({ listId }) {
       </div>
 
       <form onSubmit={submitData} onReset={resetData} className='mt-10'>
+        {/* toggle switch with description*/}
+        {/* <PublicPrivateToggle currentListInfo={currentListInfo} toggleListVisibility={toggleListVisibility}/> */}
+
         {/* Title & description input */}
         <div className='grid grid-cols-2 gap-6 mt-10'>
           <input
             className='outline-none rounded shadow-sm p-2 text-xl border focus:shadow-md focus:shadow-blue-400  focus:ring-4 focus:ring-blue-400 focus:ring-offset-1'
             type='text'
             placeholder='List Name'
-            value={currentListInfo.name}
+            value={currentListInfo?.name}
             onChange={handleChange}
             name='name'
           />
@@ -173,23 +169,23 @@ export default function EditList({ listId }) {
           <tbody className=''>
             {currentListInfo.experiences?.map((exp) => (
               <tr
-                key={exp.meta.metadata_key_hash}
+                key={exp.meta?.metadata_key_hash}
                 className='odd:bg-gray-100 even:bg-white'
               >
                 <td className='p-2 overflow-hidden text-ellipsis'>
                   <button
                     className='hover:underline hover:text-blue-400
                     cursor-pointer w-full h-full text-left '
-                    onClick={(e) => visitCourse(e, exp.meta.metadata_key_hash)}
+                    onClick={(e) => visitCourse(e, exp.meta?.metadata_key_hash)}
                   >
-                    {exp.Course.CourseTitle}
+                    {exp.Course?.CourseTitle}
                   </button>
                 </td>
-                <td className='p-2'>{exp.Course.CourseProviderName}</td>
+                <td className='p-2'>{exp.Course?.CourseProviderName}</td>
                 <td className='text-right p-2'>
                   <button
                     className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                    onClick={() => removeCourse(exp.meta.metadata_key_hash)}
+                    onClick={() => removeCourse(exp.meta?.metadata_key_hash)}
                   >
                     Remove
                   </button>

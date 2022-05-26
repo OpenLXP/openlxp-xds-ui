@@ -1,6 +1,5 @@
 import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '../../contexts/AuthContext';
-import { useConfig } from '../../hooks/useConfig';
 import { useMoreCoursesLikeThis } from '../../hooks/useMoreCoursesLikeThis';
 import React from 'react';
 import SaveModal from '../modals/SaveModal';
@@ -8,7 +7,6 @@ import ViewBtn from '../buttons/ViewBtn';
 
 export default function MoreLikeThis({ course }) {
   const { data, isLoading } = useMoreCoursesLikeThis(course?.meta.id);
-  const config = useConfig();
   const { user } = useAuth();
 
   // if loading

@@ -1,16 +1,11 @@
 import { SearchIcon, XIcon } from '@heroicons/react/solid';
 
-export default function SearchBar({
-  parameters,
-  onChange,
-  onClick = () => {},
-  onReset,
-}) {
+export default function SearchBar({ parameters, onChange, onClick, onReset }) {
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        onClick(event);
+        if (onClick) onClick(event);
       }}
       className='w-full flex flex-row rounded-full shadow bg-white justify-center items-center focus-within:ring-4 ring-blue-400 focus-within:shadow-lg transform transition-all duration-150 ease-in-out z-10'
     >
