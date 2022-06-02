@@ -6,10 +6,10 @@ WORKDIR /app
 COPY package.json ./
 
 # Rebuild the source code only when needed
-FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS builder
-WORKDIR /app
-COPY . .
-COPY --from=deps /app/node_modules ./node_modules
+#FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS builder
+#WORKDIR /app
+#COPY . .
+#COPY --from=deps /app/node_modules ./node_modules
 
 
 RUN yarn build
