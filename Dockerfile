@@ -7,7 +7,9 @@ COPY package.json ./
 
 # Rebuild the source code only when needed
 FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS builder
+USER node
 WORKDIR /app
+COPY --chown=node:node . .
 COPY . .
 RUN yarn build
 COPY --from=deps node_modules/ ./node_modules
