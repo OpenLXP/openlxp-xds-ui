@@ -11,9 +11,8 @@ USER node
 WORKDIR /app
 COPY --chown=node:node . .
 COPY . .
-COPY --from=deps node_modules/ ./node_modules
 RUN yarn build
-
+COPY --from=deps node_modules/ ./node_modules
 
 # Production image, copy all the files and run next
 FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS runner
