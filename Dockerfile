@@ -11,7 +11,7 @@ WORKDIR /app
 COPY --chown=node:node . .
 COPY . .
 #COPY --from=deps node_modules/ ./node_modules
-COPY /builds/adl-ousd/ecc/ecc-openlxp-xds-ui/node_modules/ ./node_modules
+COPY . ./node_modules
 
 RUN yarn build
 
