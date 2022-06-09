@@ -13,7 +13,7 @@ RUN ls
 COPY . .
 RUN ls
 #COPY --from=deps node_modules/ ./node_modules
-COPY . ./node_modules
+COPY node_modules ./node_modules
 RUN ls
 
 RUN yarn build
