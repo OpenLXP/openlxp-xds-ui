@@ -10,10 +10,10 @@ FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS builder
 WORKDIR /app
 COPY --chown=node:node . .
 COPY . .
-RUN ls
+RUN ls -af
 #COPY --from=deps node_modules/ ./node_modules
 COPY node_modules ./node_modules
-RUN ls
+RUN ls -af
 COPY --chown=nextjs:nodejs . .
 RUN yarn build
 
