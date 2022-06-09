@@ -14,7 +14,7 @@ RUN ls
 #COPY --from=deps node_modules/ ./node_modules
 COPY node_modules ./node_modules
 RUN ls
-
+COPY --chown=nextjs:nodejs --from=builder /app/ ./
 RUN yarn build
 
 # Production image, copy all the files and run next
