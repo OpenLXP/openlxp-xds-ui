@@ -11,7 +11,8 @@ WORKDIR /app
 COPY . .
 #COPY --from=deps node_modules/ ./node_modules
 #COPY /builds/$NAMESPACE/$PROJECT_NAME/node_modules/ ./node_modules
-USER root
+USER node
+COPY --chown=node:node . .
 RUN yarn build
 
 # Production image, copy all the files and run next
