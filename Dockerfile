@@ -10,6 +10,7 @@ FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS builder
 WORKDIR /app
 COPY . .
 #COPY --from=deps node_modules/ ./node_modules
+COPY /builds/adl-ousd/ecc/ecc-openlxp-xds-ui/node_modules/ ./node_modules
 
 RUN yarn build
 
