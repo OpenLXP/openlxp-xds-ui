@@ -9,7 +9,8 @@ COPY package.json ./
 FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS builder
 WORKDIR /app
 COPY . .
-COPY --from=deps node_modules/ ./node_modules
+#COPY --from=deps node_modules/ ./node_modules
+COPY --from=deps /builds/$NAMESPACE/$PROJECT_NAME/node_modules ./node_modules
 
 RUN yarn build
 
@@ -20,7 +21,7 @@ WORKDIR /app
 ENV NODE_ENV production
 
 RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
+#RUN adduser -S nextjs -u 1001
 
 # You only need to copy next.config.js if you are NOT using the default configuration
 #COPY --from=builder /app/next.config.js ./
