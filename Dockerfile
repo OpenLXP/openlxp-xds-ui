@@ -1,16 +1,15 @@
 # Install dependencies only when needed
-FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS deps
+#FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS deps
 
 # RUN apk add libc6-compat
-WORKDIR /app
-COPY package.json ./
+#WORKDIR /app
+#COPY package.json ./
 
 # Rebuild the source code only when needed
 FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS builder
 WORKDIR /app
 COPY . .
 #COPY --from=deps node_modules/ ./node_modules
-COPY --from=deps /builds/$NAMESPACE/$PROJECT_NAME/node_modules/ ./node_modules
 
 RUN yarn build
 
