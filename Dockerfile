@@ -10,7 +10,8 @@ FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS builder
 WORKDIR /app
 COPY . .
 #COPY --from=deps node_modules/ ./node_modules
-COPY /builds/$NAMESPACE/$PROJECT_NAME/node_modules/ ./node_modules
+#COPY /builds/$NAMESPACE/$PROJECT_NAME/node_modules/ ./node_modules
+USER root
 RUN yarn build
 
 # Production image, copy all the files and run next
