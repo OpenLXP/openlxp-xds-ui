@@ -12,7 +12,7 @@ WORKDIR /app
 COPY . .
 RUN ls -la
 #COPY --from=deps node_modules/ ./node_modules
-COPY --chown=nextjs:nodejs node_modules ./node_modules
+COPY node_modules ./node_modules
 RUN ls -la
 RUN yarn build
 USER nextjs
