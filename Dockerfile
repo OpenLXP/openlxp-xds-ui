@@ -10,7 +10,6 @@ FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS builder
 USER root
 WORKDIR /app
 COPY . .
-#COPY --from=deps node_modules/ ./node_modules
 COPY node_modules ./node_modules
 RUN ls -la
 RUN yarn build
@@ -18,12 +17,11 @@ USER node
 
 # Production image, copy all the files and run next
 FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS runner
-USER nodejs
 WORKDIR /app
 
 ENV NODE_ENV production
 
-RUN addgroup -g 1001 -S nodejs
+#RUN addgroup -g 1001 -S nodejs
 #RUN adduser -S nextjs -u 1001
 
 # You only need to copy next.config.js if you are NOT using the default configuration
