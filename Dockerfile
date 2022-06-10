@@ -18,7 +18,8 @@ USER node
 # Production image, copy all the files and run next
 FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS runner
 WORKDIR /app
-RUN cat less /etc/passwd
+RUN cat /etc/passwd \
+    && cat /etc/group
 
 ENV NODE_ENV production
 
