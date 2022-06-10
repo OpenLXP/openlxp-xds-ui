@@ -7,14 +7,15 @@
 
 # Rebuild the source code only when needed
 FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS builder
+USER root
 WORKDIR /app
-COPY --chown=node:node . .
 COPY . .
 RUN ls -la
 #COPY --from=deps node_modules/ ./node_modules
-COPY node_modules ./node_modules
+COPY --chown=nextjs:nodejs node_modules ./node_modules
 RUN ls -la
 RUN yarn build
+USER nextjs
 
 # Production image, copy all the files and run next
 FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS runner
