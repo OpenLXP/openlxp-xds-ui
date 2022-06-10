@@ -10,12 +10,11 @@ FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS builder
 USER root
 WORKDIR /app
 COPY . .
-RUN ls -la
 #COPY --from=deps node_modules/ ./node_modules
 COPY node_modules ./node_modules
 RUN ls -la
 RUN yarn build
-USER nextjs
+USER node
 
 # Production image, copy all the files and run next
 FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS runner
