@@ -11,15 +11,12 @@ USER root
 WORKDIR /app
 COPY . .
 COPY node_modules ./node_modules
-RUN ls -la
 RUN yarn build
 USER node
 
 # Production image, copy all the files and run next
 FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS runner
 WORKDIR /app
-RUN cat /etc/passwd \
-    && cat /etc/group
 
 ENV NODE_ENV production
 
@@ -28,10 +25,10 @@ ENV NODE_ENV production
 
 # You only need to copy next.config.js if you are NOT using the default configuration
 #COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/src/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/src/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
 
 USER nextjs
 
