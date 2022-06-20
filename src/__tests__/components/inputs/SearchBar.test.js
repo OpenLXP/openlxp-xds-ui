@@ -1,4 +1,4 @@
-import { act, render, screen, fireEvent } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import SearchBar from '../../../components/inputs/SearchBar';
 
 describe('SearchBar', () => {
@@ -20,7 +20,7 @@ describe('SearchBar', () => {
     );
 
     act(() => {
-      fireEvent.click(screen.getByTitle('search'));
+      fireEvent.click(screen.getByTitle('Search'));
     });
 
     expect(console.log).toHaveBeenCalledTimes(1);
@@ -74,5 +74,6 @@ describe('SearchBar', () => {
       fireEvent.click(screen.getByTitle('reset'));
     });
     expect(console.log).toHaveBeenCalledTimes(1);
+    expect(console.log).toHaveBeenCalledWith('tada');
   });
 });

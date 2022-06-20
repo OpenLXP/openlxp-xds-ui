@@ -5,6 +5,8 @@ import mockAxios from 'jest-mock-axios';
 import { useConfig } from '@/hooks/useConfig';
 import uiConfigData from '@/__mocks__/data/uiConfig.data';
 
+jest.unmock('@/hooks/useConfig');
+
 const queryClient = new QueryClient();
 const wrapper = ({ children }) => (
   <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

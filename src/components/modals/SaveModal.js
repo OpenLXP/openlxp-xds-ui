@@ -1,21 +1,33 @@
-import {Dialog, Transition} from '@headlessui/react';
-import {Fragment, useState} from 'react';
-import {PlusCircleIcon} from '@heroicons/react/outline';
-import { sendStatement } from '@/utils/xapi/xAPIWrapper';
-import {useAuth} from '@/contexts/AuthContext';
-import {useCreateUserList} from '@/hooks/useCreateUserList';
-import {useUpdateUserList} from '@/hooks/useUpdateUserList';
-import {useUserOwnedLists} from '@/hooks/useUserOwnedLists';
+import { Dialog, Transition } from '@headlessui/react';
+import { Fragment, useCallback, useState } from 'react';
+import { PlusCircleIcon } from '@heroicons/react/outline';
+import { useAuth } from '@/contexts/AuthContext';
+import { useCreateUserList } from '@/hooks/useCreateUserList';
+import { useUpdateUserList } from '@/hooks/useUpdateUserList';
+import { useUserOwnedLists } from '@/hooks/useUserOwnedLists';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import InputField from '@/components/inputs/InputField';
+import useField from '@/hooks/useField';
 
-export default function SaveModal({courseId}) {
+/**
+ * TODO: to be removed before merging back to dev
+ * Current status: in the process of trying to get the updated isSuccess ( useCreateUserList hook) value
+ * to be used to determine whether or not xAPISendStatement should be executed.
+ * Even with the useCallback, it seems like isSuccess (useCreateUserList hook) is still one step behind.
+ *
+ * The reason for using this approach instead of calling the xAPISendStatement in the onSuccess is
+ * because testing that onSuccess is difficult especially when the mutation is being mocked.
+ *
+ */
+
+export default function SaveModal({ courseId }) {
   // authentication
-  const {user} = useAuth();
+  const { user } = useAuth();
 
   // user lists
-  const {data: userLists, isSuccess} = useUserOwnedLists(user?.token);
-  const {mutate} = useUpdateUserList(user?.token);
-  const {mutate: create} = useCreateUserList(user?.token);
+  const { data: userLists, isSuccess } = useUserOwnedLists();
+  const { mutate: update } = useUpdateUserList();
+  const { mutate: create } = useCreateUserList();
 
   // new list form
   const [fields, setFields] = useState({
@@ -23,23 +35,19 @@ export default function SaveModal({courseId}) {
     description: '',
   });
 
-    //xAPI Statement
-    const xAPISendStatement = (objectId) => {
-      if (user) {
-        const verb = {
-          id: "https://w3id.org/xapi/dod-isd/verbs/curated",
-          display: "curated" 
-        }
-        sendStatement(user.user, verb, objectId);
-      }
-    }
+  const { fields: error, updateKeyValuePair: setError } = useField({
+    message: '',
+  });
 
   // add a course to the selected list
-  const addCourseToList = (listId) => {
-    const listData = userLists.find((list) => list.id === listId);
-    listData.experiences.push(courseId);
-    mutate({listData: listData, id: listId});
-  };
+  const addCourseToList = useCallback(
+    (listId) => {
+      const listData = userLists.find((list) => list.id === listId);
+      listData.experiences.push(courseId);
+      update({ listData: listData, id: listId });
+    },
+    [courseId, update, userLists]
+  );
 
   // remove a course from the selected list
   const removeCourseFromList = (listId) => {
@@ -49,8 +57,53 @@ export default function SaveModal({courseId}) {
       description: listData.description,
       experiences: listData.experiences.filter((exp) => exp !== courseId),
     };
-    mutate({listData: modified, id: listId});
+    update({ listData: modified, id: listId });
   };
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+
+      // verify the required fields are filled
+      if (fields.name === '')
+        return setError('message', 'List name is required.');
+      if (fields.description === '')
+        return setError('message', 'List description is required.');
+
+      // update states
+      setError('message', '');
+      setFields({ name: '', description: '' });
+      create(
+        { form: fields },
+        {
+          onSuccess: (data) => {
+            // note: It assumed that the user is present if the button is available.
+            // create the context
+            const context = {
+              actor: {
+                first_name: user?.user?.first_name,
+                last_name: user?.user?.last_name,
+              },
+              verb: {
+                id: 'https://w3id.org/xapi/dod-isd/verbs/curated',
+                display: 'curated',
+              },
+              object: {
+                definitionName: fields.name,
+                description: fields.description,
+              },
+              resultExtName:
+                'https://w3id.org/xapi/ecc/result/extensions/CuratedListId',
+              resultExtValue: data.id,
+            };
+
+            xAPISendStatement(context);
+          },
+        }
+      );
+    },
+    [fields, user?.user]
+  );
 
   // modal states
   let [isOpen, setIsOpen] = useState(false);
@@ -65,7 +118,7 @@ export default function SaveModal({courseId}) {
         onClick={openModal}
         className='inline-flex justify-center items-center gap-2 text-blue-400 rounded-r-lg rounded-l-3xl hover:shadow-md bg-blue-50 hover:bg-blue-400 hover:text-white py-1 pl-1 font-medium pr-2 transform transition-all duration-150 ease-in-out border-blue-400 border-2 focus:ring-2 ring-blue-400 outline-none'
       >
-        <PlusCircleIcon className='h-6 w-6'/>
+        <PlusCircleIcon className='h-6 w-6' />
         Save
       </button>
 
@@ -85,7 +138,7 @@ export default function SaveModal({courseId}) {
               leaveFrom='opacity-100'
               leaveTo='opacity-0'
             >
-              <Dialog.Overlay className='fixed inset-0 bg-gray-700 bg-opacity-10'/>
+              <Dialog.Overlay className='fixed inset-0 bg-gray-700 bg-opacity-10' />
             </Transition.Child>
 
             {/* This element is to trick the browser into centering the modal contents. */}
@@ -104,65 +157,55 @@ export default function SaveModal({courseId}) {
               leaveFrom='opacity-100 scale-100'
               leaveTo='opacity-0 scale-95'
             >
-              <div
-                className='inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl'>
+              <div className='inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl'>
                 <Dialog.Title
                   as='h3'
                   className='text-lg font-medium leading-6 text-gray-900'
                 >
                   Add course to lists
                 </Dialog.Title>
-                <div
-                  className='mt-2 w-full py-2 px-0.5 rounded-md overflow-y-auto h-56 custom-scroll border bg-gray-50 space-y-1'>
+                <div className='mt-2 w-full py-2 px-0.5 rounded-md overflow-y-auto h-56 custom-scroll border bg-gray-50 space-y-1'>
                   {isSuccess &&
-                  userLists?.map((list) => {
-                    const contained = list.experiences.includes(courseId);
-                    return (
-                      <div
-                        key={list.id}
-                        className={` inline-flex justify-between w-full bg-white rounded-md py-2 px-1 border`}
-                      >
-                        {list.name}
+                    userLists?.map((list) => {
+                      const contained = list.experiences.includes(courseId);
+                      return (
+                        <div
+                          key={list.id}
+                          className={` inline-flex justify-between w-full bg-white rounded-md py-2 px-1 border`}
+                        >
+                          {list.name}
 
-                        {contained ? (
-                          <button
-                            className='bg-red-50 px-2 rounded border border-red-500 text-red-600 hover:bg-red-500 hover:text-white transform transition-colors duration-100 ease-in-out'
-                            onClick={() => {
-                              removeCourseFromList(list.id);
-                            }}
-                          >
-                            Remove
-                          </button>
-                        ) : (
-                          <button
-                            className='bg-green-50 px-2 rounded border border-green-500 text-green-600 hover:bg-green-500 hover:text-white transform transition-colors duration-100 ease-in-out'
-                            onClick={() => {
-                              addCourseToList(list.id);
-                            }}
-                          >
-                            Add
-                          </button>
-                        )}
-                      </div>
-                    );
-                  })}
+                          {contained ? (
+                            <button
+                              className='bg-red-50 px-2 rounded border border-red-500 text-red-600 hover:bg-red-500 hover:text-white transform transition-colors duration-100 ease-in-out'
+                              onClick={() => {
+                                removeCourseFromList(list.id);
+                              }}
+                            >
+                              Remove
+                            </button>
+                          ) : (
+                            <button
+                              className='bg-green-50 px-2 rounded border border-green-500 text-green-600 hover:bg-green-500 hover:text-white transform transition-colors duration-100 ease-in-out'
+                              onClick={() => {
+                                addCourseToList(list.id);
+                              }}
+                            >
+                              Add
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
                 </div>
 
                 <form
                   className='my-2 flex flex-col w-full'
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    setFields({name: '', description: ''});
-                    create({form: fields}, { 
-                      onSuccess: (data) => {
-                        const domain = (new URL(window.location));
-                        const objectId = `${domain.origin}/lists/${data.id}`;
-                        xAPISendStatement(objectId);
-                      } });
-                  }}
+                  onSubmit={handleSubmit}
                 >
+                  <h4 className='py-2 text-lg font-medium leading-6 text-gray-900'>Create a new list</h4>
                   <div>
-                    <label>List Name</label>
+                    <label htmlFor='name'>List Name</label>
                     <InputField
                       placeholder='Name'
                       type='text'
@@ -178,7 +221,7 @@ export default function SaveModal({courseId}) {
                     />
                   </div>
                   <div className='relative'>
-                    <label>List Description</label>
+                    <label htmlFor='description'>List Description</label>
                     <textarea
                       placeholder='List Description...'
                       name='description'
@@ -188,24 +231,16 @@ export default function SaveModal({courseId}) {
                         2
                       ).toString()}
                       value={fields.description || ''}
-                      onChange={(event) => {
+                      onChange={(e) => {
                         setFields((prev) => ({
                           ...prev,
-                          [event.target.name]: event.target.value,
+                          [e.target.name]: e.target.value,
                         }));
                       }}
                       className='w-full border outline-none rounded-md shadow focus:shadow-md p-2 focus:ring-4 ring-blue-400 transform transition-all duration-150'
                     />
-                    <span
-                      className={`absolute bottom-2 right-3 ${
-                        fields.description?.length > 200
-                          ? 'text-red-500'
-                          : 'text-gray-500'
-                      }`}
-                    >
-                      {fields.description?.length}/200
-                    </span>
                   </div>
+                  <p className='text-red-600 mb-5'>{error.message}</p>
                   <input
                     type='submit'
                     name='submit'
@@ -219,7 +254,7 @@ export default function SaveModal({courseId}) {
                     className='inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500'
                     onClick={closeModal}
                   >
-                    Got it, thanks!
+                    Close
                   </button>
                 </div>
               </div>

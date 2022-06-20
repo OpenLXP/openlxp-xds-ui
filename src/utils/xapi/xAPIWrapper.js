@@ -5,25 +5,47 @@ import xAPIMapper from "./xAPIMapper";
  * @param object
  * @param object
  * @param object
+ * @param string
+ * @param string
  * @returns {Promise}
  */
-export const sendStatement = (actor, verb, objectId) => {
 
-  const statement =  {
+export const sendStatement = (actor, verb, obj, resultExtName, resultExtValue) => {
+
+  const statement = {
     actor: {
-      name: `${actor.first_name} ${actor.last_name}`,
-      mbox: `mailto:${actor.email}`
+      account: {
+        homePage: "https://ecc.gov",
+        name: `${actor.first_name} ${actor.last_name}`,
+      },
+      objectType: "Agent"
     },
     verb: {
-      id: `http://example.com/verbs/${verb.display}`,
+      id: verb.id,
       display: {
-          "en-GB": verb.display
+        "en-US": verb.display
       }
     },
     object: {
-      id: objectId
-    }
+      id: obj.id,
+      definition: {
+        name: {
+          "en-US": obj.definitionName
+        }
+      },
+      objectType: "Activity"
+    },
+    result: {
+      extensions: {
+        [resultExtName]: resultExtValue
+      }
+    },
+    timestamp: new Date().toUTCString()
   }
 
-  return xAPIMapper.sendStatement({statement});
+  obj.description && (statement['object']['definition']['description'] = {
+    "en-US": obj.description
+  })
+
+  return xAPIMapper.sendStatement({ statement });
 }

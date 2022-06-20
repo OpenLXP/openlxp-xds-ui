@@ -1,12 +1,22 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, act } from '@testing-library/react';
 
 import Subscribed from '@/pages/lists/subscribed';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
-import { useAuth } from '@/contexts/AuthContext';
-import { useUnsubscribeFromList } from '@/hooks/useUnsubscribeFromList';
-import { useSubscribedLists } from '@/hooks/useSubscribedLists';
 import singletonRouter from 'next/router';
+import MockRouter from 'next-router-mock';
+import {
+  unsubscribeFromListMockFn,
+  useAuthenticatedUser,
+  useMockConfig,
+  useMockSubscribedLists,
+  useMockSubscribedListsEmpty,
+  useMockSubscribedListsWith401,
+  useMockSubscribedListsWith403,
+  useMockSubscribeToList,
+  useMockUnsubscribeFromList,
+  useUnauthenticatedUser,
+} from '@/__mocks__/predefinedMocks';
 
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
 // mocks
@@ -22,22 +32,14 @@ jest.mock('@/hooks/useSubscribedLists', () => ({
   useSubscribedLists: jest.fn(),
 }));
 
-const mutateFn = jest.fn();
+beforeEach(() => {
+  useMockConfig();
+  useMockUnsubscribeFromList();
+  useMockSubscribeToList();
+});
 
 const renderer = () => {
-  useAuth.mockImplementation(() => ({
-    user: {
-      user: {
-        id: '1',
-        email: '',
-      },
-    },
-  }));
-
-  useUnsubscribeFromList.mockImplementation(() => ({
-    mutate: mutateFn,
-  }));
-
+  MockRouter.setCurrentUrl('/lists/subscribed');
   return render(
     <MemoryRouterProvider>
       <QueryClientWrapper>
@@ -47,207 +49,58 @@ const renderer = () => {
   );
 };
 
-describe('Subscribed Page', () => {
+describe('User Subscribed Lists', () => {
   it('should render the page', () => {
-    useSubscribedLists.mockImplementation(() => ({
-      data: [],
-      isSuccess: true,
-    }));
-
+    useAuthenticatedUser();
+    useMockSubscribedLists();
     const { getByText } = renderer();
     expect(getByText('Subscribed Lists')).toBeInTheDocument();
   });
 
-  describe('with data', () => {
-    it('should render a list', () => {
-      useSubscribedLists.mockImplementation(() => ({
-        data: [
-          {
-            id: '1',
-            name: 'List 1',
-            description: '',
-            owner: {
-              id: '1',
-              email: '',
-            },
-            subscribers: [
-              {
-                id: '1',
-                email: '',
-              },
-            ],
-            experiences: [2, 23],
-          },
-        ],
-        isSuccess: true,
-      }));
+  it('should navigate the user to "/" if not authenticated', () => {
+    useUnauthenticatedUser();
+    renderer();
+    expect(singletonRouter).toMatchObject({ asPath: '/' });
+  });
 
-      const { getByText } = renderer();
-      expect(getByText('List 1')).toBeInTheDocument();
+  it('should navigate the user to "/401" if the user is not the owner of the list', () => {
+    useAuthenticatedUser();
+    useMockSubscribedListsWith401();
+    renderer();
+    expect(singletonRouter).toMatchObject({ asPath: '/401' });
+  });
+
+  it('should navigate the user to "/403" if the user is not the owner of the list', () => {
+    useAuthenticatedUser();
+    useMockSubscribedListsWith403();
+    renderer();
+    expect(singletonRouter).toMatchObject({ asPath: '/403' });
+  });
+
+  it('should call the api to unsubscribe from the list', () => {
+    useAuthenticatedUser();
+    useMockSubscribedLists();
+    const { getByText } = renderer();
+    fireEvent.click(getByText('Unsubscribe'));
+    expect(unsubscribeFromListMockFn).toHaveBeenCalled();
+  });
+
+  it('should navigate the user to "/lists/1" when the user clicks view', () => {
+    useAuthenticatedUser();
+    useMockSubscribedLists();
+    const { getByRole } = renderer();
+    act(() => {
+      fireEvent.click(getByRole('button', { name: 'View' }));
     });
+    expect(singletonRouter).toMatchObject({ asPath: '/lists/1' });
+  });
 
-    it('should render the number of subscribers in this list', () => {
-      useSubscribedLists.mockImplementation(() => ({
-        data: [
-          {
-            id: '1',
-            name: 'List 1',
-            description: '',
-            owner: {
-              id: '1',
-              email: '',
-            },
-            subscribers: [
-              {
-                id: '1',
-                email: '',
-              },
-              {
-                id: '2',
-                email: '',
-              },
-            ],
-            experiences: [2],
-          },
-        ],
-        isSuccess: true,
-      }));
-
-      const { getByText } = renderer();
-      expect(getByText('2')).toBeInTheDocument();
-    });
-
-    it('should render the number of experiences in the list', () => {
-      useSubscribedLists.mockImplementation(() => ({
-        data: [
-          {
-            id: '1',
-            name: 'List 1',
-            description: '',
-            owner: {
-              id: '1',
-              email: '',
-            },
-            subscribers: [],
-            experiences: [2, 23],
-          },
-        ],
-        isSuccess: true,
-      }));
-
-      const { getByText } = renderer();
-      expect(getByText('2')).toBeInTheDocument();
-    });
-
-    it('should render the list name, and description', () => {
-      useSubscribedLists.mockImplementation(() => ({
-        data: [
-          {
-            id: '1',
-            name: 'List 1',
-            description: 'List 1 description',
-            owner: {
-              id: '1',
-              email: '',
-            },
-            subscribers: [],
-            experiences: [2, 23],
-          },
-        ],
-        isSuccess: true,
-      }));
-
-      const { getByText } = renderer();
-      expect(getByText('List 1')).toBeInTheDocument();
-      expect(getByText('List 1 description')).toBeInTheDocument();
-    });
-
-    describe('actions', () => {
-      it('should fire mutation when unsubscribe is clicked', () => {
-        useSubscribedLists.mockImplementation(() => ({
-          data: [
-            {
-              id: '1',
-              name: 'List 1',
-              description: 'List 1 description',
-              owner: {
-                id: '1',
-                email: '',
-              },
-              subscribers: [],
-              experiences: [2, 23],
-            },
-          ],
-          isSuccess: true,
-        }));
-
-        const { getByText } = renderer();
-        fireEvent.click(getByText('Unsubscribe'));
-        expect(mutateFn).toHaveBeenCalled();
-      });
-
-      it('should navigate the user to the new list', () => {
-        useSubscribedLists.mockImplementation(() => ({
-          data: [
-            {
-              id: '1',
-              name: 'List 1',
-              description: 'List 1 description',
-              owner: {
-                id: '1',
-                email: '',
-              },
-              subscribers: [],
-              experiences: [2, 23],
-            },
-          ],
-          isSuccess: true,
-        }));
-
-        const { getByText } = renderer();
-        fireEvent.click(getByText('View'));
-        expect(singletonRouter).toMatchObject({
-          asPath: '/lists/1',
-        });
-      });
-
-      it('should navigate to the 401 error page', () => {
-        useSubscribedLists.mockImplementation(() => ({
-          data: [
-          ],
-          isSuccess: false,
-          isError: true,
-          error:{
-            response:{
-              status:401,
-            }
-          },
-        }));
-
-        const { getByText } = renderer();
-        expect(singletonRouter).toMatchObject({
-          asPath: '/401',
-        });
-      });
-
-      it('should navigate to the 403 error page', () => {
-        useSubscribedLists.mockImplementation(() => ({
-          data: [
-          ],
-          isSuccess: false,
-          isError: true,
-          error:{
-            response:{
-              status:403,
-            }
-          },
-        }));
-
-        const { getByText } = renderer();
-        expect(singletonRouter).toMatchObject({
-          asPath: '/403',
-        });
-      });
-    });
+  it('should show a message when list is empty', () => {
+    useAuthenticatedUser();
+    useMockSubscribedListsEmpty();
+    const { getByText } = renderer();
+    expect(
+      getByText('You are not subscribed to any lists.')
+    ).toBeInTheDocument();
   });
 });

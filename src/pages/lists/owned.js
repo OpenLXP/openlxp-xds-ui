@@ -6,7 +6,7 @@ import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 
-export default function Owned({ }) {
+export default function Owned() {
   const router = useRouter();
 
   const { user } = useAuth();
@@ -14,13 +14,13 @@ export default function Owned({ }) {
 
   useEffect(() => {
     if (!user) router.push('/');
-    if (isError && error.response.status === 403) router.push('/403')
-    if (isError && error.response.status === 401) router.push('/401')
-  }, [isError]);
+    if (isError && error.response.status === 403) router.push('/403');
+    if (isError && error.response.status === 401) router.push('/401');
+  }, []);
 
   return (
     <DefaultLayout footerLocation='absolute'>
-      <div id='title' className='pt-32 pb-4 border-b mb-8'>
+      <div id='title' className='mt-10 pb-4 border-b mb-8'>
         <h1 className='font-semibold text-3xl'>My Lists</h1>
       </div>
       <div className='grid grid-cols-3 gap-8 pb-20'>
@@ -48,20 +48,32 @@ export default function Owned({ }) {
                   {list.description}
                 </p>
                 <div className='absolute bottom-0 left-0 w-full flex justify-around items-center border-t divide-x mt-2'>
-                  <Link href={`/lists/edit/${list.id}`}>
-                    <a className='cursor-pointer flex-shrink-0 py-4 hover:bg-gray-100 w-1/2 text-center'>
+                  <Link href={`/lists/edit/${list.id}`} passHref>
+                    <button className='cursor-pointer flex-shrink-0 py-4 hover:bg-gray-100 w-1/2 text-center'>
                       Edit
-                    </a>
+                    </button>
                   </Link>
-                  <Link href={`/lists/${list.id}`}>
-                    <a className='cursor-pointer flex-shrink-0 py-4 hover:bg-gray-100 w-1/2 text-center'>
+                  <Link href={`/lists/${list.id}`} passHref>
+                    <button className='cursor-pointer flex-shrink-0 py-4 hover:bg-gray-100 w-1/2 text-center'>
                       View
-                    </a>
+                    </button>
                   </Link>
                 </div>
               </div>
             );
           })}
+        {isSuccess && data.length === 0 && (
+          <div className='text-center w-full col-span-3'>
+            <h2 className='text-lg font-medium px-2 pt-2'>
+              You are not subscribed to any lists.
+            </h2>
+            <p className='inline-flex w-[80%] pt-8'>
+              To create a new list, head over to the search courses page and
+              find a course you&apos;d like to save. Click the save button and
+              you&apos;ll be able to add it a list or create a new one.
+            </p>
+          </div>
+        )}
       </div>
     </DefaultLayout>
   );

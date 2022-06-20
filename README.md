@@ -1,207 +1,142 @@
-# Open LXP
+# Open LXP: Experience Discovery Service UI
 
-[![Version](https://img.shields.io/badge/version-prototype-yellow)](https://github.com/OpenLXP/openlxp-xds-ui)
-[![yarn](https://img.shields.io/badge/yarn-1.22.1-blue)](https://yarnpkg.com/)
-[![license](https://img.shields.io/badge/license-Apache_2.0-green)](https://github.com/OpenLXP/openlxp-xds-ui/blob/main/LICENSE)
+This is the UI for the Open LXP: Experience Discovery Service. It allows you to create and manage your own experience collection, subscribe to other people's experience collections, and search for experiences indexed in the service.
 
-[![next](https://img.shields.io/badge/nextjs-11.1.2-61dafb)](https://nextjs.org/)
-[![reactQuery](https://img.shields.io/badge/react_query-3.26.0-764abc)](https://react-query.tanstack.com/)
-[![tailwind](https://img.shields.io/badge/tailwind-2.2.2-22d3ee)](https://tailwindcss.com/)
+_Note_: For this service to work properly you will need the XDS Backend component to accompany it.
 
-## Table of content
+## Table of Contents
 
 - [**Installation**](#installation)
-  - [Clone Project](#clone-project)
-  - [_Install Project Dependencies_](#install-project-dependencies)
-- [**Getting started**](#getting-started)
-  - [Environment Variables](#environment-variables)
-  - [Creating a local env](#creating-a-local-environment-file)
-    - [_Walk through_](#walk-through)
-    - [_Template_](#env-template)
-  - [Important Notes](#important-notes)
-- [**Available Scripts**](#available-scripts)
-  - [yarn start](#yarn-start)
-  - [yarn test](#yarn-test)
-  - [yarn build](#yarn-build)
-  - [yarn coverage](#yarn-coverage)
-
----
+- [**Development**](#development)
+  - [**Frontend Stack Documentation**](#frontend-stack-documentation)
+  - [**Devtools Documentation**](#dev-tools-documentation)
+- [**Testing**](#testing)
 
 ## Installation
 
-### Clone Project
+### Step 1: Clone the project
 
-```bash
-git clone git@github.com:OpenLXP/openlxp-xds-ui.git
+```terminal
+git clone git clone git@github.com:OpenLXP/openlxp-xds-ui.git
 ```
 
-### Install Project Dependencies
+### Step 2: Install yarn
 
-Start off by verifying that you have `yarn` installed.
+This project uses yarn as the package manager. If you already have yarn installed or are using a different package manager feel free to skip this step.
 
-```ps1
+> Start by installing yarn globally
+
+```terminal
+npm install -g yarn
+```
+
+> Verify yarn was installed
+
+```terminal
 yarn -version
 ```
 
-If `yarn` is not installed use the following command to install it. This will install the `yarn` package manager globally on your system.
+### Step 3: Install project dependencies
 
-_**global install**_
+> Installs all requirements for development
 
-```ps1
-npm install yarn -g
+```terminal
+yarn
 ```
 
-_**local install**_
+### Step 4: Update .env file
 
-```ps1
-npm install yarn
+The `.env` file can be found in the root directory of the project folder
+
+> Example `.env` file
+
+```js
+// api gateway
+NEXT_PUBLIC_BACKEND_HOST=
+NEXT_PUBLIC_XAPI_LRS_ENDPOINT=
+NEXT_PUBLIC_XAPI_LRS_KEY=
+NEXT_PUBLIC_XAPI_LRS_SECRET=
 ```
 
-Once yarn has been installed you will need to install the project dependencies. Using the following command we will manually set your yarn version for this project.
+**NEXT_PUBLIC_BACKEND_HOST**: The url for the XDS component
 
-```ps1
-yarn set version 1.22.1
+> Note: the lrs component is not required for the UI to function.
+
+**NEXT_PUBLIC_XAPI_LRS_ENDPOINT**: The url for the LRS component
+
+**NEXT_PUBLIC_XAPI_LRS_KEY**: The key for the LRS component
+
+**NEXT_PUBLIC_XAPI_LRS_SECRET**: The secret for the LRS component
+
+### Step 5: Run the project
+
+> Run the project in development mode
+
+```terminal
+yarn dev
 ```
 
-After the version has been installed and set we will install the dependencies. Using the following command we will install all the project dependencies.
+### Step 6: Run the project in production mode
 
-```bash
-yarn install package.json
+> Build the docker image
+
+```terminal
+docker build -t openlxp-xds-ui .
 ```
 
----
+> Run the docker image
 
-## Getting started
-
-### Environment Variables
-
-This project makes use of globally available environment variables. Below are the required environment variables required for this project.
-
-#### **NEXT_PUBLIC_BACKEND_HOST**
-
-This is the root API endpoint used by the config file to dynamically generate the various endpoints.
-
-```yaml
-http://<YOUR_BACKEND_ENDPOINT>/
+```terminal
+docker run -p 3000:3000 openlxp-xds-ui
 ```
 
+## Development
 
-### Creating a local environment file
+### Frontend Stack Documentation
 
-#### **Walk through**
+[Next.js Documentation can be found here](https://nextjs.org/docs)
 
-Let's create a local `.env.local` file. If you are in a code editor you can right click and create new file.
+[React-Query Documentation can be found here](https://react-query.tanstack.com/overview)
 
-If you are using the terminal use the following command to create a new file.
+[TailwindCSS Documentation can be found here](https://tailwindcss.com/docs/installation)
 
-_**bash command**_
+[Axios Documentation can be found here](https://axios-http.com/docs/intro)
 
-```bash
-touch <PATH_TO_YOUR_PROJECT_ROOT>/.env.local
+[HeadlessUi Documentation can be found here](https://headlessui.dev/)
+
+### Dev Tools Documentation
+
+[Eslint Documentation can be found here](https://eslint.org/docs/user-guide/configuring)
+
+[Prettier Documentation can be found here](https://prettier.io/docs/en/install.html)
+
+[Jest Documentation can be found here](https://jestjs.io/docs/en/getting-started)
+
+## Testing
+
+All of the components in the project are unit tested and are covered by the [Jest](https://jestjs.io/) testing framework. When testing components there are three key files to utilize:
+
+1. **jest.setup.js**: This file is used to configure the testing environment including any mocks and setup functions for the code to work.
+2. **mockSetUp.js**: This file is used to mock any functions that are reliant on external APIs or services.
+3. **.test.js**: This file is used to test the components. Any file in the **tests** directory will be run by the testing framework as long as the child components are appended with `.test.js` or `.spec.js`.
+
+### Our current threshold for testing coverage is:
+
+- **Statement Coverage**: 80%
+- **Branch Coverage**: 80%
+- **Function Coverage**: 80%
+- **Line Coverage**: 80%
+
+### Command to run tests
+
+> Runs all the tests in the project with cached results
+
+```terminal
+yarn test
 ```
 
-_**powershell**_
+> Runs all the tests in the project without cached results produces a coverage report which can be viewed in the terminal or in the browser by opening the `/coverage/Icov-report/index.html` file in the project directory.
 
-```ps1
-New-Item -Path <PATH_TO_YOUR_PROJECT_ROOT>\.env.local -ItemType File
+```terminal
+yarn coverage
 ```
-
-Navigate to the newly created file and paste the template (_below_) into the file. Replace `<YOUR_BACKEND_ENDPOINT>` with your localhost setup **or** your live endpoint.
-
-#### **.env Template**
-
-```text
-NEXT_PUBLIC_BACKEND_HOST=<YOUR_BACKEND_ENDPOINT>
-```
-
-### Important Notes
-
-To use this piece of code without any issues you will need the XDS component to accompany it.
-
-[OpenLXP XDS](https://github.com/OpenLXP/openlxp-xds)
-
-### **You're all set! Explore the commands below to run, build, or test the app.**
-
----
-
-## Available Scripts
-
-In the project directory, you can run the following.
-
-### `yarn dev`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-### `yarn start`
-
-Runs the produciton optimized application. Please note that this will only work if the build command has been run before.
-
-### `yarn coverage`
-
-Launches the test runner with coverage mode enabled.
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-## Learn More
-
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
----
-
-## Color Guide
-
-[![base-blue](https://img.shields.io/badge/base_blue-005ea2-005ea2)](https://github.com/OpenLXP/openlxp-xds-ui)
-
-[![bright-blue](https://img.shields.io/badge/bright_blue-008cf0-008cf0)](https://github.com/OpenLXP/openlxp-xds-ui)
-
-[![light-blue](https://img.shields.io/badge/light_blue-2f6194-2f6194)](https://github.com/OpenLXP/openlxp-xds-ui)
-
-[![dark-blue](https://img.shields.io/badge/dark_blue-0b3d70-0b3d70)](https://github.com/OpenLXP/openlxp-xds-ui)
-
-[![icon-blue](https://img.shields.io/badge/icon_blue-337ab7-337ab7)](https://github.com/OpenLXP/openlxp-xds-ui)
-
-[![body-gray](https://img.shields.io/badge/body_gray-f4f4f4-f4f4f4)](https://github.com/OpenLXP/openlxp-xds-ui)
-
----
-
-## Core Configurations Checklist
-
-These configurations are required.
-
-- [ ] XDS Configurations
-- [ ] XDS UI Configurations
-- [ ] Course Detail Highlights
-- [ ] Course Information Mappings
-
----

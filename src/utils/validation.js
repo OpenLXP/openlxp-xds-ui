@@ -44,8 +44,10 @@ export function containsLowercase(string) {
  * @param string
  * @returns {boolean}
  */
+
 export function containsSpecialCharacter(string) {
-  const regex = /[!@#$%^&*(),.?":{}|<>]/;
+  // regex from https://stackoverflow.com/questions/154059/how-do-you-check-for-special-characters-in-a-string
+  const regex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\`~]/;
   return regex.test(string);
 }
 

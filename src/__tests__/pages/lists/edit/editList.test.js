@@ -1,176 +1,158 @@
-import { render, act, fireEvent } from '@testing-library/react';
-import { useUserList } from '@/hooks/useUserList';
-import { useUpdateUserList } from '@/hooks/useUpdateUserList';
-import EditList from '@/pages/lists/edit/[listId]';
-import mockRouter from 'next-router-mock';
-import { QueryClientProvider, QueryClient } from 'react-query';
-import courseData from '@/__mocks__/data/course.data';
+import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider/MemoryRouterProvider-11.1';
+import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import {
+  updateListMockFn,
+  useAuthenticatedUser,
+  useMockConfig,
+  useMockUpdateUserList,
+  useMockUserList,
+  useMockUserListWith401,
+  useMockUserListWith403,
+  useMockUserListWithDifferentUserId,
+  useUnauthenticatedUser,
+} from '@/__mocks__/predefinedMocks';
+import EditList, { getServerSideProps } from '@/pages/lists/edit/[listId]';
+import MockRouter from 'next-router-mock';
+import singletonRouter from 'next/router';
 
-// mocking router
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
-// mocking user lists
-jest.mock('@/hooks/useUserList', () => ({
-  useUserList: jest.fn(),
-}));
-// mocking mutation
-jest.mock('@/hooks/useUpdateUserList', () => ({
-  useUpdateUserList: jest.fn(),
-}));
-
-const queryClient = new QueryClient();
-const renderer = (component) => {
+beforeEach(() => {
+  useMockConfig();
+});
+const renderer = () => {
+  MockRouter.setCurrentUrl('/lists/edit/1');
   return render(
-    <QueryClientProvider client={queryClient}>{component}</QueryClientProvider>
+    <MemoryRouterProvider>
+      <QueryClientWrapper>
+        <EditList listId={1} />
+      </QueryClientWrapper>
+    </MemoryRouterProvider>
   );
 };
 
 describe('Edit List', () => {
-  describe('static', () => {
-    //
-    beforeEach(() => {
-      // default data
-      mockRouter.setCurrentUrl('/');
-      useUserList.mockImplementation(() => ({
-        data: {
-          name: 'test name',
-        },
-      }));
-      // default
-      useUpdateUserList.mockImplementation(() => ({
-        mutate: jest.fn(),
-      }));
-    });
-
-    it('should render the list name', () => {
-      const { getByRole } = renderer(<EditList />);
-      expect(getByRole('heading', { name: /test name/i })).toBeInTheDocument();
-    });
-
-    it('should render update button', () => {
-      const { getByRole } = renderer(<EditList />);
-      expect(getByRole('button', { name: /update/i })).toBeInTheDocument();
-    });
-
-    it('should render cancel button', () => {
-      const { getByRole } = renderer(<EditList />);
-      expect(getByRole('button', { name: /cancel/i })).toBeInTheDocument();
-    });
-  });
-  describe('inputs', () => {
-    //
-    beforeEach(() => {
-      // default data
-      mockRouter.setCurrentUrl('/');
-      useUserList.mockImplementation(() => ({
-        data: {
-          name: 'test name',
-          description: 'test description',
-        },
-      }));
-      // default
-      useUpdateUserList.mockImplementation(() => ({
-        mutate: jest.fn(),
-      }));
-    });
-
-    it('should render input for title', () => {
-      const { getByPlaceholderText } = renderer(<EditList />);
-
-      expect(getByPlaceholderText(/list name/i)).toBeInTheDocument();
-    });
-
-    it('should render input for description', () => {
-      const { getByPlaceholderText } = renderer(<EditList />);
-
-      expect(getByPlaceholderText(/list description.../i)).toBeInTheDocument();
-    });
-
-    it('should render counter for description length', () => {
-      const { getByText } = renderer(<EditList />);
-
-      expect(getByText('/200')).toBeInTheDocument();
-    });
-  });
-  describe('table', () => {
-    //
-    beforeEach(() => {
-      // default data
-      mockRouter.setCurrentUrl('/');
-      useUserList.mockImplementation(() => ({
-        data: {
-          name: 'test name',
-          description: 'test description',
-          experiences: [courseData],
-        },
-        isSuccess: true,
-      }));
-      // default
-      useUpdateUserList.mockImplementation(() => ({
-        mutate: jest.fn(),
-      }));
-    });
-    it('should render list headers', () => {
-      const { getByText } = renderer(<EditList />);
-
-      expect(getByText('Course Title')).toBeInTheDocument();
-      expect(getByText(/course provider/i)).toBeInTheDocument();
-      fireEvent.click(getByText('Remove'));
-
-    });
-    it('should render course title', () => {
-      const { getByText } = renderer(<EditList />);
-
-      expect(getByText(courseData.Course.CourseTitle)).toBeInTheDocument();
-      expect(
-        getByText(courseData.Course.CourseProviderName)
-      ).toBeInTheDocument();
-    });
-    it('should render remove button', () => {
-      const { getByRole } = renderer(<EditList />);
-      expect(getByRole('button', { name: /remove/i })).toBeInTheDocument();
-    });
+  it('should render the page', () => {
+    useAuthenticatedUser();
+    useMockUserList();
+    useMockUpdateUserList();
+    renderer();
+    screen.getByText('View public list');
   });
 
-  describe('actions', () => {
-    //
-    beforeEach(() => {
-      // default data
-      mockRouter.setCurrentUrl('/');
-      useUserList.mockImplementation(() => ({
-        data: {
-          name: 'test name',
-          description: 'test description',
-          experiences: [courseData],
-        },
-        isSuccess: true,
-      }));
-      // default
-      useUpdateUserList.mockImplementation(() => ({
-        mutation: { mutate: jest.fn() },
-      }));
-    });
-    it.skip('should call mutation on click of update', () => {
-      const { getByText } = renderer(<EditList />);
-      act(() => {
-        const button = getByText(/update/i);
+  it('should navigate the user to "/" if not authenticated', () => {
+    useUnauthenticatedUser();
+    useMockUserList();
+    useMockUpdateUserList();
+    renderer();
+    expect(singletonRouter).toMatchObject({ asPath: '/' });
+  });
 
-        fireEvent.click(button);
-      });
-      expect(useUpdateUserList).toHaveBeenCalled();
-    });
-    it('should reset inputs on clear', () => {
-      const { getByPlaceholderText, getByText } = renderer(<EditList />);
+  it('should navigate the user to "/" if the user id does not match the list owner id', () => {
+    useAuthenticatedUser();
+    useMockUserListWithDifferentUserId();
+    useMockUpdateUserList();
+    renderer();
+    expect(singletonRouter).toMatchObject({ asPath: '/lists/1' });
+  });
 
-      const input = getByPlaceholderText('List Description...');
-      act(() => {
-        fireEvent.change(input, { target: { value: 'new' } });
-      });
-      expect( input.value ).toBe( 'new' );
-      act( () => {
-        const button = getByText('Cancel')
-        fireEvent.click(button)
-      })
-      expect( input.value ).toBe( 'test description' );
+  it('should navigate the user to "/401" if the user is not the owner of the list', () => {
+    useAuthenticatedUser();
+    useMockUserListWith401();
+    useMockUpdateUserList();
+    renderer();
+    expect(singletonRouter).toMatchObject({ asPath: '/401' });
+  });
+
+  it('should navigate the user to "/403" if the user is not the owner of the list', () => {
+    useAuthenticatedUser();
+    useMockUserListWith403();
+    useMockUpdateUserList();
+    renderer();
+    expect(singletonRouter).toMatchObject({ asPath: '/403' });
+  });
+
+  it('should navigate user to the public view of the list on click', () => {
+    useAuthenticatedUser();
+    useMockUserList();
+    useMockUpdateUserList();
+    renderer();
+    act(() => {
+      fireEvent.click(screen.getByText('View public list'));
     });
+    expect(singletonRouter).toMatchObject({ asPath: '/lists/1' });
+  });
+
+  it('should navigate user to the course page on click', () => {
+    useAuthenticatedUser();
+    useMockUserList();
+    useMockUpdateUserList();
+    renderer();
+    act(() => {
+      fireEvent.click(screen.getByText('Test Title'));
+    });
+    expect(singletonRouter).toMatchObject({ asPath: '/course/1' });
+  });
+
+  it('should load the list data', () => {
+    useAuthenticatedUser();
+    useMockUserList();
+    useMockUpdateUserList();
+    renderer();
+    expect(screen.getByText('Test List')).toBeInTheDocument();
+    expect(screen.getByText('test description')).toBeInTheDocument();
+    expect(screen.getByText('Test Title')).toBeInTheDocument();
+  });
+
+  it('should default the visibility to private', () => {
+    useAuthenticatedUser();
+    useMockUserList();
+    useMockUpdateUserList();
+    renderer();
+    expect(screen.getByText(/private/i)).toBeInTheDocument();
+  });
+
+  it('should allow the user to change the visibility', () => {
+    useAuthenticatedUser();
+    useMockUserList();
+    useMockUpdateUserList();
+    renderer();
+    act(() => {
+      fireEvent.click(screen.getByTitle(/toggle/i));
+    });
+    expect(
+      screen.getByText(/public list, viewable by other users/i)
+    ).toBeInTheDocument();
+  });
+
+  it('should remove a course when "remove" is clicked', () => {
+    useAuthenticatedUser();
+    useMockUserList();
+    useMockUpdateUserList();
+    renderer();
+    expect(screen.getByText(/Test Title/i)).toBeInTheDocument();
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: /remove/i }));
+    });
+    expect(screen.queryByText('Test Title')).not.toBeInTheDocument();
+    expect(updateListMockFn).toHaveBeenCalled();
+  });
+
+  it('should call the updateList mutation when the form is submitted', () => {
+    useAuthenticatedUser();
+    useMockUserList();
+    useMockUpdateUserList();
+    renderer();
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: /save/i }));
+    });
+    expect(updateListMockFn).toHaveBeenCalled();
+  });
+});
+
+describe('List page server side', () => {
+  it('context', () => {
+    const context = { query: { listId: '1' } };
+    const data = getServerSideProps(context);
+    expect(data).toEqual({ props: { listId: '1' } });
   });
 });

@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';
-import mockRouter from 'next-router-mock';
 import Header from '@/components/Header';
+import mockRouter from 'next-router-mock';
 
 //mocks
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
@@ -35,13 +35,13 @@ describe('Header', () => {
     it('shows user menu button', () => {
       useAuth.mockImplementation(() => {
         return {
-          user: { user: { email: 'test@email.com' } },
+          user: { user: { first_name: 'Test' } },
         };
       });
 
       const { getByText } = render(<Header />);
 
-      expect(getByText('test@email.com')).toBeInTheDocument();
+      expect(getByText('Test')).toBeInTheDocument();
     });
   });
 });

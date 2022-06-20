@@ -1,9 +1,26 @@
-import { useQuery } from 'react-query';
-import { interestLists } from '@/config/endpoints';
 import { axiosInstance } from '@/config/axiosConfig';
+import { interestLists } from '@/config/endpoints';
+import { useQuery, useQueryClient } from 'react-query';
+
+export function getList(id) {
+  if (!id) return;
+  return axiosInstance.get(interestLists + id).then((res) => res.data);
+}
 
 export function useList(id) {
-  return useQuery(['list', id], () =>
-    axiosInstance.get(interestLists + id).then((res) => res.data)
-  );
+  const queryClient = useQueryClient();
+  return useQuery(['list', id], () => getList(id), {
+    onSuccess: (data) => {
+      console.log(data);
+
+      // optimistically update the cache with the new experience data
+      // this data is from xis so the id from search is now the metadata_key_hash
+      data?.experiences?.forEach((experience) => {
+        queryClient.setQueryData(
+          ['course', experience?.meta?.metadata_key_hash],
+          experience
+        );
+      });
+    },
+  });
 }

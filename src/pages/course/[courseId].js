@@ -1,136 +1,237 @@
-import { useRouter } from 'next/dist/client/router';
-import React from 'react';
-
-// hooks
+import {
+  AcademicCapIcon,
+  ArchiveIcon,
+  UserIcon,
+} from '@heroicons/react/outline';
+import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
+import { removeHTML } from '@/utils/cleaning';
+import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';
 import { useCourse } from '@/hooks/useCourse';
+import { useMemo, useCallback } from 'react';
 import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
-import usePrepareCourseData from '@/hooks/usePrepareCourseData';
-
-// components
-import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/router';
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
-import DefaultLayout from '@/components/layouts/DefaultLayout';
-import ExternalBtn from '@/components/buttons/ExternalBtn';
-import SaveModal from '@/components/modals/SaveModal';
+import Footer from '@/components/Footer';
+import Header from '@/components/Header';
+import SaveModalCoursePage from '@/components/modals/SaveModalCoursePage';
+import ShareButton from '@/components/buttons/ShareBtn';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 
-// config
-import { backendHost } from '@/config/endpoints';
+function RelatedCourses({ id }) {
+  const moreLikeThis = useMoreCoursesLikeThis(id);
+  if (moreLikeThis?.data?.hits < 1) return null;
+  return (
+    <>
+      <div className='bg-gray-200 mt-10 font-bold block font-sans p-4 '>
+        <div className='w-full gap-10 max-w-7xl mx-auto'>Related Courses</div>
+      </div>
+      <div className='flex justify-center w-full overflow-x-hidden my-10 max-w-7xl mx-auto'>
+        <div className='inline-flex overflow-x-auto gap-2 py-4 custom-scroll '>
+          {moreLikeThis.data?.hits?.map((course, index) => (
+            <CourseSpotlight course={course} key={index} />
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
 
 export default function Course() {
-  // grab the course id
+  const router = useRouter();
   const { user } = useAuth();
-  const { query } = useRouter();
 
   // state of the fetching
+  const course = useCourse(router.query?.courseId);
   const config = useConfig();
-  const course = useCourse(query?.courseId);
-  const moreLikeThis = useMoreCoursesLikeThis(query?.courseId);
 
-  // on page update refetch the course data
+  // prepare the course data
+  const data = useMemo(() => {
+    if (!course.isSuccess || !config.isSuccess) return null;
 
-  let preparedData = null;
-  let thumbnail = null;
-  if (config.isSuccess && course.isSuccess) {
-    preparedData = usePrepareCourseData(config.data, course.data);
-  }
-  if (moreLikeThis.isSuccess) {
-    if (course?.data?.Technical_Information?.Thumbnail) {
-      thumbnail = course?.data?.Technical_Information?.Thumbnail;
-    } else if (config.data.course_img_fallback) {
-      thumbnail = `${backendHost}${config.data.course_img_fallback}`;
-    }
-  }
+    return {
+      title: removeHTML(
+        getDeeplyNestedData(
+          config.data?.course_information?.course_title,
+          course.data
+        )
+      ),
+      date: {
+        start: course.data?.Course_Instance?.StartDate?.replace(' ', '').split(
+          'T'
+        )[0],
+        end: course.data?.Course_Instance?.EndDate?.replace(' ', '').split(
+          'T'
+        )[0],
+      },
+      description: removeHTML(
+        getDeeplyNestedData(
+          config.data?.course_information?.course_description,
+          course.data
+        )
+      ),
+      url: getDeeplyNestedData(
+        config.data?.course_information?.course_url,
+        course.data
+      ),
+      code: getDeeplyNestedData('Course.CourseCode', course.data),
+      photo:
+        getDeeplyNestedData('Course_Instance.Thumbnail', course.data) ||
+        getDeeplyNestedData('Technical_Information.Thumbnail', course.data),
 
-  // loading skeleton
-  if (course.isLoading || config.isLoading) {
-    return (
-      <DefaultLayout footerLocation='absolute'>
-        <div className='pt-32  animate-pulse'>
-          <div className='grid grid-cols-3 gap-8 mt-8'>
-            <div className='h-16 col-span-2 rounded-md bg-gray-200'/>
-            <div className='h-16 col-span-1 inline-flex justify-end gap-2'>
-              <div className='h-16 w-16 rounded-full bg-gray-200'/>
-              <div className='h-16 w-16 rounded-full bg-gray-200'/>
-              <div className='h-16 w-16 rounded-full bg-gray-200'/>
-            </div>
-            <div className='col-span-2 h-96 rounded-md bg-gray-200'/>
-            <div className='col-span-1 h-72 rounded-md bg-gray-200'/>
-          </div>
-        </div>
-      </DefaultLayout>
-    );
-  }
+      provider: getDeeplyNestedData('Course.CourseProviderName', course.data),
+      instructor: getDeeplyNestedData(
+        'Course_Instance.Instructor',
+        course.data
+      ),
+      delivery: getDeeplyNestedData(
+        'Course.CourseSectionDeliveryMode',
+        course.data
+      ),
+      details: config.data?.course_highlights?.map((highlight) => {
+        return {
+          title: highlight.display_name,
+          content: removeHTML(
+            getDeeplyNestedData(highlight.field_name, course.data)
+          ),
+        };
+      }),
+    };
+  }, [course.isSuccess, course.data, config.isSuccess, config.data]);
 
-  // successful loading
+  const handleClick = useCallback(() => {
+    if (!user) return;
+    console.count('enrollment button clicked');
+
+    const context = {
+      actor: {
+        first_name: user?.user?.first_name || 'anonymous',
+        last_name: user?.user?.last_name || 'user',
+      },
+      verb: {
+        id: 'https://w3id.org/xapi/tla/verbs/registered',
+        display: 'enrolled',
+      },
+      object: {
+        definitionName: data?.title,
+        description: data?.description,
+        id: `${window.origin}/course/${router.query?.courseId}`,
+      },
+      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
+      resultExtValue: router.query?.courseId,
+    };
+
+    xAPISendStatement(context);
+  }, [router.query?.courseId, data?.title, data?.description, user]);
+  
   return (
-    <DefaultLayout footerLocation='absolute'>
-      <div className='pt-32'>
-        <div className='inline-flex justify-between w-full items-center border-b pb-5'>
-          <h1 className='font-semibold text-3xl col-span-2'>
-            {preparedData?.courseTitle}
-          </h1>
-          <div className='inline-flex justify-end gap-2 items-center'>
-            <ExternalBtn url={preparedData?.courseUrl} />
-            {user && (
-              <SaveModal
-                courseId={
-                  course.data?.meta?.metadata_key_hash
-                    ? course?.data?.meta?.metadata_key_hash
-                    : course.data?.meta?.id
-                }
+    <>
+      <Header />
+      {/* content */}
+      <div className='flex max-w-7xl px-4 mx-auto gap-8 mt-10'>
+        <div className='w-2/3'>
+          <div className='flex justify-between items-center'>
+            <h1 className='font-semibold text-4xl'>
+              {data?.title || 'Not Available'}
+            </h1>
+            <div className='flex gap-2'>
+              <ShareButton
+                id={router.query?.courseId}
+                courseTitle={data?.title}
+                courseDescription={data?.description}
               />
-            )}
-          </div>
-        </div>
-        <div className='grid grid-cols-3 gap-8 mt-8'>
-          <div className='col-span-2 '>
-            {thumbnail && (
-              <div
-                className='float-left mx-5 mt-6 rounded-md clear-left bg-blue-200'
-                style={{ height: '176px', width: '296px' }}
+              <a
+                className='min-w-max whitespace-nowrap p-2 text-center text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600  font-medium transform transition-all duration-75 ease-in-out focus:ring-2 ring-blue-400 outline-none'
+                href={data?.url}
+                rel='noopener noreferrer'
+                target='_blank'
+                onClick={handleClick}
               >
-                <img
-                  src={thumbnail}
-                  alt=''
-                  className='rounded-md h-full w-full'
-                />
-              </div>
-            )}
-            <p
-              className='rounded-md  text-xl bg-white border border-gray-200 shadow-sm p-4 mb-80'
-              style={{ minHeight: 'calc(176px + 3.25rem)' }}
-            >
-              {preparedData?.courseDescription.replace( /(<([^>]+)>)/ig, '')}
-            </p>
-          </div>
-          <div className='col-span-1'>
-            <div className='rounded-md bg-white border border-gray-200 shadow-sm p-4 space-y-1'>
-              {preparedData?.courseDetails?.map((detail) => {
-                return (
-                  <div key={detail?.displayName}>
-                    <label className='font-semibold'>
-                      {detail?.displayName}:&nbsp;
-                    </label>
-                    {detail?.value}
-                  </div>
-                );
-              })}
+                Go to Enrollment
+              </a>
             </div>
           </div>
+          <p className='my-2'>
+            <strong>Course Code:&nbsp;</strong>
+            {data?.code || 'Not Available'}
+          </p>
+          <p>{data?.description || 'Not Available'}</p>
         </div>
-        <div
-          id='course-carousel'
-          className='absolute bottom-0 flex justify-center left-0 w-full overflow-x-hidden'
-        >
-          <div className='inline-flex overflow-x-auto px-2 gap-2 py-5 custom-scroll '>
-            {moreLikeThis.isSuccess &&
-              moreLikeThis.data.hits.map((course) => {
-                return <CourseSpotlight course={course} />;
-              })}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={data?.photo}
+          alt='Course'
+          className='w-1/3 aspect-video object-contain'
+        />
+      </div>
+
+      {/* Dates */}
+      <div className='grid max-w-7xl px-4 mx-auto mt-10'>
+        <span>
+          <strong>Start Date:&nbsp;</strong>
+          {data?.date?.start || 'Not Available'}
+        </span>
+        <span>
+          <strong>End Date:&nbsp;</strong>
+          {data?.date?.end || 'Not Available'}
+        </span>
+      </div>
+
+      {/* Details divider */}
+      <div id='details-divider' className='bg-gray-200 mt-4 '>
+        <div className='flex max-w-7xl mx-auto p-4 justify-between'>
+          <div className='flex items-center min-w-max gap-8'>
+            <div className='flex justify-center items-center gap-2'>
+              <ArchiveIcon className='h-10' />
+              <span>
+                <div className='text-sm font-semibold'>Provider</div>
+                <div className='text-sm'>
+                  {data?.provider || 'Not Available'}
+                </div>
+              </span>
+            </div>
+            <div className='flex justify-center items-center gap-2'>
+              <UserIcon className='h-10' />
+              <span>
+                <div className='text-sm font-semibold'>Instructor</div>
+                <div className='text-sm'>
+                  {data?.instructor || 'Not Available'}
+                </div>
+              </span>
+            </div>
+            <div className='flex justify-center items-center gap-2'>
+              <AcademicCapIcon className='h-10' />
+              <span>
+                <div className='text-sm font-semibold'>Delivery Mode</div>
+                <div className='text-sm'>
+                  {data?.delivery || 'Not Available'}
+                </div>
+              </span>
+            </div>
+            <SaveModalCoursePage courseId={router.query?.courseId} />
           </div>
         </div>
       </div>
-    </DefaultLayout>
+      {/* Extra Details */}
+      <div className='py-10 grid gap-4'>
+        {data?.details.map((detail, index) => {
+          return (
+            <div
+              key={detail.title + index}
+              className='grid grid-cols-5 w-full max-w-7xl px-4 mt-5 mx-auto'
+            >
+              <h2 className='min-w-max col-span-1 font-semibold'>
+                {detail.title}
+              </h2>
+              <p className='col-span-4'>{detail.content || 'Not Available'}</p>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Related courses */}
+      <RelatedCourses id={router.query?.courseId} />
+      <Footer />
+    </>
   );
 }
