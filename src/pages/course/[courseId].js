@@ -77,7 +77,7 @@ export default function Course() {
       ),
       code: getDeeplyNestedData('Course.CourseCode', course.data),
       photo:
-        getDeeplyNestedData('Course.Thumbnail', course.data) ||
+        getDeeplyNestedData('P2881_Course_Profile.Thumbnail', course.data) ||
         getDeeplyNestedData('Technical_Information.Thumbnail', course.data) ||
         (config.course_img_fallback && `${backendHost}${config.course_img_fallback}`),
 
