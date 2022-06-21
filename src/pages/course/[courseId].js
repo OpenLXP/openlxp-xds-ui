@@ -4,6 +4,7 @@ import {
   UserIcon,
 } from '@heroicons/react/outline';
 import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
+import { backendHost } from '@/config/endpoints';
 import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';
@@ -57,10 +58,10 @@ export default function Course() {
         )
       ),
       date: {
-        start: course.data?.Course_Instance?.StartDate?.replace(' ', '').split(
+        start: course.data?.P2881_Course_Profile?.StartDate?.replace(' ', '').split(
           'T'
         )[0],
-        end: course.data?.Course_Instance?.EndDate?.replace(' ', '').split(
+        end: course.data?.P2881_Course_Profile?.EndDate?.replace(' ', '').split(
           'T'
         )[0],
       },
@@ -76,12 +77,13 @@ export default function Course() {
       ),
       code: getDeeplyNestedData('Course.CourseCode', course.data),
       photo:
-        getDeeplyNestedData('Course_Instance.Thumbnail', course.data) ||
-        getDeeplyNestedData('Technical_Information.Thumbnail', course.data),
+        getDeeplyNestedData('Course.Thumbnail', course.data) ||
+        getDeeplyNestedData('Technical_Information.Thumbnail', course.data) ||
+        (config.course_img_fallback && `${backendHost}${config.course_img_fallback}`),
 
-      provider: getDeeplyNestedData('Course.CourseProviderName', course.data),
+      provider: getDeeplyNestedData('P2881_Course_Profile.Provider', course.data),
       instructor: getDeeplyNestedData(
-        'Course_Instance.Instructor',
+        'P2881_Course_Profile.Instructor',
         course.data
       ),
       delivery: getDeeplyNestedData(
