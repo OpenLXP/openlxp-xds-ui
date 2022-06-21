@@ -22,6 +22,8 @@ export default function PrepareCourseData(config, data) {
     coursePhoto:
       getDeeplyNestedData('Technical_Information.Thumbnail', data) ||
       (course_img_fallback && `${backendHost}${course_img_fallback}`),
+    courseProviderName:
+      getDeeplyNestedData('P2881_Course_Profile.Provider', data),
   };
   return preparedData;
 }
