@@ -45,6 +45,11 @@ export default function ShareButton({ id, courseTitle, courseDescription }) {
   let [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
+  
+  let url = '';
+  if (typeof window !== "undefined"){
+    url = `${window.origin}/course/${id}`;
+  }
 
   return (
     <>
@@ -98,7 +103,7 @@ export default function ShareButton({ id, courseTitle, courseDescription }) {
               Link Copied!
             </Dialog.Title>
             <div className='mt-2 w-full py-2 px-0.5 rounded-md overflow-y-auto custom-scroll border bg-gray-50 space-y-1'>
-              {window.origin}/course/{id}
+              {url}
             </div>
 
             
