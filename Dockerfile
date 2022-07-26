@@ -16,6 +16,7 @@ USER node
 
 # Production image, copy all the files and run next
 FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.2 AS runner
+USER node
 WORKDIR /app
 
 ENV NODE_ENV production
