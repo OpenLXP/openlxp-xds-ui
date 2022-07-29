@@ -13,7 +13,7 @@ export function useUserOwnedLists() {
     onSuccess: (data) => {
       // update the cache
       data?.map((list) =>
-        queryClient.setQueryData(['user-list', list.id], list)
+        queryClient.setQueryData(['list', list.id], list)
       );
     },
   });

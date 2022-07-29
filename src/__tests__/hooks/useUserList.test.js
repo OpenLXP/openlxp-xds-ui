@@ -32,4 +32,7 @@ it('should return null if there is no id', async () => {
   await waitForNextUpdate(result.current.isSuccess);
   expect(result.current.data).toBeUndefined();
   expect(mockAxios.get).toHaveBeenCalledTimes(0);
+  // expect(result.current.isSuccess).toBe(true);
+  // expect(result.current.data).toEqual('success');
+  // expect(mockAxios.get).toHaveBeenCalledTimes(1);
 });
