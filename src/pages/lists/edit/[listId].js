@@ -8,13 +8,13 @@ import {
 } from '@heroicons/react/outline';
 import { Switch } from '@headlessui/react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserList } from '@/hooks/useUserList';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
-import PublicPrivateToggle from '@/components/inputs/PublicPrivateToggle';
 import prepareListDataToSend from '@/utils/prepListDataToSend';
+import PublicPrivateToggle from '@/components/inputs/PublicPrivateToggle';
 
 export function getServerSideProps({ query }) {
   return {
@@ -22,36 +22,6 @@ export function getServerSideProps({ query }) {
       listId: query.listId,
     },
   };
-}
-
-export function ToggleButton() {
-  return (
-    <div className='flex gap-2 items-center font-semibold text-lg'>
-      <label htmlFor='public toggle'>Set Visibility:</label>
-      <Switch
-        title='toggle'
-        checked={currentListInfo.public}
-        onChange={toggleListVisibility}
-        className={`${currentListInfo.public ? 'bg-green-500' : 'bg-gray-400'}
-    relative inline-flex flex-shrink-0 h-[28px] w-[48px] border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-offset-1 focus-visible:ring-blue-400 focus-visible:ring-opacity-75`}
-      >
-        <span className='sr-only'>Use setting</span>
-        <span
-          aria-hidden='true'
-          className={`${
-            currentListInfo.public ? 'translate-x-[20px]' : 'translate-x-0'
-          }
-      pointer-events-none inline-flex h-[24px] w-[24px] rounded-full bg-white shadow-lg transform ring-0 transition ease-in-out duration-200 justify-center items-center`}
-        >
-          {currentListInfo.public ? (
-            <EyeIcon className='h-4 text-gray-700' />
-          ) : (
-            <EyeOffIcon className='h-4 text-gray-500' />
-          )}
-        </span>
-      </Switch>
-    </div>
-  );
 }
 
 export default function EditList({ listId }) {
@@ -74,7 +44,6 @@ export default function EditList({ listId }) {
   useEffect(() => {
     // no user
     if (!user) return router.push('/');
-
     // if there is a authorization error
     if (initialList?.isError) {
       if( initialList?.error?.response?.status === 401)
@@ -165,7 +134,7 @@ export default function EditList({ listId }) {
 
       <form onSubmit={submitData} onReset={resetData} className='mt-10'>
         {/* toggle switch with description*/}
-        <PublicPrivateToggle currentListInfo={currentListInfo} toggleListVisibility={toggleListVisibility}/>
+        {/* <PublicPrivateToggle currentListInfo={currentListInfo} toggleListVisibility={toggleListVisibility}/> */}
 
         {/* Title & description input */}
         <div className='grid grid-cols-2 gap-6 mt-10'>
@@ -182,7 +151,7 @@ export default function EditList({ listId }) {
             name='description'
             placeholder='List Description'
             onChange={handleChange}
-            value={currentListInfo.description}
+            value={currentListInfo?.description}
           />
         </div>
 
@@ -198,25 +167,25 @@ export default function EditList({ listId }) {
             </tr>
           </thead>
           <tbody className=''>
-            {currentListInfo.experiences?.map((exp) => (
+            {currentListInfo?.experiences?.map((exp) => (
               <tr
-                key={exp.meta?.metadata_key_hash}
+                key={exp?.meta?.metadata_key_hash}
                 className='odd:bg-gray-100 even:bg-white'
               >
                 <td className='p-2 overflow-hidden text-ellipsis'>
                   <button
                     className='hover:underline hover:text-blue-400
                     cursor-pointer w-full h-full text-left '
-                    onClick={(e) => visitCourse(e, exp.meta?.metadata_key_hash)}
+                    onClick={(e) => visitCourse(e, exp?.meta?.metadata_key_hash)}
                   >
-                    {exp.Course?.CourseTitle}
+                    {exp?.Course?.CourseTitle}
                   </button>
                 </td>
-                <td className='p-2'>{exp.Course?.CourseProviderName}</td>
+                <td className='p-2'>{exp?.Course?.CourseProviderName}</td>
                 <td className='text-right p-2'>
                   <button
                     className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                    onClick={() => removeCourse(exp.meta?.metadata_key_hash)}
+                    onClick={() => removeCourse(exp?.meta?.metadata_key_hash)}
                   >
                     Remove
                   </button>
@@ -227,7 +196,7 @@ export default function EditList({ listId }) {
         </table>
 
         {/* message for no courses */}
-        {currentListInfo.experiences?.length < 0 && (
+        {currentListInfo?.experiences?.length < 0 && (
           <div className='text-center font-medium border-b border-l border-r py-2 bg-white/90 rounded-b'>
             No courses added yet.
           </div>

@@ -20,7 +20,7 @@ export default function ListsView({ listId }) {
   // user data
   const { user } = useAuth();
 
-  const list = useList(listId);
+  const list = useList(parseInt(listId));
 
   // verify a user is logged in otherwise redirect to home page
   useEffect(() => {
@@ -98,7 +98,7 @@ export default function ListsView({ listId }) {
           {list.isSuccess &&
             list?.data?.experiences.map((exp) => (
               <tr
-                key={exp.meta.metadata_key_hash}
+                key={exp?.meta?.metadata_key_hash}
                 className='odd:bg-gray-100 even:bg-white'
               >
                 <td className='p-2 overflow-hidden text-ellipsis'>
@@ -107,10 +107,10 @@ export default function ListsView({ listId }) {
                     cursor-pointer w-full h-full text-left py-2'
                     onClick={(e) => visitCourse(exp)}
                   >
-                    {exp.Course.CourseTitle}
+                    {exp?.Course?.CourseTitle}
                   </button>
                 </td>
-                <td className='p-2'>{exp.Course.CourseProviderName}</td>
+                <td className='p-2'>{exp?.Course?.CourseProviderName}</td>
               </tr>
             ))}
         </tbody>

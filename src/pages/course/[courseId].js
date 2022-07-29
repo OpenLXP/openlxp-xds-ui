@@ -6,17 +6,17 @@ import {
 import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '@/contexts/AuthContext';
-import { useCallback, useMemo } from 'react';
 import { useConfig } from '@/hooks/useConfig';
 import { useCourse } from '@/hooks/useCourse';
+import { useMemo, useCallback } from 'react';
 import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
 import { useRouter } from 'next/router';
-import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import SaveModalCoursePage from '@/components/modals/SaveModalCoursePage';
 import ShareButton from '@/components/buttons/ShareBtn';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 
 function RelatedCourses({ id }) {
   const moreLikeThis = useMoreCoursesLikeThis(id);
@@ -48,7 +48,6 @@ export default function Course() {
   // prepare the course data
   const data = useMemo(() => {
     if (!course.isSuccess || !config.isSuccess) return null;
-
     return {
       title: removeHTML(
         getDeeplyNestedData(
@@ -57,12 +56,14 @@ export default function Course() {
         )
       ),
       date: {
-        start: course.data?.Course_Instance?.StartDate?.replace(' ', '').split(
-          'T'
-        )[0],
-        end: course.data?.Course_Instance?.EndDate?.replace(' ', '').split(
-          'T'
-        )[0],
+        start: getDeeplyNestedData(
+          config.data?.course_information?.course_startDate,
+          course.data
+        )?.replace(' ', '').split('T')[0],
+        end: getDeeplyNestedData(
+          config.data?.course_information?.course_endDate,
+          course.data
+        )?.replace(' ', '').split('T')[0],
       },
       description: removeHTML(
         getDeeplyNestedData(
@@ -74,18 +75,18 @@ export default function Course() {
         config.data?.course_information?.course_url,
         course.data
       ),
-      code: getDeeplyNestedData('Course.CourseCode', course.data),
+      code: getDeeplyNestedData(config.data?.course_information?.course_code, course.data),
       photo:
         getDeeplyNestedData('Course_Instance.Thumbnail', course.data) ||
-        getDeeplyNestedData('Technical_Information.Thumbnail', course.data),
+        getDeeplyNestedData(config.data?.course_information?.course_thumbnail, course.data),
 
-      provider: getDeeplyNestedData('Course.CourseProviderName', course.data),
+      provider: getDeeplyNestedData(config.data?.course_information?.course_provider, course.data),
       instructor: getDeeplyNestedData(
-        'Course_Instance.Instructor',
+        config.data?.course_information?.course_instructor,
         course.data
       ),
       delivery: getDeeplyNestedData(
-        'Course.CourseSectionDeliveryMode',
+        config.data?.course_information?.course_deliveryMode,
         course.data
       ),
       details: config.data?.course_highlights?.map((highlight) => {
