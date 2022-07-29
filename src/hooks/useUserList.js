@@ -16,7 +16,14 @@ const getUserList = (id, setCurrentListInfo) => {
 };
 
 export function useUserList(id, setCurrentListInfo) {
-  return useQuery(['user-list', id], getUserList(id, setCurrentListInfo), {
-    refetchOnReconnect: true
+  return useQuery(['list', id], getUserList(id, setCurrentListInfo), {
+    refetchOnReconnect: true,
+    onSuccess: (data) => {
+      // add each of the hits to the query client as a list
+      // the hit.id is the same as the interest list id
+      data?.forEach((hit) => {
+        queryClient.setQueryData(['list', hit.id], hit);
+      });
+    },
   });
 }

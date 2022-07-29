@@ -16,7 +16,7 @@ export function useUpdateUserList(token) {
     onSuccess: (newList) => {
       // refetching the data once a res.ok response is confirmed
       queryClient.refetchQueries(['user-owned-lists'], {});
-      queryClient.refetchQueries(['user-list', newList.id], {});
+      queryClient.refetchQueries(['list', newList.id], {});
     },
   });
 }
