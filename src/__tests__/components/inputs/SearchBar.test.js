@@ -41,6 +41,7 @@ describe('SearchBar', () => {
       fireEvent.keyPress(screen.getByPlaceholderText('Search the catalog'), {
         charCode: '13',
       });
+      fireEvent.submit(screen.getByPlaceholderText('Search the catalog'));
     });
     expect(console.log).toHaveBeenCalledTimes(1);
   });
