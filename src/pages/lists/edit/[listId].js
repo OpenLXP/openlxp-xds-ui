@@ -8,13 +8,13 @@ import {
 } from '@heroicons/react/outline';
 import { Switch } from '@headlessui/react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserList } from '@/hooks/useUserList';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
-import PublicPrivateToggle from '@/components/inputs/PublicPrivateToggle';
 import prepareListDataToSend from '@/utils/prepListDataToSend';
+import PublicPrivateToggle from '@/components/inputs/PublicPrivateToggle';
 
 export function getServerSideProps({ query }) {
   return {
@@ -44,7 +44,6 @@ export default function EditList({ listId }) {
   useEffect(() => {
     // no user
     if (!user) return router.push('/');
-
     // if there is a authorization error
     if (initialList?.isError) {
       if( initialList?.error?.response?.status === 401)
@@ -79,13 +78,6 @@ export default function EditList({ listId }) {
   const visitCourse = (event, id) => {
     event.preventDefault();
     router.push(`/course/${id}`);
-  };
-
-  const toggleListVisibility = () => {
-    setCurrentListInfo((prev) => ({
-      ...prev,
-      public: !prev.public,
-    }));
   };
 
   const removeCourse = (id) => {
