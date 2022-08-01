@@ -4,8 +4,6 @@ import { renderHook } from '@testing-library/react-hooks';
 
 import { useSubscribedLists } from '@/hooks/useSubscribedLists';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
-import userListsData from '@/__mocks__/data/userLists.data';
-
 
 jest.unmock('@/hooks/useSubscribedLists');
 
