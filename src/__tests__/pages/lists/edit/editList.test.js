@@ -103,27 +103,6 @@ describe('Edit List', () => {
     expect(screen.getByText('Test Title')).toBeInTheDocument();
   });
 
-  it('should default the visibility to private', () => {
-    useAuthenticatedUser();
-    useMockUserList();
-    useMockUpdateUserList();
-    renderer();
-    expect(screen.getByText(/private/i)).toBeInTheDocument();
-  });
-
-  it('should allow the user to change the visibility', () => {
-    useAuthenticatedUser();
-    useMockUserList();
-    useMockUpdateUserList();
-    renderer();
-    act(() => {
-      fireEvent.click(screen.getByTitle(/toggle/i));
-    });
-    expect(
-      screen.getByText(/public list, viewable by other users/i)
-    ).toBeInTheDocument();
-  });
-
   it('should remove a course when "remove" is clicked', () => {
     useAuthenticatedUser();
     useMockUserList();
