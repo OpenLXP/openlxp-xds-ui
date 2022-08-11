@@ -1,10 +1,8 @@
 import DefaultLayout from '@/components/layouts/DefaultLayout';
-import { Fragment, useState } from "react";
 import { Disclosure, Transition } from '@headlessui/react'
-import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/outline';
+import { ChevronDownIcon } from '@heroicons/react/outline';
 
-
-export default function Help() {
+export default function Support() {
 
     const content = [
     {   title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
