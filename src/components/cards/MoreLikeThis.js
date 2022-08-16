@@ -65,10 +65,10 @@ export default function MoreLikeThis({ course }) {
       </span>
       <div className='w-full bg-white border rounded-md border-gray-200 p-4 shadow'>
         <h1 className='text-lg font-semibold'>
-          {data.hits[0].Course.CourseTitle}
+          {data.hits[0].Course.title}
         </h1>
         <p className='mt-4 font-sans line-clamp-6 text-sm'>
-          {removeHTML(data.hits[0].Course.CourseShortDescription)}
+          {removeHTML(data.hits[0].Course.description)}
         </p>
         <div className='flex flex-col gap-1 mt-4'>
           <div>
@@ -76,12 +76,12 @@ export default function MoreLikeThis({ course }) {
             {data.hits[0].Course.CourseCode || 'Not Available'}
           </div>
           <div>
-            <span className='font-semibold'>Course Type:&nbsp;</span>
-            {data.hits[0].Course.CourseType || 'Not Available'}
+            <span className='font-semibold'>Delivery Mode:&nbsp;</span>
+            {data.hits[0].Course.deliveryMode || 'Not Available'}
           </div>
           <div>
-            <span className='font-semibold'>Estimated Time:&nbsp;</span>
-            {data.hits[0].Course.EstimatedCompletionTime || 'Not Available'}
+            <span className='font-semibold'>Audience:&nbsp;</span>
+            {data.hits[0].Course.audience || 'Not Available'}
           </div>
           <div>
             <span className='font-semibold'>Course Provider:&nbsp;</span>
@@ -92,9 +92,9 @@ export default function MoreLikeThis({ course }) {
           <div className='flex gap-2'>
             <ViewBtn
               id={data.hits[0].meta.id}
-              courseTitle={data.hits[0].Course.CourseTitle}
+              courseTitle={data.hits[0].Course.title}
               courseDescription={removeHTML(
-                data.hits[0].Course.CourseShortDescription
+                data.hits[0].Course.description
               )}
             />
           </div>

@@ -22,8 +22,8 @@ export default function SearchResult({ result }) {
       },
       object: {
         id: `${window.origin}/course/${result.meta.id}`,
-        definitionName: result.Course.CourseTitle,
-        description: result.Course.CourseShortDescription,
+        definitionName: result.Course.title,
+        description: result.Course.description,
       },
       resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
       resultExtValue: result.meta.id,
@@ -36,14 +36,14 @@ export default function SearchResult({ result }) {
   return (
     <div
       className='group hover:text-blue-400 hover:text-shadow cursor-pointer pr-2 pl-1 py-1 rounded-md outline-none focus-within:ring-2 focus-within:ring-blue-500'
-      title={result.Course.CourseTitle}
+      title={result.Course.title}
     >
       <div className='flex justify-between items-center'>
         <button
           className='text-lg font-semibold group-hover:underline w-full text-left focus:outline-none'
           onClick={handleClick}
         >
-          <h3>{result.Course.CourseTitle}</h3>
+          <h3>{result.Course.title}</h3>
         </button>
         {user && <SaveModal courseId={result.meta.id} />}
       </div>
@@ -53,7 +53,7 @@ export default function SearchResult({ result }) {
           {result.Course.CourseProviderName}
         </h4>
         <p className='line-clamp-4 pr-4'>
-          {removeHTML(result.Course.CourseShortDescription)}
+          {removeHTML(result.Course.description)}
         </p>
       </div>
     </div>

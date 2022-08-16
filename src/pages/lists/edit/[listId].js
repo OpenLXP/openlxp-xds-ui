@@ -178,7 +178,7 @@ export default function EditList({ listId }) {
                     cursor-pointer w-full h-full text-left '
                     onClick={(e) => visitCourse(e, exp?.meta?.metadata_key_hash)}
                   >
-                    {exp?.Course?.CourseTitle}
+                    {exp?.Course?.title}
                   </button>
                 </td>
                 <td className='p-2'>{exp?.Course?.CourseProviderName}</td>

@@ -16,7 +16,7 @@ export default function UserListResult({ result, onRemove }) {
       leaveTo='transform opacity-0'
     >
       <div className='inline-grid grid-cols-6 w-full gap-2 p-2 items-center'>
-        <div className='col-span-3 line-clamp-1'>{Course.CourseTitle}</div>
+        <div className='col-span-3 line-clamp-1'>{Course.title}</div>
         <div className='col-span-2'>{Course.CourseProviderName}</div>
         <div className='col-span-1 flex justify-center'>
           <button
