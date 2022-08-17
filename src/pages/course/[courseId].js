@@ -209,7 +209,7 @@ export default function Course() {
                 </div>
               </span>
             </div>
-            <SaveModalCoursePage courseId={router.query?.courseId} />
+            <SaveModalCoursePage courseId={router.query?.courseId} title={data?.title} />
           </div>
         </div>
       </div>
