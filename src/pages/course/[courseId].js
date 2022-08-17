@@ -17,6 +17,7 @@ import Header from '@/components/Header';
 import SaveModalCoursePage from '@/components/modals/SaveModalCoursePage';
 import ShareButton from '@/components/buttons/ShareBtn';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
+import { backendHost } from '@/config/endpoints';
 
 function RelatedCourses({ id }) {
   const moreLikeThis = useMoreCoursesLikeThis(id);
@@ -78,7 +79,8 @@ export default function Course() {
       code: getDeeplyNestedData(config.data?.course_information?.course_code, course.data),
       photo:
         getDeeplyNestedData('Course_Instance.Thumbnail', course.data) ||
-        getDeeplyNestedData(config.data?.course_information?.course_thumbnail, course.data),
+        getDeeplyNestedData(config.data?.course_information?.course_thumbnail, course.data) ||
+        (`${backendHost}${config?.data?.course_img_fallback}`) || (config.data?.course_img_fallback),
 
       provider: getDeeplyNestedData(config.data?.course_information?.course_provider, course.data),
       instructor: getDeeplyNestedData(
