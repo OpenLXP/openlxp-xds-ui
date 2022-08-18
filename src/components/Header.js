@@ -19,8 +19,8 @@ const menuItems = [
     path: '/about',
   },
   {
-    label: 'Help',
-    path: '/help',
+    label: 'Support',
+    path: '/support',
   },
 ];
 
