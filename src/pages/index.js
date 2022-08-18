@@ -50,6 +50,7 @@ export default function Home() {
     updateKeyValuePair(event.target.name, event.target.value);
   };
 
+  console.log(spotlight.data?.length);
   return (
     <>
       <Head>
@@ -70,7 +71,7 @@ export default function Home() {
           onChange={handleChange}
         />
       </div>
-      {spotlight.isSuccess && spotlight.data.length > 0 && (
+      {spotlight.isSuccess && spotlight.data?.length > 0 && (
         <>
           <span className='text-gray-400 italic block mt-24 font-sans px-2 max-w-7xl mx-auto'>
             Spotlight Courses
