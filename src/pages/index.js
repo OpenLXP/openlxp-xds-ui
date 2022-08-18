@@ -50,7 +50,6 @@ export default function Home() {
     updateKeyValuePair(event.target.name, event.target.value);
   };
 
-  console.log(spotlight.data?.length);
   return (
     <>
       <Head>

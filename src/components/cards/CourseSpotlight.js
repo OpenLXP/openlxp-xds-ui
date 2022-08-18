@@ -16,7 +16,7 @@ export default function CourseSpotlight({ course }) {
 
   const thumbnail = useMemo(() => {
     return (
-      Course_Instance?.Thumbnail ||
+      Course?.Thumbnail ||
       Technical_Information?.Thumbnail ||
       (config?.data?.course_img_fallback &&
         `${backendHost}${config?.data?.course_img_fallback}`) ||
