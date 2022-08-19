@@ -3,11 +3,11 @@ name: Docker CD
 on:
   push:
     branches: 
-      - feature/gh-actions
+      - main
       - dev
   pull_request:
     branches: 
-      - feature/gh-actions
+      - main
       - dev
 
 jobs:
