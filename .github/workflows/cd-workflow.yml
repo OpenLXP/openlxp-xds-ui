@@ -17,18 +17,17 @@ jobs:
     runs-on: ubuntu-latest
     env:
       OS: ubuntu-latest
-      PYTHON: '3.9'
     steps:
     - uses: actions/checkout@v2
-    - name: Setup Python
-      uses: actions/setup-python@v2
+    - name: Setup Node
+      uses: actions/setup-node@v1
       with:
-        python-version: 3.9
+        node-version: '14.x'
 
     - name: Run coverage
       run: |
-        npm install
-        npm test	--coverage
+        yarn install
+        yarn test	--coverage
   build:
     name: Build Docker Image
     runs-on: ubuntu-latest
