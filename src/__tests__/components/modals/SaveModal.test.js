@@ -60,7 +60,7 @@ const renderer = (isAuth = false) => {
   return render(
     <QueryClientWrapper>
       <div>
-        <SaveModal courseId={'12345'} modalState={true} />
+        <SaveModal courseId={'12345'} title={"test"} modalState={true} />
       </div>
     </QueryClientWrapper>
   );
@@ -89,14 +89,14 @@ describe('Save Modal', () => {
       act(() => {
         fireEvent.click(getByText(/save/i));
       });
-      expect(getByText(/add course to lists/i).id).not.toBeNull();
+      expect(getByText(/add "test" to lists/i).id).not.toBeNull();
     });
     it('should render the title', () => {
       const { getByText } = renderer();
       act(() => {
         fireEvent.click(getByText(/save/i));
       });
-      expect(getByText(/add course to lists/i)).toBeInTheDocument();
+      expect(getByText(/add "test" to lists/i)).toBeInTheDocument();
     });
   });
   describe('with list data', () => {

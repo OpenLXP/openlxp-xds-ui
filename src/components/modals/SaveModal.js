@@ -20,7 +20,7 @@ import useField from '@/hooks/useField';
  *
  */
 
-export default function SaveModal({ courseId }) {
+export default function SaveModal({ courseId, title }) {
   // authentication
   const { user } = useAuth();
 
@@ -162,7 +162,7 @@ export default function SaveModal({ courseId }) {
                   as='h3'
                   className='text-lg font-medium leading-6 text-gray-900'
                 >
-                  Add course to lists
+                  Add "{title}" to lists
                 </Dialog.Title>
                 <div className='mt-2 w-full py-2 px-0.5 rounded-md overflow-y-auto h-56 custom-scroll border bg-gray-50 space-y-1'>
                   {isSuccess &&

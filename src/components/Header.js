@@ -15,10 +15,6 @@ const menuItems = [
     path: '/lists/searchLists',
   },
   {
-    label: 'About ECC',
-    path: '/about',
-  },
-  {
     label: 'Support',
     path: '/support',
   },

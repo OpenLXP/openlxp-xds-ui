@@ -8,7 +8,7 @@ export default function Support() {
     {   title: "What is ECC?",
         answer: "The Enterprise Course Catalog (ECC) is a learning and experience discovery service. Course catalogs are stored in a centralized location for consistent transport. ECC aggregates metadata describing learning experiences from internal and external sources. Course catalogs across organizations are now easier to manage, join and identify ownership. This improves the ability to find courses across all of Department of Defense’s organizations."
     },
-    {   title: "How do I Participate?",
+    {   title: "How do I participate?",
         answer: "Users can login via SSO Keycloak or register a new account. Please navigate to the top right-hand corner and click on the “Sign In” button to begin."
     },
     {   title: "Who owns the content?",
@@ -86,7 +86,7 @@ export default function Support() {
                 <h1 className='pb-4 border-b mb-8 text-3xl font-semibold'>Support</h1>
                 <h2 className='text-xl font-semibold pb-2'>About</h2>
                 {panelCode(aboutContent)}
-                <h2 className='text-xl font-semibold pb-2 mt-4'>Navigating XDS</h2>
+                <h2 className='text-xl font-semibold pb-2 mt-4'>Navigating the Course Catalog</h2>
                 {panelCode(navigationContent)}
             </div>
         </DefaultLayout>
