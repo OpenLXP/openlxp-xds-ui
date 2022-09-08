@@ -4,5 +4,5 @@ export function myDefaultLoader({ config , src , width , quality  }) {
         // through the built-in Image Optimization API.
         return src;
     }
-    return `${config.path}?url=${encodeURIComponent(src.replace("/ecc-openlxp-xds-ui/", "/"))}&w=${width}&q=${quality || 75}`;
+    return `${config.path}?url=${encodeURIComponent(src.replace("ecc-openlxp-xds-ui", ""))}&w=${width}&q=${quality || 75}`;
 }
