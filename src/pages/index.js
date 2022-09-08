@@ -11,6 +11,7 @@ import SearchBar from '@/components/inputs/SearchBar';
 import logo from '@/public/logo.png';
 import useField from '@/hooks/useField';
 import useSpotlightCourses from '@/hooks/useSpotlightCourses';
+import myDefaultLoader from '@/utils/customLoader';
 
 export default function Home() {
   const router = useRouter();
@@ -58,7 +59,7 @@ export default function Home() {
       </Head>
       <Header />
       <div className='max-w-7xl mx-auto flex flex-col items-center justify-center mt-10'>
-        <Image src={logo} height={150} width={150} alt='' />
+        <Image loader={myDefaultLoader} src={logo} height={150} width={150} alt='' />
         <h1 className='text-3xl font-bold mt-4'>Enterprise Course Catalog</h1>
         <h2 className='text-xl font-sans mt-2'>Department of Defense</h2>
       </div>
