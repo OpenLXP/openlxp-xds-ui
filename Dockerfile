@@ -10,7 +10,7 @@ FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.17.0 AS builder
 USER root
 WORKDIR /app
 COPY . .
-COPY node_modules ./node_modules
+COPY ./node_modules ./node_modules
 RUN yarn build
 USER node
 
