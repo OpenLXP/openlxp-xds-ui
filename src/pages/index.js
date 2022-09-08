@@ -9,9 +9,9 @@ import Image from 'next/image';
 import React, { useCallback } from 'react';
 import SearchBar from '@/components/inputs/SearchBar';
 import logo from '@/public/logo.png';
+import myDefaultLoader from '@/utils/customLoader';
 import useField from '@/hooks/useField';
 import useSpotlightCourses from '@/hooks/useSpotlightCourses';
-import myDefaultLoader from '@/utils/customLoader';
 
 export default function Home() {
   const router = useRouter();
