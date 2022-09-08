@@ -24,6 +24,7 @@ import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '@/public/logo.png';
+import myDefaultLoader from '@/utils/customLoader';
 
 function validateEmail (email, setEmailError, setError) {
   if (email === '') {
@@ -224,7 +225,7 @@ export default function Register() {
   return (
     <DefaultLayout>
       <div className='text-center mt-10'>
-        <Image src={logo} alt='logo' width={100} height={100} />
+        <Image loader={myDefaultLoader} src={logo} alt='logo' width={100} height={100} />
         <h1 className='font-bold text-xl'>Create your account</h1>
         <p className='text-sm'>
           or&nbsp;
