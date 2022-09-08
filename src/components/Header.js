@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import UserMenu from '@/components/menus/UserMenu';
-import logo from '/ecc-openlxp-xds-ui/public/logo.png';
 
 const menuItems = [
   {
@@ -63,7 +62,7 @@ export default function Header() {
                 id={'homepage-button'}
                 className={'cursor-pointer'}
               >
-                <Image src={logo} alt={'home'} height={'60'} width={'60'} />
+                <Image src={'/ecc-openlxp-xds-ui/public/logo.png'} alt={'home'} height={'60'} width={'60'} />
               </button>
             </Link>
             {menuItems.map((item) => {
