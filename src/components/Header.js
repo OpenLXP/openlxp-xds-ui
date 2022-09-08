@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import UserMenu from '@/components/menus/UserMenu';
 import logo from '@/public/logo.png';
-import { myDefaultLoader } from '@/utils/customLoader';
+import myDefaultLoader from '@/utils/customLoader';
 
 const menuItems = [
   {
