@@ -40,6 +40,8 @@ RUN chmod 777 /app/.next/cache/images
 RUN chown -R node:node /app/.next/cache/images
 RUN sed -i 's/image?url=%2Fecc-openlxp-xds-ui/image?url=/g' /app/.next/server/pages/**/*.html
 RUN sed -i 's/image?url=%2Fecc-openlxp-xds-ui/image?url=/g' /app/.next/server/pages/*.html
+RUN sed -i 's+encodeURIComponent(n)+encodeURIComponent(n.replace("/ecc-openlxp-xds-ui", ""))+g' /app/.next/static/**/*.js
+
 
 #USER nextjs
 USER node
