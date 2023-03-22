@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { DuplicateIcon, ShareIcon } from '@heroicons/react/outline';
-import { Fragment, useState, useCallback } from 'react';
+import { Fragment, useCallback, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 
