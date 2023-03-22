@@ -54,8 +54,10 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const contextWrapper = useMemo(() => ({ user, error, register, login, logout }), []);
+
   return (
-    <AuthContext.Provider value={{ user, error, register, login, logout }}>
+    <AuthContext.Provider value={contextWrapper}>
       {children}
     </AuthContext.Provider>
   );
