@@ -18,7 +18,7 @@ export default function Footer({ location }) {
     links.map((link, index) => {
       return (
         <a
-          key={index}
+          key={link.name + ' key'}
           className='text-center text-gray-500 text-base p-1 hover:text-gray-900 h-auto hover:text-shadow-md transform transition-all duration-75 ease-in-out'
           href={link.url}
         >
