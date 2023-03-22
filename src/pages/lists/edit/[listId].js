@@ -1,19 +1,15 @@
 import {
-  EyeIcon,
-  EyeOffIcon,
   RefreshIcon,
   UploadIcon,
   XCircleIcon,
   XIcon,
 } from '@heroicons/react/outline';
-import { Switch } from '@headlessui/react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserList } from '@/hooks/useUserList';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
-import PublicPrivateToggle from '@/components/inputs/PublicPrivateToggle';
 import prepareListDataToSend from '@/utils/prepListDataToSend';
 
 export function getServerSideProps({ query }) {
@@ -47,17 +43,17 @@ export default function EditList({ listId }) {
 
     // if there is a authorization error
     if (initialList?.isError) {
-      if( initialList?.error?.response?.status === 401)
-       return router.push('/401');
+      if (initialList?.error?.response?.status === 401)
+        return router.push('/401');
       if (initialList?.error?.response?.status === 403)
         return router.push('/403');
     }
-    
+
     // if the owner of the list is not the current user, redirect to homepage
-    if (initialList?.isSuccess && user?.user?.id){
-      if (initialList?.data?.owner?.id !== user?.user?.id){
+    if (initialList?.isSuccess && user?.user?.id) {
+      if (initialList?.data?.owner?.id !== user?.user?.id) {
         return router.push(`/lists/${listId}`);
-      } 
+      }
     }
     if (initialList?.isSuccess) {
       setCurrentListInfo({
