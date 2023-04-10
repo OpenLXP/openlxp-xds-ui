@@ -1,20 +1,26 @@
 import { useCallback, useState, useEffect } from 'react';
 
 export function useLocalStorage(key, defaultValue) {
+  let windowStore = window;
   if (typeof window !== 'undefined') {
-    return useStorage(key, defaultValue, window.localStorage);
+    windowStore = window.localStorage;
   }
-  return [defaultValue]
+  return useStorage(key, defaultValue, windowStore);
 }
 
 export function useSessionStorage(key, defaultValue) {
+  let windowStore = window;
   if (typeof window !== 'undefined') {
-    return useStorage(key, defaultValue, window.sessionStorage);
+    windowStore = window.sessionStorage;
   }
+  return useStorage(key, defaultValue, windowStore);
 }
 
 function useStorage(key, defaultValue, storageObject) {
   const [value, setValue] = useState(() => {
+    if (typeof storageObject === 'undefined') {
+      return defaultValue;
+    }
     const jsonValue = storageObject.getItem(key);
     if (jsonValue != null) return JSON.parse(jsonValue);
 
