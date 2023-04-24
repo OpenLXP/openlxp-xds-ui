@@ -5,7 +5,7 @@
  */
 export function isValidEmail(email) {
   // regex from https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
-  const regex = /^\S+@\S+\.\S+$/;
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(email);
 }
 
