@@ -8,10 +8,12 @@ import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';
 import { useCourse } from '@/hooks/useCourse';
+import { getDerivedCourses } from '@/hooks/useDerivedCourses';
 import { useMemo, useCallback } from 'react';
 import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
 import { useRouter } from 'next/router';
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
+import Accordion from '@/components/Accordion';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import SaveModalCoursePage from '@/components/modals/SaveModalCoursePage';
@@ -37,6 +39,32 @@ function RelatedCourses({ id }) {
   );
 }
 
+function DerivedCourses({ id, derivedCourses }) {
+  // const derivedCourses = derivedCourses
+  console.log(derivedCourses);
+  return (
+    <>
+      <div className='bg-gray-200 mt-10 font-bold block font-sans p-4 '>
+        <div className='w-full gap-10 max-w-7xl mx-auto'>Derived Courses</div>
+      </div>
+
+      <div className=' w-full my-10 max-w-7xl mx-auto'>
+        {/* id: {id} */}
+        {derivedCourses.data?.hits?.map((course, index) => (
+            <CourseSpotlight title={course.CourseTitle} key={index} />
+          ))}
+        {/* <Accordion title={id}/> */}
+
+        {/* <div className='inline-flex overflow-x-auto gap-2 py-4 custom-scroll '>
+          {moreLikeThis.data?.hits?.map((course, index) => (
+            <CourseSpotlight course={course} key={index} />
+          ))}
+        </div> */}
+      </div>
+    </>
+  );
+}
+
 export default function Course() {
   const router = useRouter();
   const { user } = useAuth();
@@ -44,6 +72,13 @@ export default function Course() {
   // state of the fetching
   const course = useCourse(router.query?.courseId);
   const config = useConfig();
+  const derivedCourses = getDerivedCourses(course.data?.Course.CourseCode);
+  console.log(derivedCourses);
+  console.log(derivedCourses?.hits);
+
+  //prepare the derived course data
+  // const courseData = 
+  
 
   // prepare the course data
   const data = useMemo(() => {
@@ -230,6 +265,8 @@ export default function Course() {
         })}
       </div>
 
+      {/* Derived Courses */}
+      {derivedCourses?.data && <DerivedCourses id={course.data?.Course.CourseCode} derivedCourses={derivedCourses}/> }
       {/* Related courses */}
       <RelatedCourses id={router.query?.courseId} />
       <Footer />
