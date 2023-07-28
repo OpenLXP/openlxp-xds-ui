@@ -50,10 +50,9 @@ function DerivedCourses({ id, derivedCourses }) {
 
       <div className=' w-full my-10 max-w-7xl mx-auto'>
         {/* id: {id} */}
-        {derivedCourses.data?.hits?.map((course, index) => (
-            <CourseSpotlight title={course.CourseTitle} key={index} />
+        {derivedCourses?.data?.hits?.map((course, index) => (
+            <Accordion title={course.course_title}/>
           ))}
-        {/* <Accordion title={id}/> */}
 
         {/* <div className='inline-flex overflow-x-auto gap-2 py-4 custom-scroll '>
           {moreLikeThis.data?.hits?.map((course, index) => (
@@ -266,7 +265,7 @@ export default function Course() {
       </div>
 
       {/* Derived Courses */}
-      {derivedCourses?.data && <DerivedCourses id={course.data?.Course.CourseCode} derivedCourses={derivedCourses}/> }
+      {derivedCourses && <DerivedCourses id={course.data?.Course.CourseCode} derivedCourses={derivedCourses}/> }
       {/* Related courses */}
       <RelatedCourses id={router.query?.courseId} />
       <Footer />
