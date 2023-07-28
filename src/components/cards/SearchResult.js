@@ -1,3 +1,5 @@
+'use strict';
+
 import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback } from 'react';

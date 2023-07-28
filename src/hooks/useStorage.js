@@ -1,3 +1,5 @@
+'use strict';
+
 import { useCallback, useState, useEffect } from 'react';
 
 export function useLocalStorage(key, defaultValue) {

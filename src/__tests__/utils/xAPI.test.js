@@ -1,3 +1,5 @@
+'use strict';
+
 import { sendStatement } from "@/utils/xapi/xAPIWrapper";
 import xAPIMapper from "@/utils/xapi/xAPIMapper";
 

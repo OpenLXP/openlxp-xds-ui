@@ -1,3 +1,5 @@
+'use strict';
+
 import { useConfig } from '../../hooks/useConfig';
 import Footer from '../Footer';
 import Header from '../Header';

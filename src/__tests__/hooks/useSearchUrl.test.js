@@ -1,3 +1,5 @@
+'use strict';
+
 const { renderHook, act } = require('@testing-library/react-hooks');
 import { useSearchUrl } from '../../hooks/useSearchUrl';
 

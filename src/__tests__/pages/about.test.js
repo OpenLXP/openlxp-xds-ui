@@ -1,3 +1,5 @@
+'use strict';
+
 import About from '../../pages/about';
 import { render } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';

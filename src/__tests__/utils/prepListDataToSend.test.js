@@ -1,3 +1,5 @@
+'use strict';
+
 import prepareListDataToSend from '@/utils/prepListDataToSend';
 import courseData from '@/__mocks__/data/course.data';
 const listData = {

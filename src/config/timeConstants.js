@@ -1,3 +1,5 @@
+'use strict';
+
 export const oneMinute = 60 * 1000;
 export const fiveMinutes = 5 * 60 * 1000;
 export const tenMinutes = 10 * 60 * 1000;

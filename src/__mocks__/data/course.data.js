@@ -1,3 +1,5 @@
+'use strict';
+
 export default {
   Course: {
     CourseTitle: 'Test Course Title',

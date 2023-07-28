@@ -1,3 +1,5 @@
+'use strict';
+
 export default function InterestListsResult({interestList, isSubscribed, onSubscribe, onUnsubscribe}) {
   const {name, description, experiences, subscribers} = interestList;
 

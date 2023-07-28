@@ -1,3 +1,5 @@
+'use strict';
+
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback, useEffect } from 'react';
 import { useList } from '@/hooks/useList';
