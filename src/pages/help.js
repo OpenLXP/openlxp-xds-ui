@@ -1,3 +1,5 @@
+'use strict';
+
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 
 export default function Help() {

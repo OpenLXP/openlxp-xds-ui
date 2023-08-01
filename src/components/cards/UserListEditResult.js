@@ -1,3 +1,5 @@
+'use strict';
+
 import React, { Fragment } from 'react';
 
 import { Transition } from '@headlessui/react';

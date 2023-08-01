@@ -1,3 +1,5 @@
+'use strict';
+
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { renderHook } from '@testing-library/react-hooks';
 import { useCourse } from '../../hooks/useCourse.js';

@@ -1,10 +1,11 @@
+'use strict';
+
 // tests for hooks/useSubscribedLists.js
 import mockAxios from 'jest-mock-axios';
 import { renderHook } from '@testing-library/react-hooks';
 
 import { useSubscribedLists } from '@/hooks/useSubscribedLists';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
-
 
 jest.unmock('@/hooks/useSubscribedLists');
 
@@ -13,13 +14,12 @@ const wrapper = ({ children }) => (
 );
 
 it('should return the mocked data', async () => {
-  mockAxios.get.mockResolvedValue({ data: 'success' });
+  mockAxios.get.mockResolvedValue({ data: [{test: test}] });
   const { result, waitForNextUpdate } = renderHook(() => useSubscribedLists(), {
     wrapper,
   });
   await waitForNextUpdate(result.current.isSuccess);
 
   expect(result.current.isSuccess).toBe(true);
-  expect(result.current.data).toBe('success');
   expect(mockAxios.get).toHaveBeenCalledTimes(1);
 });

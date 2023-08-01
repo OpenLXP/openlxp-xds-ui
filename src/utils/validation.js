@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @description given a string, returns true if it is a valid email address
  * @param {string} email - the email address to validate

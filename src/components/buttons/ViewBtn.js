@@ -1,3 +1,5 @@
+'use strict';
+
 import { EyeIcon } from '@heroicons/react/solid';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback } from 'react';

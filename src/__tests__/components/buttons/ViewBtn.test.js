@@ -1,3 +1,5 @@
+'use strict';
+
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';

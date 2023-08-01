@@ -1,3 +1,5 @@
+'use strict';
+
 import { axiosInstance } from '@/config/axiosConfig';
 import { saveSearchUrl } from '@/config/endpoints';
 import { useMutation, useQueryClient } from 'react-query';

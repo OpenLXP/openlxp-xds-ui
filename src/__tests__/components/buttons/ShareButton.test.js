@@ -1,3 +1,5 @@
+'use strict';
+
 import { act, fireEvent, render } from '@testing-library/react';
 import { useUnauthenticatedUser } from '@/__mocks__/predefinedMocks';
 import ShareButton from '@/components/buttons/ShareBtn';

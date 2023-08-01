@@ -1,3 +1,5 @@
+'use strict';
+
 import { axiosInstance } from '@/config/axiosConfig';
 import { backendHost } from '../config/endpoints';
 import { createContext, useContext, useEffect, useState } from 'react';

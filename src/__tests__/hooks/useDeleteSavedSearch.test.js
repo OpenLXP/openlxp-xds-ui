@@ -1,3 +1,5 @@
+'use strict';
+
 // tests for hooks/useDeleteSavedSearch
 
 import { useDeleteSavedSearch } from '@/hooks/useDeleteSavedSearch';

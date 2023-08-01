@@ -1,3 +1,5 @@
+'use strict';
+
 // tests for useUnsubscribeFromList hook
 
 import { renderHook } from '@testing-library/react-hooks';

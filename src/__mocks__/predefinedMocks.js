@@ -1,3 +1,5 @@
+'use strict';
+
 // import jest from 'jest';
 import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';
@@ -636,6 +638,12 @@ export function useMockConfig() {
         course_title: 'Course.CourseTitle',
         course_description: 'Course.CourseShortDescription',
         course_url: 'Course.CourseURL',
+        course_code: 'Course.CourseCode',
+        course_provider: 'Course.CourseProviderName',
+        course_startDate: 'Course_Instance.StartDate',
+        course_endDate: 'Course_Instance.EndDate',
+        course_instructor: 'Course_Instance.Instructor',
+        course_deliveryMode: 'Course.CourseSectionDeliveryMode',
       },
       course_img_fallback: 'some/fallback',
       search_results_per_page: 10,

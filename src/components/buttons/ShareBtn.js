@@ -1,3 +1,5 @@
+'use strict';
+
 import { ShareIcon, DuplicateIcon } from '@heroicons/react/outline';
 import { useState, Fragment } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
