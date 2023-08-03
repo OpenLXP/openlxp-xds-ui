@@ -1,3 +1,5 @@
+'use strict';
+
 import { act, render, screen, fireEvent } from '@testing-library/react';
 
 import SelectList from '@/components/inputs/SelectList';

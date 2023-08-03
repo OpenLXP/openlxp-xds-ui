@@ -1,3 +1,5 @@
+'use strict';
+
 import { axiosInstance } from '@/config/axiosConfig';
 import { moreLikeThisUrl } from '@/config/endpoints';
 import { useQuery, useQueryClient } from 'react-query';

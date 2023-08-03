@@ -1,3 +1,5 @@
+'use strict';
+
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import mockAxios from 'jest-mock-axios';
 import { renderHook } from '@testing-library/react-hooks';

@@ -1,3 +1,5 @@
+'use strict';
+
 import { searchUrl } from '@/config/endpoints';
 import { tenMinutes } from '@/config/timeConstants';
 import { useEffect, useState } from 'react';

@@ -1,3 +1,5 @@
+'use strict';
+
 import { fireEvent, render, act } from '@testing-library/react';
 import SearchResult from '@/components/cards/SearchResult';
 import courseData from '@/__mocks__/data/course.data';

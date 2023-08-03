@@ -1,3 +1,5 @@
+'use strict';
+
 import { SearchIcon, XIcon } from '@heroicons/react/solid';
 
 export default function SearchBar({ parameters, onChange, onClick, onReset }) {

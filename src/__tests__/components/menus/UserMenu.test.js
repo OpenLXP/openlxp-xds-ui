@@ -1,3 +1,5 @@
+'use strict';
+
 // noinspection JSCheckFunctionSignatures
 
 import { act, fireEvent, render, screen } from '@testing-library/react';

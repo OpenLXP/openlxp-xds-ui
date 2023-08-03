@@ -1,3 +1,5 @@
+'use strict';
+
 // Functions to render data
 export const getDeeplyNestedData = (strKey, data) => {
   if (!strKey) return null;

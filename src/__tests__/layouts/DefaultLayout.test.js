@@ -1,3 +1,5 @@
+'use strict';
+
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render, screen } from '@testing-library/react';

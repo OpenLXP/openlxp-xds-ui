@@ -1,3 +1,5 @@
+'use strict';
+
 // tests for hooks/useSubscribedLists.js
 import mockAxios from 'jest-mock-axios';
 import { renderHook } from '@testing-library/react-hooks';

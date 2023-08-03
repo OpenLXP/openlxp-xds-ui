@@ -1,3 +1,5 @@
+'use strict';
+
 import { useContext, createContext } from "react";
 export const AuthContext = createContext()
 export const AuthContextWrapper = ({children}) => {

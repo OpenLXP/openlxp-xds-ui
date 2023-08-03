@@ -1,3 +1,5 @@
+'use strict';
+
 import { render } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';
 import Header from '@/components/Header';

@@ -1,3 +1,5 @@
+'use strict';
+
 // import jest from 'jest';
 import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';

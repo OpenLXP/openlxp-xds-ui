@@ -1,3 +1,5 @@
+'use strict';
+
 const { getDeeplyNestedData } = require('@/utils/getDeeplyNestedData');
 
 const testData = { Course: { CourseTitle: 'value' } };

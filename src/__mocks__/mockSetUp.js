@@ -1,3 +1,5 @@
+'use strict';
+
 // mock useRouter
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
 

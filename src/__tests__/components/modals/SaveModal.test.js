@@ -1,3 +1,5 @@
+'use strict';
+
 import { act, screen, render, fireEvent } from '@testing-library/react';
 import SaveModal from '@/components/modals/SaveModal';
 
