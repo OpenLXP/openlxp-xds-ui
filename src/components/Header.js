@@ -1,3 +1,5 @@
+'use strict';
+
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import Image from 'next/image';

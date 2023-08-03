@@ -1,3 +1,5 @@
+'use strict';
+
 export default {
   course_highlights: [
     {

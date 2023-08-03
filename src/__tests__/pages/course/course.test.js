@@ -1,3 +1,5 @@
+'use strict';
+
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import MockRouter from 'next-router-mock';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';

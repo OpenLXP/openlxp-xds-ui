@@ -1,3 +1,5 @@
+'use strict';
+
 import { QueryClientProvider, QueryClient } from 'react-query';
 
 export const QueryClientWrapper = ({ children }) => {

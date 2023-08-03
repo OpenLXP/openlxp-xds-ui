@@ -1,3 +1,5 @@
+'use strict';
+
 import { render, screen } from '@testing-library/react';
 
 import ExternalBtn from '@/components/buttons/ExternalBtn';

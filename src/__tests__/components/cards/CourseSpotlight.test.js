@@ -1,3 +1,5 @@
+'use strict';
+
 import { render, act, fireEvent } from '@testing-library/react';
 import { useConfig } from '@/hooks/useConfig';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';

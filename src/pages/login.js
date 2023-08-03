@@ -1,3 +1,5 @@
+'use strict';
+
 import { LoginIcon } from '@heroicons/react/outline';
 import { authLogin } from '@/config/endpoints';
 import { axiosInstance } from '@/config/axiosConfig';

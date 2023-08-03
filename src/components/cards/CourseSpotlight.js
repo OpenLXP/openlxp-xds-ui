@@ -1,3 +1,5 @@
+'use strict';
+
 import { backendHost } from '@/config/endpoints';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback, useMemo } from 'react';

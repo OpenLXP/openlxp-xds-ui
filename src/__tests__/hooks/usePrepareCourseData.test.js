@@ -1,3 +1,5 @@
+'use strict';
+
 import courseData from '@/__mocks__/data/course.data';
 import uiConfigData from '@/__mocks__/data/uiConfig.data';
 import usePrepareCourseData from '@/hooks/usePrepareCourseData';

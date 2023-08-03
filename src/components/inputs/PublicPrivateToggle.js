@@ -1,3 +1,5 @@
+'use strict';
+
 import {EyeIcon, EyeOffIcon} from "@heroicons/react/outline";
 import { Switch } from "@headlessui/react";
 

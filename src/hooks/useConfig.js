@@ -1,3 +1,5 @@
+'use strict';
+
 import { useQuery } from 'react-query';
 import { configUrl } from '../config/endpoints';
 import { twentyFourHours } from '../config/timeConstants';

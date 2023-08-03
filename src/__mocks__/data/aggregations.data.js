@@ -1,3 +1,5 @@
+'use strict';
+
 export default {
   'Course Type': {
     doc_count_error_upper_bound: 0,

@@ -1,3 +1,5 @@
+'use strict';
+
 import { render, screen, act, fireEvent } from '@testing-library/react';
 
 import ActionButton from '../../../components/buttons/ActionButton';

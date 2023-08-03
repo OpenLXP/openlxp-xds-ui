@@ -1,3 +1,5 @@
+'use strict';
+
 import { useQuery } from 'react-query';
 
 import { saveSearchOwnedUrl } from '@/config/endpoints';

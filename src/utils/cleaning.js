@@ -1,3 +1,5 @@
+'use strict';
+
 export function removeHTML(html) {
   if (!html) return '';
 

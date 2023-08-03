@@ -1,3 +1,5 @@
+'use strict';
+
 import { Pagination } from '@/components/buttons/Pagination';
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';

@@ -1,3 +1,5 @@
+'use strict';
+
 import { axiosInstance } from '@/config/axiosConfig';
 import { oneMinute } from '@/config/timeConstants';
 import { useQuery, useQueryClient } from 'react-query';

@@ -1,3 +1,5 @@
+'use strict';
+
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useState } from 'react';
 import { PlusCircleIcon } from '@heroicons/react/outline';

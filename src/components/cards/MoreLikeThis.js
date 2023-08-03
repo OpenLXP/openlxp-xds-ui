@@ -1,3 +1,5 @@
+'use strict';
+
 import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '../../contexts/AuthContext';
 import { useMoreCoursesLikeThis } from '../../hooks/useMoreCoursesLikeThis';
