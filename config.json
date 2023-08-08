@@ -1,9 +1,0 @@
-{
-    "localhost-proxy": {
-      "source": 3004,
-      "target": 3000,
-      "hostname": "localhost",
-      "key": "./localhost-key.pem",
-      "cert": "./localhost.pem"
-    }
-}
