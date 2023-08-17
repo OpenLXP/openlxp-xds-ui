@@ -20,6 +20,7 @@ export default function SearchBar({ parameters, onChange, onClick, onReset }) {
         onChange={onChange}
         autoComplete='off'
         placeholder='Search the catalog'
+        maxLength="128"
       />
       <div id='button-group' className='inline-flex flex-row-reverse'>
         <button

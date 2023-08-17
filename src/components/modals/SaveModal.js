@@ -228,6 +228,7 @@ export default function SaveModal({ courseId, title }) {
                       placeholder='List Description...'
                       name='description'
                       id='description'
+                      maxLength="1000"
                       rows={Math.max(
                         fields.description?.length / 72,
                         2

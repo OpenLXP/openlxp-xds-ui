@@ -248,6 +248,7 @@ export default function Register() {
             name='first_name'
             placeholder='First Name'
             className='w-1/2 rounded p-2 mt-4 shadow'
+            maxLength="200"
             required
           />
           <input
@@ -255,6 +256,7 @@ export default function Register() {
             name='last_name'
             placeholder='Last Name'
             className='w-1/2 rounded p-2 mt-4 shadow'
+            maxLength="200"
             required
           />
         </div>
@@ -263,6 +265,7 @@ export default function Register() {
           name='email'
           placeholder='Email'
           className='w-full rounded p-2 mt-4 shadow'
+          maxLength="200"
           required
         />
         <input
