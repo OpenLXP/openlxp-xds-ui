@@ -223,6 +223,17 @@ export default function Register() {
     validateName(credentials.first_name, setFirstNameError, 'First name', setError);
   }, [credentials.first_name]);
 
+  const checkSpecialChar =(e)=>{
+    if(/[<>/?+={};#$%&*()`~]/.test(e.key)){
+     e.preventDefault();
+    }
+   };
+
+   const checkSpecialCharPass =(e)=>{
+    if(/[<>/{};]/.test(e.key)){
+      e.preventDefault();
+    }
+   };
   return (
     <DefaultLayout>
       <div className='text-center mt-10'>
@@ -249,6 +260,7 @@ export default function Register() {
             placeholder='First Name'
             className='w-1/2 rounded p-2 mt-4 shadow'
             maxLength="200"
+            onKeyPress={(e)=>checkSpecialChar(e)}
             required
           />
           <input
@@ -257,6 +269,7 @@ export default function Register() {
             placeholder='Last Name'
             className='w-1/2 rounded p-2 mt-4 shadow'
             maxLength="200"
+            onKeyPress={(e)=>checkSpecialChar(e)}
             required
           />
         </div>
@@ -264,6 +277,7 @@ export default function Register() {
           type='email'
           name='email'
           placeholder='Email'
+          onKeyPress={(e)=>checkSpecialCharPass(e)}
           className='w-full rounded p-2 mt-4 shadow'
           maxLength="200"
           required
@@ -272,6 +286,7 @@ export default function Register() {
           type='password'
           name='password'
           placeholder='Password'
+          onKeyPress={(e)=>checkSpecialCharPass(e)}
           className='w-full rounded p-2 mt-4 shadow'
           required
         />
@@ -279,6 +294,7 @@ export default function Register() {
           type='password'
           name='confirmationPassword'
           placeholder='Confirm Password'
+          onKeyPress={(e)=>checkSpecialCharPass(e)}
           className='w-full rounded p-2 mt-4 shadow'
           required
         />
