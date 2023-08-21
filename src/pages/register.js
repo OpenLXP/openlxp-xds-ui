@@ -286,7 +286,6 @@ export default function Register() {
           type='password'
           name='password'
           placeholder='Password'
-          onKeyPress={(e)=>checkSpecialCharPass(e)}
           className='w-full rounded p-2 mt-4 shadow'
           required
         />
@@ -294,7 +293,6 @@ export default function Register() {
           type='password'
           name='confirmationPassword'
           placeholder='Confirm Password'
-          onKeyPress={(e)=>checkSpecialCharPass(e)}
           className='w-full rounded p-2 mt-4 shadow'
           required
         />
