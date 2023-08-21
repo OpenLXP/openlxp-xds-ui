@@ -3,6 +3,12 @@
 import { SearchIcon, XIcon } from '@heroicons/react/solid';
 
 export default function SearchBar({ parameters, onChange, onClick, onReset }) {
+  const checkSpecialChar = (e) => {
+    if(/[<>/?+={};#$%&*()`~]/.test(e.key)){
+     e.preventDefault();
+    }
+  };
+   
   return (
     <form
       onSubmit={(event) => {
@@ -20,6 +26,8 @@ export default function SearchBar({ parameters, onChange, onClick, onReset }) {
         onChange={onChange}
         autoComplete='off'
         placeholder='Search the catalog'
+        maxLength="128"
+        onKeyPress={(e)=>checkSpecialChar(e)}
       />
       <div id='button-group' className='inline-flex flex-row-reverse'>
         <button

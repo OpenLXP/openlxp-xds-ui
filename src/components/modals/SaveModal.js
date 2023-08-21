@@ -112,6 +112,12 @@ export default function SaveModal({ courseId, title }) {
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
 
+  const checkSpecialChar =(e)=>{
+    if(/[<>/?+={};#$*`~]/.test(e.key)){
+     e.preventDefault();
+    }
+   };
+   
   return (
     <>
       <button
@@ -228,6 +234,8 @@ export default function SaveModal({ courseId, title }) {
                       placeholder='List Description...'
                       name='description'
                       id='description'
+                      maxLength="1000"
+                      onKeyPress={(e)=>checkSpecialChar(e)}
                       rows={Math.max(
                         fields.description?.length / 72,
                         2
