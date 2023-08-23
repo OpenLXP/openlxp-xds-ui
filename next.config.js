@@ -4,7 +4,7 @@ module.exports = {
     reactStrictMode: true,
     swcMinify: true,
     // Adding policies:
-    // Adding comment here to test verified signature
+    // Adding comment here to test verified signature... one more time
     async headers() {
         return [
             {
