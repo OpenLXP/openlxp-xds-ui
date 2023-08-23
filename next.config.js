@@ -4,6 +4,7 @@ module.exports = {
     reactStrictMode: true,
     swcMinify: true,
     // Adding policies:
+    // Adding comment here to test commit 
     async headers() {
         return [
             {
