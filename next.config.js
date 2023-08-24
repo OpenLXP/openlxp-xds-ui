@@ -4,7 +4,7 @@ module.exports = {
     reactStrictMode: true,
     swcMinify: true,
     // Adding policies:
-    // Adding comment here to test verified signature... 
+    // Configured email to test verified signature
     async headers() {
         return [
             {
