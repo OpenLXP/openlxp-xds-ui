@@ -22,7 +22,7 @@ import useField from '@/hooks/useField';
  *
  */
 
-export default function SaveModal({ courseId }) {
+export default function SaveModal({ courseId, title }) {
   // authentication
   const { user } = useAuth();
 
@@ -112,6 +112,12 @@ export default function SaveModal({ courseId }) {
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
 
+  const checkSpecialChar =(e)=>{
+    if(/[<>/?+={};#$*`~]/.test(e.key)){
+     e.preventDefault();
+    }
+   };
+
   return (
     <>
       <button
@@ -164,7 +170,7 @@ export default function SaveModal({ courseId }) {
                   as='h3'
                   className='text-lg font-medium leading-6 text-gray-900'
                 >
-                  Add course to lists
+                  Add "{title}" to lists
                 </Dialog.Title>
                 <div className='mt-2 w-full py-2 px-0.5 rounded-md overflow-y-auto h-56 custom-scroll border bg-gray-50 space-y-1'>
                   {isSuccess &&
@@ -200,7 +206,7 @@ export default function SaveModal({ courseId }) {
                       );
                     })}
                 </div>
-
+                
                 <form
                   className='my-2 flex flex-col w-full'
                   onSubmit={handleSubmit}
@@ -228,6 +234,8 @@ export default function SaveModal({ courseId }) {
                       placeholder='List Description...'
                       name='description'
                       id='description'
+                      maxLength="1000"
+                      onKeyPress={(e)=>checkSpecialChar(e)}
                       rows={Math.max(
                         fields.description?.length / 72,
                         2

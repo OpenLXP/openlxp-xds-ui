@@ -19,14 +19,13 @@ import {
 } from '@/utils/validation';
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { useConfig } from '@/hooks/useConfig';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '@/public/logo.png';
-import myDefaultLoader from '@/utils/customLoader';
+import { useConfig } from '@/hooks/useConfig';
 
 function validateEmail (email, setEmailError, setError) {
   if (email === '') {
@@ -224,10 +223,21 @@ export default function Register() {
     validateName(credentials.first_name, setFirstNameError, 'First name', setError);
   }, [credentials.first_name]);
 
+  const checkSpecialChar =(e)=>{
+    if(/[<>/?+={};#$%&*()`~]/.test(e.key)){
+     e.preventDefault();
+    }
+   };
+
+   const checkSpecialCharPass =(e)=>{
+    if(/[<>/{};]/.test(e.key)){
+      e.preventDefault();
+    }
+   };
   return (
     <DefaultLayout>
       <div className='text-center mt-10'>
-        <Image loader={myDefaultLoader} src={logo} alt='logo' width={100} height={100} />
+        <Image src={logo} alt='logo' width={100} height={100} />
         <h1 className='font-bold text-xl'>Create your account</h1>
         <p className='text-sm'>
           or&nbsp;
@@ -249,6 +259,8 @@ export default function Register() {
             name='first_name'
             placeholder='First Name'
             className='w-1/2 rounded p-2 mt-4 shadow'
+            maxLength="200"
+            onKeyPress={(e)=>checkSpecialChar(e)}
             required
           />
           <input
@@ -256,6 +268,8 @@ export default function Register() {
             name='last_name'
             placeholder='Last Name'
             className='w-1/2 rounded p-2 mt-4 shadow'
+            maxLength="200"
+            onKeyPress={(e)=>checkSpecialChar(e)}
             required
           />
         </div>
@@ -263,7 +277,9 @@ export default function Register() {
           type='email'
           name='email'
           placeholder='Email'
+          onKeyPress={(e)=>checkSpecialCharPass(e)}
           className='w-full rounded p-2 mt-4 shadow'
+          maxLength="200"
           required
         />
         <input

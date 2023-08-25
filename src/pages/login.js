@@ -4,14 +4,13 @@ import { LoginIcon } from '@heroicons/react/outline';
 import { authLogin } from '@/config/endpoints';
 import { axiosInstance } from '@/config/axiosConfig';
 import { useAuth } from '@/contexts/AuthContext';
-import { useConfig } from '@/hooks/useConfig';
 import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import logo from '@/public/logo.png';
-import myDefaultLoader from '@/utils/customLoader';
+import { useConfig } from '@/hooks/useConfig';
 
 export default function Login() {
   const router = useRouter();
@@ -51,11 +50,17 @@ export default function Login() {
       });
   };
 
+  const checkSpecialChar =(e)=>{
+    if(/[<>/{};]/.test(e.key)){
+     e.preventDefault();
+    }
+  };
+
   return (
     <DefaultLayout>
       <div className={'pb-32'}>
         <div className='mt-10 mx-52 flex flex-col items-center justify-between'>
-          <Image loader={myDefaultLoader} src={logo} alt={'home'} height={'200'} width={'200'} />
+          <Image src={logo} alt={'home'} height={'200'} width={'200'} />
           <p className={'mt-2 text-2xl font-extrabold '}>
             Sign in to your account
           </p>
@@ -81,6 +86,8 @@ export default function Login() {
             name='username'
             title='username'
             placeholder='Email'
+            maxLength="200"
+            onKeyPress={(e)=>checkSpecialChar(e)}
             className='shadow focus:shadow-md rounded-md p-2 w-full border border-gray-200 text-gray-700 focus:ring-2 ring-blue-400 outline-none  transition-all  duration-200'
           />
           <input
