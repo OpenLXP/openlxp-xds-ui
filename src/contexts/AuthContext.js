@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
       .post(`${backendHost}/api/auth/logout`)
       .then((res) => removeSession())
       .catch((err) => {
-        console.log(err);
+        console.log("Logout failed.");
       })
       .finally(() => {
         removeSession();
