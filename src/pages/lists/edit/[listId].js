@@ -119,7 +119,7 @@ export default function EditList({ listId }) {
   };
 
   const checkSpecialChar =(e)=>{
-    if(/[<>/?+={};#$*`~]/.test(e.key)){
+    if(/[<>/?+={};#$*`~\\]/.test(e.key)){
      e.preventDefault();
     }
    };
