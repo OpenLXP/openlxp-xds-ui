@@ -1,3 +1,5 @@
+'use strict';
+
 import { Fragment } from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { useAuth } from '@/contexts/AuthContext';

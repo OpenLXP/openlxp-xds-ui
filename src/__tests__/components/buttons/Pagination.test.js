@@ -1,3 +1,5 @@
+'use strict';
+
 import { render, act, fireEvent, screen } from '@testing-library/react';
 
 import { Pagination } from '@/components/buttons/Pagination';

@@ -1,3 +1,5 @@
+'use strict';
+
 import {
   EyeIcon,
   EyeOffIcon,
@@ -109,6 +111,12 @@ export default function EditList({ listId }) {
     );
   };
 
+  const checkSpecialChar =(e)=>{
+    if(/[<>/?+={};#$*`~]/.test(e.key)){
+     e.preventDefault();
+    }
+   };
+
   return (
     <DefaultLayout>
       <div className='flex justify-between items-center border-b'>
@@ -138,6 +146,8 @@ export default function EditList({ listId }) {
             value={currentListInfo?.name}
             onChange={handleChange}
             name='name'
+            maxLength="200"
+            onKeyPress={(e)=>checkSpecialChar(e)}
           />
           <textarea
             className='col-span-2 outline-none rounded shadow-sm py-4 px-2 border focus:shadow-md focus:shadow-blue-400  focus:ring-4 focus:ring-blue-400 focus:ring-offset-1'
@@ -145,6 +155,9 @@ export default function EditList({ listId }) {
             placeholder='List Description'
             onChange={handleChange}
             value={currentListInfo?.description}
+            maxLength="1000"
+            onKeyPress={(e)=>checkSpecialChar(e)}
+
           />
         </div>
 

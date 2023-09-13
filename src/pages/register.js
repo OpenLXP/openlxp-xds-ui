@@ -1,3 +1,5 @@
+'use strict';
+
 import {
   CheckCircleIcon,
   RefreshIcon,
@@ -176,7 +178,7 @@ export default function Register() {
         register(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("Account registration failed.");
       })
       .finally(() => {
         setLoading(false);
@@ -221,6 +223,17 @@ export default function Register() {
     validateName(credentials.first_name, setFirstNameError, 'First name', setError);
   }, [credentials.first_name]);
 
+  const checkSpecialChar =(e)=>{
+    if(/[<>/?+={};#$%&*()`~]/.test(e.key)){
+     e.preventDefault();
+    }
+   };
+
+   const checkSpecialCharPass =(e)=>{
+    if(/[<>/{};]/.test(e.key)){
+      e.preventDefault();
+    }
+   };
   return (
     <DefaultLayout>
       <div className='text-center mt-10'>
@@ -246,6 +259,8 @@ export default function Register() {
             name='first_name'
             placeholder='First Name'
             className='w-1/2 rounded p-2 mt-4 shadow'
+            maxLength="200"
+            onKeyPress={(e)=>checkSpecialChar(e)}
             required
           />
           <input
@@ -253,6 +268,8 @@ export default function Register() {
             name='last_name'
             placeholder='Last Name'
             className='w-1/2 rounded p-2 mt-4 shadow'
+            maxLength="200"
+            onKeyPress={(e)=>checkSpecialChar(e)}
             required
           />
         </div>
@@ -260,7 +277,9 @@ export default function Register() {
           type='email'
           name='email'
           placeholder='Email'
+          onKeyPress={(e)=>checkSpecialCharPass(e)}
           className='w-full rounded p-2 mt-4 shadow'
+          maxLength="200"
           required
         />
         <input

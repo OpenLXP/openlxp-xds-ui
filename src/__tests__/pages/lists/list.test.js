@@ -1,3 +1,5 @@
+'use strict';
+
 // tests for [listId].js
 
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';

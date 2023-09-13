@@ -1,3 +1,5 @@
+'use strict';
+
 // tests for useInterestLists hook
 
 import { useInterestLists } from '@/hooks/useInterestLists';

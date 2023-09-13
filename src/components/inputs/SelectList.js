@@ -1,3 +1,5 @@
+'use strict';
+
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import { Fragment, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';

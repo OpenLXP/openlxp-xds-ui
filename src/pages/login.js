@@ -1,3 +1,5 @@
+'use strict';
+
 import { LoginIcon } from '@heroicons/react/outline';
 import { authLogin } from '@/config/endpoints';
 import { axiosInstance } from '@/config/axiosConfig';
@@ -48,6 +50,12 @@ export default function Login() {
       });
   };
 
+  const checkSpecialChar =(e)=>{
+    if(/[<>/{};]/.test(e.key)){
+     e.preventDefault();
+    }
+  };
+
   return (
     <DefaultLayout>
       <div className={'pb-32'}>
@@ -78,6 +86,8 @@ export default function Login() {
             name='username'
             title='username'
             placeholder='Email'
+            maxLength="200"
+            onKeyPress={(e)=>checkSpecialChar(e)}
             className='shadow focus:shadow-md rounded-md p-2 w-full border border-gray-200 text-gray-700 focus:ring-2 ring-blue-400 outline-none  transition-all  duration-200'
           />
           <input

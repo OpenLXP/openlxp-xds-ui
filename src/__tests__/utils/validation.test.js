@@ -1,3 +1,5 @@
+'use strict';
+
 import * as validation from '@/utils/validation';
 
 describe('validation', () => {

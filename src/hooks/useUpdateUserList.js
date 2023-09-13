@@ -1,3 +1,5 @@
+'use strict';
+
 import { useMutation, useQueryClient } from 'react-query';
 import { interestLists } from '@/config/endpoints';
 import { axiosInstance } from '@/config/axiosConfig';

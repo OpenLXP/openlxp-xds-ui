@@ -1,3 +1,5 @@
+'use strict';
+
 import { fireEvent, render, act } from '@testing-library/react';
 
 import Unathorized from '../../pages/401';

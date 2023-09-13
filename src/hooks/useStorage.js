@@ -1,3 +1,5 @@
+'use strict';
+
 import { useCallback, useState, useEffect } from 'react';
 
 export function useLocalStorage(key, defaultValue) {
@@ -11,6 +13,7 @@ export function useSessionStorage(key, defaultValue) {
   if (typeof window !== 'undefined') {
     return useStorage(key, defaultValue, window.sessionStorage);
   }
+  return [defaultValue]
 }
 
 function useStorage(key, defaultValue, storageObject) {

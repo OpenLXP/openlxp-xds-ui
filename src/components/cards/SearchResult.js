@@ -1,3 +1,5 @@
+'use strict';
+
 import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback } from 'react';
@@ -45,7 +47,7 @@ export default function SearchResult({ result }) {
         >
           <h3>{result.Course.CourseTitle}</h3>
         </button>
-        {user && <SaveModal courseId={result.meta.id} />}
+        {user && <SaveModal courseId={result.meta.id} title={result.Course.CourseTitle} />}
       </div>
       <div onClick={handleClick} className='text-left' aria-hidden='true'>
         <h4>

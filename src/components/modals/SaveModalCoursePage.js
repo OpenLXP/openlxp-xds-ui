@@ -1,3 +1,5 @@
+'use strict';
+
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -8,7 +10,7 @@ import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import InputField from '@/components/inputs/InputField';
 import useField from '@/hooks/useField';
 
-export default function SaveModal({ courseId }) {
+export default function SaveModal({ courseId, title }) {
   // authentication
   const { user } = useAuth();
 
@@ -94,6 +96,12 @@ export default function SaveModal({ courseId }) {
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
 
+  const checkSpecialChar =(e)=>{
+    if(/[<>/?+={};#$*`~]/.test(e.key)){
+     e.preventDefault();
+    }
+   };
+   
   return (
     <>
       <button
@@ -146,7 +154,7 @@ export default function SaveModal({ courseId }) {
                   as='h3'
                   className='text-lg font-medium leading-6 text-gray-900'
                 >
-                  Add course to lists
+                  Add "{title}" to lists
                 </Dialog.Title>
                 <div className='mt-2 w-full py-2 px-0.5 rounded-md overflow-y-auto h-56 custom-scroll border bg-gray-50 space-y-1'>
                   {isSuccess &&
@@ -221,6 +229,8 @@ export default function SaveModal({ courseId }) {
                           [e.target.name]: e.target.value,
                         }));
                       }}
+                      maxLength="1000"
+                      onKeyPress={(e)=>checkSpecialChar(e)}
                       className='w-full border outline-none rounded-md shadow focus:shadow-md p-2 focus:ring-4 ring-blue-400 transform transition-all duration-150'
                     />
                   </div>

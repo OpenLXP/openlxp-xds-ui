@@ -1,3 +1,5 @@
+'use strict';
+
 import { useAuth } from '@/contexts/AuthContext';
 import { useInterestLists } from '@/hooks/useInterestLists';
 import { useRouter } from 'next/router';
