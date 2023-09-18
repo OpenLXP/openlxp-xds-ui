@@ -37,6 +37,7 @@
     "jest": "^27.2.5",
     "jest-mock-axios": "^4.4.1",
     "next-router-mock": "^0.5.3",
+    "next-ssl-redirect-middleware": "0.1.5",
     "prettier": "2.5.1"
   }
 }
