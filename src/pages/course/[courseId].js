@@ -8,17 +8,17 @@ import {
 import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '@/contexts/AuthContext';
-import { useCallback, useMemo } from 'react';
 import { useConfig } from '@/hooks/useConfig';
 import { useCourse } from '@/hooks/useCourse';
+import { useMemo, useCallback } from 'react';
 import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
 import { useRouter } from 'next/router';
-import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import SaveModalCoursePage from '@/components/modals/SaveModalCoursePage';
 import ShareButton from '@/components/buttons/ShareBtn';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 
 function RelatedCourses({ id }) {
   const moreLikeThis = useMoreCoursesLikeThis(id);
@@ -31,7 +31,7 @@ function RelatedCourses({ id }) {
       <div className='flex justify-center w-full overflow-x-hidden my-10 max-w-7xl mx-auto'>
         <div className='inline-flex overflow-x-auto gap-2 py-4 custom-scroll '>
           {moreLikeThis.data?.hits?.map((course, index) => (
-            <CourseSpotlight course={course} key={'course ' + course.id} />
+            <CourseSpotlight course={course} key={index} />
           ))}
         </div>
       </div>
@@ -211,7 +211,7 @@ export default function Course() {
                 </div>
               </span>
             </div>
-            <SaveModalCoursePage courseId={router.query?.courseId} />
+            <SaveModalCoursePage courseId={router.query?.courseId} title={data?.title} />
           </div>
         </div>
       </div>
@@ -220,7 +220,7 @@ export default function Course() {
         {data?.details.map((detail, index) => {
           return (
             <div
-              key={detail.title + ' key'}
+              key={detail.title + index}
               className='grid grid-cols-5 w-full max-w-7xl px-4 mt-5 mx-auto'
             >
               <h2 className='min-w-max col-span-1 font-semibold'>

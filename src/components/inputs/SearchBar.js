@@ -8,7 +8,7 @@ export default function SearchBar({ parameters, onChange, onClick, onReset }) {
      e.preventDefault();
     }
   };
-
+   
   return (
     <form
       onSubmit={(event) => {

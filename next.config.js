@@ -1,6 +1,4 @@
-module.exports = {
-
-    basePath: '/ecc-openlxp-xds-ui',
+const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
     // Adding policies:
@@ -26,3 +24,5 @@ module.exports = {
         ];
     },
 }
+
+module.exports = nextConfig

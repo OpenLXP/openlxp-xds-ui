@@ -178,7 +178,7 @@ export default function Register() {
         register(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("Account registration failed.");
       })
       .finally(() => {
         setLoading(false);

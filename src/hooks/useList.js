@@ -13,7 +13,6 @@ export function useList(id) {
   const queryClient = useQueryClient();
   return useQuery(['list', id], () => getList(id), {
     onSuccess: (data) => {
-      console.log(data);
 
       // optimistically update the cache with the new experience data
       // this data is from xis so the id from search is now the metadata_key_hash

@@ -117,7 +117,7 @@ export default function SaveModal({ courseId, title }) {
      e.preventDefault();
     }
    };
-
+   
   return (
     <>
       <button
@@ -206,7 +206,7 @@ export default function SaveModal({ courseId, title }) {
                       );
                     })}
                 </div>
-                
+
                 <form
                   className='my-2 flex flex-col w-full'
                   onSubmit={handleSubmit}
