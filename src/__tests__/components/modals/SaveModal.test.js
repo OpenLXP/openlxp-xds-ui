@@ -1,15 +1,15 @@
 'use strict';
 
-import { act, screen, render, fireEvent } from '@testing-library/react';
-import SaveModal from '@/components/modals/SaveModal';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 
-import userListData from '@/__mocks__/data/userLists.data';
-import { useUserOwnedLists } from '@/hooks/useUserOwnedLists.js';
-import { useUpdateUserList } from '@/hooks/useUpdateUserList';
-import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
-import xAPIMapper from '@/utils/xapi/xAPIMapper';
+import SaveModal from '@/components/modals/SaveModal';
 import { useAuth } from '@/contexts/AuthContext';
+import { useCreateUserList } from '@/hooks/useCreateUserList';
+import { useUpdateUserList } from '@/hooks/useUpdateUserList';
+import { useUserOwnedLists } from '@/hooks/useUserOwnedLists.js';
+import userListData from '@/__mocks__/data/userLists.data';
+import xAPIMapper from '@/utils/xapi/xAPIMapper';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 
 jest.mock('@/hooks/useUpdateUserList', () => ({
@@ -27,6 +27,15 @@ jest.mock('@/hooks/useUserOwnedLists.js', () => ({
 // mocking the useAuth hook
 jest.mock('@/contexts/AuthContext', () => ({
   useAuth: jest.fn(),
+}));
+
+jest.mock('use-resize-observer', () => ({
+  __esModule: true,
+  default: jest.fn().mockImplementation(() => ({
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+    disconnect: jest.fn(),
+  })),
 }));
 
 const mockIntersectionObserver = jest.fn();
