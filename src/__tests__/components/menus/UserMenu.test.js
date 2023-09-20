@@ -3,9 +3,10 @@
 // noinspection JSCheckFunctionSignatures
 
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import { useAuth } from '@/contexts/AuthContext';
+
 import UserMenu from '@/components/menus/UserMenu';
 import singletonRouter from 'next/router';
+import { useAuth } from '@/contexts/AuthContext';
 
 jest.mock('../../../contexts/AuthContext', () => ({
   useAuth: jest.fn(),
@@ -41,12 +42,15 @@ describe('User Menu', () => {
       expect(singletonRouter).toMatchObject({
         asPath: '/lists/owned',
       });
+      
+      fireEvent.click(button);
       expect(screen.getByText(/Subscribed/i)).toBeInTheDocument();
       fireEvent.click(screen.getByText(/Subscribed/i));
       expect(singletonRouter).toMatchObject({
         asPath: '/lists/subscribed',
       });
-
+      
+      fireEvent.click(button);
       expect(screen.getByText(/Saved Search/i)).toBeInTheDocument();
       fireEvent.click(screen.getByText(/Saved Search/i));
       expect(singletonRouter).toMatchObject({
