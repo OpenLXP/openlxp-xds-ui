@@ -1,6 +1,6 @@
-import DefaultLayout from '@/components/layouts/DefaultLayout';
-import { Disclosure, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/outline';
+import { Disclosure, Transition } from '@headlessui/react'
+import DefaultLayout from '@/components/layouts/DefaultLayout';
 
 export default function Support() {
 
