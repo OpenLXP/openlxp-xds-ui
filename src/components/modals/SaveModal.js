@@ -3,14 +3,14 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useState } from 'react';
 
+import InputField from '@/components/inputs/InputField';
 import { PlusCircleIcon } from '@heroicons/react/outline';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateUserList } from '@/hooks/useCreateUserList';
+import useField from '@/hooks/useField';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserOwnedLists } from '@/hooks/useUserOwnedLists';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
-import InputField from '@/components/inputs/InputField';
-import useField from '@/hooks/useField';
 
 /**
  * TODO: to be removed before merging back to dev
@@ -171,7 +171,7 @@ export default function SaveModal({ courseId, title }) {
                   as='h3'
                   className='text-lg font-medium leading-6 text-gray-900'
                 >
-                  Add &quot;{title}&quot; to lists
+                  Add "{title}" to lists
                 </Dialog.Title>
                 <div className='mt-2 w-full py-2 px-0.5 rounded-md overflow-y-auto h-56 custom-scroll border bg-gray-50 space-y-1'>
                   {isSuccess &&
