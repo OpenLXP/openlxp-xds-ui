@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import UserMenu from '@/components/menus/UserMenu';
 import logo from '@/public/logo.png';
-import myDefaultLoader from '@/utils/customLoader';
 
 const menuItems = [
   {
@@ -18,12 +17,8 @@ const menuItems = [
     path: '/lists/searchLists',
   },
   {
-    label: 'About ECC',
-    path: '/about',
-  },
-  {
-    label: 'Help',
-    path: '/help',
+    label: 'Support',
+    path: '/support',
   },
 ];
 
@@ -66,7 +61,7 @@ export default function Header() {
                 id={'homepage-button'}
                 className={'cursor-pointer'}
               >
-                <Image loader={myDefaultLoader} src={logo} alt={'home'} height={'60'} width={'60'} />
+                <Image src={logo} alt={'home'} height={'60'} width={'60'} />
               </button>
             </Link>
             {menuItems.map((item) => {

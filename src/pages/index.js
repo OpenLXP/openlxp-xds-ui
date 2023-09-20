@@ -3,15 +3,14 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
+import Head from 'next/head'
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
 import Footer from '@/components/Footer';
-import Head from 'next/head'
 import Header from '@/components/Header';
 import Image from 'next/image';
 import React, { useCallback } from 'react';
 import SearchBar from '@/components/inputs/SearchBar';
 import logo from '@/public/logo.png';
-import myDefaultLoader from '@/utils/customLoader';
 import useField from '@/hooks/useField';
 import useSpotlightCourses from '@/hooks/useSpotlightCourses';
 
@@ -61,7 +60,7 @@ export default function Home() {
       </Head>
       <Header />
       <div className='max-w-7xl mx-auto flex flex-col items-center justify-center mt-10'>
-        <Image loader={myDefaultLoader} src={logo} height={150} width={150} alt='' />
+        <Image src={logo} height={150} width={150} alt='' />
         <h1 className='text-3xl font-bold mt-4'>Enterprise Course Catalog</h1>
         <h2 className='text-xl font-sans mt-2'>Department of Defense</h2>
       </div>
