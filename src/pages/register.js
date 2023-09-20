@@ -224,7 +224,7 @@ export default function Register() {
   }, [credentials.first_name]);
 
   const checkSpecialChar =(e)=>{
-    if(/[<>/?+={};#$%&*()`~]/.test(e.key)){
+    if(/[<>/?+={};#$%&*()`~\\]/.test(e.key)){
      e.preventDefault();
     }
    };
