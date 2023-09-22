@@ -20,6 +20,7 @@ function useStorage(key, defaultValue, storageObject) {
   const [value, setValue] = useState(() => {
     const jsonValue = storageObject.getItem(key);
     if (jsonValue != null) {
+      let parseJSON = null;
       try{
         parseJSON = JSON.parse(jsonValue);
       }catch(error){
