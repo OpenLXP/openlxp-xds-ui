@@ -61,7 +61,7 @@ export default function Header() {
                 id={'homepage-button'}
                 className={'cursor-pointer'}
               >
-                <Image src={logo} alt={'home'} height={'60'} width={'60'} />
+                <Image src={logo} alt={'home'} height={'60'} width={'60'} priority={true}/>
               </button>
             </Link>
             {menuItems.map((item) => {
