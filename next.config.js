@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
@@ -18,6 +20,10 @@ const nextConfig = {
                     {
                         key: 'Referrer-Policy',
                         value: 'origin-when-cross-origin',
+                    },
+                    {
+                        key: 'Content-Security-Policy',
+                        value: process.env.CSP_HEADERS,
                     },
                 ],
             },
