@@ -60,7 +60,7 @@ export default function Login() {
     <DefaultLayout>
       <div className={'pb-32'}>
         <div className='mt-10 mx-52 flex flex-col items-center justify-between'>
-          <Image src={logo} alt={'home'} height={'200'} width={'200'} />
+          <Image src={logo} alt={'home'} height={'200'} width={'200'} priority={true}/>
           <p className={'mt-2 text-2xl font-extrabold '}>
             Sign in to your account
           </p>
