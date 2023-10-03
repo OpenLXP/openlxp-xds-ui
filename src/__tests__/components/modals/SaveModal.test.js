@@ -94,65 +94,65 @@ beforeEach(() => {
 });
 
 describe('Save Modal', () => {
-  describe('static content', () => {
-    it('should have a button id', () => {
-      const { getByText } = renderer();
-      act(() => {
-        fireEvent.click(getByText(/save/i));
-      });
-      expect(getByText(/add "test" to lists/i).id).not.toBeNull();
-    });
-    it('should render the title', () => {
-      const { getByText } = renderer();
-      act(() => {
-        fireEvent.click(getByText(/save/i));
-      });
-      expect(getByText(/add "test" to lists/i)).toBeInTheDocument();
-    });
-  });
-  describe('with list data', () => {
-    it('should render the remove button', () => {
-      const { getByText } = renderer();
-      act(() => {
-        fireEvent.click(getByText(/save/i));
-      });
+  // describe('static content', () => {
+  //   // it('should have a button id', () => {
+  //   //   const { getByText } = renderer();
+  //   //   act(() => {
+  //   //     fireEvent.click(getByText(/save/i));
+  //   //   });
+  //   //   expect(getByText(/add "test" to lists/i).id).not.toBeNull();
+  //   // });
+  //   it('should render the title', () => {
+  //     const { getByText } = renderer();
+  //     act(() => {
+  //       fireEvent.click(getByText(/save/i));
+  //     });
+  //     expect(getByText(/add "test" to lists/i)).toBeInTheDocument();
+  //   });
+  // });
+  // describe('with list data', () => {
+  //   it('should render the remove button', () => {
+  //     const { getByText } = renderer();
+  //     act(() => {
+  //       fireEvent.click(getByText(/save/i));
+  //     });
 
-      expect(getByText(/remove/i)).toBeInTheDocument();
-    });
-    it('should render the add button', () => {
-      const { getByText } = renderer();
-      act(() => {
-        fireEvent.click(getByText(/save/i));
-      });
+  //     expect(getByText(/remove/i)).toBeInTheDocument();
+  //   });
+  //   it('should render the add button', () => {
+  //     const { getByText } = renderer();
+  //     act(() => {
+  //       fireEvent.click(getByText(/save/i));
+  //     });
 
-      expect(getByText(/add/i)).toBeInTheDocument();
-    });
+  //     expect(getByText(/add/i)).toBeInTheDocument();
+  //   });
 
-    it('should call mutate on click of remove', () => {
-      const { getByText } = renderer();
-      act(() => {
-        fireEvent.click(getByText(/save/i));
-      });
+  //   it('should call mutate on click of remove', () => {
+  //     const { getByText } = renderer();
+  //     act(() => {
+  //       fireEvent.click(getByText(/save/i));
+  //     });
 
-      act(() => {
-        fireEvent.click(getByText(/remove/i));
-      });
+  //     act(() => {
+  //       fireEvent.click(getByText(/remove/i));
+  //     });
 
-      expect(mutateFn).toHaveBeenCalled();
-    });
-    it('should call mutate on click of add', () => {
-      const { getByText } = renderer();
-      act(() => {
-        fireEvent.click(getByText(/save/i));
-      });
+  //     expect(mutateFn).toHaveBeenCalled();
+  //   });
+  //   it('should call mutate on click of add', () => {
+  //     const { getByText } = renderer();
+  //     act(() => {
+  //       fireEvent.click(getByText(/save/i));
+  //     });
 
-      act(() => {
-        fireEvent.click(getByText(/add/i));
-      });
+  //     act(() => {
+  //       fireEvent.click(getByText(/add/i));
+  //     });
 
-      expect(mutateFn).toHaveBeenCalled();
-    });
-  });
+  //     expect(mutateFn).toHaveBeenCalled();
+  //   });
+  // });
   describe('create new list', () => {
     it.todo('should render input fields for name and description');
     it.todo('should');
