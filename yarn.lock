@@ -4387,7 +4387,7 @@ next@12.1.0:
   dependencies:
     "@next/env" "12.1.0"
     caniuse-lite "^1.0.30001283"
-    postcss "^8.4.5"
+    postcss "8.4.5"
     styled-jsx "5.0.0"
     use-subscription "1.5.1"
   optionalDependencies:
