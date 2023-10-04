@@ -4,23 +4,23 @@ import React from 'react';
 
 export default function Footer({ location }) {
   const leftLinks = [
-    { name: 'DOD Home Page', url: 'https://www.defense.gov/' },
-    { name: 'About ADL', url: 'https://adlnet.gov/about/' },
-    { name: 'Web Policy', url: 'https://dodcio.defense.gov/DoD-Web-Policy/' },
+    { name: 'DOD Home Page', url: 'https://www.defense.gov/', number: 1 },
+    { name: 'About ADL', url: 'https://adlnet.gov/about/', number:2 },
+    { name: 'Web Policy', url: 'https://dodcio.defense.gov/DoD-Web-Policy/', number:3 },
   ];
   const rightLinks = [
     {
       name: 'Privacy',
-      url: 'https://dodcio.defense.gov/Home/Privacy-Policy.aspx',
+      url: 'https://dodcio.defense.gov/Home/Privacy-Policy.aspx', number:4
     },
-    { name: 'Contact US', url: 'https://dodcio.defense.gov/Contact/' },
+    { name: 'Contact US', url: 'https://dodcio.defense.gov/Contact/', number:5 },
   ];
 
   const makeExternalLinks = (links) =>
     links.map((link, index) => {
       return (
         <a
-          key={index}
+          key={link.number}
           className='text-center text-gray-500 text-base p-1 hover:text-gray-900 h-auto hover:text-shadow-md transform transition-all duration-75 ease-in-out'
           href={link.url}
         >
