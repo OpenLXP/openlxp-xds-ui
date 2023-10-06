@@ -11,8 +11,9 @@ export function useLocalStorage(key, defaultValue) {
 }
 
 export function useSessionStorage(key, defaultValue) {
+  const useSession = useStorage(key, defaultValue, window.sessionStorage)
   if (typeof window !== 'undefined') {
-    return useStorage(key, defaultValue, window.sessionStorage);
+    return useSession;
   }
   return [defaultValue]
 }
