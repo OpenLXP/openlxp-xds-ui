@@ -7,6 +7,11 @@ import {
 } from '@heroicons/react/outline';
 import { useCallback, useMemo } from 'react';
 
+import CourseSpotlight from '@/components/cards/CourseSpotlight';
+import Footer from '@/components/Footer';
+import Header from '@/components/Header';
+import SaveModalCoursePage from '@/components/modals/SaveModalCoursePage';
+import ShareButton from '@/components/buttons/ShareBtn';
 import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '@/contexts/AuthContext';
@@ -15,11 +20,6 @@ import { useCourse } from '@/hooks/useCourse';
 import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
 import { useRouter } from 'next/router';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
-import CourseSpotlight from '@/components/cards/CourseSpotlight';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
-import SaveModalCoursePage from '@/components/modals/SaveModalCoursePage';
-import ShareButton from '@/components/buttons/ShareBtn';
 
 function RelatedCourses({ id }) {
   const moreLikeThis = useMoreCoursesLikeThis(id);
@@ -32,7 +32,7 @@ function RelatedCourses({ id }) {
       <div className='flex justify-center w-full overflow-x-hidden my-10 max-w-7xl mx-auto'>
         <div className='inline-flex overflow-x-auto gap-2 py-4 custom-scroll '>
           {moreLikeThis.data?.hits?.map((course, index) => (
-            course['number']=index
+            course['number']=index,
             <CourseSpotlight course={course} key={course.number} />
           ))}
         </div>
