@@ -2,22 +2,6 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
-export function useLocalStorage(key, defaultValue) {
-  const useLocal = useStorage(key, defaultValue, window.localStorage)
-  if (typeof window !== 'undefined') {
-    return useLocal;
-  }
-  return [defaultValue]
-}
-
-export function useSessionStorage(key, defaultValue) {
-  const useSession = useStorage(key, defaultValue, window.sessionStorage)
-  if (typeof window !== 'undefined') {
-    return useSession;
-  }
-  return [defaultValue]
-}
-
 function useStorage(key, defaultValue, storageObject) {
   const [value, setValue] = useState(() => {
     const jsonValue = storageObject.getItem(key);
@@ -40,4 +24,20 @@ function useStorage(key, defaultValue, storageObject) {
   }, []);
 
   return [value, setValue, remove];
+}
+
+export function useLocalStorage(key, defaultValue) {
+  if (typeof window !== 'undefined') {
+    const useLocal = useStorage(key, defaultValue, localStorage)
+    return useLocal;
+  }
+  return [defaultValue]
+}
+
+export function useSessionStorage(key, defaultValue) {
+  if (typeof window !== 'undefined') {
+    const useSession = useStorage(key, defaultValue, sessionStorage)
+    return useSession;
+  }
+  return [defaultValue]
 }
