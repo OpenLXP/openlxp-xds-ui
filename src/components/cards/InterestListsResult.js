@@ -1,7 +1,7 @@
 'use strict';
 
 export default function InterestListsResult({interestList, isSubscribed, onSubscribe, onUnsubscribe}) {
-  const {name, description} = interestList;
+  const {name, description, experiences, subscribers} = interestList;
 
   return (
     <div className='w-full flex'>

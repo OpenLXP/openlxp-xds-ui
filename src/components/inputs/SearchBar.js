@@ -4,7 +4,7 @@ import { SearchIcon, XIcon } from '@heroicons/react/solid';
 
 export default function SearchBar({ parameters, onChange, onClick, onReset }) {
   const checkSpecialChar = (e) => {
-    if(/[<>/?+={};#$%&*()`~]/.test(e.key)){
+    if(/[<>/?+={};#$%&*()`~\\]/.test(e.key)){
      e.preventDefault();
     }
   };

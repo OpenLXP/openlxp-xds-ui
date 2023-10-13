@@ -113,7 +113,7 @@ export default function SaveModal({ courseId, title }) {
   const openModal = () => setIsOpen(true);
 
   const checkSpecialChar =(e)=>{
-    if(/[<>/?+={};#$*`~]/.test(e.key)){
+    if(/[<>/?+={};#$*`~\\]/.test(e.key)){
      e.preventDefault();
     }
    };

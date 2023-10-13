@@ -11,7 +11,7 @@ export default function InputField({
   required,
 }) {
   const checkSpecialChar =(e)=>{
-    if(/[<>/?+={};#$%&*()`~]/.test(e.key)){
+    if(/[<>/?+={};#$%&*()`~\\]/.test(e.key)){
      e.preventDefault();
     }
    };
