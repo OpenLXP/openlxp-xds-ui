@@ -7,11 +7,6 @@ import {
 } from '@heroicons/react/outline';
 import { useCallback, useMemo } from 'react';
 
-import CourseSpotlight from '@/components/cards/CourseSpotlight';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
-import SaveModalCoursePage from '@/components/modals/SaveModalCoursePage';
-import ShareButton from '@/components/buttons/ShareBtn';
 import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '@/contexts/AuthContext';
@@ -20,6 +15,11 @@ import { useCourse } from '@/hooks/useCourse';
 import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
 import { useRouter } from 'next/router';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
+import CourseSpotlight from '@/components/cards/CourseSpotlight';
+import Footer from '@/components/Footer';
+import Header from '@/components/Header';
+import SaveModalCoursePage from '@/components/modals/SaveModalCoursePage';
+import ShareButton from '@/components/buttons/ShareBtn';
 
 function RelatedCourses({ id }) {
   const moreLikeThis = useMoreCoursesLikeThis(id);
