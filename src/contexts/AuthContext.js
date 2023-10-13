@@ -1,8 +1,9 @@
 'use strict';
 
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+
 import { axiosInstance } from '@/config/axiosConfig';
 import { backendHost } from '../config/endpoints';
-import { createContext, useContext, useEffect, useState } from 'react';
 import { useSessionStorage } from '../hooks/useStorage';
 
 export const AuthContext = createContext({});
@@ -55,9 +56,9 @@ export function AuthProvider({ children }) {
         });
     }
   };
-
+  const logindetails = useMemo(() => ({ user, error, register, login, logout }),[]);
   return (
-    <AuthContext.Provider value={{ user, error, register, login, logout }}>
+    <AuthContext.Provider value={logindetails}>
       {children}
     </AuthContext.Provider>
   );
