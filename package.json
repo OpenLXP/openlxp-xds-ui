@@ -30,6 +30,8 @@
     "coverage": "jest --watchAll --coverage --verbose --noStackTrace --silent --maxWorkers=50%"
   },
   "devDependencies": {
+    "@babel/core": "^7.23.2",
+    "@babel/preset-react": "^7.22.15",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/react-hooks": "^7.0.2",
