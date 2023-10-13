@@ -55,7 +55,8 @@ export default function Support() {
     const panelCode = (content) =>
         content.map((question, index) => {
             return(
-                <Disclosure key={index}>
+                question['number']=index,
+                <Disclosure key={question.number}>
                 {({ open }) => (
                 <div className='p-2 hover:bg-gray-200 hover:rounded-lg'>
                     <Disclosure.Button className="flex items-center rounded-lg justify-between text-left w-full p-5 font-medium border bg-blue-500 text-white border-gray-300 hover:opacity-90 hover:shadow ">

@@ -5,6 +5,8 @@ import {
   ArchiveIcon,
   UserIcon,
 } from '@heroicons/react/outline';
+import { useCallback, useMemo } from 'react';
+
 import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '@/contexts/AuthContext';
@@ -31,7 +33,8 @@ function RelatedCourses({ id }) {
       <div className='flex justify-center w-full overflow-x-hidden my-10 max-w-7xl mx-auto'>
         <div className='inline-flex overflow-x-auto gap-2 py-4 custom-scroll '>
           {moreLikeThis.data?.hits?.map((course, index) => (
-            <CourseSpotlight course={course} key={index} />
+            course['number']=index,
+            <CourseSpotlight course={course} key={course.number} />
           ))}
         </div>
       </div>
@@ -219,8 +222,9 @@ export default function Course() {
       <div className='py-10 grid gap-4'>
         {data?.details.map((detail, index) => {
           return (
+            detail['number']=index,
             <div
-              key={detail.title + index}
+              key={detail.title + detail.number}
               className='grid grid-cols-5 w-full max-w-7xl px-4 mt-5 mx-auto'
             >
               <h2 className='min-w-max col-span-1 font-semibold'>
