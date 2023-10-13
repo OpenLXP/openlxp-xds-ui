@@ -8,15 +8,16 @@ import {
   XCircleIcon,
   XIcon,
 } from '@heroicons/react/outline';
-import { Switch } from '@headlessui/react';
-import { useAuth } from '@/contexts/AuthContext';
 import { useEffect, useMemo, useState } from 'react';
+
+import DefaultLayout from '@/components/layouts/DefaultLayout';
+import PublicPrivateToggle from '@/components/inputs/PublicPrivateToggle';
+import { Switch } from '@headlessui/react';
+import prepareListDataToSend from '@/utils/prepListDataToSend';
+import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserList } from '@/hooks/useUserList';
-import DefaultLayout from '@/components/layouts/DefaultLayout';
-import PublicPrivateToggle from '@/components/inputs/PublicPrivateToggle';
-import prepareListDataToSend from '@/utils/prepListDataToSend';
 
 export function getServerSideProps({ query }) {
   return {
@@ -83,12 +84,12 @@ export default function EditList({ listId }) {
     router.push(`/course/${id}`);
   };
 
-  const toggleListVisibility = () => {
-    setCurrentListInfo((prev) => ({
-      ...prev,
-      public: !prev.public,
-    }));
-  };
+  // const toggleListVisibility = () => {
+  //   setCurrentListInfo((prev) => ({
+  //     ...prev,
+  //     public: !prev.public,
+  //   }));
+  // };
 
   const removeCourse = (id) => {
     setCurrentListInfo((prev) => {
