@@ -5,7 +5,15 @@ import { useCallback, useEffect, useState } from 'react';
 function useStorage(key, defaultValue, storageObject) {
   const [value, setValue] = useState(() => {
     const jsonValue = storageObject.getItem(key);
-    if (jsonValue != null) return JSON.parse(jsonValue);
+    if (jsonValue != null) {
+      let parseJSON = null;
+      try{
+        parseJSON = JSON.parse(jsonValue);
+      }catch(error){
+        console.log("Storage parsing was not able to be processed!")
+      }
+      return parseJSON;
+    }
 
     if (typeof initialValue === 'function') {
       return defaultValue();

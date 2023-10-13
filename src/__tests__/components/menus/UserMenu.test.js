@@ -49,7 +49,7 @@ describe('User Menu', () => {
       expect(singletonRouter).toMatchObject({
         asPath: '/lists/subscribed',
       });
-      
+
       fireEvent.click(button);
       expect(screen.getByText(/Saved Search/i)).toBeInTheDocument();
       fireEvent.click(screen.getByText(/Saved Search/i));

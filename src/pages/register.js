@@ -19,13 +19,13 @@ import {
 } from '@/utils/validation';
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { useConfig } from '@/hooks/useConfig';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '@/public/logo.png';
+import { useConfig } from '@/hooks/useConfig';
 
 function validateEmail (email, setEmailError, setError) {
   if (email === '') {
@@ -237,7 +237,7 @@ export default function Register() {
   return (
     <DefaultLayout>
       <div className='text-center mt-10'>
-        <Image src={logo} alt='logo' width={100} height={100} />
+        <Image src={logo} alt='logo' width={100} height={100} priority={true}/>
         <h1 className='font-bold text-xl'>Create your account</h1>
         <p className='text-sm'>
           or&nbsp;
