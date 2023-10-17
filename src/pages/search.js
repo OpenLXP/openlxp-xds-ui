@@ -14,6 +14,7 @@ import MoreLikeThis from '@/components/cards/MoreLikeThis';
 import SearchBar from '@/components/inputs/SearchBar';
 import SearchResult from '@/components/cards/SearchResult';
 import SelectList from '@/components/inputs/SelectList';
+import myDefaultLoader from '@/utils/customLoader';
 
 export default function Search() {
   const router = useRouter();

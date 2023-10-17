@@ -26,6 +26,7 @@ import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '@/public/logo.png';
+import myDefaultLoader from '@/utils/customLoader';
 
 function validateEmail (email, setEmailError, setError) {
   if (email === '') {

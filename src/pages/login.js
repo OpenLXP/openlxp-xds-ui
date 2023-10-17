@@ -11,6 +11,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import logo from '@/public/logo.png';
+import myDefaultLoader from '@/utils/customLoader';
 
 export default function Login() {
   const router = useRouter();
