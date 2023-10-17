@@ -1,18 +1,20 @@
 'use strict';
 
-import { useAuth } from '@/contexts/AuthContext';
-import { useRouter } from 'next/router';
-import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
+import React, { useCallback } from 'react';
+
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
 import Footer from '@/components/Footer';
 import Head from 'next/head'
 import Header from '@/components/Header';
 import Image from 'next/image';
-import React, { useCallback } from 'react';
 import SearchBar from '@/components/inputs/SearchBar';
 import logo from '@/public/logo.png';
+import myDefaultLoader from '@/utils/customLoader';
+import { useAuth } from '@/contexts/AuthContext';
 import useField from '@/hooks/useField';
+import { useRouter } from 'next/router';
 import useSpotlightCourses from '@/hooks/useSpotlightCourses';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 
 export default function Home() {
   const router = useRouter();
