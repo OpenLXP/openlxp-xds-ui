@@ -1,6 +1,8 @@
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
+    basePath: '/ecc-openlxp-xds-ui',
+
     // Adding policies:
     async headers() {
         return [
