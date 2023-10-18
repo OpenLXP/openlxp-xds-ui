@@ -2,12 +2,7 @@ const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
     basePath: '/ecc-openlxp-xds-ui',
-    images: {
-        // Specify a custom loader to adjust the image URL
-        loader: 'default', // or 'imgix' or 'cloudinary', depending on your configuration
-        path: '/.next/static/media', // Your new base path
-      },
-
+    
     // Adding policies:
     async headers() {
         return [
