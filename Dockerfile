@@ -12,7 +12,7 @@ WORKDIR /app
 COPY . .
 COPY node_modules ./node_modules
 RUN yarn build
-COPY ./_next/static/media/ /ecc-openlxp-xds-ui/_next/static/media/
+COPY ./.next/static/media/ /ecc-openlxp-xds-ui/.next/static/media/
 USER node
 
 # Production image, copy all the files and run next
