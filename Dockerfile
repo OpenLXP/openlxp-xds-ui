@@ -42,6 +42,7 @@ RUN chown -R node:node /app/.next/cache/images
 RUN sed -i 's/image?url=%2Fecc-openlxp-xds-ui/image?url=/g' /app/.next/server/pages/**/*.html
 RUN sed -i 's/image?url=%2Fecc-openlxp-xds-ui/image?url=/g' /app/.next/server/pages/*.html
 RUN sed -i 's+encodeURIComponent(n)+encodeURIComponent(n.replace("/ecc-openlxp-xds-ui", ""))+g' /app/.next/static/**/*.js
+RUN sed -i 's/var d = .*/var d = "https:\/\/ecc.staging.dso.mil\/ecc-openlxp-xds";/g' /app/_app*.js
 
 
 #USER nextjs
