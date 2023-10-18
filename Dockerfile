@@ -10,6 +10,7 @@ FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.20.2 AS builder
 USER root
 WORKDIR /app
 COPY . .
+RUN sed -i 's/export const backendHost = process.env.NEXT_PUBLIC_BACKEND_HOST;/export const backendHost = "https:\/\/ecc.staging.dso.mil\/ecc-openlxp-xds";/' ./src/config/endpoints.js
 COPY node_modules ./node_modules
 RUN yarn build
 USER node
@@ -42,7 +43,6 @@ RUN chown -R node:node /app/.next/cache/images
 RUN sed -i 's/image?url=%2Fecc-openlxp-xds-ui/image?url=/g' /app/.next/server/pages/**/*.html
 RUN sed -i 's/image?url=%2Fecc-openlxp-xds-ui/image?url=/g' /app/.next/server/pages/*.html
 RUN sed -i 's+encodeURIComponent(n)+encodeURIComponent(n.replace("/ecc-openlxp-xds-ui", ""))+g' /app/.next/static/**/*.js
-RUN sed -i 's/var d = .*/var d = "https:\/\/ecc.staging.dso.mil\/ecc-openlxp-xds";/g' /app/_app*.js
 
 
 #USER nextjs
