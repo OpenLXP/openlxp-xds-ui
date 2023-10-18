@@ -12,7 +12,6 @@ WORKDIR /app
 COPY . .
 COPY node_modules ./node_modules
 RUN yarn build
-COPY .next/static/media/ /ecc-openlxp-xds-ui/.next/static/media/
 USER node
 
 # Production image, copy all the files and run next
@@ -33,6 +32,7 @@ ENV NODE_ENV production
 #COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
 COPY --from=builder /app/src/public ./public
 COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/.next/static/media /ecc-openlxp-xds-ui/.next/static/media/
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 USER root
