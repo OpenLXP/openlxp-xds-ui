@@ -12,7 +12,6 @@ import Header from '@/components/Header';
 import Image from 'next/image';
 import SearchBar from '@/components/inputs/SearchBar';
 import logo from '@/public/logo.png';
-import myDefaultLoader from '@/utils/customLoader';
 import useField from '@/hooks/useField';
 import useSpotlightCourses from '@/hooks/useSpotlightCourses';
 
