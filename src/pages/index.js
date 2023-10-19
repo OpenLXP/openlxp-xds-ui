@@ -11,7 +11,7 @@ import Head from 'next/head'
 import Header from '@/components/Header';
 import Image from 'next/image';
 import SearchBar from '@/components/inputs/SearchBar';
-import logo from './src/public/logo.png'
+import logo from '@/public/logo.png';
 import useField from '@/hooks/useField';
 import useSpotlightCourses from '@/hooks/useSpotlightCourses';
 
