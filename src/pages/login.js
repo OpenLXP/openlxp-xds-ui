@@ -2,16 +2,16 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { LoginIcon } from '@heroicons/react/outline';
-import { authLogin } from '@/config/endpoints';
-import { axiosInstance } from '@/config/axiosConfig';
-import { useAuth } from '@/contexts/AuthContext';
-import { useConfig } from '@/hooks/useConfig';
-import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Image from 'next/image';
 import Link from 'next/link';
-import logo from '@public/logo.png';
+import { LoginIcon } from '@heroicons/react/outline';
+import { authLogin } from '@/config/endpoints';
+import { axiosInstance } from '@/config/axiosConfig';
+import logo from '@/public/logo.png';
+import { useAuth } from '@/contexts/AuthContext';
+import { useConfig } from '@/hooks/useConfig';
+import { useRouter } from 'next/router';
 
 export default function Login() {
   const router = useRouter();
