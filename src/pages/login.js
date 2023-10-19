@@ -1,5 +1,7 @@
 'use strict';
 
+import React, { useEffect, useState } from 'react';
+
 import { LoginIcon } from '@heroicons/react/outline';
 import { authLogin } from '@/config/endpoints';
 import { axiosInstance } from '@/config/axiosConfig';
@@ -9,8 +11,7 @@ import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import logo from '@/public/logo.png';
+import logo from '@/ecc-openlxp-xds-ui/public/logo.png';
 import myDefaultLoader from '@/utils/customLoader';
 
 export default function Login() {

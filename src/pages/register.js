@@ -6,8 +6,6 @@ import {
   UserAddIcon,
   XCircleIcon,
 } from '@heroicons/react/outline';
-import { authRegister } from '@/config/endpoints';
-import { axiosInstance } from '@/config/axiosConfig';
 import {
   containsLowercase,
   containsNumber,
@@ -17,16 +15,18 @@ import {
   isLongEnough,
   isValidEmail,
 } from '@/utils/validation';
+import { useEffect, useState } from 'react';
+
+import { authRegister } from '@/config/endpoints';
+import { axiosInstance } from '@/config/axiosConfig';
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Image from 'next/image';
 import Link from 'next/link';
-import logo from '@/public/logo.png';
-import myDefaultLoader from '@/utils/customLoader';
+import logo from '@/ecc-openlxp-xds-ui/public/logo.png';
 
 function validateEmail (email, setEmailError, setError) {
   if (email === '') {
