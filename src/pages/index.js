@@ -53,6 +53,8 @@ export default function Home() {
     updateKeyValuePair(event.target.name, event.target.value);
   };
 
+  const imagePath = '/_next/static/media/logo.ed71202b.png';
+
   return (
     <>
       <Head>
@@ -61,7 +63,7 @@ export default function Home() {
       </Head>
       <Header />
       <div className='max-w-7xl mx-auto flex flex-col items-center justify-center mt-10'>
-        <Image src={"/_next/static/media/logo.ed71202b.png"} height={150} width={150} alt='' priority={true}/>
+        <Image src={imagePath} height={150} width={150} alt='' priority={true}/>
         <h1 className='text-3xl font-bold mt-4'>Enterprise Course Catalog</h1>
         <h2 className='text-xl font-sans mt-2'>Department of Defense</h2>
       </div>

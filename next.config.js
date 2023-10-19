@@ -2,11 +2,7 @@ const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
     basePath: '/ecc-openlxp-xds-ui',
-    assetPrefix: '/ecc-openlxp-xds-ui/', // Set this to your basePath
-    images: {
-        loader: 'imgix', // You can use 'imgix', 'cloudinary', or 'custom' as per your requirements.
-        path: '/',
-    },
+
     
     // Adding policies:
     async headers() {

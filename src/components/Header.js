@@ -46,6 +46,7 @@ function Button({ data }) {
 
 export default function Header() {
   const { user } = useAuth();
+  const imagePath = '/_next/static/media/logo.ed71202b.png';
   return (
     <header className={'bg-white w-full shadow z-50'}>
       <nav
@@ -61,7 +62,7 @@ export default function Header() {
                 id={'homepage-button'}
                 className={'cursor-pointer'}
               >
-                <Image src={"/_next/static/media/logo.ed71202b.png"} alt={'home'} height={'60'} width={'60'} priority={true}/>
+                <Image src={imagePath} alt={'home'} height={'60'} width={'60'} priority={true}/>
               </button>
             </Link>
             {menuItems.map((item) => {
