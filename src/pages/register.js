@@ -26,7 +26,7 @@ import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Image from 'next/image';
 import Link from 'next/link';
-import logo from './src/public/logo.png'
+import logo from '@/public/logo.png';
 
 function validateEmail (email, setEmailError, setError) {
   if (email === '') {
