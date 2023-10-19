@@ -1,11 +1,11 @@
 'use strict';
 
-import { useAuth } from '@/contexts/AuthContext';
-import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import UserMenu from '@/components/menus/UserMenu';
-import logo from '@/ecc-openlxp-xds-ui/public/logo.png';
+import logo from '@ecc-openlxp-xds-ui/public/logo.png';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/router';
 
 const menuItems = [
   {
