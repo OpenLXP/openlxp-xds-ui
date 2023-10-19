@@ -1,7 +1,6 @@
 'use strict';
 
 import DefaultLayout from '@/components/layouts/DefaultLayout';
-import myDefaultLoader from '@/utils/customLoader';
 
 export default function AboutECC() {
   return (
