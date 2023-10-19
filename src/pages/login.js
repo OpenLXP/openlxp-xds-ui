@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Image from 'next/image';
 import Link from 'next/link';
-import logo from '@/ecc-openlxp-xds-ui/public/logo.png';
+import logo from '@ecc-openlxp-xds-ui/public/logo.png';
 import myDefaultLoader from '@/utils/customLoader';
 
 export default function Login() {
