@@ -17,16 +17,16 @@ import {
 } from '@/utils/validation';
 import { useEffect, useState } from 'react';
 
+import DefaultLayout from '@/components/layouts/DefaultLayout';
+import Image from 'next/image';
+import Link from 'next/link';
 import { authRegister } from '@/config/endpoints';
 import { axiosInstance } from '@/config/axiosConfig';
+import logo from './src/public/logo.png'
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';
 import { useRouter } from 'next/router';
-import DefaultLayout from '@/components/layouts/DefaultLayout';
-import Image from 'next/image';
-import Link from 'next/link';
-import logo from '@/public/logo.png';
 
 function validateEmail (email, setEmailError, setError) {
   if (email === '') {
