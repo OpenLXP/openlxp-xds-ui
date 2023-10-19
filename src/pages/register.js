@@ -238,7 +238,7 @@ export default function Register() {
   return (
     <DefaultLayout>
       <div className='text-center mt-10'>
-        <Image src={logo} alt='logo' width={100} height={100} priority={true}/>
+        <Image src={"/_next/static/media/logo.ed71202b.png"} alt='logo' width={100} height={100} priority={true}/>
         <h1 className='font-bold text-xl'>Create your account</h1>
         <p className='text-sm'>
           or&nbsp;
