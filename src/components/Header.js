@@ -46,7 +46,9 @@ function Button({ data }) {
 
 export default function Header() {
   const { user } = useAuth();
+  
   const imagePath = '/_next/static/media/logo.ed71202b.png';
+
   return (
     <header className={'bg-white w-full shadow z-50'}>
       <nav
