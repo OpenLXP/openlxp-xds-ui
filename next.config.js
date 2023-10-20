@@ -26,6 +26,10 @@ const nextConfig = {
                         key: 'Strict-Transport-Security',
                         value: 'max-age=63072000; includeSubDomains; preload',
                     },
+                    {
+                        key: 'Content-Security-Policy',
+                        value: "script-src 'self' https://ecc.staging.dso.mil; img-src 'self' data: https:; script-src-elem 'self'; font-src 'self' https://fonts.gstatic.com",
+                    },
                 ],
             },
         ];
