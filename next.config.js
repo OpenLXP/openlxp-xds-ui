@@ -28,7 +28,7 @@ const nextConfig = {
                     },
                     {
                         key: 'Content-Security-Policy',
-                        value: "script-src 'self'; img-src 'self' data: https:; script-src-elem 'self'; font-src 'self' https://fonts.gstatic.com",
+                        value: "script-src 'self';",
                     },
                 ],
             },
