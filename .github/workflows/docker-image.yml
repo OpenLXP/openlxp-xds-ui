@@ -7,10 +7,12 @@ on:
     branches: 
       - main
       - dev
+      - Docker-CI-1
   pull_request:
     branches: 
       - main
       - dev
+      - Docker-CI-1
     types: [opened, synchronize, reopened]
 jobs:
   code-test:
