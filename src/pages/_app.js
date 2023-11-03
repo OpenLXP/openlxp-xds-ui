@@ -6,8 +6,8 @@ import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import React, { useState } from 'react';
 
 import { AuthProvider } from '../contexts/AuthContext';
-import Head from 'next/head'
 import { ReactQueryDevtools } from 'react-query/devtools';
+import Head from 'next/head'
 
 // contexts
 
