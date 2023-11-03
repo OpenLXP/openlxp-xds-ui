@@ -12,7 +12,6 @@ ENV NODE_ENV production
 WORKDIR /app
 COPY . .
 COPY node_modules ./node_modules
-ENV CSP_VALUE = 
 RUN yarn build
 USER node
 
