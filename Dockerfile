@@ -18,6 +18,7 @@ USER node
 # Production image, copy all the files and run next
 FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.20.2 AS runner
 USER node
+ENV NODE_ENV production
 WORKDIR /app
 
 COPY --from=builder /app/src/public ./public
@@ -25,7 +26,6 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/.next/static/media /ecc-openlxp-xds-ui/.next/static/media/
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/craco.config.js ./craco.config.js
 USER root
 RUN mkdir /app/.next/cache/images
 RUN chmod 777 /app/.next/cache/images

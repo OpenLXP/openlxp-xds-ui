@@ -6,8 +6,8 @@ import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import React, { useState } from 'react';
 
 import { AuthProvider } from '../contexts/AuthContext';
-import { ReactQueryDevtools } from 'react-query/devtools';
 import Head from 'next/head'
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 // contexts
 
@@ -16,7 +16,6 @@ import Head from 'next/head'
 
 export default function MyApp({ Component, pageProps }) {
   // to avoid sharing results from other users.
-  const cspValue = process.env.CSP_VALUE;
   const [queryClient] = useState(
     () =>
       new QueryClient({
