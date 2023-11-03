@@ -1,50 +1,35 @@
-const { createSecureHeaders } = require("next-secure-headers");
-
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
-    basePath: '/ecc-openlxp-xds-ui',
-
     // Adding policies:
     async headers() {
         return [
             {
                 source: '/(.*)',
-                headers: createSecureHeaders({
-                    contentSecurityPolicy: {
-                        directives: {
-                            defaultSrc: [
-                                "'self'",
-                                "https://ecc.staging.dso.mil",
-                                "https://ecc.staging.dso.mil/ecc-openlxp-xds/"
-                            ],
-                            styleSrc: [
-                                "'self'",
-                                "https://ecc.staging.dso.mil", 
-                                "https://fonts.googleapis.com"
-                            ],
-                            imgSrc: ["'self'",
-                                    "data:",
-                                    "data:*",
-                                    "https://www.jcs.mil",
-                                    "https://www.aetc.af.mil",
-                                    "https://prod-discovery.edx-cdn.org",
-                            ],
-                            fontSrc: [
-                                "'self'", 
-                                "https://fonts.gstatic.com"
-                            ]
-                        },
-                        frameGuard: "deny",
-                        noopen: "noopen",
-                        nosniff: "nosniff",
-                        xssProtection: "sanitize",
-                        referrerPolicy: "origin-when-cross-origin",
-                    }
-                })
+                headers: [
+                    {
+                        key: 'X-Frame-Options',
+                        value: 'DENY',
+                    },
+                    {
+                        key: 'X-Content-Type-Options',
+                        value: 'nosniff',
+                    },
+                    {
+                        key: 'Referrer-Policy',
+                        value: 'origin-when-cross-origin',
+                    },
+                    {
+                        key: 'Content-Security-Policy',
+                        // value: "script-src 'self' 3.145.42.127:* ; img-src 'self' data: https:; script-src-elem 'self'; font-src 'self' https://fonts.gstatic.com",
+                        value: "script-src 'self' https://unpkg.com https://ecc.staging.dso.mil https://ecc.staging.dso.mil/; img-src 'self' data: https: https://unpkg.com https://ecc.staging.dso.mil; "
+                    },
+
+                ],
             },
         ];
     },
 }
 
 module.exports = nextConfig
+

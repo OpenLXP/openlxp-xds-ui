@@ -8,9 +8,11 @@
 # Rebuild the source code only when needed
 FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.20.2 AS builder
 USER root
+ENV NODE_ENV production
 WORKDIR /app
 COPY . .
 COPY node_modules ./node_modules
+ENV CSP_VALUE = 
 RUN yarn build
 USER node
 
@@ -19,22 +21,12 @@ FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.20.2 AS runner
 USER node
 WORKDIR /app
 
-ENV NODE_ENV production
-
-#RUN addgroup -g 1001 -S nodejs
-#RUN adduser -S nextjs -u 1001
-
-# You only need to copy next.config.js if you are NOT using the default configuration
-#COPY --from=builder /app/next.config.js ./
-#COPY --from=builder --chown=nextjs:nodejs /app/src/public ./public
-#COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-#COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
-#COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
 COPY --from=builder /app/src/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/.next/static/media /ecc-openlxp-xds-ui/.next/static/media/
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/craco.config.js ./craco.config.js
 USER root
 RUN mkdir /app/.next/cache/images
 RUN chmod 777 /app/.next/cache/images
