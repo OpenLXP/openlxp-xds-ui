@@ -6,8 +6,8 @@ import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import React, { useState } from 'react';
 
 import { AuthProvider } from '../contexts/AuthContext';
-import { ReactQueryDevtools } from 'react-query/devtools';
 import Head from 'next/head'
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 // contexts
 
@@ -34,7 +34,7 @@ export default function MyApp({ Component, pageProps }) {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps['dehydratedState']}>
           <Head>
-            <meta httpEquiv="Content-Security-Policy" content="script-src 'self' https://unpkg.com https://ecc.staging.dso.mil https://ecc.staging.dso.mil/; img-src 'self' data: https: https://unpkg.com https://ecc.staging.dso.mil; "/>
+            <meta httpEquiv="Content-Security-Policy" content="script-src 'none'; img-src 'none'; "/>
             <title>Experience Discovery Service</title>
             <link rel="icon" href="/favicon.ico" />
           </Head>
