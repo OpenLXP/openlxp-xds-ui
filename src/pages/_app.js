@@ -14,9 +14,9 @@ import Head from 'next/head'
 
 // styles
 
-
 export default function MyApp({ Component, pageProps }) {
   // to avoid sharing results from other users.
+  const cspValue = process.env.CSP_VALUE;
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -34,7 +34,7 @@ export default function MyApp({ Component, pageProps }) {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps['dehydratedState']}>
           <Head>
-            <meta httpEquiv="Content-Security-Policy" content="script-src 'none'; img-src 'none'; "/>
+          <meta httpEquiv="Content-Security-Policy" content={cspValue} />
             <title>Experience Discovery Service</title>
             <link rel="icon" href="/favicon.ico" />
           </Head>
