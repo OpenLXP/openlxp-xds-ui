@@ -18,8 +18,10 @@ USER node
 # Production image, copy all the files and run next
 FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.20.2 AS runner
 USER node
-ENV NODE_ENV production
+
 WORKDIR /app
+
+ENV NODE_ENV production
 
 COPY --from=builder /app/src/public ./public
 COPY --from=builder /app/.next ./.next
