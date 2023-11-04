@@ -8,7 +8,6 @@
 # Rebuild the source code only when needed
 FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.20.2 AS builder
 USER root
-ENV NODE_ENV production
 WORKDIR /app
 COPY . .
 COPY node_modules ./node_modules
