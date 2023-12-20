@@ -4,6 +4,7 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
+    "@adobe/css-tools": "4.3.2",
     "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.5",
     "@tailwindcss/line-clamp": "^0.3.0",
