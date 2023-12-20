@@ -7,7 +7,7 @@ module.exports = defineConfig({
   
         // modify config values
         config.defaultCommandTimeout = 10000
-        config.baseUrl = Cypress.env('ZAP_URL')
+        // config.baseUrl = Cypress.env('ZAP_URL')
   
         // IMPORTANT return the updated config object
         return config
