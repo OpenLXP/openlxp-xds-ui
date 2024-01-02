@@ -30,7 +30,7 @@
     "lint": "next lint",
     "test:unit": "jest --coverage --watchAll=false",
     "coverage": "jest --watchAll --coverage --verbose --noStackTrace --silent --maxWorkers=50%",
-    "test:e2e-ci": "npx cypress run --browser chrome --config-file cypress/config/pipeline.config.js"
+    "test:e2e-ci": "CYPRESS_BASE_URL=${ZAP_URL} npx cypress run --browser chrome --config-file cypress/config/pipeline.config.js"
   },
   "devDependencies": {
     "@babel/core": "^7.23.2",
