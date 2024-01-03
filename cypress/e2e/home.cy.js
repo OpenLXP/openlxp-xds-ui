@@ -7,8 +7,9 @@ describe('homepage', () => {
         cy.visit('/')
     })
 
-    it('Take Screenshot of homepage', () => {
+    it('Take Screenshot of homepage and fail', () => {
         // Check the first primary menu link.
         cy.screenshot('homepage')
+        expect(true).to.be.false
     })
 })
