@@ -42,39 +42,18 @@ describe('homepage', () => {
     // check meta tag https://sdelements.il2.dso.mil/bunits/platform1/ecc/open-lxp-xds-ui/tasks/phase/testing/387-T132/
     // no-cache https://sdelements.il2.dso.mil/bunits/platform1/ecc/open-lxp-xds-ui/tasks/phase/testing/387-T112/
 
-    // it('Check no-cache headers', () => {
-    //     // Check for cache control in header set to no-cache
-    //     // ticket is for requests not responses????  need to figure out how to check requests
-    //     cy.request('/').its('headers').should('have.keys', 'Cache-Control').and('deep.equal', {'Cache-Control': 'no-cache'})
-    // })
     it('Check no-cache headers', () => {
         // Check for cache control in header set to no-cache
         // ticket is for requests not responses????  need to figure out how to check requests
-        cy.request('/')
-            .its('headers')
-            .and('include', 'content-encoding')
-            .and('include', 'content-type')
-            .and('include', 'date')
-            .and('include', 'etag')
-            .and('include', 'transfer-encoding')
-            .and('include', 'vary')
-            .and('include', 'x-powered-by');
+        cy.request('/').its('headers').should('have.keys', 'Cache-Control').and('deep.equal', {'Cache-Control': 'no-cache'})
     })
+
 
     // check CSP https://sdelements.il2.dso.mil/bunits/platform1/ecc/open-lxp-xds-ui/tasks/phase/testing/387-T332/
     
-    // it('Check CSP headers', () => {
-    //     // Check for CSP control in header set to no-cache
-    //     // ticket is for requests not responses????  need to figure out how to check requests
-    //     cy.request('/').its('headers').should('have.keys', 'Content-Security-Policy').and('deep.string', {'Content-Security-Policy': 'self'})
-    // })
     it('Check CSP headers', () => {
         // Check for CSP control in header set to no-cache
         // ticket is for requests not responses????  need to figure out how to check requests
-        cy.request('/')
-            .its('headers')
-            .should('include', 'Content-Security-Policy')
-            .and('have.property', 'Content-Security-Policy')
-            .and('eq', 'self');
-    });
+        cy.request('/').its('headers').should('have.keys', 'Content-Security-Policy').and('deep.string', {'Content-Security-Policy': 'self'})
+    })
 })
