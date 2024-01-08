@@ -51,15 +51,9 @@ describe('homepage', () => {
 
     // check CSP https://sdelements.il2.dso.mil/bunits/platform1/ecc/open-lxp-xds-ui/tasks/phase/testing/387-T332/
     
-    // it('Check CSP headers', () => {
-    //     // Check for CSP control in header set to no-cache
-    //     // ticket is for requests not responses????  need to figure out how to check requests
-    //     cy.request('/').its('headers').should('have.keys', 'Content-Security-Policy').and('deep.string', {'Content-Security-Policy': 'self'})
-    // })
-    it('Check for CSP Headers', () => {
-        cy.request('/')
-          .its('headers')
-          .should('have.property', 'content-security-policy')
-          .should('include', "default-src 'self'")
+    it('Check CSP headers', () => {
+        // Check for CSP control in header set to no-cache
+        // ticket is for requests not responses????  need to figure out how to check requests
+        cy.request('/').its('headers').should('have.keys', 'Content-Security-Policy').and('deep.string', {'Content-Security-Policy': 'self'})
     })
 })
