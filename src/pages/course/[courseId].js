@@ -265,7 +265,7 @@ export default function Course() {
         </div>
       </div>
       {/* Extra Details */}
-      <div className='py-10 grid gap-4'>
+      <div className='py-4 grid'>
         {data?.details.map((detail, index) => {
           return (
             <div
