@@ -8,7 +8,7 @@ import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';
 import { useCourse } from '@/hooks/useCourse';
-import { getDerivedCourses } from '@/hooks/useDerivedCourses';
+import { useDerivedCourse } from '@/hooks/useDerivedCourses';
 import { useMemo, useCallback } from 'react';
 import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
 import { useRouter } from 'next/router';
@@ -41,24 +41,40 @@ function RelatedCourses({ id }) {
 
 function DerivedCourses({ id, derivedCourses }) {
   // const derivedCourses = derivedCourses
-  console.log(derivedCourses);
+  console.log("data", derivedCourses.data?.hits);
+
+
   return (
     <>
       <div className='bg-gray-200 mt-10 font-bold block font-sans p-4 '>
         <div className='w-full gap-10 max-w-7xl mx-auto'>Derived Courses</div>
       </div>
-
-      <div className=' w-full my-10 max-w-7xl mx-auto'>
-        {/* id: {id} */}
+      
+      <div className=' w-full my-6 max-w-7xl mx-auto'>
+        <strong className='text-gray-600 text-lg'>{derivedCourses.data?.hits.length} total courses</strong>
+        <p className='my-2'> These are additional resourses for reference. </p>
+      
         {derivedCourses?.data?.hits?.map((course, index) => (
-            <Accordion title={course.course_title}/>
+            <Accordion key={index} title={course.Course?.CourseTitle}
+            content={<>
+              <div className='flex flex-col '>
+                <div className='py-4'>
+                  <strong>Course Code: </strong>{course.Course.CourseCode}
+                </div>
+                <div>
+                  <strong>Description: </strong>{course.Course.CourseShortDescription}
+                </div>
+                <div className='py-4 '>
+                  <strong className=''>Start Date: </strong>{(course.Course_Instance.StartDate).replace(' ', '').split('T')[0]}
+                  <strong className='ml-8'>End Date: </strong>{(course.Course_Instance.EndDate).replace(' ', '').split('T')[0]}
+                  <strong className='ml-8'>Instructor: </strong>{course.Course_Instance.Instructor}
+                  <strong className='ml-8'>Delivery Mode: </strong>{course.Course_Instance.DeliveryMode || "Not Available"}
+
+                </div>
+              </div>
+            </>}/>
           ))}
 
-        {/* <div className='inline-flex overflow-x-auto gap-2 py-4 custom-scroll '>
-          {moreLikeThis.data?.hits?.map((course, index) => (
-            <CourseSpotlight course={course} key={index} />
-          ))}
-        </div> */}
       </div>
     </>
   );
@@ -70,10 +86,11 @@ export default function Course() {
 
   // state of the fetching
   const course = useCourse(router.query?.courseId);
+  // console.log("course", course)
   const config = useConfig();
-  const derivedCourses = getDerivedCourses(course.data?.Course.CourseCode);
-  console.log(derivedCourses);
-  console.log(derivedCourses?.hits);
+  const derivedCourses = useDerivedCourse(course.data?.Course.CourseCode);
+  // console.log("derivedcourse", derivedCourses);
+  // console.log("hits", derivedCourses?.hits);
 
   //prepare the derived course data
   // const courseData = 
