@@ -47,6 +47,9 @@ function DerivedCourses({ id, derivedCourses }) {
   // const derivedCourses = derivedCourses
   console.log("data", derivedCourses.data?.hits);
 
+  if(derivedCourses.data?.hits.length == 0){
+    return (<></>)
+  }
 
   return (
     <>
