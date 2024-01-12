@@ -11,7 +11,7 @@ export default function Accordion({ title, content, className }) {
     return (
         <Disclosure>
         {({ open }) => (
-            <div className='p-2 hover:bg-gray-200 hover:rounded-lg'>
+            <div className='hover:bg-gray-200 hover:rounded-lg'>
                 <Disclosure.Button className={'flex items-center rounded-lg justify-between text-left w-full p-5 font-medium border border-gray-300 hover:opacity-90 hover:shadow'}>
                     {title}
                     <ChevronDownIcon className={`w-6 h-6 ${open ? "transform rotate-180" : ""} `} />

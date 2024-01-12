@@ -19,10 +19,14 @@ import Header from '@/components/Header';
 import SaveModalCoursePage from '@/components/modals/SaveModalCoursePage';
 import ShareButton from '@/components/buttons/ShareBtn';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
+import { useState } from 'react';
 
 function RelatedCourses({ id }) {
   const moreLikeThis = useMoreCoursesLikeThis(id);
   if (moreLikeThis?.data?.hits < 1) return null;
+
+  const [showMoreFlag, setShowmMoreFlag] = useState(false);
+
   return (
     <>
       <div className='bg-gray-200 mt-10 font-bold block font-sans p-4 '>
