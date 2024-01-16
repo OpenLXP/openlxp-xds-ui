@@ -25,8 +25,6 @@ function RelatedCourses({ id }) {
   const moreLikeThis = useMoreCoursesLikeThis(id);
   if (moreLikeThis?.data?.hits < 1) return null;
 
-  const [showMoreFlag, setShowmMoreFlag] = useState(false);
-
   return (
     <>
       <div className='bg-gray-200 mt-10 font-bold block font-sans p-4 '>
@@ -44,8 +42,7 @@ function RelatedCourses({ id }) {
 }
 
 function DerivedCourses({ id, derivedCourses }) {
-  // const derivedCourses = derivedCourses
-  console.log("data", derivedCourses.data?.hits);
+  const [showContent, setShowContent] = useState(false);
 
   if(derivedCourses.data?.hits.length == 0){
     return (<></>)
@@ -61,7 +58,7 @@ function DerivedCourses({ id, derivedCourses }) {
         <strong className='text-gray-600 text-lg'>{derivedCourses.data?.hits.length} total courses</strong>
         <p className='my-2'> These are additional resourses for reference. </p>
       
-        {derivedCourses?.data?.hits?.map((course, index) => (
+        {derivedCourses?.data?.hits?.slice(0, 5).map((course, index) => (
             <Accordion key={index} title={course.Course?.CourseTitle}
             content={<>
               <div className='flex flex-col '>
@@ -81,7 +78,36 @@ function DerivedCourses({ id, derivedCourses }) {
               </div>
             </>}/>
           ))}
+        {derivedCourses.data?.hits.length > 5 && !showContent && <button
+          onClick={()=>{setShowContent(true)}}
+          className='flex my-4 items-center gap-2 w-full border border-gray-300 whitespace-nowrap p-2 text-center text-gray-800 rounded-lg hover:bg-gray-200 font-medium transform transition-all duration-75 ease-in-out focus:ring-2 ring-blue-400 outline-none'
+        > Show {derivedCourses.data?.hits.length-5} More Courses... </button>}
 
+        {showContent && 
+          derivedCourses?.data?.hits?.slice(5, derivedCourses.data?.hits.length).map((course, index) => (
+            <Accordion key={index} title={course.Course?.CourseTitle}
+            content={<>
+              <div className='flex flex-col '>
+                <div className='py-4'>
+                  <strong>Course Code: </strong>{course.Course.CourseCode}
+                </div>
+                <div>
+                  <strong>Description: </strong>{course.Course.CourseShortDescription}
+                </div>
+                <div className='py-4 '>
+                  <strong className=''>Start Date: </strong>{(course.Course_Instance.StartDate).replace(' ', '').split('T')[0]}
+                  <strong className='ml-8'>End Date: </strong>{(course.Course_Instance.EndDate).replace(' ', '').split('T')[0]}
+                  <strong className='ml-8'>Instructor: </strong>{course.Course_Instance.Instructor}
+                  <strong className='ml-8'>Delivery Mode: </strong>{course.Course_Instance.DeliveryMode || "Not Available"}
+
+                </div>
+              </div>
+            </>}/>
+          ))}
+        {showContent && <button
+          onClick={()=>{setShowContent(false)}}
+          className='flex my-4 items-center gap-2 w-full border border-gray-300 whitespace-nowrap p-2 text-center text-gray-800 rounded-lg hover:bg-gray-200 font-medium transform transition-all duration-75 ease-in-out focus:ring-2 ring-blue-400 outline-none'
+        > Show Less Courses... </button>}
       </div>
     </>
   );
@@ -93,15 +119,8 @@ export default function Course() {
 
   // state of the fetching
   const course = useCourse(router.query?.courseId);
-  // console.log("course", course)
   const config = useConfig();
   const derivedCourses = useDerivedCourse(course.data?.Course.CourseCode);
-  // console.log("derivedcourse", derivedCourses);
-  // console.log("hits", derivedCourses?.hits);
-
-  //prepare the derived course data
-  // const courseData = 
-  
 
   // prepare the course data
   const data = useMemo(() => {
