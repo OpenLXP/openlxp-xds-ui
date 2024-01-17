@@ -89,7 +89,8 @@ describe('homepage', () => {
     // Check for cache control in header set to no-cache
     // ticket is for requests not responses????  need to figure out how to check requests
     cy.request('/').then((resp) => {
-      expect(resp.headers['Cache-Control']).to.equal('max-age=0');
+      console.log(resp);
+      expect(resp.headers['Cache-Control']).to.equal('no-cache');
     });
     //   cy.request('/')
     //   .its('headers')
