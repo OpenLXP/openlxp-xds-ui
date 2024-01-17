@@ -78,10 +78,12 @@ function DerivedCourses({ id, derivedCourses }) {
               </div>
             </>}/>
           ))}
-        {derivedCourses.data?.hits.length > 5 && !showContent && <button
+        {derivedCourses.data?.hits.length > 5 && !showContent && 
+        <div className='flex flex-col items-center justify-center'>
+          <button
           onClick={()=>{setShowContent(true)}}
-          className='flex my-4 items-center gap-2 w-full border border-gray-300 whitespace-nowrap p-2 text-center text-gray-800 rounded-lg hover:bg-gray-200 font-medium transform transition-all duration-75 ease-in-out focus:ring-2 ring-blue-400 outline-none'
-        > Show {derivedCourses.data?.hits.length-5} More Courses... </button>}
+          className='flex px-4 py-2 m-4 justify-center items-center w-1/2 whitespace-nowrap p-2 text-center text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600  font-medium transform transition-all duration-75 ease-in-out focus:ring-2 ring-blue-400 outline-none'
+        > Show {derivedCourses.data?.hits.length-5} More Courses </button> </div>}
 
         {showContent && 
           derivedCourses?.data?.hits?.slice(5, derivedCourses.data?.hits.length).map((course, index) => (
@@ -104,10 +106,12 @@ function DerivedCourses({ id, derivedCourses }) {
               </div>
             </>}/>
           ))}
-        {showContent && <button
+        {showContent && 
+        <div className='flex flex-col items-center justify-center'>
+          <button
           onClick={()=>{setShowContent(false)}}
-          className='flex my-4 items-center gap-2 w-full border border-gray-300 whitespace-nowrap p-2 text-center text-gray-800 rounded-lg hover:bg-gray-200 font-medium transform transition-all duration-75 ease-in-out focus:ring-2 ring-blue-400 outline-none'
-        > Show Less Courses... </button>}
+          className='flex px-4 py-2 m-4 justify-center items-center w-1/2 whitespace-nowrap p-2 text-center text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600  font-medium transform transition-all duration-75 ease-in-out focus:ring-2 ring-blue-400 outline-none'
+        > Show Less Courses </button></div>}
       </div>
     </>
   );
