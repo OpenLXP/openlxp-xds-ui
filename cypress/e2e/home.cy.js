@@ -33,7 +33,8 @@ describe('homepage', () => {
   // authorization https://sdelements.il2.dso.mil/bunits/platform1/ecc/open-lxp-xds-ui/tasks/phase/testing/387-T85/
   it('Check can not access restricted pages', () => {
     cy.request({
-      url: '/lists/owned',
+      // url: '/lists/owned',
+      url: 'api/interest-lists/owned',
       followRedirect: false,
       failOnStatusCode: false,
     }).then((resp) => {
