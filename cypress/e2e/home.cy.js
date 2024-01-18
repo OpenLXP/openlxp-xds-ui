@@ -113,9 +113,9 @@ describe('homepage', () => {
     // .its('headers')
     // .should('have.keys', 'Content-Type')
     // .and('deep.equal', { 'Content-Type': 'text/html; charset=UTF-8' });
-    cy.request('/').as('response-headers')
-    cy.get('@response-headers').its('headers').its('content-type')
-      .should('include', 'text/html; charset=utf8')
+    cy.request('/').as('resp')
+    cy.get('@resp').its('headers').its('content-type')
+      .should('include', 'text/html; charset=utf-8')
   });
 
   // check CSP https://sdelements.il2.dso.mil/bunits/platform1/ecc/open-lxp-xds-ui/tasks/phase/testing/387-T332/
