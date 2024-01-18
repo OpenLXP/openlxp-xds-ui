@@ -46,6 +46,7 @@ describe('homepage', () => {
   // check storage https://sdelements.il2.dso.mil/bunits/platform1/ecc/open-lxp-xds-ui/tasks/phase/testing/387-T321/
   it('Check local and session storage', () => {
     cy.request('/');
+    
     // should be empty
     cy.getAllLocalStorage().should('be.empty');
     cy.getAllSessionStorage().should('be.empty');
@@ -77,8 +78,7 @@ describe('homepage', () => {
   // null byte check https://sdelements.il2.dso.mil/bunits/platform1/ecc/open-lxp-xds-ui/tasks/phase/testing/387-T127/
   it('Check using null byte to access other files', () => {
     cy.request({
-      // url: '/package.json\0/_next/static/media/logo.ed71202b.png&w=384&q=75',
-      url: 'https://ecc.staging.dso.mil/ecc-openlxp-xds-ui/package.json\0/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.ed71202b.png&w=256&q=75',
+      url: '/package.json\0/_next/static/media/logo.ed71202b.png&w=384&q=75',
       followRedirect: false,
       failOnStatusCode: false,
     }).then((resp) => {
@@ -94,6 +94,7 @@ describe('homepage', () => {
       console.log(resp);
       expect(resp.headers['Cache-Control']).to.equal('no-cache');
     });
+
     //   cy.request('/')
     //   .its('headers')
     //   .should('have.keys', 'Cache-Control')
@@ -104,13 +105,17 @@ describe('homepage', () => {
   it('Check content-type headers', () => {
     // Check for cache control in header set to no-cache
     // ticket is for requests not responses????  need to figure out how to check requests
-    cy.request('/').then((resp) => {
-      expect(resp.headers['Content-Type']).to.equal('text/html; charset=UTF-8');
-    });
+    // cy.request('/').then((resp) => {
+    //   expect(resp.headers['Content-Type']).to.equal('text/html; charset=UTF-8');
+    // });
+
     // cy.request('/')
     // .its('headers')
     // .should('have.keys', 'Content-Type')
     // .and('deep.equal', { 'Content-Type': 'text/html; charset=UTF-8' });
+    cy.request('/').as('response-headers')
+    cy.get('@response-headers').its('headers').its('content-type')
+      .should('include', 'text/html; charset=utf8')
   });
 
   // check CSP https://sdelements.il2.dso.mil/bunits/platform1/ecc/open-lxp-xds-ui/tasks/phase/testing/387-T332/
@@ -120,6 +125,7 @@ describe('homepage', () => {
     cy.get(`head > meta[http-equiv="Content-Security-Policy"]`)
       .should('have.attr', 'content')
       .and('contain', 'self');
+
     // cy.request('/').its('headers').should('have.keys', 'Content-Security-Policy').and('deep.string', {'Content-Security-Policy': 'self'})
   });
 });
