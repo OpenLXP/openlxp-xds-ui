@@ -88,12 +88,12 @@ describe('homepage', () => {
   });
 
   // no-cache https://sdelements.il2.dso.mil/bunits/platform1/ecc/open-lxp-xds-ui/tasks/phase/testing/387-T112/
-  it('Check no-cache headers', () => {
+  it('Check cache-control headers for no-cache/no-store', () => {
     // Check for cache control in header set to no-cache
     // ticket is for requests not responses????  need to figure out how to check requests
     cy.request('/').then((resp) => {
       console.log(resp);
-      expect(resp.headers['Cache-Control']).to.equal('no-cache');
+      expect(resp.headers['Cache-Control']).to.equal('no-store');
     });
 
     //   cy.request('/')
