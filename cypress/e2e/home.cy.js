@@ -79,7 +79,7 @@ describe('homepage', () => {
   it('Check using null byte to access other files', () => {
     cy.request({
       // url: '/package.json\0/_next/static/media/logo.ed71202b.png&w=384&q=75',
-      url: 'https://ecc.staging.dso.mil/ecc-openlxp-xds-ui/package.json\%00/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.ed71202b.png&w=256&q=75',
+      url: '/package.json\%00/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.ed71202b.png&w=256&q=75',
       followRedirect: false,
       failOnStatusCode: false,
     }).then((resp) => {
