@@ -83,7 +83,7 @@ describe('homepage', () => {
       followRedirect: false,
       failOnStatusCode: false,
     }).then((resp) => {
-      expect(resp.status).to.eq(500);
+      expect(resp.status).to.eq(400);
     });
   });
 
