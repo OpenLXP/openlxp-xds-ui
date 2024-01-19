@@ -8,19 +8,23 @@ import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';
 import { useCourse } from '@/hooks/useCourse';
+import { useDerivedCourse } from '@/hooks/useDerivedCourses';
 import { useMemo, useCallback } from 'react';
 import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
 import { useRouter } from 'next/router';
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
+import Accordion from '@/components/Accordion';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import SaveModalCoursePage from '@/components/modals/SaveModalCoursePage';
 import ShareButton from '@/components/buttons/ShareBtn';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
+import { useState } from 'react';
 
 function RelatedCourses({ id }) {
   const moreLikeThis = useMoreCoursesLikeThis(id);
   if (moreLikeThis?.data?.hits < 1) return null;
+
   return (
     <>
       <div className='bg-gray-200 mt-10 font-bold block font-sans p-4 '>
@@ -37,6 +41,82 @@ function RelatedCourses({ id }) {
   );
 }
 
+function DerivedCourses({ id, derivedCourses }) {
+  const [showContent, setShowContent] = useState(false);
+
+  if(derivedCourses.data?.hits.length == 0){
+    return (<></>)
+  }
+
+  return (
+    <>
+      <div className='bg-gray-200 mt-10 font-bold block font-sans p-4 '>
+        <div className='w-full gap-10 max-w-7xl mx-auto'>Derived Courses</div>
+      </div>
+      
+      <div className=' w-full my-6 max-w-7xl mx-auto'>
+        <strong className='text-gray-600 text-lg'>{derivedCourses.data?.hits.length} total courses</strong>
+        <p className='my-2'> These are additional resourses for reference. </p>
+      
+        {derivedCourses?.data?.hits?.slice(0, 5).map((course, index) => (
+            <Accordion key={index} title={course.Course?.CourseTitle}
+            content={<>
+              <div className='flex flex-col '>
+                <div className='py-4'>
+                  <strong>Course Code: </strong>{course.Course.CourseCode}
+                </div>
+                <div>
+                  <strong>Description: </strong>{course.Course.CourseShortDescription}
+                </div>
+                <div className='py-4 '>
+                  <strong className=''>Start Date: </strong>{(course.Course_Instance.StartDate).replace(' ', '').split('T')[0]}
+                  <strong className='ml-8'>End Date: </strong>{(course.Course_Instance.EndDate).replace(' ', '').split('T')[0]}
+                  <strong className='ml-8'>Instructor: </strong>{course.Course_Instance.Instructor}
+                  <strong className='ml-8'>Delivery Mode: </strong>{course.Course_Instance.DeliveryMode || "Not Available"}
+
+                </div>
+              </div>
+            </>}/>
+          ))}
+        {derivedCourses.data?.hits.length > 5 && !showContent && 
+        <div className='flex flex-col items-center justify-center'>
+          <button
+          onClick={()=>{setShowContent(true)}}
+          className='flex px-4 py-2 m-4 justify-center items-center w-1/2 whitespace-nowrap p-2 text-center text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600  font-medium transform transition-all duration-75 ease-in-out focus:ring-2 ring-blue-400 outline-none'
+        > Show {derivedCourses.data?.hits.length-5} More Courses </button> </div>}
+
+        {showContent && 
+          derivedCourses?.data?.hits?.slice(5, derivedCourses.data?.hits.length).map((course, index) => (
+            <Accordion key={index} title={course.Course?.CourseTitle}
+            content={<>
+              <div className='flex flex-col '>
+                <div className='py-4'>
+                  <strong>Course Code: </strong>{course.Course.CourseCode}
+                </div>
+                <div>
+                  <strong>Description: </strong>{course.Course.CourseShortDescription}
+                </div>
+                <div className='py-4 '>
+                  <strong className=''>Start Date: </strong>{(course.Course_Instance.StartDate).replace(' ', '').split('T')[0]}
+                  <strong className='ml-8'>End Date: </strong>{(course.Course_Instance.EndDate).replace(' ', '').split('T')[0]}
+                  <strong className='ml-8'>Instructor: </strong>{course.Course_Instance.Instructor}
+                  <strong className='ml-8'>Delivery Mode: </strong>{course.Course_Instance.DeliveryMode || "Not Available"}
+
+                </div>
+              </div>
+            </>}/>
+          ))}
+        {showContent && 
+        <div className='flex flex-col items-center justify-center'>
+          <button
+          onClick={()=>{setShowContent(false)}}
+          className='flex px-4 py-2 m-4 justify-center items-center w-1/2 whitespace-nowrap p-2 text-center text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600  font-medium transform transition-all duration-75 ease-in-out focus:ring-2 ring-blue-400 outline-none'
+        > Show Less Courses </button></div>}
+      </div>
+    </>
+  );
+}
+
 export default function Course() {
   const router = useRouter();
   const { user } = useAuth();
@@ -44,6 +124,7 @@ export default function Course() {
   // state of the fetching
   const course = useCourse(router.query?.courseId);
   const config = useConfig();
+  const derivedCourses = useDerivedCourse(course.data?.Course.CourseCode);
 
   // prepare the course data
   const data = useMemo(() => {
@@ -214,7 +295,7 @@ export default function Course() {
         </div>
       </div>
       {/* Extra Details */}
-      <div className='py-10 grid gap-4'>
+      <div className='py-4 grid'>
         {data?.details.map((detail, index) => {
           return (
             <div
@@ -230,6 +311,8 @@ export default function Course() {
         })}
       </div>
 
+      {/* Derived Courses */}
+      {derivedCourses && <DerivedCourses id={course.data?.Course.CourseCode} derivedCourses={derivedCourses}/> }
       {/* Related courses */}
       <RelatedCourses id={router.query?.courseId} />
       <Footer />
