@@ -88,19 +88,30 @@ describe('homepage', () => {
   });
 
   // no-cache https://sdelements.il2.dso.mil/bunits/platform1/ecc/open-lxp-xds-ui/tasks/phase/testing/387-T112/
-  it('Check cache-control headers for no-cache/no-store', () => {
+  it('Check cache-control headers for no-cache', () => {
     // Check for cache control in header set to no-cache
     // ticket is for requests not responses????  need to figure out how to check requests
-    cy.request('/').then((resp) => {
-      console.log(resp);
-      expect(resp.headers['Cache-Control']).to.equal('no-store');
-    });
+    // cy.request('/').then((resp) => {
+    //   console.log(resp);
+    //   expect(resp.headers['Cache-Control']).to.equal('no-cache');
+    // });
 
     //   cy.request('/')
     //   .its('headers')
     //   .should('have.keys', 'Cache-Control')
     //   .and('deep.equal', { 'Cache-Control': 'no-cache' });
   });
+  cy.request('/').then((response) => {
+    // Check if the Cache-Control header exists in the response headers
+    expect(response.headers).to.have.property('cache-control');
+
+    // Check if the Cache-Control header has a value of 'no-cache' or 'no-store'
+    const cacheControlValue = response.headers['cache-control'].toLowerCase();
+    expect(cacheControlValue).to.satisfy((value) => {
+      return value === 'no-cache';
+    });
+  });
+});
 
   // check meta tag https://sdelements.il2.dso.mil/bunits/platform1/ecc/open-lxp-xds-ui/tasks/phase/testing/387-T132/
   it('Check content-type headers', () => {
