@@ -93,7 +93,7 @@ describe('homepage', () => {
     // ticket is for requests not responses????  need to figure out how to check requests
     cy.request('/').then((resp) => {
       console.log(resp);
-      expect(resp.headers['Cache-Control']).to.contains('no-store');
+      expect(resp.headers['Cache-Control']).should('include', 'no-store');
     });
     
     //   cy.request('/')
