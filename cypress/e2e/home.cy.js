@@ -91,7 +91,7 @@ describe('homepage', () => {
   it('Check cache-control headers for no-cache', () => {
     // Check for cache control in header set to no-cache
     // ticket is for requests not responses????  need to figure out how to check requests
-    cy.intercept('GET', '/**').('request');
+    cy.intercept('GET', '/**').as('request');
 
     //Wait for intercept request to complete
     cy.wait('@request').then((interception) => {
