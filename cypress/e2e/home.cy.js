@@ -96,7 +96,7 @@ describe('homepage', () => {
     //   expect(resp.headers['Cache-Control']).should('include', 'no-store');
     // });
     cy.request('/').as('resp');
-    cypress.log(cy.get('@resp').its('headers'))
+    cy.log(cy.get('@resp').its('headers'))
     cy.get('@resp').its('headers').its('cache-control')
       .should('include', 'no-store');
     
