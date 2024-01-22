@@ -26,7 +26,7 @@ describe('homepage', () => {
     // encoded <!--#echo var="DATE_LOCAL" -->
     cy.visit('/search?keyword=<%21--%23echo%20var%3D"DATE_LOCAL"%20-->&p=1');
     cy.contains(day).should('not.exist');
-    cy.contains('<!--#echo var="DATE_LOCAL" -->', { timeout: 15000 });
+    cy.get('search-bar').should('have.value', '<!--#echo var="DATE_LOCAL" -->');
   });
 
   // access authorized pages https://sdelements.il2.dso.mil/bunits/platform1/ecc/open-lxp-xds-ui/tasks/phase/testing/387-T84/
