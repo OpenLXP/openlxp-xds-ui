@@ -104,7 +104,7 @@ describe('homepage', () => {
       // Log the Cache-Control header to the console
       console.log('Cache-Control Header:', cacheControlHeader);
 
-      cy.expect(cacheControlHeader).to.include('no-store'); // Adjust the expectation as needed
+      cy.expect(cacheControlHeader).to.include(['no-store']); // Adjust the expectation as needed
     })
     // cy.request('/').then((resp) => {
     //   cy.log(resp.headers);
