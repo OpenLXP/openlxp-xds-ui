@@ -91,24 +91,24 @@ describe('homepage', () => {
   it('Check cache-control headers for no-cache', () => {
     // Check for cache control in header set to no-cache
     // ticket is for requests not responses????  need to figure out how to check requests
-    // cy.request('/').then((resp) => {
-    //   console.log(resp);
-    //   expect(resp.headers['Cache-Control']).to.equal('no-cache');
-    // });
+    cy.request('/').then((resp) => {
+      console.log(resp);
+      expect(resp.headers['Cache-Control']).to.equal('no-cache');
+    });
 
     //   cy.request('/')
     //   .its('headers')
     //   .should('have.keys', 'Cache-Control')
     //   .and('deep.equal', { 'Cache-Control': 'no-cache' });
-    cy.request('/').then((response) => {
-      expect(response.headers).to.have.property('cache-control');
+  //   cy.request('/').then((response) => {
+  //     expect(response.headers).to.have.property('cache-control');
 
-      const cacheControlVal = response.headers['cache-control'].toLowerCase();
-      expect(cacheControlVal).to.satisfy((value) => {
-        return value === 'no-cache';
-      })
-    })
-  });
+  //     const cacheControlVal = response.headers['cache-control'].toLowerCase();
+  //     expect(cacheControlVal).to.satisfy((value) => {
+  //       return value === 'no-cache';
+  //     })
+  //   })
+  // });
 
   // check meta tag https://sdelements.il2.dso.mil/bunits/platform1/ecc/open-lxp-xds-ui/tasks/phase/testing/387-T132/
   it('Check content-type headers', () => {
