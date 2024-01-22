@@ -91,10 +91,13 @@ describe('homepage', () => {
   it('Check cache-control headers for no-cache', () => {
     // Check for cache control in header set to no-cache
     // ticket is for requests not responses????  need to figure out how to check requests
-    cy.request('/').then((resp) => {
-      console.log(resp);
-      expect(resp.headers['Cache-Control']).should('include', 'no-store');
-    });
+    // cy.request('/').then((resp) => {
+    //   console.log(resp);
+    //   expect(resp.headers['Cache-Control']).should('include', 'no-store');
+    // });
+    cy.request('/').as('resp');
+    cy.get('@resp').its('headers').its('cache-control')
+      .should('include', 'no-store');
     
     //   cy.request('/')
     //   .its('headers')
