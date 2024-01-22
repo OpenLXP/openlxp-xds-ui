@@ -91,14 +91,30 @@ describe('homepage', () => {
   it('Check cache-control headers for no-cache', () => {
     // Check for cache control in header set to no-cache
     // ticket is for requests not responses????  need to figure out how to check requests
+    cy.intercept('GET', '/**').('request');
+
+    //Wait for intercept request to complete
+    cy.wait('@request').then((interception) => {
+      // log the request details to the console
+      console.log('request details', interception);
+
+      // Access the Cache-Control header from the response
+      const cacheControlHeader = interception.response.headers['cache-control'];
+
+      // Log the Cache-Control header to the console
+      console.log('Cache-Control Header:', cacheControlHeader);
+
+      cy.expect(cacheControlHeader).to.include('no-store'); // Adjust the expectation as needed
+    })
     // cy.request('/').then((resp) => {
-    //   console.log(resp);
+    //   cy.log(resp.headers);
     //   expect(resp.headers['Cache-Control']).should('include', 'no-store');
     // });
-    cy.request('/').as('resp');
-    cy.log(cy.get('@resp').its('headers'))
-    cy.get('@resp').its('headers').its('cache-control')
-      .should('include', 'no-store');
+
+    // cy.request('/').as('resp');
+    // cy.log(cy.get('@resp').its('headers'));
+    // cy.get('@resp').its('headers').its('cache-control')
+    //   .should('include', 'no-store');
     
     //   cy.request('/')
     //   .its('headers')
