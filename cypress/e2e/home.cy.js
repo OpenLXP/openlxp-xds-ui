@@ -91,21 +91,15 @@ describe('homepage', () => {
   it('Check cache-control headers for no-cache', () => {
     // Check for cache control in header set to no-cache
     // ticket is for requests not responses????  need to figure out how to check requests
-    cy.intercept('GET', '/**').as('request');
-
-    //Wait for intercept request to complete
-    cy.wait('@request').then((interception) => {
-      // log the request details to the console
-      console.log('request details', interception);
-
-      // Access the Cache-Control header from the response
-      const cacheControlHeader = interception.response.headers['cache-control'];
-
-      // Log the Cache-Control header to the console
-      console.log('Cache-Control Header:', cacheControlHeader);
-
-      cy.expect(cacheControlHeader).to.include(['max-age=0']); // Adjust the expectation as needed
+    cy.intercept('GET', '/', (req) => {
+      req.headers['cache-control'].should('include', 'max-age=0')
+    }).as('cacheControlHeaders');
+    cy.wait('@cacheControlHeaders')
+    cy.get('@cacheControlHeaders').then((interception) => {
+      const requestHeaders = interception.request.headers;
+      except(requestHeaders).to.have.property('cache-control', 'max-age=0');
     })
+    
     // cy.request('/').then((resp) => {
     //   cy.log(resp.headers);
     //   expect(resp.headers['Cache-Control']).should('include', 'no-store');
