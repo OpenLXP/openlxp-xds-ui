@@ -33,6 +33,10 @@ const nextConfig = {
                             fontSrc: [
                                 "'self'", 
                                 "https://fonts.gstatic.com"
+                            ],
+                            frameAncestors: [
+                                "'self'",
+                                "https://ecc.staging.dso.mil"
                             ]
                         },
                         frameGuard: "deny",
