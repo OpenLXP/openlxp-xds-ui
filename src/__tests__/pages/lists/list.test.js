@@ -6,12 +6,12 @@ import { act, fireEvent, render } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';
 import {
   useAuthenticatedUser,
-  useUnauthenticatedUser,
   useListMock,
   useListMockWith401,
   useListMockWith403,
   useListMockWithNoExperiences,
   useMockConfig,
+  useUnauthenticatedUser,
 } from '@/__mocks__/predefinedMocks';
 import { useList } from '@/hooks/useList';
 import List, { getServerSideProps } from '@/pages/lists/[listId]';

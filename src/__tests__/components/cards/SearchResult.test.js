@@ -1,8 +1,5 @@
-import { fireEvent, render, act } from '@testing-library/react';
-import SearchResult from '@/components/cards/SearchResult';
-import courseData from '@/__mocks__/data/course.data';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
-import singletonRouter from 'next/router';
+import { act, fireEvent, render } from '@testing-library/react';
 import {
   useAuthenticatedUser,
   useMockCreateUserList,
@@ -10,6 +7,9 @@ import {
   useMockUserOwnedListsWithoutData,
   useUnauthenticatedUser,
 } from '@/__mocks__/predefinedMocks';
+import SearchResult from '@/components/cards/SearchResult';
+import courseData from '@/__mocks__/data/course.data';
+import singletonRouter from 'next/router';
 
 const renderer = (props) => {
   return render(

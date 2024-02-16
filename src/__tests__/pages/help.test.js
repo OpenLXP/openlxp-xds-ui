@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { render } from '@testing-library/react';
-import Help from '../../pages/help';
 import { useAuthenticatedUser, useMockConfig } from '@/__mocks__/predefinedMocks';
+import Help from '../../pages/help';
 
 const queryClient = new QueryClient();
 const renderer = () => {

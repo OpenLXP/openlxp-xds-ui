@@ -1,5 +1,4 @@
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
-import MockRouter from 'next-router-mock';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render } from '@testing-library/react';
 import {
@@ -17,6 +16,7 @@ import {
   useUnauthenticatedUser,
 } from '@/__mocks__/predefinedMocks';
 import Course from '@/pages/course/[courseId]';
+import MockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
 
 const renderer = (isAuth = false) => {

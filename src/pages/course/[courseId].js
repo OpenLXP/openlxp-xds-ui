@@ -6,20 +6,20 @@ import {
 import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '@/contexts/AuthContext';
+import { useCallback, useMemo } from 'react';
 import { useConfig } from '@/hooks/useConfig';
 import { useCourse } from '@/hooks/useCourse';
 import { useDerivedCourse } from '@/hooks/useDerivedCourses';
-import { useMemo, useCallback } from 'react';
 import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
 import { useRouter } from 'next/router';
-import CourseSpotlight from '@/components/cards/CourseSpotlight';
+import { useState } from 'react';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import Accordion from '@/components/Accordion';
+import CourseSpotlight from '@/components/cards/CourseSpotlight';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import SaveModalCoursePage from '@/components/modals/SaveModalCoursePage';
 import ShareButton from '@/components/buttons/ShareBtn';
-import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
-import { useState } from 'react';
 
 function RelatedCourses({ id }) {
   const moreLikeThis = useMoreCoursesLikeThis(id);

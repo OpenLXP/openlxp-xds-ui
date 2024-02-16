@@ -1,6 +1,6 @@
 import { axiosInstance } from '@/config/axiosConfig';
-import { searchUrl } from '@/config/endpoints';
 import { oneHour } from '@/config/timeConstants';
+import { searchUrl } from '@/config/endpoints';
 import { useQuery } from 'react-query';
 
 export function getDerivedCourses(id) {

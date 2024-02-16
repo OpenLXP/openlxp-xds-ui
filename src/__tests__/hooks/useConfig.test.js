@@ -1,5 +1,5 @@
-import { renderHook, act } from '@testing-library/react-hooks';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { act, renderHook } from '@testing-library/react-hooks';
 import mockAxios from 'jest-mock-axios';
 
 import { useConfig } from '@/hooks/useConfig';
