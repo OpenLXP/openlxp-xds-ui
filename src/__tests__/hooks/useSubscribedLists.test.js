@@ -1,9 +1,9 @@
 // tests for hooks/useSubscribedLists.js
-import mockAxios from 'jest-mock-axios';
 import { renderHook } from '@testing-library/react-hooks';
+import mockAxios from 'jest-mock-axios';
 
-import { useSubscribedLists } from '@/hooks/useSubscribedLists';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
+import { useSubscribedLists } from '@/hooks/useSubscribedLists';
 
 jest.unmock('@/hooks/useSubscribedLists');
 

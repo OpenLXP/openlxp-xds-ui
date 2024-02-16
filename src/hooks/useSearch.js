@@ -1,3 +1,4 @@
+import { axiosInstance } from '@/config/axiosConfig';
 import { searchUrl } from '@/config/endpoints';
 import { tenMinutes } from '@/config/timeConstants';
 import { useEffect, useState } from 'react';
@@ -5,7 +6,6 @@ import { useQuery, useQueryClient } from 'react-query';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import queryString from 'querystring';
-import { axiosInstance } from '@/config/axiosConfig';
 
 const getSearchResults = (searchTerm) => {
   return axiosInstance.get(searchTerm).then((res) => res.data);

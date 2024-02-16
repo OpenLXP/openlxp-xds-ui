@@ -1,5 +1,5 @@
-import prepareListDataToSend from '@/utils/prepListDataToSend';
 import courseData from '@/__mocks__/data/course.data';
+import prepareListDataToSend from '@/utils/prepListDataToSend';
 const listData = {
   name: 'list name',
   description: 'list description',

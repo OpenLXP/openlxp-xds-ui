@@ -1,7 +1,7 @@
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
-import mockAxios from 'jest-mock-axios';
 import { renderHook } from '@testing-library/react-hooks';
 import { useCreateSaveSearch } from '@/hooks/useCreateSaveSearch';
+import mockAxios from 'jest-mock-axios';
 
 jest.unmock('@/hooks/useCreateSaveSearch');
 
@@ -17,6 +17,7 @@ it('should make an api call', async () => {
     () => useCreateSaveSearch(),
     { wrapper }
   );
+
   // wait for the api call to finish
   await waitForNextUpdate(
     result.current.mutate({ path: 'test', name: 'name' })

@@ -1,24 +1,25 @@
-import { fireEvent, render, act } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 
-import Subscribed from '@/pages/lists/subscribed';
-import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
-import singletonRouter from 'next/router';
-import MockRouter from 'next-router-mock';
+import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import {
   unsubscribeFromListMockFn,
   useAuthenticatedUser,
   useMockConfig,
+  useMockSubscribeToList,
   useMockSubscribedLists,
   useMockSubscribedListsEmpty,
   useMockSubscribedListsWith401,
   useMockSubscribedListsWith403,
-  useMockSubscribeToList,
   useMockUnsubscribeFromList,
   useUnauthenticatedUser,
 } from '@/__mocks__/predefinedMocks';
+import MockRouter from 'next-router-mock';
+import Subscribed from '@/pages/lists/subscribed';
+import singletonRouter from 'next/router';
 
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
+
 // mocks
 jest.mock('@/contexts/AuthContext', () => ({
   useAuth: jest.fn(),

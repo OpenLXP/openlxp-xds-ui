@@ -1,18 +1,18 @@
-import { render, fireEvent, act } from '@testing-library/react';
-import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
-import Owned from '@/pages/lists/owned';
-import singletonRouter from 'next/router';
-import MockRouter from 'next-router-mock';
+import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
+import { act, fireEvent, render } from '@testing-library/react';
 import {
-  useUnauthenticatedUser,
   useAuthenticatedUser,
+  useMockConfig,
   useMockUserOwnedLists,
   useMockUserOwnedListsWith401,
   useMockUserOwnedListsWith403,
   useMockUserOwnedListsWithoutData,
-  useMockConfig,
+  useUnauthenticatedUser,
 } from '@/__mocks__/predefinedMocks';
+import MockRouter from 'next-router-mock';
+import Owned from '@/pages/lists/owned';
+import singletonRouter from 'next/router';
 
 const renderer = () => {
   MockRouter.setCurrentUrl('/lists/owned');

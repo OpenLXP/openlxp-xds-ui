@@ -1,7 +1,8 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export function useLocalStorage(key, defaultValue) {
   if (typeof window !== 'undefined') {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     return useStorage(key, defaultValue, window.localStorage);
   }
   return [defaultValue]
@@ -9,6 +10,7 @@ export function useLocalStorage(key, defaultValue) {
 
 export function useSessionStorage(key, defaultValue) {
   if (typeof window !== 'undefined') {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     return useStorage(key, defaultValue, window.sessionStorage);
   }
 }

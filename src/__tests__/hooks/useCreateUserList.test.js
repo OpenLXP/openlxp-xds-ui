@@ -1,7 +1,7 @@
-import mockAxios from 'jest-mock-axios';
+import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { renderHook } from '@testing-library/react-hooks';
 import { useCreateUserList } from '@/hooks/useCreateUserList';
-import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
+import mockAxios from 'jest-mock-axios';
 
 jest.unmock('@/hooks/useCreateUserList');
 

@@ -1,6 +1,6 @@
 import { axiosInstance } from '@/config/axiosConfig';
-import { useMutation, useQueryClient } from 'react-query';
 import { saveSearchUrl } from '@/config/endpoints';
+import { useMutation, useQueryClient } from 'react-query';
 
 const createSavedSearch = ({ path, name }, token) => {
   return axiosInstance

@@ -1,7 +1,7 @@
-import { fireEvent, render, act } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 
-import Forbidden from '../../pages/403';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
+import Forbidden from '../../pages/403';
 import singletonRouter from 'next/router';
 
 // mocks

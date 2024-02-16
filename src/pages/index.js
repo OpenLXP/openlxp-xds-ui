@@ -1,9 +1,9 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
-import Head from 'next/head'
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
 import Footer from '@/components/Footer';
+import Head from 'next/head'
 import Header from '@/components/Header';
 import Image from 'next/image';
 import React, { useCallback } from 'react';

@@ -1,14 +1,14 @@
-import { act, screen, render, fireEvent } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import SaveModal from '@/components/modals/SaveModal';
 
-import userListData from '@/__mocks__/data/userLists.data';
-import { useUserOwnedLists } from '@/hooks/useUserOwnedLists.js';
-import { useUpdateUserList } from '@/hooks/useUpdateUserList';
-import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
-import xAPIMapper from '@/utils/xapi/xAPIMapper';
 import { useAuth } from '@/contexts/AuthContext';
+import { useCreateUserList } from '@/hooks/useCreateUserList';
+import { useUpdateUserList } from '@/hooks/useUpdateUserList';
+import { useUserOwnedLists } from '@/hooks/useUserOwnedLists.js';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
+import userListData from '@/__mocks__/data/userLists.data';
+import xAPIMapper from '@/utils/xapi/xAPIMapper';
 
 jest.mock('@/hooks/useUpdateUserList', () => ({
   useUpdateUserList: jest.fn(),
