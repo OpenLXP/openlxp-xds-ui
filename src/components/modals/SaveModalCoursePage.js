@@ -1,7 +1,9 @@
+/* eslint-disable react/no-unescaped-entities */
 'use strict';
 
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useState } from 'react';
+
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';

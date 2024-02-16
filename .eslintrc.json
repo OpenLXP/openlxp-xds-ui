@@ -10,6 +10,7 @@
   ],
   "rules": {
     "react-hooks/exhaustive-deps": "off",
+    // "react/no-unescaped-entities" : "off",
     "sort-imports-es6-autofix/sort-imports-es6": [
       2,
       {
