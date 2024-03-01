@@ -3,9 +3,7 @@ name: Docker CD
 on:
   push:
     branches: 
-      - main
       - dev
-      - actions-debug
   pull_request:
     branches: 
       - main
@@ -32,19 +30,19 @@ jobs:
       run: |
         yarn install
 
-    - name: Generate Coverage Report
-      env:
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-      run: |
-        echo "Cloning private repository"
-        git clone https://openlxp-host:${{ secrets.ACCESS_TOKEN }}@github.com/OpenLXP/openlxp-private.git
-        echo "Private repository cloned successfully"
-        echo "Copying .env file from openlxp-private to current working directory"
-        cp ./openlxp-private/openlxp-xds-ui-env/.env .
-        echo "Copied .env file successfully"
-        echo "Create openlxp docker network"
-        docker network create openlxp
-        echo "Docker network successfully created"
+    # - name: Generate Coverage Report
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+    #   run: |
+    #     echo "Cloning private repository"
+    #     git clone https://openlxp-host:${{ secrets.ACCESS_TOKEN }}@github.com/OpenLXP/openlxp-private.git
+    #     echo "Private repository cloned successfully"
+    #     echo "Copying .env file from openlxp-private to current working directory"
+    #     cp ./openlxp-private/openlxp-xds-ui-env/.env .
+    #     echo "Copied .env file successfully"
+    #     echo "Create openlxp docker network"
+    #     docker network create openlxp
+    #     echo "Docker network successfully created"
         # yarn
         # yarn test	--coverage
 
@@ -91,10 +89,10 @@ jobs:
         # NEXT_PUBLIC_BACKEND_HOST: ${{ secrets.NEXT_PUBLIC_BACKEND_HOST }}
         IMAGE_TAG: xdsui
       run: |
-        echo "Cloning private repository"
+        echo "Cloning openlxp-private repository"
         git clone https://openlxp-host:${{ secrets.ACCESS_TOKEN }}@github.com/OpenLXP/openlxp-private.git
         echo "Private repository cloned successfully"
-        echo "Copying .env file from openlxp-private to current working directory"
+        echo "Copying .env for XDS-UI from openlxp-private to current working directory"
         cp ./openlxp-private/openlxp-xds-ui-env/.env .
         echo "Copied .env file successfully"
         echo "Starting docker build"
