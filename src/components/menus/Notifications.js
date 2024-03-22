@@ -34,7 +34,7 @@ export default function Notifications() {
             .catch((err) => {
                 console.log("Failed to retrieve data from endpoint")
           });
-      }, [setData]);
+      }, [data]);
 
     // const { data, isSuccess, isLoading, isError, error } = useNotifications();
     // const { unreadData, unreadisError} = useUnreadData();
