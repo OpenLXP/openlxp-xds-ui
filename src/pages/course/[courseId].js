@@ -296,7 +296,7 @@ export default function Course() {
       </div>
       {/* Extra Details */}
       <div className='py-4 grid'>
-        {data?.details.map((detail, index) => {
+        {data?.details?.map((detail, index) => {
           return (
             <div
               key={detail.title + index}
