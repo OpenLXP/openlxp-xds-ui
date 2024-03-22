@@ -73,7 +73,7 @@ export default function UserMenu() {
   return (
     <Menu
       as='div'
-      className='relative inline-block text-left mt-0.5 max-w-min '
+      className='relative inline-block text-left max-w-min '
     >
       {({ open }) => (
         <div className='relative'>

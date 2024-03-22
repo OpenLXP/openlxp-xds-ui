@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import UserMenu from '@/components/menus/UserMenu';
 import logo from '@/public/logo.png';
+import Notifications from './menus/Notifications';
 
 const menuItems = [
   {
@@ -85,7 +86,10 @@ export default function Header() {
               </Link>
             </div>
           ) : (
-            <UserMenu />
+            <div className='flex flex-row'>
+              <Notifications />
+              <div className='m-4'> <UserMenu /> </div>
+            </div>
           )}
         </div>
       </nav>
