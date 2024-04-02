@@ -3,7 +3,7 @@ name: Docker CD
 on:
   push:
     branches: 
-      - dev
+      - origin/notifications
   pull_request:
     branches: 
       - main
