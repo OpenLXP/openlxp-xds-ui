@@ -56,7 +56,7 @@ function DerivedCourses({ id, derivedCourses }) {
       
       <div className=' w-full my-6 max-w-7xl mx-auto'>
         <strong className='text-gray-600 text-lg'>{derivedCourses.data?.hits.length} total courses</strong>
-        <p className='my-2'> These are additional resourses for reference. </p>
+        <p className='my-2'> These are additional resources for reference. </p>
       
         {derivedCourses?.data?.hits?.slice(0, 5).map((course, index) => (
             <Accordion key={index} title={course.Course?.CourseTitle}
