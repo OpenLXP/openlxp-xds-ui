@@ -53,14 +53,14 @@ function DerivedCourses({ id, derivedCourses }) {
       <div className='bg-gray-200 mt-10 font-bold block font-sans p-4 '>
         <div className='w-full gap-10 max-w-7xl mx-auto'>Derived Courses</div>
       </div>
-      
-      <div className=' w-full my-6 max-w-7xl mx-auto'>
+      <div className='w-full mx-auto max-w-7xl'>
+      <div className=' w-3/4 my-6 max-w-7xl'>
         <strong className='text-gray-600 text-lg'>{derivedCourses.data?.hits.length} total courses</strong>
         <p className='my-2'> These are additional resources for reference. </p>
       
         {derivedCourses?.data?.hits?.slice(0, 5).map((course, index) => (
             <Accordion key={index} title={course.Course?.CourseTitle}
-            content={<>
+            content={<a href={course.meta?.id}>
               <div className='flex flex-col '>
                 <div className='py-4'>
                   <strong>Course Code: </strong>{course.Course.CourseCode}
@@ -76,7 +76,7 @@ function DerivedCourses({ id, derivedCourses }) {
 
                 </div>
               </div>
-            </>}/>
+            </a>}/>
           ))}
         {derivedCourses.data?.hits.length > 5 && !showContent && 
         <div className='flex flex-col items-center justify-center'>
@@ -113,6 +113,7 @@ function DerivedCourses({ id, derivedCourses }) {
           className='flex px-4 py-2 m-4 justify-center items-center w-1/2 whitespace-nowrap p-2 text-center text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600  font-medium transform transition-all duration-75 ease-in-out focus:ring-2 ring-blue-400 outline-none'
         > Show Less Courses </button></div>}
       </div>
+    </div>
     </>
   );
 }
