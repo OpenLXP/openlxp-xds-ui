@@ -13,7 +13,9 @@ import xAPIMapper from "./xAPIMapper";
 export const sendStatement = (actor, verb, obj, resultExtName, resultExtValue) => {
 
   const statement = {
-    platform: "ECC dev Environment",
+    context: {
+      platform: "ECC dev Environment"
+    },
     actor: {
       account: {
         homePage: "https://ecc.gov",
