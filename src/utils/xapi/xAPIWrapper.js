@@ -14,7 +14,7 @@ export const sendStatement = (actor, verb, obj, resultExtName, resultExtValue) =
 
   const statement = {
     context: {
-      platform: "ECC dev Environment"
+      platform: "ECC dev env"
     },
     actor: {
       account: {
