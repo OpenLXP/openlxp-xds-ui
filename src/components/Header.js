@@ -73,7 +73,7 @@ export default function Header() {
             })}
           </div>
           {!user ? (
-            <div className='space-x-4'>
+            <div className='space-x-4 flex flex-row'>
               <Link href={'/login'} passHref>
                 <button className='disabled:hidden bg-blue-500 py-2 px-4 rounded inline-block text-white hover:opacity-90 hover:shadow transform transition-all duration-100 ease-in-out font-semibold'>
                   Sign in
