@@ -88,7 +88,7 @@ function DerivedCourses({ id, derivedCourses }) {
         {showContent && 
           derivedCourses?.data?.hits?.slice(5, derivedCourses.data?.hits.length).map((course, index) => (
             <Accordion key={index} title={course.Course?.CourseTitle}
-            content={<>
+            content={<a href={course.meta?.id}>
               <div className='flex flex-col '>
                 <div className='py-4'>
                   <strong>Course Code: </strong>{course.Course.CourseCode}
@@ -104,7 +104,7 @@ function DerivedCourses({ id, derivedCourses }) {
 
                 </div>
               </div>
-            </>}/>
+            </a>}/>
           ))}
         {showContent && 
         <div className='flex flex-col items-center justify-center'>
