@@ -33,6 +33,6 @@ export const saveSearchOwnedUrl = `${backendHost}${api}saved-filters/owned`;
 
 
 //Notifications
-export const allNotification = `${backendHost}/inbox/notifications/api/all_list`;
-export const allRead = `${backendHost}/inbox/notifications/mark-all-as-read`;
+export const allNotification = `${backendHost}/inbox/notifications/api/all_list/`;
+export const allRead = `${backendHost}/inbox/notifications/mark-all-as-read/`;
 export const unreadData = `${backendHost}/inbox/notifications/api/unread_list/`;
