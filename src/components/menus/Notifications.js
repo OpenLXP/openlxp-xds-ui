@@ -9,7 +9,7 @@ import { useNotifications, getNotifications } from '@/hooks/useNotifications';
 import {getAllRead} from '@/hooks/useAllNotificRead'
 import { getUnreadData, useUnreadData } from '@/hooks/useNotifUnreadCount';
 import { axiosInstance } from '@/config/axiosConfig';
-import { allNotification } from '@/config/endpoints';
+import { allNotification, allRead } from '@/config/endpoints';
 
 export default function Notifications() {
     const router = useRouter();
@@ -23,27 +23,34 @@ export default function Notifications() {
     let [data, setData] = useState({});
 
     useEffect(() => {
+        setTimeout(() => {
+        }, 200);
         // Requesting data from the API endpoint
         axiosInstance
             .get(allNotification)
             .then((res) => {
-                console.log(res.data);
                 setData(res.data);
             })
             // If there is an error.
             .catch((err) => {
                 console.log("Failed to retrieve data from endpoint")
           });
-      }, [data]);
+      }, []);
 
-    // const { data, isSuccess, isLoading, isError, error } = useNotifications();
-    // const { unreadData, unreadisError} = useUnreadData();
-    // console.log(unreadData);
+      const getAllRead = () => {
+        return () => {
+          axiosInstance
+            .get(allRead)
+    
+            let temp = data.all_list
+            temp.forEach((notif) => {notif.unread = false})
 
-    // useEffect(() => {
-    //     getNotifications();
-    //     console.log(data?.all_list[0].unread);
-    // }, []);
+            setData((prev) => ({
+                ...prev,
+                all_list: temp   
+              }));
+        }
+      };
 
     return (
         <Menu
@@ -55,7 +62,7 @@ export default function Notifications() {
             <Menu.Button >
                 <div className='static m-4 h-10 flex  '>
                     <BellIcon className='static p-2 w-10 h-10 text-gray-500 border border-gray-500 hover:text-gray-900 hover:border-gray-900' /> 
-                    {data.all_list && data?.all_list[0]?.unread ? <div className='rounded-full inline-flex bg-blue-400 h-3.5 w-3.5 items-center justify-center align-center absolute right-3 top-3'/> : <></>}
+                    {data?.all_list && data?.all_list[0]?.unread ? <div className='rounded-full inline-flex bg-blue-400 h-3.5 w-3.5 items-center justify-center align-center absolute right-3 top-3'/> : <></>}
                 </div>
             </Menu.Button>
             <Transition
@@ -74,7 +81,7 @@ export default function Notifications() {
                         Notifications
                     </h3>
                     <div className='grid gap-1 pt-1'>
-                        {data?.all_list?.map((list) => {
+                        {data?.all_list && data?.all_list?.map((list) => {
                         return (
                             <div className='flex felx-col border vertical-align-middle items-center justify-center align-center'>
                                 {list.unread ? (
