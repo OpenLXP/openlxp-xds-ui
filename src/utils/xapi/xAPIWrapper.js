@@ -13,6 +13,9 @@ import xAPIMapper from "./xAPIMapper";
 export const sendStatement = (actor, verb, obj, resultExtName, resultExtValue) => {
 
   const statement = {
+    context: {
+      platform: "ECC dev env"
+    },
     actor: {
       account: {
         homePage: "https://ecc.gov",
@@ -40,7 +43,7 @@ export const sendStatement = (actor, verb, obj, resultExtName, resultExtValue) =
         [resultExtName]: resultExtValue
       }
     },
-    timestamp: new Date().toUTCString()
+    timestamp: new Date().toISOString()
   }
 
   obj.description && (statement['object']['definition']['description'] = {
