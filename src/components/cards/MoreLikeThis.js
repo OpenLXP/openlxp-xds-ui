@@ -65,10 +65,10 @@ export default function MoreLikeThis({ course }) {
       </span>
       <div className='w-full bg-white border rounded-md border-gray-200 p-4 shadow'>
         <h1 className='text-lg font-semibold'>
-          {data.hits[0].p2881-core.Title}
+          {data.hits[0]['p2881-core'].Title}
         </h1>
         <p className='mt-4 font-sans line-clamp-6 text-sm'>
-          {removeHTML(data.hits[0].p2881-core.Description)}
+          {removeHTML(data.hits[0]['p2881-core'].Description)}
         </p>
         <div className='flex flex-col gap-1 mt-4'>
           <div>
@@ -92,9 +92,9 @@ export default function MoreLikeThis({ course }) {
           <div className='flex gap-2'>
             <ViewBtn
               id={data.hits[0].meta.id}
-              courseTitle={data.hits[0].p2881-core.Title}
+              courseTitle={data.hits[0]['p2881-core'].Title}
               courseDescription={removeHTML(
-                data.hits[0].p2881-core.Description
+                data.hits[0]['p2881-core'].Description
               )}
             />
           </div>

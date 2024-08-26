@@ -59,14 +59,14 @@ function DerivedCourses({ id, derivedCourses }) {
         <p className='my-2'> These are additional resources for reference. </p>
       
         {derivedCourses?.data?.hits?.slice(0, 5).map((course, index) => (
-            <Accordion key={index} title={course.p2881-core?.Title}
+            <Accordion key={index} title={course['p2881-core']?.Title}
             content={<a href={course.meta?.id}>
               <div className='flex flex-col '>
                 <div className='py-4'>
                   <strong>Course Code: </strong>{course.p2881_course_profile.Course_ID}
                 </div>
                 <div>
-                  <strong>Description: </strong>{course.p2881-core.Description}
+                  <strong>Description: </strong>{course['p2881-core'].Description}
                 </div>
                 <div className='py-4 '>
                   <strong className=''>Start Date: </strong>{(course.p2881_learning_event.Start_Date).replace(' ', '').split('T')[0]}
@@ -87,14 +87,14 @@ function DerivedCourses({ id, derivedCourses }) {
 
         {showContent && 
           derivedCourses?.data?.hits?.slice(5, derivedCourses.data?.hits.length).map((course, index) => (
-            <Accordion key={index} title={course.p2881-core?.Title}
+            <Accordion key={index} title={course['p2881-core']?.Title}
             content={<a href={course.meta?.id}>
               <div className='flex flex-col '>
                 <div className='py-4'>
                   <strong>Course Code: </strong>{course.p2881_course_profile.Course_ID}
                 </div>
                 <div>
-                  <strong>Description: </strong>{course.p2881-core.Description}
+                  <strong>Description: </strong>{course['p2881-core'].Description}
                 </div>
                 <div className='py-4 '>
                   <strong className=''>Start Date: </strong>{(course.p2881_learning_event.Start_Date).replace(' ', '').split('T')[0]}
