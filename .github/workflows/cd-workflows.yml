@@ -3,7 +3,7 @@ name: Docker CD
 on:
   push:
     branches: 
-      - dev
+      - xds2-ui
   pull_request:
     branches: 
       - xds2-ui
