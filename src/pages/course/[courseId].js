@@ -59,20 +59,20 @@ function DerivedCourses({ id, derivedCourses }) {
         <p className='my-2'> These are additional resources for reference. </p>
       
         {derivedCourses?.data?.hits?.slice(0, 5).map((course, index) => (
-            <Accordion key={index} title={course.Course?.CourseTitle}
+            <Accordion key={index} title={course.p2881-core?.Title}
             content={<a href={course.meta?.id}>
               <div className='flex flex-col '>
                 <div className='py-4'>
-                  <strong>Course Code: </strong>{course.Course.CourseCode}
+                  <strong>Course Code: </strong>{course.p2881_course_profile.Course_ID}
                 </div>
                 <div>
-                  <strong>Description: </strong>{course.Course.CourseShortDescription}
+                  <strong>Description: </strong>{course.p2881-core.Description}
                 </div>
                 <div className='py-4 '>
-                  <strong className=''>Start Date: </strong>{(course.Course_Instance.StartDate).replace(' ', '').split('T')[0]}
-                  <strong className='ml-8'>End Date: </strong>{(course.Course_Instance.EndDate).replace(' ', '').split('T')[0]}
-                  <strong className='ml-8'>Instructor: </strong>{course.Course_Instance.Instructor}
-                  <strong className='ml-8'>Delivery Mode: </strong>{course.Course_Instance.DeliveryMode || "Not Available"}
+                  <strong className=''>Start Date: </strong>{(course.p2881_learning_event.Start_Date).replace(' ', '').split('T')[0]}
+                  <strong className='ml-8'>End Date: </strong>{(course.p2881_learning_event.End_Date).replace(' ', '').split('T')[0]}
+                  <strong className='ml-8'>Instructor: </strong>{course.p2881_course_profile.Instructor}
+                  <strong className='ml-8'>Delivery Mode: </strong>{course.p2881_learning_resource.Delivery_Method || "Not Available"}
 
                 </div>
               </div>
@@ -87,20 +87,20 @@ function DerivedCourses({ id, derivedCourses }) {
 
         {showContent && 
           derivedCourses?.data?.hits?.slice(5, derivedCourses.data?.hits.length).map((course, index) => (
-            <Accordion key={index} title={course.Course?.CourseTitle}
+            <Accordion key={index} title={course.p2881-core?.Title}
             content={<a href={course.meta?.id}>
               <div className='flex flex-col '>
                 <div className='py-4'>
-                  <strong>Course Code: </strong>{course.Course.CourseCode}
+                  <strong>Course Code: </strong>{course.p2881_course_profile.Course_ID}
                 </div>
                 <div>
-                  <strong>Description: </strong>{course.Course.CourseShortDescription}
+                  <strong>Description: </strong>{course.p2881-core.Description}
                 </div>
                 <div className='py-4 '>
-                  <strong className=''>Start Date: </strong>{(course.Course_Instance.StartDate).replace(' ', '').split('T')[0]}
-                  <strong className='ml-8'>End Date: </strong>{(course.Course_Instance.EndDate).replace(' ', '').split('T')[0]}
-                  <strong className='ml-8'>Instructor: </strong>{course.Course_Instance.Instructor}
-                  <strong className='ml-8'>Delivery Mode: </strong>{course.Course_Instance.DeliveryMode || "Not Available"}
+                  <strong className=''>Start Date: </strong>{(course.p2881_learning_event.Start_Date).replace(' ', '').split('T')[0]}
+                  <strong className='ml-8'>End Date: </strong>{(course.p2881_learning_event.End_Date).replace(' ', '').split('T')[0]}
+                  <strong className='ml-8'>Instructor: </strong>{course.p2881_course_profile.Instructor}
+                  <strong className='ml-8'>Delivery Mode: </strong>{course.p2881_learning_resource.Delivery_Method || "Not Available"}
 
                 </div>
               </div>
@@ -125,7 +125,7 @@ export default function Course() {
   // state of the fetching
   const course = useCourse(router.query?.courseId);
   const config = useConfig();
-  const derivedCourses = useDerivedCourse(course.data?.Course.CourseCode);
+  const derivedCourses = useDerivedCourse(course.data?.p2881_course_profile.Course_ID);
 
   // prepare the course data
   const data = useMemo(() => {
@@ -313,7 +313,7 @@ export default function Course() {
       </div>
 
       {/* Derived Courses */}
-      {derivedCourses && <DerivedCourses id={course.data?.Course.CourseCode} derivedCourses={derivedCourses}/> }
+      {derivedCourses && <DerivedCourses id={course.data?.p2881_course_profile.Course_ID} derivedCourses={derivedCourses}/> }
       {/* Related courses */}
       <RelatedCourses id={router.query?.courseId} />
       <Footer />
