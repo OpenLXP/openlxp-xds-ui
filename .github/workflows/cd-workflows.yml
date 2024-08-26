@@ -6,7 +6,7 @@ on:
       - dev
   pull_request:
     branches: 
-      - main
+      - xds2-ui
     types: [opened, synchronize, reopened]
 
 jobs:
@@ -30,34 +30,32 @@ jobs:
       run: |
         yarn install
 
-    # - name: Generate Coverage Report
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-    #   run: |
-    #     echo "Cloning private repository"
-    #     git clone https://openlxp-host:${{ secrets.ACCESS_TOKEN }}@github.com/OpenLXP/openlxp-private.git
-    #     echo "Private repository cloned successfully"
-    #     echo "Copying .env file from openlxp-private to current working directory"
-    #     cp ./openlxp-private/openlxp-xds-ui-env/.env .
-    #     echo "Copied .env file successfully"
-    #     echo "Create openlxp docker network"
-    #     docker network create openlxp
-    #     echo "Docker network successfully created"
-        # yarn
-        # yarn test	--coverage
+    - name: Generate Coverage Report
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      run: |
+        echo "Cloning private repository"
+        git clone https://openlxp-host:${{ secrets.ACCESS_TOKEN }}@github.com/OpenLXP/openlxp-private.git
+        echo "Private repository cloned successfully"
+        echo "Copying .env file from openlxp-private to current working directory"
+        cp ./openlxp-private/openlxp-xds2-ui-env/.env .
+        echo "Copied .env file successfully"
+        echo "Create openlxp docker network"
+        docker network create openlxp
+        echo "Docker network successfully created"
 
-  sonarcloud:
-      name: SonarCloud
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-          with:
-            fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-        - name: SonarCloud Scan
-          uses: SonarSource/sonarcloud-github-action@master
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  # sonarcloud:
+  #     name: SonarCloud
+  #     runs-on: ubuntu-latest
+  #     steps:
+  #       - uses: actions/checkout@v2
+  #         with:
+  #           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+  #       - name: SonarCloud Scan
+  #         uses: SonarSource/sonarcloud-github-action@master
+  #         env:
+  #           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+  #           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         
   build:
     # requires dependency from step above
@@ -86,13 +84,13 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: ${{ secrets.ECR_REPO }}
-        IMAGE_TAG: xdsui
+        IMAGE_TAG: xds2-ui
       run: |
-        echo "Cloning openlxp-private repository"
+        echo "Cloning private repository"
         git clone https://openlxp-host:${{ secrets.ACCESS_TOKEN }}@github.com/OpenLXP/openlxp-private.git
         echo "Private repository cloned successfully"
-        echo "Copying .env for XDS-UI from openlxp-private to current working directory"
-        cp ./openlxp-private/openlxp-xds-ui-env/.env .
+        echo "Copying .env file from openlxp-private to current working directory"
+        cp ./openlxp-private/openlxp-xds2-ui-env/.env .
         echo "Copied .env file successfully"
         echo "Starting docker build"
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
