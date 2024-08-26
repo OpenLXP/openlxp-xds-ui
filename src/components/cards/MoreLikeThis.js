@@ -81,7 +81,7 @@ export default function MoreLikeThis({ course }) {
           </div>
           <div>
             <span className='font-semibold'>Estimated Time:&nbsp;</span>
-            {data.hits[0].Course.EstimatedCompletionTime || 'Not Available'}
+            {data.hits[0].p2881_learning_event?.Duration || 'Not Available'}
           </div>
           <div>
             <span className='font-semibold'>Course Provider:&nbsp;</span>
