@@ -18,8 +18,8 @@ export default function CourseSpotlight({ course }) {
   const thumbnail = useMemo(() => {
     return (
       core?.Thumbnail ||
-      (config?.data.course_img_fallback &&
-        `${backendHost}${config?.data.course_img_fallback}`) ||
+      (config?.data?.course_img_fallback &&
+        `${backendHost}${config?.data?.course_img_fallback}`) ||
       null
     );
   }, [core, config]);
