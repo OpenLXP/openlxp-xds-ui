@@ -182,7 +182,7 @@ export default function EditList({ listId }) {
                     {exp['p2881-core']?.Title}
                   </button>
                 </td>
-                <td className='p-2'>{exp?.Course?.CourseProviderName}</td>
+                <td className='p-2'>{exp?.p2881_course_profile?.CourseProviderName}</td>
                 <td className='text-right p-2'>
                   <button
                     className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
