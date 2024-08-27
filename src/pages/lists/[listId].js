@@ -107,7 +107,7 @@ export default function ListsView({ listId }) {
                     cursor-pointer w-full h-full text-left py-2'
                     onClick={(e) => visitCourse(exp)}
                   >
-                    {exp['p2881-core'].Title}
+                    {exp['p2881-core']?.Title}
                   </button>
                 </td>
                 <td className='p-2'>{exp?.p2881_course_profile?.CourseProviderName}</td>
