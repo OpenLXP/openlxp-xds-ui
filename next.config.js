@@ -17,12 +17,12 @@ const nextConfig = {
                                 "'self'",
                                 "https://ecc.staging.dso.mil",
                                 "https://ecc.staging.dso.mil/ecc-openlxp-xds/",
-                                "https://ecc.apps.dso.mil/",
+                                "https://ecc.apps.dso.mil",
                                 "https://ecc.apps.dso.mil/ecc-openlxp-xds-ui/"
                             ],
                             styleSrc: [
                                 "'self'",
-                                "https://ecc.apps.dso.mil/",
+                                "https://ecc.apps.dso.mil",
                                 "https://ecc.apps.dso.mil/ecc-openlxp-xds-ui/",
                                 "https://ecc.staging.dso.mil", 
                                 "https://fonts.googleapis.com"
@@ -41,7 +41,7 @@ const nextConfig = {
                             frameAncestors: [
                                 "'self'",
                                 "https://ecc.staging.dso.mil",
-                                "https://ecc.apps.dso.mil/",
+                                "https://ecc.apps.dso.mil",
                                 "https://ecc.apps.dso.mil/ecc-openlxp-xms-ui/"
                             ]
                         },
