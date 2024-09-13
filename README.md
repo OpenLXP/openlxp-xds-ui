@@ -1,96 +1,137 @@
-# Open LXP: Experience Discovery Service UI
+# OpenLXP: Experience Discovery Service UI (XDS UI)
 
-This is the UI for the Open LXP: Experience Discovery Service. It allows you to create and manage your own experience collection, subscribe to other people's experience collections, and search for experiences indexed in the service.
+This is the UI for the OpenLXP: Experience Discovery Service. It allows you to create and manage your own experience collection, subscribe to other people's experience collections, and search for experiences indexed in the service.
 
-_Note_: For this service to work properly you will need the XDS Backend component to accompany it.
+**Note: For this service to work properly you will need the XDS Backend component to accompany it.**
 
-## Table of Contents
+## Prerequisites
+### Install Docker & docker-compose
+#### Windows & MacOS
+- Download and install [Docker Desktop](https://www.docker.com/products/docker-desktop) (docker compose included)
 
-- [**Installation**](#installation)
-- [**Development**](#development)
-  - [**Frontend Stack Documentation**](#frontend-stack-documentation)
-  - [**Devtools Documentation**](#dev-tools-documentation)
-- [**Testing**](#testing)
 
-## Installation
+#### Linux
+You can download Docker Compose binaries from the
+[release page](https://github.com/docker/compose/releases) on this repository.
 
-### Step 1: Clone the project
+Rename the relevant binary for your OS to `docker-compose` and copy it to `$HOME/.docker/cli-plugins`
 
+Or copy it into one of these folders to install it system-wide:
+
+* `/usr/local/lib/docker/cli-plugins` OR `/usr/local/libexec/docker/cli-plugins`
+* `/usr/lib/docker/cli-plugins` OR `/usr/libexec/docker/cli-plugins`
+
+(might require making the downloaded file executable with `chmod +x`)
+
+## 1. Clone the repository
+Clone the Github repository
 ```terminal
-git clone git clone git@github.com:OpenLXP/openlxp-xds-ui.git
-```
+git clone https://github.com/OpenLXP/openlxp-xds-ui.git
+```  
 
-### Step 2: Install yarn
+## 2. Set up your environment variables
+- Create a `.env` file in the root directory
+- The following environment variables are required:
+
+| Environment Variable            | Description                       |
+| ------------------------------- | --------------------------------- |
+| NEXT_PUBLIC_BACKEND_HOST        | The endpoint for your XDS backend |
+| NEXT_PUBLIC_XAPI_LRS_ENDPOINT   | The endpoint for your SQL-LRS     |
+| NEXT_PUBLIC_XAPI_LRS_KEY        | The SQL-LRS key                   |
+| NEXT_PUBLIC_XAPI_LRS_SECRET     | The SQL-LRS secret                |
+
+**Note: These environment variables need to be set up at build time**
+
+## 3. Deployment
+1. Create the OpenLXP docker network. Open a terminal and run the following command in the root directory of the project.
+
+    ```terminal
+    docker network create openlxp
+    ```
+
+2. Run the command below to build your image for XDS UI
+
+    ```terminal
+    docker build -t xdsui .
+    ```
+  
+3. Run the command below to deploy the image built in step 2
+
+    ```terminal
+    docker run -p 3000:3000 xdsui -d
+    ```
+
+## Local development/testing
+### 1. Install yarn
 
 This project uses yarn as the package manager. If you already have yarn installed or are using a different package manager feel free to skip this step.
 
-> Start by installing yarn globally
+ - Start by installing yarn globally
 
-```terminal
-npm install -g yarn
-```
+    ```terminal
+    npm install -g yarn
+    ```
+ 
+ - Verify yarn was installed
 
-> Verify yarn was installed
+    ```terminal
+    yarn -version
+    ```
 
-```terminal
-yarn -version
-```
+### 2: Install project dependencies
 
-### Step 3: Install project dependencies
+   - Installs all requirements for development
+      
+      ```terminal
+      yarn install
+      ```
 
-> Installs all requirements for development
+### 3. Build the project
 
-```terminal
-yarn
-```
+  - bundle your app into static files
 
-### Step 4: Update .env file
+      ```terminal
+      yarn build
+      ``` 
 
-The `.env` file can be found in the root directory of the project folder
+### 4. Run your project
+  
+  - Run the project in development mode
 
-> Example `.env` file
+    ```terminal
+    yarn start
+    ```
 
-```js
-// api gateway
-NEXT_PUBLIC_BACKEND_HOST=
-NEXT_PUBLIC_XAPI_LRS_ENDPOINT=
-NEXT_PUBLIC_XAPI_LRS_KEY=
-NEXT_PUBLIC_XAPI_LRS_SECRET=
-```
+## Testing
 
-**NEXT_PUBLIC_BACKEND_HOST**: The url for the XDS component
+All of the components in the project are unit tested and are covered by the [Jest](https://jestjs.io/) testing framework. When testing components there are three key files to utilize:
 
-> Note: the lrs component is not required for the UI to function.
+1. `jest.setup.js`: This file is used to configure the testing environment including any mocks and setup functions for the code to work.
+2. `mockSetUp.js`: This file is used to mock any functions that are reliant on external APIs or services.
+3. `.test.js`: This file is used to test the components. Any file in the **tests** directory will be run by the testing framework as long as the child components are appended with `.test.js` or `.spec.js`.
 
-**NEXT_PUBLIC_XAPI_LRS_ENDPOINT**: The url for the LRS component
+### Our current threshold for testing coverage is:
 
-**NEXT_PUBLIC_XAPI_LRS_KEY**: The key for the LRS component
+- **Statement Coverage**: 80%
+- **Branch Coverage**: 80%
+- **Function Coverage**: 80%
+- **Line Coverage**: 80%
 
-**NEXT_PUBLIC_XAPI_LRS_SECRET**: The secret for the LRS component
+### Command to run tests
 
-### Step 5: Run the project
+ - Runs all the tests in the project with cached results
 
-> Run the project in development mode
+    ```terminal
+    yarn test
+    ```
 
-```terminal
-yarn dev
-```
+- Run all the tests in the project without cached results. This produces a coverage report which can be viewed in the terminal or in the browser by opening the `/coverage/Icov-report/index.html` file in the project directory.
 
-### Step 6: Run the project in production mode
+    ```terminal
+    yarn coverage
+    ```
 
-> Build the docker image
-
-```terminal
-docker build -t openlxp-xds-ui .
-```
-
-> Run the docker image
-
-```terminal
-docker run -p 3000:3000 openlxp-xds-ui
-```
-
-## Development
+## Documentation
 
 ### Frontend Stack Documentation
 
@@ -111,32 +152,3 @@ docker run -p 3000:3000 openlxp-xds-ui
 [Prettier Documentation can be found here](https://prettier.io/docs/en/install.html)
 
 [Jest Documentation can be found here](https://jestjs.io/docs/en/getting-started)
-
-## Testing
-
-All of the components in the project are unit tested and are covered by the [Jest](https://jestjs.io/) testing framework. When testing components there are three key files to utilize:
-
-1. **jest.setup.js**: This file is used to configure the testing environment including any mocks and setup functions for the code to work.
-2. **mockSetUp.js**: This file is used to mock any functions that are reliant on external APIs or services.
-3. **.test.js**: This file is used to test the components. Any file in the **tests** directory will be run by the testing framework as long as the child components are appended with `.test.js` or `.spec.js`.
-
-### Our current threshold for testing coverage is:
-
-- **Statement Coverage**: 80%
-- **Branch Coverage**: 80%
-- **Function Coverage**: 80%
-- **Line Coverage**: 80%
-
-### Command to run tests
-
-> Runs all the tests in the project with cached results
-
-```terminal
-yarn test
-```
-
-> Runs all the tests in the project without cached results produces a coverage report which can be viewed in the terminal or in the browser by opening the `/coverage/Icov-report/index.html` file in the project directory.
-
-```terminal
-yarn coverage
-```
