@@ -2,20 +2,26 @@
   "name": "openlxp-xds",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
+    "@adobe/css-tools": "4.3.2",
     "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.5",
     "@tailwindcss/line-clamp": "^0.3.0",
     "@xapi/xapi": "^2.0.1",
     "autoprefixer": "^10.4.0",
-    "axios": "^0.23.0",
+    "axios": "1.7.4",
+    "follow-redirects": "1.15.6",
+    "micromatch": "4.0.8",
     "next": "12.1.0",
-    "postcss": "^8.4.5",
+    "next-secure-headers": "^2.2.0",
+    "postcss": "8.4.31",
     "query-string": "^7.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-query": "^3.26.0",
     "react-test-renderer": "^17.0.2",
+    "sharp": "0.32.6",
     "tailwindcss": "^3.0.7",
     "use-resize-observer": "^9.1.0"
   },
@@ -24,13 +30,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --watch",
-    "coverage": "jest --watchAll --coverage --verbose --noStackTrace --silent --maxWorkers=50%"
+    "test:unit": "jest --coverage --watchAll=false",
+    "coverage": "jest --watchAll --coverage --verbose --noStackTrace --silent --maxWorkers=50%",
+    "test:e2e-ci": "CYPRESS_BASE_URL=${ZAP_URL} npx cypress run --browser chrome --config-file cypress/config/pipeline.config.js"
   },
   "devDependencies": {
+    "@babel/core": "^7.23.2",
+    "@babel/preset-react": "^7.22.15",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/react-hooks": "^7.0.2",
+    "braces": "^3.0.3",
     "eslint": "^8.6.0",
     "eslint-config-next": "12.0.7",
     "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
@@ -39,5 +49,8 @@
     "jest-mock-axios": "^4.4.1",
     "next-router-mock": "^0.5.3",
     "prettier": "2.5.1"
+  },
+  "resolutions": {
+    "postcss": "8.4.31"
   }
 }
