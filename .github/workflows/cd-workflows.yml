@@ -3,11 +3,7 @@ name: Docker CD
 on:
   push:
     branches: 
-      - dev
-  pull_request:
-    branches: 
-      - main
-    types: [opened, synchronize, reopened]
+      - xdsui-dote
 
 jobs:
   code-test:
@@ -85,14 +81,14 @@ jobs:
     - name: Build, tag, and push image to Amazon ECR
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ${{ secrets.ECR_REPO }}
-        IMAGE_TAG: xdsui
+        ECR_REPOSITORY: ${{ secrets.ECR_XDSUI_DOTE_REPO }}
+        IMAGE_TAG: latest
       run: |
         echo "Cloning openlxp-private repository"
         git clone https://openlxp-host:${{ secrets.ACCESS_TOKEN }}@github.com/OpenLXP/openlxp-private.git
         echo "Private repository cloned successfully"
-        echo "Copying .env for XDS-UI from openlxp-private to current working directory"
-        cp ./openlxp-private/openlxp-xds-ui-env/.env .
+        echo "Copying .env for XDSUI-DOTE from openlxp-private to current working directory"
+        cp ./openlxp-private/openlxp-xdsui-dote-env/.env .
         echo "Copied .env file successfully"
         echo "Starting docker build"
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
