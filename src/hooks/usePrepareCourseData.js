@@ -20,7 +20,7 @@ export default function PrepareCourseData(config, data) {
         value: getDeeplyNestedData(detail.field_name, data),
       })),
     coursePhoto:
-      getDeeplyNestedData('Technical_Information.Thumbnail', data) ||
+      getDeeplyNestedData('p2881-core.Thumbnail', data) ||
       (course_img_fallback && `${backendHost}${course_img_fallback}`),
   };
   return preparedData;

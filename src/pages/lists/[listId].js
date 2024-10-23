@@ -45,8 +45,8 @@ export default function ListsView({ listId }) {
       },
       object: {
         id: `${window.origin}/course/${course.meta.metadata_key_hash}`,
-        definitionName: course.Course.CourseTitle,
-        description: course.Course.CourseShortDescription,
+        definitionName: course['p2881-core'].Title,
+        description: course['p2881-core'].Description,
       },
       resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
       resultExtValue: course.meta.metadata_key_hash,
@@ -107,10 +107,10 @@ export default function ListsView({ listId }) {
                     cursor-pointer w-full h-full text-left py-2'
                     onClick={(e) => visitCourse(exp)}
                   >
-                    {exp?.Course?.CourseTitle}
+                    {exp['p2881-core']?.Title}
                   </button>
                 </td>
-                <td className='p-2'>{exp?.Course?.CourseProviderName}</td>
+                <td className='p-2'>{exp?.p2881_course_profile?.CourseProviderName}</td>
               </tr>
             ))}
         </tbody>
