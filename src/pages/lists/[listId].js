@@ -4,6 +4,8 @@ import { useList } from '@/hooks/useList';
 import { useRouter } from 'next/router';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
+import { useConfig } from '@/hooks/useConfig';
+import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 
 export function getServerSideProps(context) {
   const { listId } = context.query;
@@ -19,6 +21,7 @@ export default function ListsView({ listId }) {
 
   // user data
   const { user } = useAuth();
+  const config = useConfig();
 
   const list = useList(parseInt(listId));
 
@@ -45,8 +48,8 @@ export default function ListsView({ listId }) {
       },
       object: {
         id: `${window.origin}/course/${course.meta.metadata_key_hash}`,
-        definitionName: course.Course.CourseTitle,
-        description: course.Course.CourseShortDescription,
+        definitionName: getDeeplyNestedData(config.data?.course_information?.course_title, course) || course.Course.CourseTitle,
+        description: removeHTML(getDeeplyNestedData(config.data?.course_information?.course_description, course)) || course.Course.CourseShortDescription,
       },
       resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
       resultExtValue: course.meta.metadata_key_hash,
@@ -107,10 +110,10 @@ export default function ListsView({ listId }) {
                     cursor-pointer w-full h-full text-left py-2'
                     onClick={(e) => visitCourse(exp)}
                   >
-                    {exp?.Course?.CourseTitle}
+                    {getDeeplyNestedData(config.data?.course_information?.course_title, exp) || exp?.Course?.CourseTitle}
                   </button>
                 </td>
-                <td className='p-2'>{exp?.Course?.CourseProviderName}</td>
+                <td className='p-2'>{getDeeplyNestedData(config.data?.course_information?.course_provider, exp) || exp?.Course?.CourseProviderName}</td>
               </tr>
             ))}
         </tbody>

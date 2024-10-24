@@ -15,6 +15,8 @@ import { useUserList } from '@/hooks/useUserList';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import PublicPrivateToggle from '@/components/inputs/PublicPrivateToggle';
 import prepareListDataToSend from '@/utils/prepListDataToSend';
+import { useConfig } from '@/hooks/useConfig';
+import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 
 export function getServerSideProps({ query }) {
   return {
@@ -27,6 +29,7 @@ export function getServerSideProps({ query }) {
 export default function EditList({ listId }) {
   const router = useRouter();
   const { user } = useAuth();
+  const config = useConfig();
 
   // handles the mutation
   const mutation = useUpdateUserList();
@@ -179,10 +182,10 @@ export default function EditList({ listId }) {
                     cursor-pointer w-full h-full text-left '
                     onClick={(e) => visitCourse(e, exp?.meta?.metadata_key_hash)}
                   >
-                    {exp?.Course?.CourseTitle}
+                    {getDeeplyNestedData(config.data?.course_information?.course_title, exp) || exp?.Course?.CourseTitle}
                   </button>
                 </td>
-                <td className='p-2'>{exp?.Course?.CourseProviderName}</td>
+                <td className='p-2'>{getDeeplyNestedData(config.data?.course_information?.course_provider, exp) || exp?.Course?.CourseProviderName}</td>
                 <td className='text-right p-2'>
                   <button
                     className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
