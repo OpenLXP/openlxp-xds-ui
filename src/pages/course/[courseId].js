@@ -42,6 +42,8 @@ function RelatedCourses({ id }) {
 }
 
 function DerivedCourses({ id, derivedCourses }) {
+  const config = useConfig();
+
   const [showContent, setShowContent] = useState(false);
 
   if(derivedCourses.data?.hits.length == 0){
@@ -59,20 +61,20 @@ function DerivedCourses({ id, derivedCourses }) {
         <p className='my-2'> These are additional resources for reference. </p>
       
         {derivedCourses?.data?.hits?.slice(0, 5).map((course, index) => (
-            <Accordion key={index} title={course.Course?.CourseTitle}
+            <Accordion key={index} title={getDeeplyNestedData(config.data?.course_information?.course_title, course)}
             content={<a href={course.meta?.id}>
               <div className='flex flex-col '>
                 <div className='py-4'>
-                  <strong>Course Code: </strong>{course.Course.CourseCode}
+                  <strong>Course Code: </strong>{getDeeplyNestedData(config.data?.course_information?.course_code, course)}
                 </div>
                 <div>
-                  <strong>Description: </strong>{course.Course.CourseShortDescription}
+                  <strong>Description: </strong>{removeHTML(getDeeplyNestedData(config.data?.course_information?.course_description, course))}
                 </div>
                 <div className='py-4 '>
-                  <strong className=''>Start Date: </strong>{(course.Course_Instance.StartDate).replace(' ', '').split('T')[0]}
-                  <strong className='ml-8'>End Date: </strong>{(course.Course_Instance.EndDate).replace(' ', '').split('T')[0]}
-                  <strong className='ml-8'>Instructor: </strong>{course.Course_Instance.Instructor}
-                  <strong className='ml-8'>Delivery Mode: </strong>{course.Course_Instance.DeliveryMode || "Not Available"}
+                  <strong className=''>Start Date: </strong>{getDeeplyNestedData(config.data?.course_information?.course_startDate, course)?.replace(' ', '').split('T')[0]}
+                  <strong className='ml-8'>End Date: </strong>{getDeeplyNestedData(config.data?.course_information?.course_endDate, course)?.replace(' ', '').split('T')[0]}
+                  <strong className='ml-8'>Instructor: </strong>{getDeeplyNestedData(config.data?.course_information?.course_instructor, course)}
+                  <strong className='ml-8'>Delivery Mode: </strong>{getDeeplyNestedData(config.data?.course_information?.course_deliveryMode, course) || "Not Available"}
 
                 </div>
               </div>
@@ -87,20 +89,20 @@ function DerivedCourses({ id, derivedCourses }) {
 
         {showContent && 
           derivedCourses?.data?.hits?.slice(5, derivedCourses.data?.hits.length).map((course, index) => (
-            <Accordion key={index} title={course.Course?.CourseTitle}
+            <Accordion key={index} title={getDeeplyNestedData(config.data?.course_information?.course_title, course)}
             content={<a href={course.meta?.id}>
               <div className='flex flex-col '>
                 <div className='py-4'>
-                  <strong>Course Code: </strong>{course.Course.CourseCode}
+                  <strong>Course Code: </strong>{getDeeplyNestedData(config.data?.course_information?.course_code, course)}
                 </div>
                 <div>
-                  <strong>Description: </strong>{course.Course.CourseShortDescription}
+                  <strong>Description: </strong>{removeHTML(getDeeplyNestedData(config.data?.course_information?.course_description, course))}
                 </div>
                 <div className='py-4 '>
-                  <strong className=''>Start Date: </strong>{(course.Course_Instance.StartDate).replace(' ', '').split('T')[0]}
-                  <strong className='ml-8'>End Date: </strong>{(course.Course_Instance.EndDate).replace(' ', '').split('T')[0]}
-                  <strong className='ml-8'>Instructor: </strong>{course.Course_Instance.Instructor}
-                  <strong className='ml-8'>Delivery Mode: </strong>{course.Course_Instance.DeliveryMode || "Not Available"}
+                  <strong className=''>Start Date: </strong>{getDeeplyNestedData(config.data?.course_information?.course_startDate, course)?.replace(' ', '').split('T')[0]}
+                  <strong className='ml-8'>End Date: </strong>{getDeeplyNestedData(config.data?.course_information?.course_endDate, course)?.replace(' ', '').split('T')[0]}
+                  <strong className='ml-8'>Instructor: </strong>{getDeeplyNestedData(config.data?.course_information?.course_instructor, course)}
+                  <strong className='ml-8'>Delivery Mode: </strong>{getDeeplyNestedData(config.data?.course_information?.course_deliveryMode, course) || "Not Available"}
 
                 </div>
               </div>
@@ -125,7 +127,6 @@ export default function Course() {
   // state of the fetching
   const course = useCourse(router.query?.courseId);
   const config = useConfig();
-  const derivedCourses = useDerivedCourse(course.data?.Course.CourseCode);
 
   // prepare the course data
   const data = useMemo(() => {
@@ -181,6 +182,8 @@ export default function Course() {
       }),
     };
   }, [course.isSuccess, course.data, config.isSuccess, config.data]);
+
+  const derivedCourses = useDerivedCourse(data?.code);
 
   const handleClick = useCallback(() => {
     if (!user) return;
@@ -313,7 +316,7 @@ export default function Course() {
       </div>
 
       {/* Derived Courses */}
-      {derivedCourses && <DerivedCourses id={course.data?.Course.CourseCode} derivedCourses={derivedCourses}/> }
+      {derivedCourses && <DerivedCourses id={data?.code} derivedCourses={derivedCourses}/> }
       {/* Related courses */}
       <RelatedCourses id={router.query?.courseId} />
       <Footer />
