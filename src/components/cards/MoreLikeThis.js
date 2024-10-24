@@ -133,19 +133,19 @@ export default function MoreLikeThis({ course }) {
         <div className='flex flex-col gap-1 mt-4'>
           <div>
             <span className='font-semibold'>Course Code:&nbsp;</span>
-            {preppedData?.code || data.hits[0].Course.CourseCode || 'Not Available'}
+            {preppedData?.code || data.hits[0].Course?.CourseCode || 'Not Available'}
           </div>
           <div>
             <span className='font-semibold'>Course Type:&nbsp;</span>
-            {preppedData?.type || data.hits[0].Course.CourseType || 'Not Available'}
+            {preppedData?.type || data.hits[0].Course?.CourseType || 'Not Available'}
           </div>
           <div>
             <span className='font-semibold'>Estimated Time:&nbsp;</span>
-            {preppedData.time || data.hits[0].Course.EstimatedCompletionTime || 'Not Available'}
+            {preppedData.time || data.hits[0].Course?.EstimatedCompletionTime || 'Not Available'}
           </div>
           <div>
             <span className='font-semibold'>Course Provider:&nbsp;</span>
-            {preppedData.provider }|| data.hits[0].Course.CourseProviderName || 'Not Available'
+            {preppedData.provider || data.hits[0].Course?.CourseProviderName || 'Not Available'}
           </div>
         </div>
         <div className='flex justify-between mt-10'>
