@@ -1,7 +1,7 @@
 'use strict';
 
-import mockAxios from 'jest-mock-axios';
 import { renderHook } from '@testing-library/react-hooks';
+import mockAxios from 'jest-mock-axios';
 
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { useSubscribeToList } from '@/hooks/useSubscribeToList';
@@ -19,8 +19,10 @@ it('should make an api call', async () => {
   const { result, waitForNextUpdate } = renderHook(() => useSubscribeToList(), {
     wrapper,
   });
+
   // wait for the api call to finish
   await waitForNextUpdate(result.current.mutate({ id: '1' }));
+
   // check if the api call was made
   expect(mockAxios.patch).toHaveBeenCalledTimes(1);
 });

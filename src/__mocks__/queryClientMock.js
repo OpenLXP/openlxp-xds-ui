@@ -1,6 +1,6 @@
 'use strict';
 
-import { QueryClientProvider, QueryClient } from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 export const QueryClientWrapper = ({ children }) => {
   const queryClient = new QueryClient();

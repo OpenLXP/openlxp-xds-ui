@@ -2,10 +2,10 @@
 
 // tests for hooks/useDeleteSavedSearch
 
-import { useDeleteSavedSearch } from '@/hooks/useDeleteSavedSearch';
-import { renderHook } from '@testing-library/react-hooks';
-import mockAxios from 'jest-mock-axios';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
+import { renderHook } from '@testing-library/react-hooks';
+import { useDeleteSavedSearch } from '@/hooks/useDeleteSavedSearch';
+import mockAxios from 'jest-mock-axios';
 
 jest.unmock('@/hooks/useDeleteSavedSearch');
 
