@@ -1,6 +1,7 @@
 'use strict';
 
-import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider/MemoryRouterProvider-11.1';
+// import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider/MemoryRouterProvider-11.1';
+import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider/next-11';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { axiosInstance } from '@/config/axiosConfig';
 import { fireEvent, render, screen } from '@testing-library/react';
