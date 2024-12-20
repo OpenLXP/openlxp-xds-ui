@@ -1,6 +1,6 @@
 'use strict';
 
-import { renderHook, act } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react-hooks';
 import useField from '../../hooks/useField';
 
 describe('useField', () => {
