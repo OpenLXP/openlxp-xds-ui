@@ -6,7 +6,7 @@
 #COPY package.json ./
 
 # Rebuild the source code only when needed
-FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.20 AS builder
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.20.2 AS builder
 USER root
 WORKDIR /app
 COPY . .
@@ -15,7 +15,7 @@ RUN yarn build
 USER node
 
 # Production image, copy all the files and run next
-FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.20 AS runner
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.20.2 AS runner
 USER node
 
 WORKDIR /app

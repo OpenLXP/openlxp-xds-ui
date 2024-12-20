@@ -5,7 +5,6 @@
  * @param {object} data - Course object
  * @returns {{name:string, description:string, experiences:[string]}}
  */
-
 export default function prepareListDataToSend(data) {
   return {
     ...data,

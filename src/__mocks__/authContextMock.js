@@ -1,6 +1,6 @@
 'use strict';
 
-import { createContext, useContext } from "react";
+import { useContext, createContext } from "react";
 export const AuthContext = createContext()
 export const AuthContextWrapper = ({children}) => {
     const login = jest.fn()

@@ -1,9 +1,9 @@
 'use strict';
 
-import { act, fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, act } from '@testing-library/react';
 
-import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import Unathorized from '../../pages/401';
+import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import singletonRouter from 'next/router';
 
 // mocks

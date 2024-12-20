@@ -1,14 +1,14 @@
 'use strict';
 
-import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
-import { act, fireEvent, render } from '@testing-library/react';
-import { useAuth } from '@/contexts/AuthContext';
+import { render, act, fireEvent } from '@testing-library/react';
 import { useConfig } from '@/hooks/useConfig';
-import CourseSpotlight from '@/components/cards/CourseSpotlight';
-import courseData from '@/__mocks__/data/course.data';
+import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import mockRouter from 'next-router-mock';
+import courseData from '@/__mocks__/data/course.data';
 import uiConfigData from '@/__mocks__/data/uiConfig.data';
+import CourseSpotlight from '@/components/cards/CourseSpotlight';
 import xAPIMapper from "@/utils/xapi/xAPIMapper";
+import { useAuth } from '@/contexts/AuthContext';
 
 // jest mocks
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
@@ -61,7 +61,6 @@ describe('Course Spotlight', () => {
         };
         const { getByAltText, queryByRole } = renderer(modified);
         expect(getByAltText ('')).toBeInTheDocument();
-
         // expect(queryByRole('img')).toBeInTheDocument();
       });
     });

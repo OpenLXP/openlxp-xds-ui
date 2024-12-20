@@ -1,6 +1,6 @@
 'use strict';
 
-import { act, renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react-hooks';
 import useTimeout from '../../hooks/useTimeout';
 
 jest.useFakeTimers();

@@ -36,7 +36,6 @@ function useStorage(key, defaultValue, storageObject) {
 
 export function useLocalStorage(key, defaultValue) {
   if (typeof window !== 'undefined') {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const useLocal = useStorage(key, defaultValue, localStorage)
     return useLocal;
   }
@@ -45,10 +44,8 @@ export function useLocalStorage(key, defaultValue) {
 
 export function useSessionStorage(key, defaultValue) {
   if (typeof window !== 'undefined') {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const useSession = useStorage(key, defaultValue, sessionStorage)
     return useSession;
   }
   return [defaultValue]
 }
-

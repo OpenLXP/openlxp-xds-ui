@@ -1,9 +1,9 @@
 'use strict';
 
-import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
+import mockAxios from 'jest-mock-axios';
 import { renderHook } from '@testing-library/react-hooks';
 import { useCreateUserList } from '@/hooks/useCreateUserList';
-import mockAxios from 'jest-mock-axios';
+import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 
 jest.unmock('@/hooks/useCreateUserList');
 

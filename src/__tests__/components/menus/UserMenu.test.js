@@ -4,9 +4,9 @@
 
 import { act, fireEvent, render, screen } from '@testing-library/react';
 
-import { useAuth } from '@/contexts/AuthContext';
 import UserMenu from '@/components/menus/UserMenu';
 import singletonRouter from 'next/router';
+import { useAuth } from '@/contexts/AuthContext';
 
 jest.mock('../../../contexts/AuthContext', () => ({
   useAuth: jest.fn(),

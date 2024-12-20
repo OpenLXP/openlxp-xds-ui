@@ -16,7 +16,6 @@ export const getDeeplyNestedData = (strKey, data) => {
       valueToReturn = valueToReturn[key];
     }
   });
-
   // Returning the desired value.
   return valueToReturn;
 };
