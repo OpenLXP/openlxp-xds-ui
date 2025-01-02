@@ -69,7 +69,7 @@ export default function Home() {
       </Head>
       <Header />
       <div className='max-w-7xl mx-auto flex flex-col items-center justify-center mt-10'>
-        {config.isSuccess && thumbnail ? <img
+        {config?.isSuccess && thumbnail ? <img
             src={thumbnail}
             alt=''
             className='h-32 w-32 m-2'

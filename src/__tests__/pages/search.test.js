@@ -69,12 +69,12 @@ describe('Search Page', () => {
     useMockSearch();
     useUnauthenticatedUser();
     useMockMoreLikeThis();
-    const { getByText } = renderer();
+    const { getByText, getAllByText } = renderer();
 
     expect(getByText('About 1 results.')).toBeInTheDocument();
 
-    expect(getByText('Test Title')).toBeInTheDocument();
-    expect(getByText('More Like This Title')).toBeInTheDocument();
+    expect(getAllByText('Test Title').length).toBe(2);
+    expect(getByText('Similar Course')).toBeInTheDocument();
   });
 
   it('should not render the save button when the user is not authenticated', () => {

@@ -73,7 +73,7 @@ export default function Header() {
                 id={'homepage-button'}
                 className={'cursor-pointer'}
               >
-              {config.isSuccess && thumbnail ? <img
+              {config?.isSuccess && thumbnail ? <img
                 src={thumbnail}
                 alt=''
                 className='h-12 w-12 m-2'
