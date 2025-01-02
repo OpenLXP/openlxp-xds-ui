@@ -1,8 +1,11 @@
+'use strict';
+
 import { act, fireEvent, render } from '@testing-library/react';
 
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import Forbidden from '../../pages/403';
 import singletonRouter from 'next/router';
+import '@testing-library/jest-dom'
 
 // mocks
 jest.mock('next/dist/client/router', () => require('next-router-mock'));

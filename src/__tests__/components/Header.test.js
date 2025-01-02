@@ -1,7 +1,10 @@
+'use strict';
+
 import { render } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';
 import Header from '@/components/Header';
 import mockRouter from 'next-router-mock';
+import '@testing-library/jest-dom'
 
 //mocks
 jest.mock('next/dist/client/router', () => require('next-router-mock'));

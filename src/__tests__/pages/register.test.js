@@ -1,4 +1,7 @@
-import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider/MemoryRouterProvider-11.1';
+'use strict';
+
+// import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider/MemoryRouterProvider-11.1';
+import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { axiosInstance } from '@/config/axiosConfig';
 import { fireEvent, render, screen } from '@testing-library/react';
@@ -12,6 +15,7 @@ import React, { useContext } from 'react';
 import Register from '@/pages/register';
 import mockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
+import '@testing-library/jest-dom'
 
 const renderer = () => {
   mockRouter.setCurrentUrl('/register');

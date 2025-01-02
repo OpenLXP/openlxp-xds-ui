@@ -1,4 +1,7 @@
-import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider/MemoryRouterProvider-11.1';
+'use strict';
+
+// import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider/MemoryRouterProvider-11.1';
+import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render } from '@testing-library/react';
 import {
@@ -19,6 +22,7 @@ import {
 import MockRouter from 'next-router-mock';
 import Search from '@/pages/search';
 import singletonRouter from 'next/router';
+import '@testing-library/jest-dom'
 
 // mocking the jest fn
 console.log = jest.fn();

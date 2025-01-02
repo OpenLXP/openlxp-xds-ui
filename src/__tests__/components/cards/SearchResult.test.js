@@ -1,3 +1,5 @@
+'use strict';
+
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render } from '@testing-library/react';
 import {
@@ -10,6 +12,7 @@ import {
 import SearchResult from '@/components/cards/SearchResult';
 import courseData from '@/__mocks__/data/course.data';
 import singletonRouter from 'next/router';
+import '@testing-library/jest-dom'
 
 const renderer = (props) => {
   return render(

@@ -1,3 +1,5 @@
+'use strict';
+
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock.js';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -5,6 +7,7 @@ import Home from '@/pages/index';
 import mockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
 import xAPIMapper from "@/utils/xapi/xAPIMapper";
+import '@testing-library/jest-dom'
 
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
 

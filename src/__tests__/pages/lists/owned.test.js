@@ -1,3 +1,5 @@
+'use strict';
+
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render } from '@testing-library/react';
@@ -13,6 +15,7 @@ import {
 import MockRouter from 'next-router-mock';
 import Owned from '@/pages/lists/owned';
 import singletonRouter from 'next/router';
+import '@testing-library/jest-dom'
 
 const renderer = () => {
   MockRouter.setCurrentUrl('/lists/owned');
