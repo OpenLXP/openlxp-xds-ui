@@ -20,6 +20,7 @@ import {
 import Course from '@/pages/course/[courseId]';
 import MockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
+import '@testing-library/jest-dom'
 
 const renderer = (isAuth = false) => {
   return render(

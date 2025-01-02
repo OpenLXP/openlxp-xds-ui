@@ -7,6 +7,7 @@ import Home from '@/pages/index';
 import mockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
 import xAPIMapper from "@/utils/xapi/xAPIMapper";
+import '@testing-library/jest-dom'
 
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
 

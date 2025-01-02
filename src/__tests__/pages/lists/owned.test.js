@@ -15,6 +15,7 @@ import {
 import MockRouter from 'next-router-mock';
 import Owned from '@/pages/lists/owned';
 import singletonRouter from 'next/router';
+import '@testing-library/jest-dom'
 
 const renderer = () => {
   MockRouter.setCurrentUrl('/lists/owned');

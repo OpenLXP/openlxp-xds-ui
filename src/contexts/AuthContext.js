@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
   const [error, setError] = useState(null);
   const [user, setSession, removeSession] = useSessionStorage('user', null);
 
-  useEffect(() => checkUserLoggedIn(), []);
+  useEffect(() => { checkUserLoggedIn() }, []);
 
   // Register user
   const register = (userData) => {

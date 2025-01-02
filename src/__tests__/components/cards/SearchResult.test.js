@@ -12,6 +12,7 @@ import {
 import SearchResult from '@/components/cards/SearchResult';
 import courseData from '@/__mocks__/data/course.data';
 import singletonRouter from 'next/router';
+import '@testing-library/jest-dom'
 
 const renderer = (props) => {
   return render(

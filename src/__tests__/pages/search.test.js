@@ -22,6 +22,7 @@ import {
 import MockRouter from 'next-router-mock';
 import Search from '@/pages/search';
 import singletonRouter from 'next/router';
+import '@testing-library/jest-dom'
 
 // mocking the jest fn
 console.log = jest.fn();

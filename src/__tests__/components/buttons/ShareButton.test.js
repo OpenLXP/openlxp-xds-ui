@@ -4,6 +4,7 @@ import { act, fireEvent, render } from '@testing-library/react';
 import { useUnauthenticatedUser } from '@/__mocks__/predefinedMocks';
 import ShareButton from '@/components/buttons/ShareBtn';
 import mock, { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
+import '@testing-library/jest-dom'
 
 const mockXAPISendStatement = jest.fn();
 describe('ShareButton', () => {

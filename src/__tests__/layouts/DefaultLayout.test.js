@@ -10,6 +10,7 @@ import {
 } from '@/__mocks__/predefinedMocks';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import mockRouter from 'next-router-mock';
+import '@testing-library/jest-dom'
 
 const Wrapper = ({ children }) => {
   const queryClient = new QueryClient();

@@ -16,6 +16,7 @@ import {
 import { fireEvent, render } from '@testing-library/react';
 import SavedSearches from '@/pages/lists/savedSearches';
 import singletonRouter from 'next/router';
+import '@testing-library/jest-dom'
 
 // renderer
 const renderer = () => {

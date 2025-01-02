@@ -14,6 +14,7 @@ import MockAxios from 'jest-mock-axios';
 import React from 'react';
 import mockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
+import '@testing-library/jest-dom'
 
 beforeEach(() => {
   mockRouter.setCurrentUrl('/login');

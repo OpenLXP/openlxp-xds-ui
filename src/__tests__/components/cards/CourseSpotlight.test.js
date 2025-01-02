@@ -9,6 +9,7 @@ import courseData from '@/__mocks__/data/course.data';
 import mockRouter from 'next-router-mock';
 import uiConfigData from '@/__mocks__/data/uiConfig.data';
 import xAPIMapper from "@/utils/xapi/xAPIMapper";
+import '@testing-library/jest-dom'
 
 // jest mocks
 jest.mock('next/dist/client/router', () => require('next-router-mock'));

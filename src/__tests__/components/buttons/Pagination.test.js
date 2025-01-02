@@ -3,6 +3,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import { Pagination } from '@/components/buttons/Pagination';
+import '@testing-library/jest-dom'
 
 describe('Pagination', () => {
   const testMock = jest.fn();

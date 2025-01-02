@@ -11,6 +11,7 @@ import {
 import { fireEvent, render } from '@testing-library/react';
 import { useCreateSaveSearch } from '@/hooks/useCreateSaveSearch';
 import CreateSavedSearchModal from '@/components/modals/CreateSavedSearch';
+import '@testing-library/jest-dom'
 
 const renderer = () => {
   return render(

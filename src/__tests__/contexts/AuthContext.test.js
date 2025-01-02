@@ -2,6 +2,7 @@
 
 import { AuthContext, AuthProvider, useAuth } from '@/contexts/AuthContext';
 import { render } from '@testing-library/react';
+import '@testing-library/jest-dom'
 
 jest.unmock('@/contexts/AuthContext');
 
