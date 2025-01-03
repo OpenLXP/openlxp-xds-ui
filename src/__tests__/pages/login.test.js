@@ -1,5 +1,6 @@
 'use strict';
 
+import '@testing-library/jest-dom'
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render, screen } from '@testing-library/react';
@@ -14,7 +15,6 @@ import MockAxios from 'jest-mock-axios';
 import React from 'react';
 import mockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
-import '@testing-library/jest-dom'
 
 beforeEach(() => {
   mockRouter.setCurrentUrl('/login');

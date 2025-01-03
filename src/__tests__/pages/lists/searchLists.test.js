@@ -2,11 +2,12 @@
 
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
-import { act, fireEvent, render, cleanup } from '@testing-library/react';
+import { act, cleanup, fireEvent, render } from '@testing-library/react';
 import MockRouter from 'next-router-mock';
 import SearchLists from '@/pages/lists/searchLists';
 import singletonRouter from 'next/router';
 
+import '@testing-library/jest-dom';
 import {
   subscribeToListMockFn,
   unsubscribeFromListMockFn,
@@ -23,7 +24,6 @@ import {
   useUnauthenticatedUser,
 } from '@/__mocks__/predefinedMocks';
 import { useSubscribeToList } from '@/hooks/useSubscribeToList';
-import '@testing-library/jest-dom';
 
 beforeEach(() => {
   useMockConfig();

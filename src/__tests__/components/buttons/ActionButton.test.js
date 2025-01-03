@@ -2,8 +2,8 @@
 
 import { act, fireEvent, render, screen } from '@testing-library/react';
 
-import ActionButton from '../../../components/buttons/ActionButton';
 import '@testing-library/jest-dom'
+import ActionButton from '../../../components/buttons/ActionButton';
 
 describe('Action Button', () => {
   it('shows the child components', () => {

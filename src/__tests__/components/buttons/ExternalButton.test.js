@@ -2,8 +2,8 @@
 
 import { render, screen } from '@testing-library/react';
 
-import ExternalBtn from '@/components/buttons/ExternalBtn';
 import '@testing-library/jest-dom'
+import ExternalBtn from '@/components/buttons/ExternalBtn';
 
 describe('External Button', () => {
   it('should render', () => {

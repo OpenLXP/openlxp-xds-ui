@@ -2,10 +2,10 @@
 
 import { act, fireEvent, render } from '@testing-library/react';
 
+import '@testing-library/jest-dom'
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import Unathorized from '../../pages/401';
 import singletonRouter from 'next/router';
-import '@testing-library/jest-dom'
 
 // mocks
 jest.mock('next/dist/client/router', () => require('next-router-mock'));

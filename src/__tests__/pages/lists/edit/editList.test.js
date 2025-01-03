@@ -1,6 +1,7 @@
 'use strict';
 
 // import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider/MemoryRouterProvider-11.1';
+import '@testing-library/jest-dom';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render, screen } from '@testing-library/react';
@@ -18,7 +19,6 @@ import {
 import EditList, { getServerSideProps } from '@/pages/lists/edit/[listId]';
 import MockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
-import '@testing-library/jest-dom';
 
 beforeEach(() => {
   useMockConfig();

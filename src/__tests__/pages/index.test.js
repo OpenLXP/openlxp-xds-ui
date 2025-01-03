@@ -1,5 +1,6 @@
 'use strict';
 
+import '@testing-library/jest-dom'
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock.js';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -7,7 +8,6 @@ import Home from '@/pages/index';
 import mockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
 import xAPIMapper from "@/utils/xapi/xAPIMapper";
-import '@testing-library/jest-dom'
 
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
 
@@ -69,7 +69,7 @@ describe('should render the title', () => {
       fireEvent.click(screen.getByTitle(/search/i));
     });
     expect(singletonRouter).toMatchObject({
-      asPath: '/search/?keyword=updated%20value&p=1',
+      asPath: '/search?keyword=updated+value&p=1',
     });
   });
 

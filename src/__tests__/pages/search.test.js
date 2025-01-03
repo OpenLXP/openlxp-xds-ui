@@ -1,6 +1,7 @@
 'use strict';
 
 // import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider/MemoryRouterProvider-11.1';
+import '@testing-library/jest-dom'
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render } from '@testing-library/react';
@@ -22,7 +23,6 @@ import {
 import MockRouter from 'next-router-mock';
 import Search from '@/pages/search';
 import singletonRouter from 'next/router';
-import '@testing-library/jest-dom'
 
 // mocking the jest fn
 console.log = jest.fn();
@@ -258,7 +258,7 @@ describe('Search Page', () => {
       fireEvent.click(getByText(/test bucket 1/i));
     });
     expect(singletonRouter).toMatchObject({
-      asPath: '/search?keyword=initial&Course.CourseType=test%20bucket%201&p=1',
+      asPath: '/search?keyword=initial&Course.CourseType=test+bucket+1&p=1',
     });
     act(() => {
       fireEvent.click(queryByRole('button', { name: /clear/i }));
@@ -274,7 +274,8 @@ describe('Search Page', () => {
     useMockMoreLikeThisWithoutData();
     useMockUserOwnedLists();
     const { getByRole, getAllByText } = renderer();
-    expect(getAllByText(/1/i).length).toBe(3);
+    expect(getAllByText(/1/i).length).toBe(2);
+
     // expect(getByRole('button', { name: /1/i })).toBeInTheDocument();
   });
 

@@ -1,5 +1,6 @@
 'use strict';
 
+import '@testing-library/jest-dom'
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render } from '@testing-library/react';
@@ -20,7 +21,6 @@ import {
 import Course from '@/pages/course/[courseId]';
 import MockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
-import '@testing-library/jest-dom'
 
 const renderer = (isAuth = false) => {
   return render(

@@ -1,5 +1,6 @@
 'use strict';
 
+import '@testing-library/jest-dom'
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render, screen } from '@testing-library/react';
@@ -10,7 +11,6 @@ import {
 } from '@/__mocks__/predefinedMocks';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import mockRouter from 'next-router-mock';
-import '@testing-library/jest-dom'
 
 const Wrapper = ({ children }) => {
   const queryClient = new QueryClient();
@@ -38,6 +38,7 @@ describe('Default Layout', () => {
     renderer();
     expect(screen.getByText('Sign in')).toBeInTheDocument();
     expect(screen.getByText('Sign up')).toBeInTheDocument();
+
     // expect(screen.getByAltText('home')).toBeInTheDocument();
 
     expect(screen.getByText('DOD Home Page')).toBeInTheDocument();

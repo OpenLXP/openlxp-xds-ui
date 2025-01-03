@@ -1,5 +1,6 @@
 'use strict';
 
+import '@testing-library/jest-dom'
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import {
@@ -16,7 +17,6 @@ import {
 import { fireEvent, render } from '@testing-library/react';
 import SavedSearches from '@/pages/lists/savedSearches';
 import singletonRouter from 'next/router';
-import '@testing-library/jest-dom'
 
 // renderer
 const renderer = () => {
