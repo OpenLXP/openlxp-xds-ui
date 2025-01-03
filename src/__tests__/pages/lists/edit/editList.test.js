@@ -18,7 +18,7 @@ import {
 import EditList, { getServerSideProps } from '@/pages/lists/edit/[listId]';
 import MockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
-import '@testing-library/jest-dom'
+import '@testing-library/jest-dom';
 
 beforeEach(() => {
   useMockConfig();

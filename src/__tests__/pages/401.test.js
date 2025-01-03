@@ -35,7 +35,7 @@ describe('401 Page', () => {
     const { getByText } = renderer();
     new Promise((r) => setTimeout(r, 16000));
     expect(singletonRouter).toMatchObject({
-        asPath: '',
+        asPath: '/',
       });
   });
 

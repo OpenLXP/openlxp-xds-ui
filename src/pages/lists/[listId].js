@@ -28,10 +28,8 @@ export default function ListsView({ listId }) {
   useEffect(() => {
     // if the user is not logged in, redirect to the home page
     if (!user) router.push('/');
-    if (list.isError && list.error.response.status === 401)
-      return router.push('/401');
-    if (list.isError && list.error.response.status === 403)
-      return router.push('/403');
+    if (list.isError && list.error.response.status === 401) { router.push('/401'); }
+    if (list.isError && list.error.response.status === 403) { router.push('/403'); }
   }, []);
 
   const visitCourse = useCallback((course) => {

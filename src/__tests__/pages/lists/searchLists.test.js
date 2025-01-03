@@ -23,7 +23,7 @@ import {
   useUnauthenticatedUser,
 } from '@/__mocks__/predefinedMocks';
 import { useSubscribeToList } from '@/hooks/useSubscribeToList';
-import '@testing-library/jest-dom'
+import '@testing-library/jest-dom';
 
 beforeEach(() => {
   useMockConfig();
@@ -78,11 +78,11 @@ describe('Search Lists', () => {
   });
 
   it('should navigate a user to "403" page when user has no permissions', () => {
-    useAuthenticatedUser();
-    useMockInterestListsWith403();
-    useMockSubscribedListsEmpty();
-    useMockSubscribeToList();
-    useMockUnsubscribeFromList();
+    useAuthenticatedUser({});
+    useMockInterestListsWith403({});
+    useMockSubscribedListsEmpty({});
+    useMockSubscribeToList({});
+    useMockUnsubscribeFromList({});
     const { getByText } = renderer();
     expect(singletonRouter).toMatchObject({
       asPath: '/403',

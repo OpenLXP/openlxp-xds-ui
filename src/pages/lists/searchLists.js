@@ -12,7 +12,7 @@ import SearchBar from '@/components/inputs/SearchBar';
 import SearchListPagination from '@/components/buttons/SearchListPagination';
 
 // chunk the lists into pages of a given size
-function chunkArray (array, chunkSize) {
+function chunkArray(array, chunkSize) {
   let results = [];
   while (array.length) {
     results.push(array.splice(0, chunkSize));
@@ -73,10 +73,8 @@ export default function SearchLists() {
   useEffect(() => {
     // if the user is not logged in, redirect to the home page
     if (!user) router.push('/');
-    if (interestLists.isError && interestLists.error.response.status === 401)
-      return router.push('/401');
-    if(interestLists.isError && interestLists.error.response.status === 403)
-      return router.push('/403');
+    if (interestLists.isError && interestLists.error.response.status === 401) { router.push('/401'); }
+    if (interestLists.isError && interestLists.error.response.status === 403) { router.push('/403'); }
   }, []);
 
   return (
@@ -92,11 +90,11 @@ export default function SearchLists() {
             onReset={resetSearch}
           />
         </div>
-        <SearchListPagination page={page} 
-          setPage={setPage} 
-          listToDisplayLength={listToDisplay?.length} 
-          pageLength={listToDisplay[page]?.length} 
-          interestListsLength={interestLists?.data?.length}/>        
+        <SearchListPagination page={page}
+          setPage={setPage}
+          listToDisplayLength={listToDisplay?.length}
+          pageLength={listToDisplay[page]?.length}
+          interestListsLength={interestLists?.data?.length} />
       </div>
       <table className='bg-white w-full rounded-md shadow mt-6 border-'>
         <thead className='font-normal border-b'>
@@ -129,7 +127,7 @@ export default function SearchLists() {
                 </td>
                 <td className='px-2'>
                   {subscribedLists.isSuccess &&
-                  subscribedLists.data.find((sub) => sub.id === list.id) ? (
+                    subscribedLists.data.find((sub) => sub.id === list.id) ? (
                     <button
                       onClick={() => unsubscribe({ id: list.id })}
                       className='bg-red-100 border border-red-500 text-red-500 px-2 py-1.5 my-2 rounded hover:bg-red-500 hover:text-white w-32'

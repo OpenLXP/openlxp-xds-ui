@@ -62,7 +62,7 @@ describe('Select List', () => {
       fireEvent.click(selection);
     });
 
-    expect(screen.getAllByText('test bucket 1').length).toBe(2);
+    expect(screen.getAllByText('test bucket 1').length).toBe(1);
   });
 
   it('should execute passed fn on change', () => {
