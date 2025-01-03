@@ -24,6 +24,7 @@ import SaveModalCoursePage from '@/components/modals/SaveModalCoursePage';
 import ShareButton from '@/components/buttons/ShareBtn';
 
 function RelatedCourses({ id }) {
+  const config = useConfig();
   const moreLikeThis = useMoreCoursesLikeThis(id);
   if (moreLikeThis?.data?.hits < 1) return null;
 
