@@ -15,9 +15,8 @@ export default function Notifications() {
     const router = useRouter();
     const {
       user: {
-        user: { first_name },
+        user: { },
       },
-      logout,
     } = useAuth();
 
     let [data, setData] = useState({});

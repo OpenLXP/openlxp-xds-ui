@@ -82,13 +82,6 @@ export default function EditList({ listId }) {
     router.push(`/course/${id}`);
   };
 
-  const toggleListVisibility = () => {
-    setCurrentListInfo((prev) => ({
-      ...prev,
-      public: !prev.public,
-    }));
-  };
-
   const removeCourse = (id) => {
     setCurrentListInfo((prev) => {
       return {
