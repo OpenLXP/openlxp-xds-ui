@@ -1,13 +1,16 @@
 'use strict';
 
+import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback } from 'react';
+import { useConfig } from '@/hooks/useConfig';
 import { useRouter } from 'next/router';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import SaveModal from '@/components/modals/SaveModal';
 
 export default function SearchResult({ result }) {
+  const config = useConfig();
   const { user } = useAuth();
   const router = useRouter();
 
@@ -24,8 +27,8 @@ export default function SearchResult({ result }) {
       },
       object: {
         id: `${window.origin}/course/${result.meta.id}`,
-        definitionName: result.Course.CourseTitle,
-        description: result.Course.CourseShortDescription,
+        definitionName: getDeeplyNestedData(config.data?.course_information?.course_title, result),
+        description: getDeeplyNestedData(config.data?.course_information?.course_description, result),
       },
       resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
       resultExtValue: result.meta.id,
@@ -38,24 +41,24 @@ export default function SearchResult({ result }) {
   return (
     <div
       className='group hover:text-blue-400 hover:text-shadow cursor-pointer pr-2 pl-1 py-1 rounded-md outline-none focus-within:ring-2 focus-within:ring-blue-500'
-      title={result.Course.CourseTitle}
+      title={getDeeplyNestedData(config.data?.course_information?.course_title, result)}
     >
       <div className='flex justify-between items-center'>
         <button
           className='text-lg font-semibold group-hover:underline w-full text-left focus:outline-none'
           onClick={handleClick}
         >
-          <h3>{result.Course.CourseTitle}</h3>
+          <h3>{getDeeplyNestedData(config.data?.course_information?.course_title, result)}</h3>
         </button>
-        {user && <SaveModal courseId={result.meta.id} title={result.Course.CourseTitle} />}
+        {user && <SaveModal resultId={result.meta.id} title={getDeeplyNestedData(config.data?.course_information?.course_title, result)} />}
       </div>
       <div onClick={handleClick} className='text-left' aria-hidden='true'>
         <h4>
           <strong>Provider:&nbsp;</strong>
-          {result.Course.CourseProviderName}
+          {getDeeplyNestedData(config.data?.course_information?.course_provider, result)}
         </h4>
         <p className='line-clamp-4 pr-4'>
-          {removeHTML(result.Course.CourseShortDescription)}
+          {removeHTML(getDeeplyNestedData(config.data?.course_information?.course_description, result))}
         </p>
       </div>
     </div>
