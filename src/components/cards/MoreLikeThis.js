@@ -69,7 +69,7 @@ export default function MoreLikeThis({ course }) {
           };
         }),
       };
-    }, [course?.isSuccess, course.data, config.isSuccess, config.data]);
+    }, [course?.isSuccess, course?.data, config.isSuccess, config.data]);
 
   // if loading
   if (isLoading) {
