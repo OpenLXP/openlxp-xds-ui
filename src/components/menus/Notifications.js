@@ -85,7 +85,7 @@ export default function Notifications() {
                     <div className='grid gap-1 pt-1'>
                         {data?.all_list && data?.all_list?.map((list) => {
                         return (
-                            <div className='flex felx-col border vertical-align-middle items-center justify-center align-center'>
+                            <div className='flex felx-col border vertical-align-middle items-center justify-center align-center' key={list.id}>
                                 {list.unread ? (
                                     <div className='m-1 rounded-full inline-flex bg-blue-400 h-3 w-3 items-center justify-center align-center '/>)
                                     : (<div> </div>)}
