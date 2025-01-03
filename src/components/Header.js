@@ -30,7 +30,7 @@ function Button({ data }) {
   const router = useRouter();
   if (data.path === router?.asPath) {
     return (
-      <Link href={data.path}>
+      <Link legacyBehavior href={data.path}>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a className='px-1 font-bold text-gray-800 border-b-2 border-gray-800 hover:text-gray-900'>
           {data.label}
@@ -39,7 +39,7 @@ function Button({ data }) {
     );
   }
   return (
-    <Link href={data.path}>
+    <Link legacyBehavior href={data.path}>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a className='transition-all duration-100 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-900'>
         {data.label}
