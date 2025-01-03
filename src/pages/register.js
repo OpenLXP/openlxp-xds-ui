@@ -1,11 +1,11 @@
+'use strict';
+
 import {
   CheckCircleIcon,
   RefreshIcon,
   UserAddIcon,
   XCircleIcon,
 } from '@heroicons/react/outline';
-import { authRegister } from '@/config/endpoints';
-import { axiosInstance } from '@/config/axiosConfig';
 import {
   containsLowercase,
   containsNumber,
@@ -15,10 +15,13 @@ import {
   isLongEnough,
   isValidEmail,
 } from '@/utils/validation';
+import { useEffect, useState } from 'react';
+
+import { authRegister } from '@/config/endpoints';
+import { axiosInstance } from '@/config/axiosConfig';
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import Image from 'next/image';
@@ -176,7 +179,7 @@ export default function Register() {
         register(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("Account registration failed.");
       })
       .finally(() => {
         setLoading(false);
@@ -221,10 +224,23 @@ export default function Register() {
     validateName(credentials.first_name, setFirstNameError, 'First name', setError);
   }, [credentials.first_name]);
 
+  const checkSpecialChar =(e)=>{
+    if(/[<>/?+={};#$%&*()`~\\]/.test(e.key)){
+     e.preventDefault();
+    }
+   };
+
+   const checkSpecialCharPass =(e)=>{
+    if(/[<>/{};]/.test(e.key)){
+      e.preventDefault();
+    }
+   };
+
+  const imagePath = '/_next/static/media/logo.ed71202b.png';
   return (
     <DefaultLayout>
       <div className='text-center mt-10'>
-        <Image src={logo} alt='logo' width={100} height={100} />
+        <Image src={imagePath} alt='logo' width={100} height={100} priority={true}/>
         <h1 className='font-bold text-xl'>Create your account</h1>
         <p className='text-sm'>
           or&nbsp;
@@ -246,6 +262,8 @@ export default function Register() {
             name='first_name'
             placeholder='First Name'
             className='w-1/2 rounded p-2 mt-4 shadow'
+            maxLength="200"
+            onKeyPress={(e)=>checkSpecialChar(e)}
             required
           />
           <input
@@ -253,6 +271,8 @@ export default function Register() {
             name='last_name'
             placeholder='Last Name'
             className='w-1/2 rounded p-2 mt-4 shadow'
+            maxLength="200"
+            onKeyPress={(e)=>checkSpecialChar(e)}
             required
           />
         </div>
@@ -260,7 +280,9 @@ export default function Register() {
           type='email'
           name='email'
           placeholder='Email'
+          onKeyPress={(e)=>checkSpecialCharPass(e)}
           className='w-full rounded p-2 mt-4 shadow'
+          maxLength="200"
           required
         />
         <input

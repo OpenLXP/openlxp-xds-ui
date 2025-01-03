@@ -1,3 +1,7 @@
+'use strict';
+
+import React, { useCallback } from 'react';
+
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
@@ -6,18 +10,14 @@ import Footer from '@/components/Footer';
 import Head from 'next/head'
 import Header from '@/components/Header';
 import Image from 'next/image';
-import React, { useCallback, useMemo } from 'react';
 import SearchBar from '@/components/inputs/SearchBar';
 import logo from '@/public/logo.png';
 import useField from '@/hooks/useField';
 import useSpotlightCourses from '@/hooks/useSpotlightCourses';
-import { useConfig } from '@/hooks/useConfig';
-import { backendHost } from '@/config/endpoints';
 
 export default function Home() {
   const router = useRouter();
   const { user } = useAuth();
-  const config = useConfig();
 
   const spotlight = useSpotlightCourses();
   const { fields, updateKeyValuePair, resetKey } = useField({
@@ -53,13 +53,7 @@ export default function Home() {
     updateKeyValuePair(event.target.name, event.target.value);
   };
 
-  const thumbnail = useMemo(() => { 
-    return (
-      (config?.data?.ui_logo &&
-        `${backendHost}${config?.data?.ui_logo}`) ||
-      null
-    );
-  }, [config]);
+  const imagePath = '/_next/static/media/logo.ed71202b.png';
 
   return (
     <>
@@ -69,11 +63,7 @@ export default function Home() {
       </Head>
       <Header />
       <div className='max-w-7xl mx-auto flex flex-col items-center justify-center mt-10'>
-        {config?.isSuccess && thumbnail ? <img
-            src={thumbnail}
-            alt=''
-            className='h-32 w-32 m-2'
-          /> : <Image src={logo} height={150} width={150} alt='' />}
+        <Image src={imagePath} height={150} width={150} alt='' priority={true}/>
         <h1 className='text-3xl font-bold mt-4'>Enterprise Course Catalog</h1>
         <h2 className='text-xl font-sans mt-2'>Department of Defense</h2>
       </div>

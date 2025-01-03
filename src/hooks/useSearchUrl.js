@@ -1,3 +1,5 @@
+'use strict';
+
 import { searchUrl } from '../config/endpoints';
 import { useState } from 'react';
 import queryString from 'querystring';

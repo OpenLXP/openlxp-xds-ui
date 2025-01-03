@@ -1,3 +1,5 @@
+'use strict';
+
 import { BookOpenIcon, UsersIcon } from '@heroicons/react/solid';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';

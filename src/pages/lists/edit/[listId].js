@@ -1,3 +1,5 @@
+'use strict';
+
 import {
   EyeIcon,
   EyeOffIcon,
@@ -6,9 +8,10 @@ import {
   XCircleIcon,
   XIcon,
 } from '@heroicons/react/outline';
+import { useEffect, useMemo, useState } from 'react';
+
 import { Switch } from '@headlessui/react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserList } from '@/hooks/useUserList';
@@ -43,21 +46,19 @@ export default function EditList({ listId }) {
 
   useEffect(() => {
     // no user
-    if (!user) return router.push('/');
+    if (!user) { router.push('/'); }
 
     // if there is a authorization error
     if (initialList?.isError) {
-      if( initialList?.error?.response?.status === 401)
-       return router.push('/401');
-      if (initialList?.error?.response?.status === 403)
-        return router.push('/403');
+      if (initialList?.error?.response?.status === 401) { router.push('/401'); }
+      if (initialList?.error?.response?.status === 403) { router.push('/403'); }
     }
-    
+
     // if the owner of the list is not the current user, redirect to homepage
-    if (initialList?.isSuccess && user?.user?.id){
-      if (initialList?.data?.owner?.id !== user?.user?.id){
-        return router.push(`/lists/${listId}`);
-      } 
+    if (initialList?.isSuccess && user?.user?.id) {
+      if (initialList?.data?.owner?.id !== user?.user?.id) {
+        router.push(`/lists/${listId}`);
+      }
     }
     if (initialList?.isSuccess) {
       setCurrentListInfo({
@@ -79,13 +80,6 @@ export default function EditList({ listId }) {
   const visitCourse = (event, id) => {
     event.preventDefault();
     router.push(`/course/${id}`);
-  };
-
-  const toggleListVisibility = () => {
-    setCurrentListInfo((prev) => ({
-      ...prev,
-      public: !prev.public,
-    }));
   };
 
   const removeCourse = (id) => {
@@ -117,6 +111,12 @@ export default function EditList({ listId }) {
     );
   };
 
+  const checkSpecialChar = (e) => {
+    if (/[<>/?+={};#$*`~\\]/.test(e.key)) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <DefaultLayout>
       <div className='flex justify-between items-center border-b'>
@@ -146,6 +146,8 @@ export default function EditList({ listId }) {
             value={currentListInfo?.name}
             onChange={handleChange}
             name='name'
+            maxLength="200"
+            onKeyPress={(e) => checkSpecialChar(e)}
           />
           <textarea
             className='col-span-2 outline-none rounded shadow-sm py-4 px-2 border focus:shadow-md focus:shadow-blue-400  focus:ring-4 focus:ring-blue-400 focus:ring-offset-1'
@@ -153,6 +155,9 @@ export default function EditList({ listId }) {
             placeholder='List Description'
             onChange={handleChange}
             value={currentListInfo?.description}
+            maxLength="1000"
+            onKeyPress={(e) => checkSpecialChar(e)}
+
           />
         </div>
 

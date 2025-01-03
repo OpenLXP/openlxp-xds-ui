@@ -21,7 +21,7 @@ import MockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
 import xAPIMapper from '@/utils/xapi/xAPIMapper';
 import xAPISendStatement from '@/utils/xapi/xAPISendStatement';
-import '@testing-library/jest-dom'
+import '@testing-library/jest-dom';
 
 // render function that wraps the component with query client wrapper
 const renderer = () => {
@@ -82,9 +82,9 @@ describe('List page', () => {
   });
 
   it('should navigate user to 401 page', () => {
-    useListMockWith401();
-    useAuthenticatedUser();
-    renderer();
+    useListMockWith401({});
+    useAuthenticatedUser({});
+    render();
 
     expect(singletonRouter).toMatchObject({ asPath: '/401' });
   });

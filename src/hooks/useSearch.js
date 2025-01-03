@@ -1,3 +1,5 @@
+'use strict';
+
 import { axiosInstance } from '@/config/axiosConfig';
 import { searchUrl } from '@/config/endpoints';
 import { tenMinutes } from '@/config/timeConstants';

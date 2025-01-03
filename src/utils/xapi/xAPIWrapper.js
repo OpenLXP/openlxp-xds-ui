@@ -1,3 +1,5 @@
+'use strict';
+
 import xAPIMapper from "./xAPIMapper";
 
 /**
@@ -13,9 +15,6 @@ import xAPIMapper from "./xAPIMapper";
 export const sendStatement = (actor, verb, obj, resultExtName, resultExtValue) => {
 
   const statement = {
-    context: {
-      platform: "ECC dev env"
-    },
     actor: {
       account: {
         homePage: "https://ecc.gov",
@@ -43,7 +42,7 @@ export const sendStatement = (actor, verb, obj, resultExtName, resultExtValue) =
         [resultExtName]: resultExtValue
       }
     },
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toUTCString()
   }
 
   obj.description && (statement['object']['definition']['description'] = {

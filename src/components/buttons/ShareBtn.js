@@ -1,3 +1,5 @@
+'use strict';
+
 import { Dialog, Transition } from '@headlessui/react';
 import { DuplicateIcon, ShareIcon } from '@heroicons/react/outline';
 import { Fragment, useState } from 'react';

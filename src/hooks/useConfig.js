@@ -1,3 +1,5 @@
+'use strict';
+
 import { axiosInstance } from '../config/axiosConfig';
 import { configUrl } from '../config/endpoints';
 import { twentyFourHours } from '../config/timeConstants';
