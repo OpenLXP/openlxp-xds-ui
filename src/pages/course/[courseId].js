@@ -35,7 +35,7 @@ function RelatedCourses({ id }) {
       <div className='flex justify-center w-full overflow-x-hidden my-10 max-w-7xl mx-auto'>
         <div className='inline-flex overflow-x-auto gap-2 py-4 custom-scroll '>
           {moreLikeThis.data?.hits?.map((course, index) => (
-            <CourseSpotlight course={course} key={index} />
+            <CourseSpotlight course={course} key={getDeeplyNestedData(config.data?.course_information?.course_title, course)} />
           ))}
         </div>
       </div>
@@ -63,7 +63,8 @@ function DerivedCourses({ id, derivedCourses }) {
         <p className='my-2'> These are additional resources for reference. </p>
       
         {derivedCourses?.data?.hits?.slice(0, 5).map((course, index) => (
-            <Accordion key={index} title={getDeeplyNestedData(config.data?.course_information?.course_title, course)}
+            <Accordion key={getDeeplyNestedData(config.data?.course_information?.course_title, course)} 
+            title={getDeeplyNestedData(config.data?.course_information?.course_title, course)}
             content={<a href={course.meta?.id}>
               <div className='flex flex-col '>
                 <div className='py-4'>
@@ -91,7 +92,8 @@ function DerivedCourses({ id, derivedCourses }) {
 
         {showContent && 
           derivedCourses?.data?.hits?.slice(5, derivedCourses.data?.hits.length).map((course, index) => (
-            <Accordion key={index} title={getDeeplyNestedData(config.data?.course_information?.course_title, course)}
+            <Accordion key={getDeeplyNestedData(config.data?.course_information?.course_title, course)} 
+            title={getDeeplyNestedData(config.data?.course_information?.course_title, course)}
             content={<a href={course.meta?.id}>
               <div className='flex flex-col '>
                 <div className='py-4'>
