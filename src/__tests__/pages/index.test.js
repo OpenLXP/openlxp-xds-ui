@@ -69,7 +69,7 @@ describe('should render the title', () => {
       fireEvent.click(screen.getByTitle(/search/i));
     });
     expect(singletonRouter).toMatchObject({
-      asPath: '/search/?keyword=updated%20value&p=1',
+      asPath: '/search?keyword=updated+value&p=1',
     });
   });
 
