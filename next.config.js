@@ -33,6 +33,7 @@ const nextConfig = {
                                     "https://www.jcs.mil",
                                     "https://www.aetc.af.mil",
                                     "https://prod-discovery.edx-cdn.org",
+                                    "https://media.defense.gov"
                             ],
                             fontSrc: [
                                 "'self'", 
