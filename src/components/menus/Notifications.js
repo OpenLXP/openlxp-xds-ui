@@ -13,11 +13,6 @@ import { useRouter } from 'next/router';
 
 export default function Notifications() {
     const router = useRouter();
-    const {
-      user: {
-        user: { },
-      },
-    } = useAuth();
 
     let [data, setData] = useState({});
 
