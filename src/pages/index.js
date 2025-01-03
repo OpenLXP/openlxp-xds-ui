@@ -1,8 +1,8 @@
 'use strict';
 
-import React, { useCallback } from 'react';
-
+import { backendHost } from '@/config/endpoints';
 import { useAuth } from '@/contexts/AuthContext';
+import { useConfig } from '@/hooks/useConfig';
 import { useRouter } from 'next/router';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
@@ -15,8 +15,6 @@ import SearchBar from '@/components/inputs/SearchBar';
 import logo from '@/public/logo.png';
 import useField from '@/hooks/useField';
 import useSpotlightCourses from '@/hooks/useSpotlightCourses';
-import { useConfig } from '@/hooks/useConfig';
-import { backendHost } from '@/config/endpoints';
 
 export default function Home() {
   const router = useRouter();

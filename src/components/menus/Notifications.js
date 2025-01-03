@@ -3,13 +3,13 @@
 import { BellIcon } from '@heroicons/react/outline';
 import { Fragment, useEffect, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
+import { allNotification, allRead } from '@/config/endpoints';
+import { axiosInstance } from '@/config/axiosConfig';
+import {getAllRead} from '@/hooks/useAllNotificRead'
+import { getNotifications, useNotifications } from '@/hooks/useNotifications';
+import { getUnreadData, useUnreadData } from '@/hooks/useNotifUnreadCount';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
-import { useNotifications, getNotifications } from '@/hooks/useNotifications';
-import {getAllRead} from '@/hooks/useAllNotificRead'
-import { getUnreadData, useUnreadData } from '@/hooks/useNotifUnreadCount';
-import { axiosInstance } from '@/config/axiosConfig';
-import { allNotification, allRead } from '@/config/endpoints';
 
 export default function Notifications() {
     const router = useRouter();
@@ -25,12 +25,14 @@ export default function Notifications() {
     useEffect(() => {
         setTimeout(() => {
         }, 200);
+
         // Requesting data from the API endpoint
         axiosInstance
             .get(allNotification)
             .then((res) => {
                 setData(res.data);
             })
+
             // If there is an error.
             .catch((err) => {
                 console.log("Failed to retrieve data from endpoint")

@@ -1,6 +1,6 @@
-import { useQuery } from 'react-query';
 import { axiosInstance } from '@/config/axiosConfig';
 import { unreadData } from '@/config/endpoints';
+import { useQuery } from 'react-query';
 
 export const getUnreadData = () => {
   return () => axiosInstance.get(unreadData).then((res) => res.data);

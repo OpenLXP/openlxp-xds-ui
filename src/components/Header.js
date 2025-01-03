@@ -1,15 +1,15 @@
 'use strict';
 
+import { backendHost } from '@/config/endpoints';
 import { useAuth } from '@/contexts/AuthContext';
+import { useConfig } from '@/hooks/useConfig';
+import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
+import Notifications from './menus/Notifications';
 import UserMenu from '@/components/menus/UserMenu';
 import logo from '@/public/logo.png';
-import Notifications from './menus/Notifications';
-import { useConfig } from '@/hooks/useConfig';
-import { backendHost } from '@/config/endpoints';
-import { useMemo } from 'react';
 
 const menuItems = [
   {
@@ -75,7 +75,7 @@ export default function Header() {
                 id={'homepage-button'}
                 className={'cursor-pointer'}
               >
-              {config.isSuccess && thumbnail ? <img
+              {config?.isSuccess && thumbnail ? <img
                 src={thumbnail}
                 alt=''
                 className='h-12 w-12 m-2'

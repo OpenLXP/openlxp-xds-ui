@@ -1,13 +1,13 @@
 'use strict';
 
+import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '../../contexts/AuthContext';
+import { useConfig } from '@/hooks/useConfig';
 import { useMoreCoursesLikeThis } from '../../hooks/useMoreCoursesLikeThis';
 import React, { useMemo } from 'react';
 import SaveModal from '../modals/SaveModal';
 import ViewBtn from '../buttons/ViewBtn';
-import { useConfig } from '@/hooks/useConfig';
-import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 
 export default function MoreLikeThis({ course }) {
   const { data, isLoading } = useMoreCoursesLikeThis(course?.meta.id);
@@ -69,7 +69,7 @@ export default function MoreLikeThis({ course }) {
           };
         }),
       };
-    }, [course.isSuccess, course.data, config.isSuccess, config.data]);
+    }, [course?.isSuccess, course.data, config.isSuccess, config.data]);
 
   // if loading
   if (isLoading) {
