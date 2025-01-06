@@ -1,5 +1,6 @@
 'use strict';
 
+import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback, useEffect } from 'react';
 import { useConfig } from '@/hooks/useConfig';
