@@ -18,7 +18,6 @@ import { useUserList } from '@/hooks/useUserList';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import PublicPrivateToggle from '@/components/inputs/PublicPrivateToggle';
 import prepareListDataToSend from '@/utils/prepListDataToSend';
-import { useConfig } from '@/hooks/useConfig';
 
 export function getServerSideProps({ query }) {
   return {
@@ -31,7 +30,6 @@ export function getServerSideProps({ query }) {
 export default function EditList({ listId }) {
   const router = useRouter();
   const { user } = useAuth();
-  const config = useConfig();
 
   // handles the mutation
   const mutation = useUpdateUserList();
@@ -89,7 +87,7 @@ export default function EditList({ listId }) {
       return {
         ...prev,
         experiences: prev.experiences.filter(
-          (exp) => exp.meta.id !== id
+          (exp) => exp.meta.metadata_key_hash !== id
         ),
       };
     });
@@ -177,23 +175,23 @@ export default function EditList({ listId }) {
           <tbody className=''>
             {currentListInfo?.experiences?.map((exp) => (
               <tr
-                key={exp?.meta?.id}
+                key={exp?.meta?.metadata_key_hash}
                 className='odd:bg-gray-100 even:bg-white'
               >
                 <td className='p-2 overflow-hidden text-ellipsis'>
                   <button
                     className='hover:underline hover:text-blue-400
                     cursor-pointer w-full h-full text-left '
-                    onClick={(e) => visitCourse(e, exp?.meta?.id)}
+                    onClick={(e) => visitCourse(e, exp?.meta?.metadata_key_hash)}
                   >
-                    {getDeeplyNestedData(config.data?.course_information?.course_title, exp)}
+                    {exp?.Course?.CourseTitle}
                   </button>
                 </td>
-                <td className='p-2'>{getDeeplyNestedData(config.data?.course_information?.course_provider, exp)}</td>
+                <td className='p-2'>{exp?.Course?.CourseProviderName}</td>
                 <td className='text-right p-2'>
                   <button
                     className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                    onClick={() => removeCourse(exp?.meta?.id)}
+                    onClick={() => removeCourse(exp?.meta?.metadata_key_hash)}
                   >
                     Remove
                   </button>
