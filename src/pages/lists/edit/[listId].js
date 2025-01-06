@@ -11,6 +11,7 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 
 import { Switch } from '@headlessui/react';
+import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 import { useAuth } from '@/contexts/AuthContext';
 import { useConfig } from '@/hooks/useConfig';
 import { useRouter } from 'next/router';
