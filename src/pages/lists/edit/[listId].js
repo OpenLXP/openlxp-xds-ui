@@ -12,13 +12,13 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { Switch } from '@headlessui/react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useConfig } from '@/hooks/useConfig';
 import { useRouter } from 'next/router';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserList } from '@/hooks/useUserList';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import PublicPrivateToggle from '@/components/inputs/PublicPrivateToggle';
 import prepareListDataToSend from '@/utils/prepListDataToSend';
-import { useConfig } from '@/hooks/useConfig';
 
 export function getServerSideProps({ query }) {
   return {
@@ -96,7 +96,7 @@ export default function EditList({ listId }) {
       return {
         ...prev,
         experiences: prev.experiences.filter(
-          (exp) => exp.meta.id !== id
+          (exp) => exp.meta.metadata_key_hash !== id
         ),
       };
     });

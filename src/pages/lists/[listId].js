@@ -2,11 +2,11 @@
 
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback, useEffect } from 'react';
+import { useConfig } from '@/hooks/useConfig';
 import { useList } from '@/hooks/useList';
 import { useRouter } from 'next/router';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
-import { useConfig } from '@/hooks/useConfig';
 
 export function getServerSideProps(context) {
   const { listId } = context.query;
@@ -46,15 +46,15 @@ export default function ListsView({ listId }) {
         display: 'explored',
       },
       object: {
-        id: `${window.origin}/course/${course.meta.id}`,
+        id: `${window.origin}/course/${course.meta.metadata_key_hash}`,
         definitionName: getDeeplyNestedData(config.data?.course_information?.course_title, course),
         description: getDeeplyNestedData(config.data?.course_information?.course_description, course),
       },
       resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-      resultExtValue: course.meta.id,
+      resultExtValue: course.meta.metadata_key_hash,
     };
     xAPISendStatement(context);
-    router.push(`/course/${course.meta.id}`);
+    router.push(`/course/${course.meta.metadata_key_hash}`);
   }, []);
 
   return (
