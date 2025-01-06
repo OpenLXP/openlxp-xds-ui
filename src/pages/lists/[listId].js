@@ -6,6 +6,7 @@ import { useList } from '@/hooks/useList';
 import { useRouter } from 'next/router';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
+import { useConfig } from '@/hooks/useConfig';
 
 export function getServerSideProps(context) {
   const { listId } = context.query;
@@ -18,6 +19,7 @@ export function getServerSideProps(context) {
 
 export default function ListsView({ listId }) {
   const router = useRouter();
+  const config = useConfig();
 
   // user data
   const { user } = useAuth();
@@ -44,15 +46,15 @@ export default function ListsView({ listId }) {
         display: 'explored',
       },
       object: {
-        id: `${window.origin}/course/${course.meta.metadata_key_hash}`,
-        definitionName: course.Course.CourseTitle,
-        description: course.Course.CourseShortDescription,
+        id: `${window.origin}/course/${course.meta.id}`,
+        definitionName: getDeeplyNestedData(config.data?.course_information?.course_title, course),
+        description: getDeeplyNestedData(config.data?.course_information?.course_description, course),
       },
       resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-      resultExtValue: course.meta.metadata_key_hash,
+      resultExtValue: course.meta.id,
     };
     xAPISendStatement(context);
-    router.push(`/course/${course.meta.metadata_key_hash}`);
+    router.push(`/course/${course.meta.id}`);
   }, []);
 
   return (
@@ -98,7 +100,7 @@ export default function ListsView({ listId }) {
           {list.isSuccess &&
             list?.data?.experiences.map((exp) => (
               <tr
-                key={exp?.meta?.metadata_key_hash}
+                key={exp?.meta?.id}
                 className='odd:bg-gray-100 even:bg-white'
               >
                 <td className='p-2 overflow-hidden text-ellipsis'>
@@ -107,10 +109,12 @@ export default function ListsView({ listId }) {
                     cursor-pointer w-full h-full text-left py-2'
                     onClick={(e) => visitCourse(exp)}
                   >
-                    {exp?.Course?.CourseTitle}
+                    {getDeeplyNestedData(config.data?.course_information?.course_title, exp)}
                   </button>
                 </td>
-                <td className='p-2'>{exp?.Course?.CourseProviderName}</td>
+                <td className='p-2'>
+                  {getDeeplyNestedData(config.data?.course_information?.course_provider, exp)}
+                </td>
               </tr>
             ))}
         </tbody>
