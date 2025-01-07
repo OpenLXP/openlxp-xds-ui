@@ -158,7 +158,7 @@ export default function MoreLikeThis({ course }) {
               courseDescription={preppedData?.description}
             />
           </div>
-          {user && <SaveModal courseId={data?.hits[0].meta.id} />}
+          {user && <SaveModal courseId={data?.hits[0].meta.id} title={preppedData?.title}/>}
         </div>
       </div>
     </div>
