@@ -185,14 +185,14 @@ export default function EditList({ listId }) {
           <tbody className=''>
             {currentListInfo?.experiences?.map((exp) => (
               <tr
-                key={exp?.meta?.id}
+                key={exp?.meta?.metadata_key_hash}
                 className='odd:bg-gray-100 even:bg-white'
               >
                 <td className='p-2 overflow-hidden text-ellipsis'>
                   <button
                     className='hover:underline hover:text-blue-400
                     cursor-pointer w-full h-full text-left '
-                    onClick={(e) => visitCourse(e, exp?.meta?.id)}
+                    onClick={(e) => visitCourse(e, exp?.meta?.metadata_key_hash)}
                   >
                     {getDeeplyNestedData(config.data?.course_information?.course_title, exp)}
                   </button>
@@ -201,7 +201,7 @@ export default function EditList({ listId }) {
                 <td className='text-right p-2'>
                   <button
                     className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                    onClick={() => removeCourse(exp?.meta?.id)}
+                    onClick={() => removeCourse(exp?.meta?.metadata_key_hash)}
                   >
                     Remove
                   </button>
