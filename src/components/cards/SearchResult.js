@@ -26,12 +26,12 @@ export default function SearchResult({ result }) {
         display: 'explored',
       },
       object: {
-        id: `${window.origin}/course/${result.meta.id}`,
+        id: `${window.origin}/course/${result.meta.metadata_key_hash}`,
         definitionName: getDeeplyNestedData(config.data?.course_information?.course_title, result),
         description: getDeeplyNestedData(config.data?.course_information?.course_description, result),
       },
       resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-      resultExtValue: result.meta.id,
+      resultExtValue: result.meta.metadata_key_hash,
     };
 
     xAPISendStatement(context);
@@ -50,7 +50,7 @@ export default function SearchResult({ result }) {
         >
           <h3>{getDeeplyNestedData(config.data?.course_information?.course_title, result)}</h3>
         </button>
-        {user && <SaveModal resultId={result.meta.metadata_key_hash} title={getDeeplyNestedData(config.data?.course_information?.course_title, result)} />}
+        {user && <SaveModal courseId={result.meta.metadata_key_hash} title={getDeeplyNestedData(config.data?.course_information?.course_title, result)} />}
       </div>
       <div onClick={handleClick} className='text-left' aria-hidden='true'>
         <h4>
