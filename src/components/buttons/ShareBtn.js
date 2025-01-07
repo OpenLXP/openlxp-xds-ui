@@ -56,7 +56,7 @@ export default function ShareButton({ id, courseTitle, courseDescription }) {
   return (
     <>
     <button
-      onClick={handleClick}
+      onClick={handleClick} data-testid={"shareButton"}
       className='flex items-center gap-2 min-w-max whitespace-nowrap p-2 text-center text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600  font-medium transform transition-all duration-75 ease-in-out focus:ring-2 ring-blue-400 outline-none'
     >
       <ShareIcon className='h-5 w-5' />
