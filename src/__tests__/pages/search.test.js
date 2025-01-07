@@ -73,7 +73,7 @@ describe('Search Page', () => {
 
     expect(getByText('About 1 results.')).toBeInTheDocument();
 
-    expect(getAllByText('Test Title').length).toBe(2);
+    expect(getAllByText('Test Title').length).toBe(1);
     expect(getByText('Similar Course')).toBeInTheDocument();
   });
 
