@@ -2,7 +2,7 @@
 
 import '@testing-library/jest-dom'
 import { act, fireEvent, render } from '@testing-library/react';
-import { useUnauthenticatedUser, useAuthenticatedUser } from '@/__mocks__/predefinedMocks';
+import { useAuthenticatedUser, useUnauthenticatedUser } from '@/__mocks__/predefinedMocks';
 import ShareButton from '@/components/buttons/ShareBtn';
 import mock, { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 
@@ -17,6 +17,7 @@ describe('ShareButton', () => {
     expect(screen.getByText('Share')).toBeInTheDocument();
 
     fireEvent.click(screen.getByTestId("shareButton"));
+
     // act(() => {
     //   fireEvent.click(screen.getByText(/Copy/i));
     // });
