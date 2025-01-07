@@ -20,56 +20,56 @@ export default function MoreLikeThis({ course }) {
       return {
         title: removeHTML(
           getDeeplyNestedData(
-            config.data?.course_information?.course_title, course)
+            config.data?.course_information?.course_title, data?.hits[0])
         ),
         date: {
           start: getDeeplyNestedData(
             config.data?.course_information?.course_startDate,
-            course
+            data?.hits[0]
           )?.replace(' ', '').split('T')[0],
           end: getDeeplyNestedData(
             config.data?.course_information?.course_endDate,
-            course
+            data?.hits[0]
           )?.replace(' ', '').split('T')[0],
         },
         description: removeHTML(
-          getDeeplyNestedData(config.data?.course_information?.course_description, course)
+          getDeeplyNestedData(config.data?.course_information?.course_description, data?.hits[0])
         ),
         type: removeHTML(
-          getDeeplyNestedData(config.data?.course_information?.course_type, course)
+          getDeeplyNestedData(config.data?.course_information?.course_type, data?.hits[0])
         ),
         time: removeHTML(
-          getDeeplyNestedData(config.data?.course_information?.course_time, course)
+          getDeeplyNestedData(config.data?.course_information?.course_time, data?.hits[0])
         ),
 
         url: getDeeplyNestedData(
           config.data?.course_information?.course_url,
-          course
+          data?.hits[0]
         ),
-        code: getDeeplyNestedData(config.data?.course_information?.course_code, course),
+        code: getDeeplyNestedData(config.data?.course_information?.course_code, data?.hits[0]),
         photo:
-          getDeeplyNestedData('Course_Instance.Thumbnail', course) ||
-          getDeeplyNestedData(config.data?.course_information?.course_thumbnail, course),
+          getDeeplyNestedData('Course_Instance.Thumbnail', data?.hits[0]) ||
+          getDeeplyNestedData(config.data?.course_information?.course_thumbnail, data?.hits[0]),
   
-        provider: getDeeplyNestedData(config.data?.course_information?.course_provider, course),
+        provider: getDeeplyNestedData(config.data?.course_information?.course_provider, data?.hits[0]),
         instructor: getDeeplyNestedData(
           config.data?.course_information?.course_instructor,
-          course
+          data?.hits[0]
         ),
         delivery: getDeeplyNestedData(
           config.data?.course_information?.course_deliveryMode,
-          course
+          data?.hits[0]
         ),
         details: config.data?.course_highlights?.map((highlight) => {
           return {
             title: highlight.display_name,
             content: removeHTML(
-              getDeeplyNestedData(highlight.field_name, course)
+              getDeeplyNestedData(highlight.field_name, data?.hits[0])
             ),
           };
         }),
       };
-    }, [course?.isSuccess, course?.data, config.isSuccess, config.data]);
+    }, [data?.isSuccess, data?.hits, config.isSuccess, config.data]);
 
   // if loading
   if (isLoading) {
@@ -127,38 +127,38 @@ export default function MoreLikeThis({ course }) {
       </span>
       <div className='w-full bg-white border rounded-md border-gray-200 p-4 shadow'>
         <h1 className='text-lg font-semibold'>
-          {preppedData?.title || data.hits[0].Course.CourseTitle}
+          {preppedData?.title || data?.hits[0].Course.CourseTitle}
         </h1>
         <p className='mt-4 font-sans line-clamp-6 text-sm'>
-          {preppedData?.description || removeHTML(data.hits[0].Course.CourseShortDescription)}
+          {preppedData?.description || removeHTML(data?.hits[0].Course.CourseShortDescription)}
         </p>
         <div className='flex flex-col gap-1 mt-4'>
           <div>
             <span className='font-semibold'>Course Code:&nbsp;</span>
-            {preppedData?.code || data.hits[0].Course?.CourseCode || 'Not Available'}
+            {preppedData?.code || data?.hits[0].Course?.CourseCode || 'Not Available'}
           </div>
           <div>
             <span className='font-semibold'>Course Type:&nbsp;</span>
-            {preppedData?.type || data.hits[0].Course?.CourseType || 'Not Available'}
+            {preppedData?.type || data?.hits[0].Course?.CourseType || 'Not Available'}
           </div>
           <div>
             <span className='font-semibold'>Estimated Time:&nbsp;</span>
-            {preppedData.time || data.hits[0].Course?.EstimatedCompletionTime || 'Not Available'}
+            {preppedData.time || data?.hits[0].Course?.EstimatedCompletionTime || 'Not Available'}
           </div>
           <div>
             <span className='font-semibold'>Course Provider:&nbsp;</span>
-            {preppedData.provider || data.hits[0].Course?.CourseProviderName || 'Not Available'}
+            {preppedData.provider || data?.hits[0].Course?.CourseProviderName || 'Not Available'}
           </div>
         </div>
         <div className='flex justify-between mt-10'>
           <div className='flex gap-2'>
             <ViewBtn
-              id={data.hits[0].meta.id}
+              id={data?.hits[0].meta.id}
               courseTitle={preppedData?.title}
               courseDescription={preppedData?.description}
             />
           </div>
-          {user && <SaveModal courseId={data.hits[0].meta.id} />}
+          {user && <SaveModal courseId={data?.hits[0].meta.id} />}
         </div>
       </div>
     </div>
