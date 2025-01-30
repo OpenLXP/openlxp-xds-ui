@@ -55,7 +55,6 @@ const prepareStatement = (verb, obj, resultExtName, resultExtValue) => {
 /**
  * Sends a statement to the LRS based on the context provided.
  * @param {{
- * actor:{first_name:string, last_name:string},
  * verb:{id:string, display:string},
  * object:{id?:string, definitionName:string, description?:string},
  * resultExtName:string,
