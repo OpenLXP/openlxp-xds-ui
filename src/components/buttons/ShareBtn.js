@@ -14,7 +14,6 @@ export default function ShareButton({ id, courseTitle, courseDescription }) {
   };
 
   const handleClick = useCallback(() => {
-    if (!user) return;
     console.count('share button clicked');
 
     const context = {
