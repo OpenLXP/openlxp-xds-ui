@@ -1,4 +1,3 @@
-import * as xapi from '@/utils/xapi';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { act, fireEvent, render } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -70,20 +69,6 @@ describe('Course Spotlight', () => {
         expect(queryByRole('img')).not.toBeInTheDocument();
       });
     });
-  });
-
-  it('send xAPI statement when course is clicked', () => {
-    const { getByText } = renderer();
-
-    const spy = jest
-      .spyOn(xapi, 'sendStatement')
-      .mockImplementation(() => Promise.resolve({}));
-
-    act(() => {
-      fireEvent.click(getByText(/Test Course Title/i).parentElement);
-    });
-
-    expect(spy).toHaveBeenCalled();
   });
 });
 

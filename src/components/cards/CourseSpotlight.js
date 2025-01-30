@@ -1,5 +1,4 @@
 import { backendHost } from '@/config/endpoints';
-import { sendStatement } from '@/utils/xapi';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback, useMemo } from 'react';
 import { useConfig } from '@/hooks/useConfig';
@@ -44,24 +43,6 @@ export default function CourseSpotlight({ course }) {
     (e) => {
       if (!user)
         return router.push(`/course/${meta.metadata_key_hash || meta.id}`);
-
-      const context = {
-        verb: 'explored',
-        object: {
-          id: `${window.origin}/course/${meta.id}`,
-          definitionName: title || Course.CourseTitle,
-          description:
-            removeHTML(
-              getDeeplyNestedData(
-                config.data?.course_information?.course_description,
-                course
-              )
-            ) || Course.CourseShortDescription,
-        },
-        resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-        resultExtValue: meta.metadata_key_hash || meta.id,
-      };
-      sendStatement(context);
       router.push('/course/' + (meta.metadata_key_hash || meta.id));
     },
     [Course, meta, user]
