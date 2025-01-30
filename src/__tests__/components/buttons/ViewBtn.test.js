@@ -28,7 +28,7 @@ const renderer = (data = courseData) => {
   );
 };
 
-describe('ShareBtn', () => {
+describe('ViewBtn', () => {
   it('has an id', () => {
     const { getByRole } = renderer();
 

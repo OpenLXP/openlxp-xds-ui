@@ -8,7 +8,6 @@ export default function ViewBtn({ id, courseTitle, courseDescription }) {
   const { user } = useAuth();
 
   const handleClick = useCallback(() => {
-    if (!user) return;
     const context = {
       verb: 'explored',
       object: {
