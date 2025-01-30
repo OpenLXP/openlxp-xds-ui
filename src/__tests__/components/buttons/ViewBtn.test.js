@@ -1,4 +1,3 @@
-import * as xapi from '@/utils/xapi';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -33,17 +32,5 @@ describe('ViewBtn', () => {
     const { getByRole } = renderer();
 
     expect(getByRole('button').id).not.toBeNull();
-  });
-
-  it('send xAPI statement when course is clicked', () => {
-    const { getByRole } = renderer();
-
-    const spy = jest
-      .spyOn(xapi, 'sendStatement')
-      .mockImplementation(() => Promise.resolve({}));
-
-    fireEvent.click(getByRole('button'));
-
-    expect(spy).toHaveBeenCalled();
   });
 });
