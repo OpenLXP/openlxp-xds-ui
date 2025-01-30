@@ -2,6 +2,7 @@ import * as xapi from '@/utils/xapi';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock.js';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useMockConfig } from '@/__mocks__/predefinedMocks';
 import Home from '@/pages/index';
 import mockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
@@ -22,7 +23,7 @@ describe('should render the title', () => {
         user: { user: { email: 'test@email.com' } },
       };
     });
-
+    useMockConfig();
     render(
       <QueryClientWrapper>
         <Home />
