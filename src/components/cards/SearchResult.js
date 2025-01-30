@@ -22,10 +22,6 @@ export default function SearchResult({ result }) {
   const handleClick = useCallback(() => {
     // create the context
     const context = {
-      actor: {
-        first_name: user?.user?.first_name || 'Anonymous',
-        last_name: user?.user?.last_name || 'User',
-      },
       verb: {
         id: 'https://w3id.org/xapi/tla/verbs/explored',
         display: 'explored',

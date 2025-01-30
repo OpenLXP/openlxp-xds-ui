@@ -30,10 +30,6 @@ export default function CreateSavedSearchModal({ path }) {
 
     //xAPI Statement
     const context = {
-      actor: {
-        first_name: user?.user?.first_name,
-        last_name: user?.user?.last_name,
-      },
       verb: {
         id: 'https://w3id.org/xapi/acrossx/verbs/prioritized',
         display: 'prioritized',

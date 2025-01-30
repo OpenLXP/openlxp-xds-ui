@@ -9,15 +9,16 @@ const forwardStatement = ({ statement }) => {
 };
 
 // Create a real, valid statement.
-const prepareStatement = (actor, verb, obj, resultExtName, resultExtValue) => {
+const prepareStatement = (verb, obj, resultExtName, resultExtValue) => {
   const statement = {
     context: {
       platform: 'ECC dev env',
     },
     actor: {
+      // Send a dummy actor as this will be overwritten by the LRS
       account: {
         homePage: 'https://ecc.gov',
-        name: `${actor.first_name} ${actor.last_name}`,
+        name: 'ECC User',
       },
       objectType: 'Agent',
     },
@@ -64,9 +65,6 @@ const prepareStatement = (actor, verb, obj, resultExtName, resultExtValue) => {
  */
 
 export function sendStatement(context) {
-  // verify there is a user object
-  if (!context.actor) return console.error('no user object');
-
   // verify the required fields are present
   if (!context.verb) return console.error('no verb object');
 
@@ -83,7 +81,6 @@ export function sendStatement(context) {
   if (!context.object?.id) context.object.id = windowLocation;
 
   const statement = prepareStatement(
-    context.actor,
     context.verb,
     context.object,
     context.resultExtName,

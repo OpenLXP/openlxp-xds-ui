@@ -25,17 +25,9 @@ describe('sendStatement', () => {
     jest.clearAllMocks();
   });
 
-  it('should call console.error if actor is missing', async () => {
-    const consoleSpy = jest.spyOn(console, 'error');
-    await sendStatement({});
-    expect(consoleSpy).toHaveBeenCalledWith('no user object');
-  });
-
   it('should call console.error if verb is missing', async () => {
     const consoleSpy = jest.spyOn(console, 'error');
-    await sendStatement({
-      actor: { first_name: 'Jane', last_name: 'Doe' },
-    });
+    await sendStatement({});
     expect(consoleSpy).toHaveBeenCalledWith('no verb object');
   });
 
@@ -135,7 +127,7 @@ describe('sendStatement', () => {
 
     // Check actor structure
     expect(statement.actor.account.homePage).toBe('https://ecc.gov');
-    expect(statement.actor.account.name).toBe('John Doe');
+    expect(statement.actor.account.name).toBe('ECC User');
     expect(statement.actor.objectType).toBe('Agent');
 
     // Check verb structure

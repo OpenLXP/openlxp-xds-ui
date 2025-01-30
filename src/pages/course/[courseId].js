@@ -308,10 +308,6 @@ export default function Course() {
     console.count('enrollment button clicked');
 
     const context = {
-      actor: {
-        first_name: user?.user?.first_name || 'anonymous',
-        last_name: user?.user?.last_name || 'user',
-      },
       verb: {
         id: 'https://w3id.org/xapi/tla/verbs/registered',
         display: 'enrolled',

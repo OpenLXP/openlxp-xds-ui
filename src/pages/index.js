@@ -29,10 +29,6 @@ export default function Home() {
     (e) => {
       if (!fields.keyword || fields.keyword === '') return;
       const context = {
-        actor: {
-          first_name: user?.user?.first_name || 'Anonymous',
-          last_name: user?.user?.last_name || 'User',
-        },
         verb: {
           id: 'https://w3id.org/xapi/acrossx/verbs/searched',
           display: 'searched',
