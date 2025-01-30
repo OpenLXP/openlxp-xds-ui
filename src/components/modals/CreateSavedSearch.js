@@ -1,8 +1,8 @@
 import { Fragment } from 'react';
 import { Popover, Transition } from '@headlessui/react';
+import { sendStatement } from '@/utils/xapi';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateSaveSearch } from '@/hooks/useCreateSaveSearch';
-import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import InputField from '@/components/inputs/InputField';
 import useField from '@/hooks/useField';
 
@@ -45,7 +45,7 @@ export default function CreateSavedSearchModal({ path }) {
       resultExtValue: fields.name,
     };
 
-    xAPISendStatement(context);
+    sendStatement(context);
 
     // reset the form
     resetKey('name');

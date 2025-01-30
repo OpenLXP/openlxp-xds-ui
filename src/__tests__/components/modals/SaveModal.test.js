@@ -1,14 +1,12 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import SaveModal from '@/components/modals/SaveModal';
-
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
+import { sendStatement } from '@/utils/xapi';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserOwnedLists } from '@/hooks/useUserOwnedLists.js';
-import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import userListData from '@/__mocks__/data/userLists.data';
-import xAPIMapper from '@/utils/xapi/xAPIMapper';
 
 jest.mock('@/hooks/useUpdateUserList', () => ({
   useUpdateUserList: jest.fn(),
@@ -60,7 +58,7 @@ const renderer = (isAuth = false) => {
   return render(
     <QueryClientWrapper>
       <div>
-        <SaveModal courseId={'12345'} title={"test"} modalState={true} />
+        <SaveModal courseId={'12345'} title={'test'} modalState={true} />
       </div>
     </QueryClientWrapper>
   );
@@ -150,7 +148,7 @@ describe('Save Modal', () => {
       const { getByText, getByPlaceholderText } = renderer(true);
 
       const spy = jest
-        .spyOn(xAPISendStatement, 'xAPISendStatement')
+        .spyOn(sendStatement, 'sendStatement')
         .mockImplementation(() => Promise.resolve({}));
       act(() => {
         fireEvent.click(getByText(/save/i));

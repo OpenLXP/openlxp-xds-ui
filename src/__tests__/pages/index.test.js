@@ -1,10 +1,10 @@
+import * as xapi from '@/utils/xapi';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock.js';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';
 import Home from '@/pages/index';
 import mockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
-import xAPIMapper from "@/utils/xapi/xAPIMapper";
 
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
 
@@ -17,9 +17,9 @@ describe('should render the title', () => {
   beforeEach(() => {
     mockRouter.setCurrentUrl('/');
 
-    useAuth.mockImplementation(() =>  {
+    useAuth.mockImplementation(() => {
       return {
-        user: { user: {email: 'test@email.com'}},
+        user: { user: { email: 'test@email.com' } },
       };
     });
 
@@ -71,10 +71,9 @@ describe('should render the title', () => {
   });
 
   it('should send xAPI Statement', () => {
-
-    const spy = jest.spyOn(xAPIMapper, 'sendStatement')
-    .mockImplementation(() => Promise.resolve({})
-    );
+    const spy = jest
+      .spyOn(xapi, 'sendStatement')
+      .mockImplementation(() => Promise.resolve({}));
 
     act(() => {
       fireEvent.change(screen.getByRole('textbox'), {
@@ -86,6 +85,5 @@ describe('should render the title', () => {
     });
 
     expect(spy).toHaveBeenCalled();
-
   });
 });

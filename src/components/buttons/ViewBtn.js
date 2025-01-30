@@ -1,7 +1,7 @@
 import { EyeIcon } from '@heroicons/react/solid';
+import { sendStatement } from '@/utils/xapi';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback } from 'react';
-import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import Link from 'next/link';
 
 export default function ViewBtn({ id, courseTitle, courseDescription }) {
@@ -26,7 +26,7 @@ export default function ViewBtn({ id, courseTitle, courseDescription }) {
       resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
       resultExtValue: id,
     };
-    xAPISendStatement(context);
+    sendStatement(context);
   }, [id, courseTitle, courseDescription, user]);
 
   return (

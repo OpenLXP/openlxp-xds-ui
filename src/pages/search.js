@@ -1,11 +1,11 @@
 import { Pagination } from '@/components/buttons/Pagination';
+import { sendStatement } from '@/utils/xapi';
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback, useEffect, useState } from 'react';
 import { useConfig } from '@/hooks/useConfig';
 import { useRouter } from 'next/dist/client/router';
 import { useSearch } from '@/hooks/useSearch';
-import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import CreateSavedSearchModal from '@/components/modals/CreateSavedSearch';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import MoreLikeThis from '@/components/cards/MoreLikeThis';
@@ -99,7 +99,7 @@ export default function Search() {
         resultExtValue: modified.keyword,
       };
 
-      xAPISendStatement(context);
+      sendStatement(context);
 
       router.push({ pathname: '/search', query: modified });
     },

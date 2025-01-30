@@ -4,21 +4,21 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useState } from 'react';
 
 import { PlusCircleIcon } from '@heroicons/react/outline';
+import { sendStatement } from '@/utils/xapi';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserOwnedLists } from '@/hooks/useUserOwnedLists';
-import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import InputField from '@/components/inputs/InputField';
 import useField from '@/hooks/useField';
 
 /**
  * TODO: to be removed before merging back to dev
  * Current status: in the process of trying to get the updated isSuccess ( useCreateUserList hook) value
- * to be used to determine whether or not xAPISendStatement should be executed.
+ * to be used to determine whether or not sendStatement should be executed.
  * Even with the useCallback, it seems like isSuccess (useCreateUserList hook) is still one step behind.
  *
- * The reason for using this approach instead of calling the xAPISendStatement in the onSuccess is
+ * The reason for using this approach instead of calling the sendStatement in the onSuccess is
  * because testing that onSuccess is difficult especially when the mutation is being mocked.
  *
  */
@@ -100,7 +100,7 @@ export default function SaveModal({ courseId, title }) {
               resultExtValue: data.id,
             };
 
-            xAPISendStatement(context);
+            sendStatement(context);
           },
         }
       );
@@ -206,7 +206,9 @@ export default function SaveModal({ courseId, title }) {
                   className='my-2 flex flex-col w-full'
                   onSubmit={handleSubmit}
                 >
-                  <h4 className='py-2 text-lg font-medium leading-6 text-gray-900'>Create a new list</h4>
+                  <h4 className='py-2 text-lg font-medium leading-6 text-gray-900'>
+                    Create a new list
+                  </h4>
                   <div>
                     <label htmlFor='name'>List Name</label>
                     <InputField

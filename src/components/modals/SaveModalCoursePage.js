@@ -2,12 +2,11 @@
 
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useState } from 'react';
-
+import { sendStatement } from '@/utils/xapi';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserOwnedLists } from '@/hooks/useUserOwnedLists';
-import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import InputField from '@/components/inputs/InputField';
 import useField from '@/hooks/useField';
 
@@ -66,7 +65,7 @@ export default function SaveModal({ courseId, title }) {
               resultExtValue: data.id,
             };
 
-            xAPISendStatement(context);
+            sendStatement(context);
           },
         }
       );
@@ -190,7 +189,9 @@ export default function SaveModal({ courseId, title }) {
                   className='my-2 flex flex-col w-full'
                   onSubmit={handleSubmit}
                 >
-                  <h4 className='py-2 text-lg font-medium leading-6 text-gray-900'>Create a new list</h4>
+                  <h4 className='py-2 text-lg font-medium leading-6 text-gray-900'>
+                    Create a new list
+                  </h4>
                   <div>
                     <label htmlFor='name'>List Name</label>
                     <InputField

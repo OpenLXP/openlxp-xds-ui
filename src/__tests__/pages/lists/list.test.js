@@ -3,6 +3,7 @@
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render } from '@testing-library/react';
+import { sendStatement } from '@/utils/xapi';
 import { useAuth } from '@/contexts/AuthContext';
 import {
   useAuthenticatedUser,
@@ -17,8 +18,6 @@ import { useList } from '@/hooks/useList';
 import List, { getServerSideProps } from '@/pages/lists/[listId]';
 import MockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
-import xAPIMapper from '@/utils/xapi/xAPIMapper';
-import xAPISendStatement from '@/utils/xapi/xAPISendStatement';
 
 // render function that wraps the component with query client wrapper
 const renderer = () => {
