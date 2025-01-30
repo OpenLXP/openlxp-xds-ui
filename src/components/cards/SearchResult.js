@@ -1,5 +1,4 @@
 import { removeHTML } from '@/utils/cleaning';
-import { sendStatement } from '@/utils/xapi';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback, useMemo } from 'react';
 import { useRouter } from 'next/router';
@@ -20,27 +19,8 @@ export default function SearchResult({ result }) {
   }, [config.isSuccess, config.data]);
 
   const handleClick = useCallback(() => {
-    // create the context
-    const context = {
-      verb: 'explored',
-      object: {
-        id: `${window.origin}/course/${result.meta.id}`,
-        definitionName: title || result.Course.CourseTitle,
-        description:
-          removeHTML(
-            getDeeplyNestedData(
-              config.data?.course_information?.course_description,
-              result
-            )
-          ) || result.Course.CourseShortDescription,
-      },
-      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-      resultExtValue: result.meta.id,
-    };
-
-    sendStatement(context);
     router.push(`/course/${result.meta.id}`);
-  }, [result, user, router]);
+  }, [result, router]);
 
   return (
     <div
