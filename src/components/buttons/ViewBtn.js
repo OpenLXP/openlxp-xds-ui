@@ -1,5 +1,4 @@
 import { EyeIcon } from '@heroicons/react/solid';
-import { sendStatement } from '@/utils/xapi';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback } from 'react';
 import Link from 'next/link';
