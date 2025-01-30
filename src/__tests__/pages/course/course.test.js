@@ -1,6 +1,10 @@
+jest.mock('@/utils/xapi', () => ({
+  sendStatement: jest.fn(() => Promise.resolve({})),
+}));
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render } from '@testing-library/react';
+import { sendStatement } from '@/utils/xapi';
 import {
   useAuthenticatedUser,
   useMockConfig,
@@ -173,5 +177,14 @@ describe('Course Page', () => {
       fireEvent.click(relatedCourseLink);
     });
     expect(singletonRouter).toMatchObject({ asPath: '/course/more_like_this' });
+  });
+
+  it('should send an xAPI statement', () => {
+    useAuthenticatedUser();
+    useMockMoreLikeThis();
+    useMockCourse();
+    const screen = renderer();
+
+    expect(sendStatement).toBeCalled();
   });
 });

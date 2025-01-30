@@ -7,13 +7,12 @@ import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 import { removeHTML } from '@/utils/cleaning';
 import { sendStatement } from '@/utils/xapi';
 import { useAuth } from '@/contexts/AuthContext';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useConfig } from '@/hooks/useConfig';
 import { useCourse } from '@/hooks/useCourse';
 import { useDerivedCourse } from '@/hooks/useDerivedCourses';
 import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import Accordion from '@/components/Accordion';
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
 import Footer from '@/components/Footer';
@@ -300,6 +299,29 @@ export default function Course() {
       }),
     };
   }, [course.isSuccess, course.data, config.isSuccess, config.data]);
+
+  const [xapiHasFired, setXapiHasFired] = useState(false);
+  useEffect(() => {
+    if (!data || xapiHasFired) return;
+    const context = {
+      verb: 'explored',
+      object: {
+        definitionName: data?.title,
+        description: data?.description,
+        id: data?.url,
+      },
+      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
+      resultExtValue: router.query?.courseId,
+    };
+    sendStatement(context);
+    setXapiHasFired(true);
+  }, [
+    xapiHasFired,
+    router.query?.courseId,
+    data?.title,
+    data?.description,
+    data?.url,
+  ]);
 
   const derivedCourses = useDerivedCourse(data?.code);
 
