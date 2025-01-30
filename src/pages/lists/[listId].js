@@ -1,4 +1,3 @@
-import { sendStatement } from '@/utils/xapi';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback, useEffect } from 'react';
 import { useList } from '@/hooks/useList';
@@ -37,27 +36,6 @@ export default function ListsView({ listId }) {
 
   const visitCourse = useCallback((course) => {
     if (!user) return;
-    const context = {
-      verb: 'explored',
-      object: {
-        id: `${window.origin}/course/${course.meta.metadata_key_hash}`,
-        definitionName:
-          getDeeplyNestedData(
-            config.data?.course_information?.course_title,
-            course
-          ) || course.Course.CourseTitle,
-        description:
-          removeHTML(
-            getDeeplyNestedData(
-              config.data?.course_information?.course_description,
-              course
-            )
-          ) || course.Course.CourseShortDescription,
-      },
-      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-      resultExtValue: course.meta.metadata_key_hash,
-    };
-    sendStatement(context);
     router.push(`/course/${course.meta.metadata_key_hash}`);
   }, []);
 
