@@ -18,10 +18,7 @@ export default function ShareButton({ id, courseTitle, courseDescription }) {
     console.count('share button clicked');
 
     const context = {
-      verb: {
-        id: 'https://w3id.org/xapi/tla/verbs/socialized',
-        display: 'socialized',
-      },
+      verb: 'socialized',
       object: {
         definitionName: courseTitle,
         description: courseDescription,

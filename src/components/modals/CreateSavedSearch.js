@@ -30,10 +30,7 @@ export default function CreateSavedSearchModal({ path }) {
 
     //xAPI Statement
     const context = {
-      verb: {
-        id: 'https://w3id.org/xapi/acrossx/verbs/prioritized',
-        display: 'prioritized',
-      },
+      verb: 'prioritized',
       object: {
         definitionName: 'ECC Search Term Saving',
       },

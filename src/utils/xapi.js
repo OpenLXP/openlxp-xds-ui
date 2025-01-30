@@ -8,6 +8,46 @@ const forwardStatement = ({ statement }) => {
     .catch((err) => console.error(err));
 };
 
+// A map of verb names to objects
+const verbMap = {
+  curated: {
+    id: 'https://w3id.org/xapi/dod-isd/verbs/curated',
+    display: {
+      'en-US': 'Curated',
+    },
+  },
+  explored: {
+    id: 'https://w3id.org/xapi/tla/verbs/explored',
+    display: {
+      'en-US': 'Explored',
+    },
+  },
+  prioritized: {
+    id: 'https://w3id.org/xapi/acrossx/verbs/prioritized',
+    display: {
+      'en-US': 'Prioritized',
+    },
+  },
+  registered: {
+    id: 'https://w3id.org/xapi/tla/verbs/registered',
+    display: {
+      'en-US': 'Registered',
+    },
+  },
+  searched: {
+    id: 'https://w3id.org/xapi/acrossx/verbs/searched',
+    display: {
+      'en-US': 'Searched',
+    },
+  },
+  socialized: {
+    id: 'https://w3id.org/xapi/tla/verbs/socialized',
+    display: {
+      'en-US': 'Socialized',
+    },
+  },
+};
+
 // Create a real, valid statement.
 const prepareStatement = (verb, obj, resultExtName, resultExtValue) => {
   const statement = {
@@ -22,12 +62,7 @@ const prepareStatement = (verb, obj, resultExtName, resultExtValue) => {
       },
       objectType: 'Agent',
     },
-    verb: {
-      id: verb.id,
-      display: {
-        'en-US': verb.display,
-      },
-    },
+    verb: verbMap[verb],
     object: {
       id: obj.id,
       definition: {
@@ -65,7 +100,8 @@ const prepareStatement = (verb, obj, resultExtName, resultExtValue) => {
 
 export function sendStatement(context) {
   // verify the required fields are present
-  if (!context.verb) return console.error('no verb object');
+  if (!context.verb) return console.error('no verb!');
+  if (!verbMap[context.verb]) return console.error('verb not found!');
 
   if (!context.object) return console.error('no object object');
 

@@ -10,10 +10,7 @@ export default function ViewBtn({ id, courseTitle, courseDescription }) {
   const handleClick = useCallback(() => {
     if (!user) return;
     const context = {
-      verb: {
-        id: 'https://w3id.org/xapi/tla/verbs/explored',
-        display: 'explored',
-      },
+      verb: 'explored',
       object: {
         definitionName: courseTitle,
         description: courseDescription,

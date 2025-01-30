@@ -46,10 +46,7 @@ export default function CourseSpotlight({ course }) {
         return router.push(`/course/${meta.metadata_key_hash || meta.id}`);
 
       const context = {
-        verb: {
-          id: 'https://w3id.org/xapi/tla/verbs/explored',
-          display: 'explored',
-        },
+        verb: 'explored',
         object: {
           id: `${window.origin}/course/${meta.id}`,
           definitionName: title || Course.CourseTitle,

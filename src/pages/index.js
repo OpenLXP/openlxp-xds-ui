@@ -29,10 +29,7 @@ export default function Home() {
     (e) => {
       if (!fields.keyword || fields.keyword === '') return;
       const context = {
-        verb: {
-          id: 'https://w3id.org/xapi/acrossx/verbs/searched',
-          display: 'searched',
-        },
+        verb: 'searched',
         object: {
           definitionName: 'ECC Search Capability',
         },

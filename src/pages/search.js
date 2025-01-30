@@ -84,10 +84,7 @@ export default function Search() {
       });
 
       const context = {
-        verb: {
-          id: 'https://w3id.org/xapi/acrossx/verbs/searched',
-          display: 'searched',
-        },
+        verb: 'searched',
         object: {
           definitionName: 'ECC Search Capability',
         },

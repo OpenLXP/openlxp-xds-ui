@@ -38,10 +38,7 @@ export default function ListsView({ listId }) {
   const visitCourse = useCallback((course) => {
     if (!user) return;
     const context = {
-      verb: {
-        id: 'https://w3id.org/xapi/acrossx/verbs/explored',
-        display: 'explored',
-      },
+      verb: 'explored',
       object: {
         id: `${window.origin}/course/${course.meta.metadata_key_hash}`,
         definitionName:

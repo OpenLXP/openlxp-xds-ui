@@ -22,10 +22,7 @@ export default function SearchResult({ result }) {
   const handleClick = useCallback(() => {
     // create the context
     const context = {
-      verb: {
-        id: 'https://w3id.org/xapi/tla/verbs/explored',
-        display: 'explored',
-      },
+      verb: 'explored',
       object: {
         id: `${window.origin}/course/${result.meta.id}`,
         definitionName: title || result.Course.CourseTitle,

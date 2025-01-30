@@ -48,10 +48,7 @@ export default function SaveModal({ courseId, title }) {
             // note: It assumed that the user is present if the button is available.
             // create the context
             const context = {
-              verb: {
-                id: 'https://w3id.org/xapi/dod-isd/verbs/curated',
-                display: 'curated',
-              },
+              verb: 'curated',
               object: {
                 definitionName: fields.name,
                 description: fields.description,

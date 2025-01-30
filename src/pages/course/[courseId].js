@@ -308,10 +308,7 @@ export default function Course() {
     console.count('enrollment button clicked');
 
     const context = {
-      verb: {
-        id: 'https://w3id.org/xapi/tla/verbs/registered',
-        display: 'enrolled',
-      },
+      verb: 'registered',
       object: {
         definitionName: data?.title,
         description: data?.description,

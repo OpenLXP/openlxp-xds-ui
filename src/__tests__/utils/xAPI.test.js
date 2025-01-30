@@ -28,17 +28,19 @@ describe('sendStatement', () => {
   it('should call console.error if verb is missing', async () => {
     const consoleSpy = jest.spyOn(console, 'error');
     await sendStatement({});
-    expect(consoleSpy).toHaveBeenCalledWith('no verb object');
+    expect(consoleSpy).toHaveBeenCalledWith('no verb!');
+  });
+
+  it('should call console.error if verb is wrong', async () => {
+    const consoleSpy = jest.spyOn(console, 'error');
+    await sendStatement({ verb: 'attempted' });
+    expect(consoleSpy).toHaveBeenCalledWith('verb not found!');
   });
 
   it('should call console.error if object is missing', async () => {
     const consoleSpy = jest.spyOn(console, 'error');
     await sendStatement({
-      actor: { first_name: 'Jane', last_name: 'Doe' },
-      verb: {
-        id: 'http://adlnet.gov/expapi/verbs/attempted',
-        display: 'attempted',
-      },
+      verb: 'explored',
     });
     expect(consoleSpy).toHaveBeenCalledWith('no object object');
   });
@@ -46,11 +48,7 @@ describe('sendStatement', () => {
   it('should call console.error if resultExtName is missing', async () => {
     const consoleSpy = jest.spyOn(console, 'error');
     await sendStatement({
-      actor: { first_name: 'Jane', last_name: 'Doe' },
-      verb: {
-        id: 'http://adlnet.gov/expapi/verbs/attempted',
-        display: 'attempted',
-      },
+      verb: 'explored',
       object: { definitionName: 'Test Content' },
     });
     expect(consoleSpy).toHaveBeenCalledWith('no resultExtName');
@@ -59,11 +57,7 @@ describe('sendStatement', () => {
   it('should call console.error if resultExtValue is missing', async () => {
     const consoleSpy = jest.spyOn(console, 'error');
     await sendStatement({
-      actor: { first_name: 'Jane', last_name: 'Doe' },
-      verb: {
-        id: 'http://adlnet.gov/expapi/verbs/attempted',
-        display: 'attempted',
-      },
+      verb: 'explored',
       object: { definitionName: 'Test Content' },
       resultExtName: 'score',
     });
@@ -72,8 +66,7 @@ describe('sendStatement', () => {
 
   it('should default object.id to window.location.href if none is provided', async () => {
     await sendStatement({
-      actor: { first_name: 'John', last_name: 'Doe' },
-      verb: { id: 'http://adlnet.gov/expapi/verbs/viewed', display: 'viewed' },
+      verb: 'explored',
       object: { definitionName: 'Test Content' },
       resultExtName: 'score',
       resultExtValue: '100',
@@ -91,11 +84,7 @@ describe('sendStatement', () => {
 
   it('should create and forward a statement with the correct structure', async () => {
     await sendStatement({
-      actor: { first_name: 'John', last_name: 'Doe' },
-      verb: {
-        id: 'http://adlnet.gov/expapi/verbs/launched',
-        display: 'launched',
-      },
+      verb: 'explored',
       object: {
         id: 'https://mysite.com/content/123',
         definitionName: 'My Content',
@@ -131,8 +120,8 @@ describe('sendStatement', () => {
     expect(statement.actor.objectType).toBe('Agent');
 
     // Check verb structure
-    expect(statement.verb.id).toBe('http://adlnet.gov/expapi/verbs/launched');
-    expect(statement.verb.display['en-US']).toBe('launched');
+    expect(statement.verb.id).toBe('https://w3id.org/xapi/tla/verbs/explored');
+    expect(statement.verb.display['en-US']).toBe('Explored');
 
     // Check object structure
     expect(statement.object.id).toBe('https://mysite.com/content/123');
