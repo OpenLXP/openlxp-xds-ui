@@ -1,4 +1,4 @@
-import { sendStatement } from '@/utils/xapi';
+import { searched } from '@/utils/xapi/events';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
@@ -28,15 +28,7 @@ export default function Home() {
   const handleSearch = useCallback(
     (e) => {
       if (!fields.keyword || fields.keyword === '') return;
-      const context = {
-        verb: 'searched',
-        object: {
-          definitionName: 'ECC Search Capability',
-        },
-        resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
-        resultExtValue: fields.keyword,
-      };
-      sendStatement(context);
+      searched(fields.keyword);
       router.push({ pathname: '/search/', query: fields });
     },
     [fields, user]

@@ -1,5 +1,5 @@
 import { Pagination } from '@/components/buttons/Pagination';
-import { sendStatement } from '@/utils/xapi';
+import { searched } from '@/utils/xapi/events';
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback, useEffect, useState } from 'react';
@@ -83,16 +83,7 @@ export default function Search() {
         setUrl(modified);
       });
 
-      const context = {
-        verb: 'searched',
-        object: {
-          definitionName: 'ECC Search Capability',
-        },
-        resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
-        resultExtValue: modified.keyword,
-      };
-
-      sendStatement(context);
+      searched(modified.keyword);
 
       router.push({ pathname: '/search', query: modified });
     },
