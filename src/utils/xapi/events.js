@@ -1,7 +1,7 @@
 import { sendStatement } from '@/utils/xapi';
 
 export function searched(keyword) {
-  const context = {
+  sendStatement({
     verb: 'searched',
     object: {
       id: `${window.location.origin}/search`,
@@ -9,12 +9,11 @@ export function searched(keyword) {
     },
     resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
     resultExtValue: keyword,
-  };
-  sendStatement(context);
+  });
 }
 
 export function curated(listId, listName, listDescription) {
-  const context = {
+  sendStatement({
     verb: 'curated',
     object: {
       id: `${window.location.origin}/lists/${listId}`,
@@ -23,6 +22,5 @@ export function curated(listId, listName, listDescription) {
     },
     resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CuratedListId',
     resultExtValue: listId,
-  };
-  sendStatement(context);
+  });
 }
