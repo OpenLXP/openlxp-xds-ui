@@ -2,7 +2,7 @@
 
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useState } from 'react';
-import { sendStatement } from '@/utils/xapi';
+import { curated } from '@/utils/xapi/events';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
@@ -45,20 +45,7 @@ export default function SaveModal({ courseId, title }) {
         { form: fields },
         {
           onSuccess: (data) => {
-            // note: It assumed that the user is present if the button is available.
-            // create the context
-            const context = {
-              verb: 'curated',
-              object: {
-                definitionName: fields.name,
-                description: fields.description,
-              },
-              resultExtName:
-                'https://w3id.org/xapi/ecc/result/extensions/CuratedListId',
-              resultExtValue: data.id,
-            };
-
-            sendStatement(context);
+            curated(data.id, fields.name, fields.description);
           },
         }
       );
