@@ -1,5 +1,6 @@
 import { sendStatement } from '@/utils/xapi';
 
+// when a search fires from the index or search page
 export function searched(keyword) {
   sendStatement({
     verb: 'searched',
@@ -12,6 +13,7 @@ export function searched(keyword) {
   });
 }
 
+// when a user saves a list of courses
 export function curated(listId, listName, listDescription) {
   sendStatement({
     verb: 'curated',
@@ -25,6 +27,7 @@ export function curated(listId, listName, listDescription) {
   });
 }
 
+// when a user shares the ECC course page
 export function socialized(courseId, courseTitle, courseDescription) {
   sendStatement({
     verb: 'socialized',
@@ -38,6 +41,7 @@ export function socialized(courseId, courseTitle, courseDescription) {
   });
 }
 
+// when a user saves a search
 // TODO: utilize saved search name
 export function prioritized(name, keyword) {
   sendStatement({
@@ -51,6 +55,7 @@ export function prioritized(name, keyword) {
   });
 }
 
+// when a user views a course
 export function explored(courseId, courseUrl, courseTitle, courseDescription) {
   sendStatement({
     verb: 'explored',
@@ -64,6 +69,7 @@ export function explored(courseId, courseUrl, courseTitle, courseDescription) {
   });
 }
 
+// when a user follows the registration link for a course
 export function registered(
   courseId,
   courseUrl,
