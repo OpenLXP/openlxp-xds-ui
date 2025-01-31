@@ -3,9 +3,10 @@ import {
   ArchiveIcon,
   UserIcon,
 } from '@heroicons/react/outline';
+import { explored, registered } from '@/utils/xapi/events';
 import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 import { removeHTML } from '@/utils/cleaning';
-import { sendStatement } from '@/utils/xapi';
+
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useConfig } from '@/hooks/useConfig';
@@ -303,17 +304,7 @@ export default function Course() {
   const [xapiHasFired, setXapiHasFired] = useState(false);
   useEffect(() => {
     if (!data || xapiHasFired) return;
-    const context = {
-      verb: 'explored',
-      object: {
-        definitionName: data?.title,
-        description: data?.description,
-        id: data?.url,
-      },
-      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-      resultExtValue: router.query?.courseId,
-    };
-    sendStatement(context);
+    explored(router.query?.courseId, data?.url, data?.title, data?.description);
     setXapiHasFired(true);
   }, [
     xapiHasFired,
@@ -328,20 +319,13 @@ export default function Course() {
   const handleClick = useCallback(() => {
     if (!user) return;
     console.count('enrollment button clicked');
-
-    const context = {
-      verb: 'registered',
-      object: {
-        definitionName: data?.title,
-        description: data?.description,
-        id: `${window.origin}/course/${router.query?.courseId}`,
-      },
-      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-      resultExtValue: router.query?.courseId,
-    };
-
-    sendStatement(context);
-  }, [router.query?.courseId, data?.title, data?.description, user]);
+    registered(
+      router.query?.courseId,
+      data?.url,
+      data?.title,
+      data?.description
+    );
+  }, [router.query?.courseId, data?.title, data?.description, data?.url]);
 
   return (
     <>

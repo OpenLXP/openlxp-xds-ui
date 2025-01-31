@@ -1,12 +1,14 @@
 import { Fragment } from 'react';
 import { Popover, Transition } from '@headlessui/react';
-import { sendStatement } from '@/utils/xapi';
+import { prioritized } from '@/utils/xapi/events';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateSaveSearch } from '@/hooks/useCreateSaveSearch';
+import { useRouter } from 'next/dist/client/router';
 import InputField from '@/components/inputs/InputField';
 import useField from '@/hooks/useField';
 
 export default function CreateSavedSearchModal({ path }) {
+  const router = useRouter();
   const { user } = useAuth();
   const { fields, updateKeyValuePair, resetKey } = useField({
     name: '',
@@ -29,16 +31,7 @@ export default function CreateSavedSearchModal({ path }) {
     });
 
     //xAPI Statement
-    const context = {
-      verb: 'prioritized',
-      object: {
-        definitionName: 'ECC Search Term Saving',
-      },
-      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
-      resultExtValue: fields.name,
-    };
-
-    sendStatement(context);
+    prioritized(fields.name, router.query.keyword);
 
     // reset the form
     resetKey('name');
