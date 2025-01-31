@@ -65,12 +65,12 @@ describe('Search Page', () => {
     useMockSearch();
     useUnauthenticatedUser();
     useMockMoreLikeThis();
-    const { getByText } = renderer();
+    const { getByText, getAllByText } = renderer();
 
     expect(getByText('About 1 results.')).toBeInTheDocument();
-
-    expect(getByText('Test Title')).toBeInTheDocument();
-    expect(getByText('More Like This Title')).toBeInTheDocument();
+    const [testTitle] = getAllByText('Test Title');
+    expect(testTitle).toBeInTheDocument();
+    expect(getByText('Similar Course')).toBeInTheDocument();
   });
 
   it('should not render the save button when the user is not authenticated', () => {
@@ -118,7 +118,7 @@ describe('Search Page', () => {
     const { getByText } = renderer();
 
     act(() => {
-      fireEvent.click(getByText('Test Title'));
+      fireEvent.click(getByText('Test Title', { selector: 'h3' }));
     });
 
     expect(singletonRouter).toMatchObject({
