@@ -171,7 +171,7 @@ describe('Save Modal', () => {
       expect(nameInput).toHaveValue('Test List Name');
 
       act(() => {
-        fireEvent.change(getByPlaceholderText(/List Description.../i), {
+        fireEvent.change(descInput, {
           target: { value: 'Test List Description' },
         });
       });
