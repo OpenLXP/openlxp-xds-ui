@@ -1,7 +1,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import SaveModal from '@/components/modals/SaveModal';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
-import { sendStatement } from '@/utils/xapi';
+import * as xapi from '@/utils/xapi';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
@@ -142,30 +142,47 @@ describe('Save Modal', () => {
   });
   describe('create new list', () => {
     it.todo('should render input fields for name and description');
-    it.todo('should');
 
     it.skip('should send xAPI statement when create is clicked', () => {
       const { getByText, getByPlaceholderText } = renderer(true);
 
       const spy = jest
-        .spyOn(sendStatement, 'sendStatement')
+        .spyOn(xapi, 'sendStatement')
         .mockImplementation(() => Promise.resolve({}));
+
       act(() => {
         fireEvent.click(getByText(/save/i));
       });
 
-      fireEvent.change(getByPlaceholderText(/name/i), {
-        target: { value: 'Name' },
+      expect(getByText('Create a new list')).toBeInTheDocument();
+
+      const nameInput = getByPlaceholderText(/Name/i);
+      const descInput = getByPlaceholderText(/List Description.../i);
+
+      // TODO: Only one of these can be set, the other will not work
+      // probably some kind of react update weirdness
+      // consider using userEvent here
+      act(() => {
+        fireEvent.change(nameInput, {
+          target: { value: 'Test List Name' },
+        });
       });
 
-      fireEvent.change(getByPlaceholderText(/List Description.../i), {
-        target: { value: 'Descprition' },
-      });
+      expect(nameInput).toHaveValue('Test List Name');
 
       act(() => {
-        fireEvent.click(getByText(/create/i));
+        fireEvent.change(getByPlaceholderText(/List Description.../i), {
+          target: { value: 'Test List Description' },
+        });
       });
 
+      expect(getByText('Test List Description')).toBeInTheDocument();
+
+      fireEvent.click(getByText(/create/i, { selector: 'input' }));
+
+      expect(getByText('Test List Name')).toBeInTheDocument();
+
+      // xapi statement issued
       expect(spy).toHaveBeenCalled();
     });
   });
