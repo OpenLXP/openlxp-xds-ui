@@ -28,7 +28,12 @@ describe('xAPI Actions', () => {
 
     expect(sendStatement).toHaveBeenCalledTimes(1);
     expect(sendStatement).toHaveBeenCalledWith({
-      verb: 'searched',
+      verb: {
+        id: 'https://w3id.org/xapi/acrossx/verbs/searched',
+        display: {
+          'en-US': 'Searched',
+        },
+      },
       object: {
         id: 'https://fakeorigin.com/search',
         definitionName: 'ECC Search Capability',
@@ -43,7 +48,12 @@ describe('xAPI Actions', () => {
 
     expect(sendStatement).toHaveBeenCalledTimes(1);
     expect(sendStatement).toHaveBeenCalledWith({
-      verb: 'curated',
+      verb: {
+        id: 'https://w3id.org/xapi/dod-isd/verbs/curated',
+        display: {
+          'en-US': 'Curated',
+        },
+      },
       object: {
         id: 'https://fakeorigin.com/lists/list123',
         definitionName: 'Test List',
@@ -60,7 +70,12 @@ describe('xAPI Actions', () => {
 
     expect(sendStatement).toHaveBeenCalledTimes(1);
     expect(sendStatement).toHaveBeenCalledWith({
-      verb: 'socialized',
+      verb: {
+        id: 'https://w3id.org/xapi/tla/verbs/socialized',
+        display: {
+          'en-US': 'Socialized',
+        },
+      },
       object: {
         id: 'https://fakeorigin.com/course/courseABC',
         definitionName: 'Cool Course',
@@ -76,7 +91,12 @@ describe('xAPI Actions', () => {
 
     expect(sendStatement).toHaveBeenCalledTimes(1);
     expect(sendStatement).toHaveBeenCalledWith({
-      verb: 'prioritized',
+      verb: {
+        id: 'https://w3id.org/xapi/acrossx/verbs/prioritized',
+        display: {
+          'en-US': 'Prioritized',
+        },
+      },
       object: {
         id: 'https://fakeorigin.com/search#save',
         definitionName: 'ECC Search Term Saving',
@@ -96,7 +116,12 @@ describe('xAPI Actions', () => {
 
     expect(sendStatement).toHaveBeenCalledTimes(1);
     expect(sendStatement).toHaveBeenCalledWith({
-      verb: 'explored',
+      verb: {
+        id: 'https://w3id.org/xapi/tla/verbs/explored',
+        display: {
+          'en-US': 'Explored',
+        },
+      },
       object: {
         id: 'https://fakeorigin.com/course/courseXYZ',
         definitionName: 'Exploring Course',
@@ -117,7 +142,12 @@ describe('xAPI Actions', () => {
 
     expect(sendStatement).toHaveBeenCalledTimes(1);
     expect(sendStatement).toHaveBeenCalledWith({
-      verb: 'registered',
+      verb: {
+        id: 'https://w3id.org/xapi/tla/verbs/registered',
+        display: {
+          'en-US': 'Registered',
+        },
+      },
       object: {
         id: 'https://fakeorigin.com/course/course999',
         definitionName: 'Registration Course',

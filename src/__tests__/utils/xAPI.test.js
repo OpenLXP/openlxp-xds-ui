@@ -31,12 +31,6 @@ describe('sendStatement', () => {
     expect(consoleSpy).toHaveBeenCalledWith('no verb!');
   });
 
-  it('should call console.error if verb is wrong', async () => {
-    const consoleSpy = jest.spyOn(console, 'error');
-    await sendStatement({ verb: 'attempted' });
-    expect(consoleSpy).toHaveBeenCalledWith('verb not found!');
-  });
-
   it('should call console.error if object is missing', async () => {
     const consoleSpy = jest.spyOn(console, 'error');
     await sendStatement({
@@ -84,7 +78,12 @@ describe('sendStatement', () => {
 
   it('should create and forward a statement with the correct structure', async () => {
     await sendStatement({
-      verb: 'explored',
+      verb: {
+        id: 'https://w3id.org/xapi/tla/verbs/explored',
+        display: {
+          'en-US': 'Explored',
+        },
+      },
       object: {
         id: 'https://mysite.com/content/123',
         definitionName: 'My Content',

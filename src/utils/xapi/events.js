@@ -3,7 +3,12 @@ import { sendStatement } from '@/utils/xapi';
 // when a search fires from the index or search page
 export function searched(keyword) {
   sendStatement({
-    verb: 'searched',
+    verb: {
+      id: 'https://w3id.org/xapi/acrossx/verbs/searched',
+      display: {
+        'en-US': 'Searched',
+      },
+    },
     object: {
       id: `${window.location.origin}/search`,
       definitionName: 'ECC Search Capability',
@@ -16,7 +21,12 @@ export function searched(keyword) {
 // when a user saves a list of courses
 export function curated(listId, listName, listDescription) {
   sendStatement({
-    verb: 'curated',
+    verb: {
+      id: 'https://w3id.org/xapi/dod-isd/verbs/curated',
+      display: {
+        'en-US': 'Curated',
+      },
+    },
     object: {
       id: `${window.location.origin}/lists/${listId}`,
       definitionName: listName,
@@ -30,7 +40,13 @@ export function curated(listId, listName, listDescription) {
 // when a user shares the ECC course page
 export function socialized(courseId, courseTitle, courseDescription) {
   sendStatement({
-    verb: 'socialized',
+    verb: {
+      // TODO: Bring this up. This should probably be http://adlnet.gov/expapi/verbs/shared
+      id: 'https://w3id.org/xapi/tla/verbs/socialized',
+      display: {
+        'en-US': 'Socialized',
+      },
+    },
     object: {
       definitionName: courseTitle,
       description: courseDescription,
@@ -45,9 +61,14 @@ export function socialized(courseId, courseTitle, courseDescription) {
 // TODO: utilize saved search name
 export function prioritized(name, keyword) {
   sendStatement({
-    verb: 'prioritized',
+    verb: {
+      id: 'https://w3id.org/xapi/acrossx/verbs/prioritized',
+      display: {
+        'en-US': 'Prioritized',
+      },
+    },
     object: {
-      id: `${window.location.origin}/search#save`,
+      id: `${window.location.origin}/search#save`, // TODO: incorporate term
       definitionName: 'ECC Search Term Saving',
     },
     resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
@@ -56,9 +77,15 @@ export function prioritized(name, keyword) {
 }
 
 // when a user views a course
+// TODO: Every course NEEDS to have an IRI
 export function explored(courseId, courseUrl, courseTitle, courseDescription) {
   sendStatement({
-    verb: 'explored',
+    verb: {
+      id: 'https://w3id.org/xapi/tla/verbs/explored',
+      display: {
+        'en-US': 'Explored',
+      },
+    },
     object: {
       definitionName: courseTitle,
       description: courseDescription,
@@ -70,6 +97,7 @@ export function explored(courseId, courseUrl, courseTitle, courseDescription) {
 }
 
 // when a user follows the registration link for a course
+// TODO: Bring this up, this is a significant verb in other contexts
 export function registered(
   courseId,
   courseUrl,
@@ -77,7 +105,12 @@ export function registered(
   courseDescription
 ) {
   sendStatement({
-    verb: 'registered',
+    verb: {
+      id: 'https://w3id.org/xapi/tla/verbs/registered',
+      display: {
+        'en-US': 'Registered',
+      },
+    },
     object: {
       definitionName: courseTitle,
       description: courseDescription,
