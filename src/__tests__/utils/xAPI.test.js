@@ -137,8 +137,15 @@ describe('sendStatement', () => {
       },
       object: {
         id: 'https://mysite.com/content/123',
-        definitionName: 'My Content',
-        description: 'This is a test content',
+        definition: {
+          name: {
+            en: 'My Content',
+          },
+          description: {
+            en: 'This is a test content',
+          },
+        },
+        objectType: 'Activity',
       },
       resultExtName: 'someKey',
       resultExtValue: 'someValue',

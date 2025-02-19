@@ -1,4 +1,4 @@
-import { sendStatement } from '@/utils/xapi';
+import { sendStatement, xapiObject } from '@/utils/xapi';
 
 // when a search fires from the index or search page
 export function searched(keyword) {
@@ -9,10 +9,12 @@ export function searched(keyword) {
         en: 'Searched',
       },
     },
-    object: {
-      id: `${window.location.origin}/search`,
-      definitionName: 'ECC Search Capability',
-    },
+    object: xapiObject(
+      `${window.location.origin}/search`, // TODO: incorporate term
+      'https://w3id.org/xapi/acrossx/activities/search-engine', // TODO: confirm
+      'en',
+      'ECC Search Capability'
+    ),
     resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
     resultExtValue: keyword,
   });
@@ -27,11 +29,13 @@ export function curated(listId, listName, listDescription) {
         en: 'Curated',
       },
     },
-    object: {
-      id: `${window.location.origin}/lists/${listId}`,
-      definitionName: listName,
-      description: listDescription,
-    },
+    object: xapiObject(
+      `${window.location.origin}/lists/${listId}`,
+      'http://id.tincanapi.com/activitytype/playlist', // TODO: confirm
+      'en',
+      listName,
+      listDescription
+    ),
     resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CuratedListId',
     resultExtValue: listId,
   });
@@ -47,11 +51,13 @@ export function socialized(courseId, courseTitle, courseDescription) {
         en: 'Socialized',
       },
     },
-    object: {
-      definitionName: courseTitle,
-      description: courseDescription,
-      id: `${window.location.origin}/course/${courseId}`,
-    },
+    object: xapiObject(
+      `${window.location.origin}/course/${courseId}`,
+      'https://w3id.org/xapi/cmi5/activitytype/course', // TODO: confirm
+      'en',
+      courseTitle,
+      courseDescription
+    ),
     resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
     resultExtValue: courseId,
   });
@@ -67,10 +73,12 @@ export function prioritized(name, keyword) {
         en: 'Prioritized',
       },
     },
-    object: {
-      id: `${window.location.origin}/search#save`, // TODO: incorporate term
-      definitionName: 'ECC Search Term Saving',
-    },
+    object: xapiObject(
+      `${window.location.origin}/search#save`, // TODO: incorporate term
+      'https://w3id.org/xapi/acrossx/activities/search-engine', // TODO: placeholder, replace
+      'en',
+      'ECC Search Term Saving'
+    ),
     resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
     resultExtValue: keyword,
   });
@@ -86,11 +94,13 @@ export function explored(courseId, courseUrl, courseTitle, courseDescription) {
         en: 'Explored',
       },
     },
-    object: {
-      definitionName: courseTitle,
-      description: courseDescription,
-      id: courseUrl,
-    },
+    object: xapiObject(
+      courseUrl,
+      'https://w3id.org/xapi/cmi5/activitytype/course', // TODO: confirm
+      'en',
+      courseTitle,
+      courseDescription
+    ),
     resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
     resultExtValue: courseId,
   });
@@ -111,11 +121,13 @@ export function registered(
         en: 'Registered',
       },
     },
-    object: {
-      definitionName: courseTitle,
-      description: courseDescription,
-      id: courseUrl,
-    },
+    object: xapiObject(
+      courseUrl,
+      'https://w3id.org/xapi/cmi5/activitytype/course', // TODO: confirm
+      'en',
+      courseTitle,
+      courseDescription
+    ),
     resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
     resultExtValue: courseId,
   });

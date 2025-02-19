@@ -2,9 +2,13 @@ import * as xapiActions from '@/utils/xapi/events';
 import { sendStatement } from '@/utils/xapi';
 
 // Mock sendStatement so we can spy on calls
-jest.mock('@/utils/xapi', () => ({
-  sendStatement: jest.fn(),
-}));
+jest.mock('@/utils/xapi', () => {
+  const actualModule = jest.requireActual('@/utils/xapi');
+  return {
+    ...actualModule,
+    sendStatement: jest.fn(() => Promise.resolve({})),
+  };
+});
 
 describe('xAPI Actions', () => {
   // We’ll temporarily override window.location so we can check the expected origin
@@ -36,7 +40,13 @@ describe('xAPI Actions', () => {
       },
       object: {
         id: 'https://fakeorigin.com/search',
-        definitionName: 'ECC Search Capability',
+        definition: {
+          type: 'https://w3id.org/xapi/acrossx/activities/search-engine',
+          name: {
+            en: 'ECC Search Capability',
+          },
+        },
+        objectType: 'Activity',
       },
       resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
       resultExtValue: 'someKeyword',
@@ -56,8 +66,16 @@ describe('xAPI Actions', () => {
       },
       object: {
         id: 'https://fakeorigin.com/lists/list123',
-        definitionName: 'Test List',
-        description: 'List Description',
+        definition: {
+          type: 'http://id.tincanapi.com/activitytype/playlist',
+          name: {
+            en: 'Test List',
+          },
+          description: {
+            en: 'List Description',
+          },
+        },
+        objectType: 'Activity',
       },
       resultExtName:
         'https://w3id.org/xapi/ecc/result/extensions/CuratedListId',
@@ -78,8 +96,16 @@ describe('xAPI Actions', () => {
       },
       object: {
         id: 'https://fakeorigin.com/course/courseABC',
-        definitionName: 'Cool Course',
-        description: 'Awesome description',
+        definition: {
+          type: 'https://w3id.org/xapi/cmi5/activitytype/course',
+          name: {
+            en: 'Cool Course',
+          },
+          description: {
+            en: 'Awesome description',
+          },
+        },
+        objectType: 'Activity',
       },
       resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
       resultExtValue: 'courseABC',
@@ -99,7 +125,13 @@ describe('xAPI Actions', () => {
       },
       object: {
         id: 'https://fakeorigin.com/search#save',
-        definitionName: 'ECC Search Term Saving',
+        definition: {
+          type: 'https://w3id.org/xapi/acrossx/activities/search-engine',
+          name: {
+            en: 'ECC Search Term Saving',
+          },
+        },
+        objectType: 'Activity',
       },
       resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
       resultExtValue: 'keyword123',
@@ -124,8 +156,16 @@ describe('xAPI Actions', () => {
       },
       object: {
         id: 'https://fakeorigin.com/course/courseXYZ',
-        definitionName: 'Exploring Course',
-        description: 'Course Description',
+        definition: {
+          type: 'https://w3id.org/xapi/cmi5/activitytype/course',
+          name: {
+            en: 'Exploring Course',
+          },
+          description: {
+            en: 'Course Description',
+          },
+        },
+        objectType: 'Activity',
       },
       resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
       resultExtValue: 'courseXYZ',
@@ -150,8 +190,16 @@ describe('xAPI Actions', () => {
       },
       object: {
         id: 'https://fakeorigin.com/course/course999',
-        definitionName: 'Registration Course',
-        description: 'Registration Course Description',
+        definition: {
+          type: 'https://w3id.org/xapi/cmi5/activitytype/course',
+          name: {
+            en: 'Registration Course',
+          },
+          description: {
+            en: 'Registration Course Description',
+          },
+        },
+        objectType: 'Activity',
       },
       resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
       resultExtValue: 'course999',

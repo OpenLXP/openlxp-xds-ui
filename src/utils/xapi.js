@@ -23,15 +23,7 @@ const prepareStatement = (verb, obj, resultExtName, resultExtValue) => {
       objectType: 'Agent',
     },
     verb,
-    object: {
-      id: obj.id,
-      definition: {
-        name: {
-          en: obj.definitionName,
-        },
-      },
-      objectType: 'Activity',
-    },
+    object: obj,
     result: {
       extensions: {
         [resultExtName]: resultExtValue,
@@ -40,10 +32,6 @@ const prepareStatement = (verb, obj, resultExtName, resultExtValue) => {
     timestamp: new Date().toISOString(),
   };
 
-  obj.description &&
-    (statement['object']['definition']['description'] = {
-      en: obj.description,
-    });
   return statement;
 };
 

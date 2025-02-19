@@ -1,6 +1,10 @@
-jest.mock('@/utils/xapi', () => ({
-  sendStatement: jest.fn(() => Promise.resolve({})),
-}));
+jest.mock('@/utils/xapi', () => {
+  const actualModule = jest.requireActual('@/utils/xapi');
+  return {
+    ...actualModule,
+    sendStatement: jest.fn(() => Promise.resolve({})),
+  };
+});
 
 import { act, fireEvent, render } from '@testing-library/react';
 import { sendStatement } from '@/utils/xapi';

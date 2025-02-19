@@ -1,6 +1,11 @@
-jest.mock('@/utils/xapi', () => ({
-  sendStatement: jest.fn(() => Promise.resolve({})),
-}));
+jest.mock('@/utils/xapi', () => {
+  const actualModule = jest.requireActual('@/utils/xapi');
+  return {
+    ...actualModule,
+    sendStatement: jest.fn(() => Promise.resolve({})),
+  };
+});
+
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act } from 'react-dom/test-utils';
 import {
