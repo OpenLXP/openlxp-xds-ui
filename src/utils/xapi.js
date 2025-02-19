@@ -47,6 +47,18 @@ const prepareStatement = (verb, obj, resultExtName, resultExtValue) => {
   return statement;
 };
 
+export function xapiObject(id, atype, lang, name, description) {
+  return {
+    id,
+    objectType: 'Activity',
+    definition: {
+      type: atype,
+      name: { [lang]: name },
+      ...(description != null ? { description: { [lang]: description } } : {}),
+    },
+  };
+}
+
 /**
  * Sends a statement to the LRS based on the context provided.
  * @param {{

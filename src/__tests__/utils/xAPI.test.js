@@ -1,5 +1,5 @@
 import { axiosInstance } from '@/config/axiosConfig';
-import { sendStatement } from '@/utils/xapi';
+import { sendStatement, xapiObject } from '@/utils/xapi';
 import { statementsUrl } from '@/config/endpoints.js';
 
 jest.mock('@/config/axiosConfig', () => ({
@@ -7,6 +7,57 @@ jest.mock('@/config/axiosConfig', () => ({
     post: jest.fn(() => Promise.resolve({ data: 'mocked response' })),
   },
 }));
+
+describe('xapiObject', () => {
+  const id = 'http://example.com/activity';
+  const atype = 'http://example.com/activityType';
+  const lang = 'en';
+  const name = 'Test Activity';
+
+  test('includes description when provided', () => {
+    const description = 'This is a test activity';
+    const result = xapiObject(id, atype, lang, name, description);
+
+    expect(result).toEqual({
+      id,
+      objectType: 'Activity',
+      definition: {
+        type: atype,
+        name: { [lang]: name },
+        description: { [lang]: description },
+      },
+    });
+  });
+
+  test('omits description when null', () => {
+    const description = null;
+    const result = xapiObject(id, atype, lang, name, description);
+
+    expect(result).toEqual({
+      id,
+      objectType: 'Activity',
+      definition: {
+        type: atype,
+        name: { [lang]: name },
+      },
+    });
+  });
+
+  test('omits description when undefined', () => {
+    const description = undefined;
+    const result = xapiObject(id, atype, lang, name, description);
+
+    expect(result).toEqual({
+      id,
+      objectType: 'Activity',
+      definition: {
+        type: atype,
+        name: { [lang]: name },
+      },
+    });
+  });
+});
+
 describe('sendStatement', () => {
   const originalWindowLocation = window.location;
 
