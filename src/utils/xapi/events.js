@@ -6,7 +6,7 @@ export function searched(keyword) {
     verb: {
       id: 'https://w3id.org/xapi/acrossx/verbs/searched',
       display: {
-        'en-US': 'Searched',
+        en: 'Searched',
       },
     },
     object: {
@@ -24,7 +24,7 @@ export function curated(listId, listName, listDescription) {
     verb: {
       id: 'https://w3id.org/xapi/dod-isd/verbs/curated',
       display: {
-        'en-US': 'Curated',
+        en: 'Curated',
       },
     },
     object: {
@@ -44,7 +44,7 @@ export function socialized(courseId, courseTitle, courseDescription) {
       // TODO: Bring this up. This should probably be http://adlnet.gov/expapi/verbs/shared
       id: 'https://w3id.org/xapi/tla/verbs/socialized',
       display: {
-        'en-US': 'Socialized',
+        en: 'Socialized',
       },
     },
     object: {
@@ -64,7 +64,7 @@ export function prioritized(name, keyword) {
     verb: {
       id: 'https://w3id.org/xapi/acrossx/verbs/prioritized',
       display: {
-        'en-US': 'Prioritized',
+        en: 'Prioritized',
       },
     },
     object: {
@@ -83,7 +83,7 @@ export function explored(courseId, courseUrl, courseTitle, courseDescription) {
     verb: {
       id: 'https://w3id.org/xapi/tla/verbs/explored',
       display: {
-        'en-US': 'Explored',
+        en: 'Explored',
       },
     },
     object: {
@@ -108,7 +108,7 @@ export function registered(
     verb: {
       id: 'https://w3id.org/xapi/tla/verbs/registered',
       display: {
-        'en-US': 'Registered',
+        en: 'Registered',
       },
     },
     object: {

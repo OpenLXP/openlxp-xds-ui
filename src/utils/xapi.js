@@ -27,7 +27,7 @@ const prepareStatement = (verb, obj, resultExtName, resultExtValue) => {
       id: obj.id,
       definition: {
         name: {
-          'en-US': obj.definitionName,
+          en: obj.definitionName,
         },
       },
       objectType: 'Activity',
@@ -42,7 +42,7 @@ const prepareStatement = (verb, obj, resultExtName, resultExtValue) => {
 
   obj.description &&
     (statement['object']['definition']['description'] = {
-      'en-US': obj.description,
+      en: obj.description,
     });
   return statement;
 };

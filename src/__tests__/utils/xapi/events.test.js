@@ -31,7 +31,7 @@ describe('xAPI Actions', () => {
       verb: {
         id: 'https://w3id.org/xapi/acrossx/verbs/searched',
         display: {
-          'en-US': 'Searched',
+          en: 'Searched',
         },
       },
       object: {
@@ -51,7 +51,7 @@ describe('xAPI Actions', () => {
       verb: {
         id: 'https://w3id.org/xapi/dod-isd/verbs/curated',
         display: {
-          'en-US': 'Curated',
+          en: 'Curated',
         },
       },
       object: {
@@ -73,7 +73,7 @@ describe('xAPI Actions', () => {
       verb: {
         id: 'https://w3id.org/xapi/tla/verbs/socialized',
         display: {
-          'en-US': 'Socialized',
+          en: 'Socialized',
         },
       },
       object: {
@@ -94,7 +94,7 @@ describe('xAPI Actions', () => {
       verb: {
         id: 'https://w3id.org/xapi/acrossx/verbs/prioritized',
         display: {
-          'en-US': 'Prioritized',
+          en: 'Prioritized',
         },
       },
       object: {
@@ -119,7 +119,7 @@ describe('xAPI Actions', () => {
       verb: {
         id: 'https://w3id.org/xapi/tla/verbs/explored',
         display: {
-          'en-US': 'Explored',
+          en: 'Explored',
         },
       },
       object: {
@@ -145,7 +145,7 @@ describe('xAPI Actions', () => {
       verb: {
         id: 'https://w3id.org/xapi/tla/verbs/registered',
         display: {
-          'en-US': 'Registered',
+          en: 'Registered',
         },
       },
       object: {

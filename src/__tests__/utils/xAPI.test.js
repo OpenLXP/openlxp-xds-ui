@@ -81,7 +81,7 @@ describe('sendStatement', () => {
       verb: {
         id: 'https://w3id.org/xapi/tla/verbs/explored',
         display: {
-          'en-US': 'Explored',
+          en: 'Explored',
         },
       },
       object: {
@@ -120,12 +120,12 @@ describe('sendStatement', () => {
 
     // Check verb structure
     expect(statement.verb.id).toBe('https://w3id.org/xapi/tla/verbs/explored');
-    expect(statement.verb.display['en-US']).toBe('Explored');
+    expect(statement.verb.display['en']).toBe('Explored');
 
     // Check object structure
     expect(statement.object.id).toBe('https://mysite.com/content/123');
-    expect(statement.object.definition.name['en-US']).toBe('My Content');
-    expect(statement.object.definition.description['en-US']).toBe(
+    expect(statement.object.definition.name['en']).toBe('My Content');
+    expect(statement.object.definition.description['en']).toBe(
       'This is a test content'
     );
     expect(statement.object.objectType).toBe('Activity');
