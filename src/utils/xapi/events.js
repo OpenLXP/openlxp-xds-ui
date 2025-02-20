@@ -10,12 +10,13 @@ export function searched(keyword) {
       },
     },
     object: xapiObject(
-      `${window.location.origin}/search`, // TODO: incorporate term
-      'https://w3id.org/xapi/acrossx/activities/search-engine', // TODO: confirm
+      `${window.location.origin}/search?keyword=${keyword}`, // TODO: incorporate term
+      'https://w3id.org/xapi/acrossx/activities/webpage', // TODO: confirm
       'en',
-      'ECC Search Capability'
+      `ECC Search: ${keyword}`
     ),
     result: {
+      response: keyword, // TODO: Confirm, we do this in Moodle
       extensions: {
         'https://w3id.org/xapi/ecc/result/extensions/searchTerm': keyword,
       },

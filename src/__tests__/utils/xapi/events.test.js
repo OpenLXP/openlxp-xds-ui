@@ -39,16 +39,17 @@ describe('xAPI Actions', () => {
         },
       },
       object: {
-        id: 'https://fakeorigin.com/search',
+        id: 'https://fakeorigin.com/search?keyword=someKeyword',
         definition: {
-          type: 'https://w3id.org/xapi/acrossx/activities/search-engine',
+          type: 'https://w3id.org/xapi/acrossx/activities/webpage',
           name: {
-            en: 'ECC Search Capability',
+            en: 'ECC Search: someKeyword',
           },
         },
         objectType: 'Activity',
       },
       result: {
+        response: 'someKeyword',
         extensions: {
           'https://w3id.org/xapi/ecc/result/extensions/searchTerm':
             'someKeyword',
