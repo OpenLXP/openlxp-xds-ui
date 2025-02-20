@@ -15,8 +15,11 @@ export function searched(keyword) {
       'en',
       'ECC Search Capability'
     ),
-    resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
-    resultExtValue: keyword,
+    result: {
+      extensions: {
+        'https://w3id.org/xapi/ecc/result/extensions/searchTerm': keyword,
+      },
+    },
   });
 }
 
@@ -36,8 +39,11 @@ export function curated(listId, listName, listDescription) {
       listName,
       listDescription
     ),
-    resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CuratedListId',
-    resultExtValue: listId,
+    result: {
+      extensions: {
+        'https://w3id.org/xapi/ecc/result/extensions/CuratedListId': listId,
+      },
+    },
   });
 }
 
@@ -58,8 +64,11 @@ export function socialized(courseId, courseTitle, courseDescription) {
       courseTitle,
       courseDescription
     ),
-    resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-    resultExtValue: courseId,
+    result: {
+      extensions: {
+        'https://w3id.org/xapi/ecc/result/extensions/CourseId': courseId,
+      },
+    },
   });
 }
 
@@ -79,8 +88,11 @@ export function prioritized(name, keyword) {
       'en',
       'ECC Search Term Saving'
     ),
-    resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
-    resultExtValue: keyword,
+    result: {
+      extensions: {
+        'https://w3id.org/xapi/ecc/result/extensions/searchTerm': keyword,
+      },
+    },
   });
 }
 
@@ -101,8 +113,11 @@ export function explored(courseId, courseUrl, courseTitle, courseDescription) {
       courseTitle,
       courseDescription
     ),
-    resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-    resultExtValue: courseId,
+    result: {
+      extensions: {
+        'https://w3id.org/xapi/ecc/result/extensions/CourseId': courseId,
+      },
+    },
   });
 }
 
@@ -128,7 +143,10 @@ export function registered(
       courseTitle,
       courseDescription
     ),
-    resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-    resultExtValue: courseId,
+    result: {
+      extensions: {
+        'https://w3id.org/xapi/ecc/result/extensions/CourseId': courseId,
+      },
+    },
   });
 }

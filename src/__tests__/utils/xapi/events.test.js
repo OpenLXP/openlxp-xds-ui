@@ -48,8 +48,12 @@ describe('xAPI Actions', () => {
         },
         objectType: 'Activity',
       },
-      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
-      resultExtValue: 'someKeyword',
+      result: {
+        extensions: {
+          'https://w3id.org/xapi/ecc/result/extensions/searchTerm':
+            'someKeyword',
+        },
+      },
     });
   });
 
@@ -77,9 +81,12 @@ describe('xAPI Actions', () => {
         },
         objectType: 'Activity',
       },
-      resultExtName:
-        'https://w3id.org/xapi/ecc/result/extensions/CuratedListId',
-      resultExtValue: 'list123',
+      result: {
+        extensions: {
+          'https://w3id.org/xapi/ecc/result/extensions/CuratedListId':
+            'list123',
+        },
+      },
     });
   });
 
@@ -107,8 +114,11 @@ describe('xAPI Actions', () => {
         },
         objectType: 'Activity',
       },
-      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-      resultExtValue: 'courseABC',
+      result: {
+        extensions: {
+          'https://w3id.org/xapi/ecc/result/extensions/CourseId': 'courseABC',
+        },
+      },
     });
   });
 
@@ -133,8 +143,12 @@ describe('xAPI Actions', () => {
         },
         objectType: 'Activity',
       },
-      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
-      resultExtValue: 'keyword123',
+      result: {
+        extensions: {
+          'https://w3id.org/xapi/ecc/result/extensions/searchTerm':
+            'keyword123',
+        },
+      },
     });
   });
 
@@ -167,8 +181,11 @@ describe('xAPI Actions', () => {
         },
         objectType: 'Activity',
       },
-      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-      resultExtValue: 'courseXYZ',
+      result: {
+        extensions: {
+          'https://w3id.org/xapi/ecc/result/extensions/CourseId': 'courseXYZ',
+        },
+      },
     });
   });
 
@@ -201,8 +218,11 @@ describe('xAPI Actions', () => {
         },
         objectType: 'Activity',
       },
-      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-      resultExtValue: 'course999',
+      result: {
+        extensions: {
+          'https://w3id.org/xapi/ecc/result/extensions/CourseId': 'course999',
+        },
+      },
     });
   });
 });

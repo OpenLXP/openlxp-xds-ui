@@ -90,25 +90,6 @@ describe('sendStatement', () => {
     expect(consoleSpy).toHaveBeenCalledWith('no object object');
   });
 
-  it('should call console.error if resultExtName is missing', async () => {
-    const consoleSpy = jest.spyOn(console, 'error');
-    await sendStatement({
-      verb: 'explored',
-      object: { definitionName: 'Test Content' },
-    });
-    expect(consoleSpy).toHaveBeenCalledWith('no resultExtName');
-  });
-
-  it('should call console.error if resultExtValue is missing', async () => {
-    const consoleSpy = jest.spyOn(console, 'error');
-    await sendStatement({
-      verb: 'explored',
-      object: { definitionName: 'Test Content' },
-      resultExtName: 'score',
-    });
-    expect(consoleSpy).toHaveBeenCalledWith('no resultExtValue');
-  });
-
   it('should default object.id to window.location.href if none is provided', async () => {
     await sendStatement({
       verb: 'explored',
@@ -147,8 +128,11 @@ describe('sendStatement', () => {
         },
         objectType: 'Activity',
       },
-      resultExtName: 'someKey',
-      resultExtValue: 'someValue',
+      result: {
+        extensions: {
+          someKey: 'someValue',
+        },
+      },
     });
 
     expect(axiosInstance.post).toHaveBeenCalledTimes(1);

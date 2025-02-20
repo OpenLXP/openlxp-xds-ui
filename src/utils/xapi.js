@@ -9,11 +9,8 @@ const forwardStatement = ({ statement }) => {
 };
 
 // Create a real, valid statement.
-const prepareStatement = (verb, obj, resultExtName, resultExtValue) => {
-  const statement = {
-    context: {
-      platform: 'ECC dev env',
-    },
+const prepareStatement = (partialStatement) => {
+  return {
     actor: {
       // Send a dummy actor as this will be overwritten by the LRS
       account: {
@@ -22,17 +19,17 @@ const prepareStatement = (verb, obj, resultExtName, resultExtValue) => {
       },
       objectType: 'Agent',
     },
-    verb,
-    object: obj,
-    result: {
-      extensions: {
-        [resultExtName]: resultExtValue,
-      },
+    verb: partialStatement.verb,
+    object: partialStatement.object,
+    ...(partialStatement.result != null
+      ? { result: partialStatement.result }
+      : {}),
+    context: {
+      platform: 'ECC dev env', // TODO: allow config
+      ...partialStatement.context,
     },
     timestamp: new Date().toISOString(),
   };
-
-  return statement;
 };
 
 export function xapiObject(id, atype, lang, name, description) {
@@ -64,22 +61,13 @@ export function sendStatement(context) {
 
   if (!context.object) return console.error('no object object');
 
-  if (!context.resultExtName) return console.error('no resultExtName');
-
-  if (!context.resultExtValue) return console.error('no resultExtValue');
-
   // get the window
   const windowLocation = window.location.href;
 
   // if the object has an id, use it otherwise populate it with the window location
   if (!context.object?.id) context.object.id = windowLocation;
 
-  const statement = prepareStatement(
-    context.verb,
-    context.object,
-    context.resultExtName,
-    context.resultExtValue
-  );
+  const statement = prepareStatement(context);
 
   return forwardStatement({ statement });
 }
