@@ -66,7 +66,7 @@ export function shared(courseId, courseTitle, courseDescription) {
     verb: {
       id: 'http://adlnet.gov/expapi/verbs/shared',
       display: {
-        en: 'Socialized',
+        en: 'Shared',
       },
     },
     object: obj,
