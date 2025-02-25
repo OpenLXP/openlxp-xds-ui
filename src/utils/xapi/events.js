@@ -10,15 +10,15 @@ export function searched(keyword) {
       },
     },
     object: xapiObject(
-      `${window.location.origin}/search?keyword=${keyword}`, // TODO: incorporate term
-      'https://w3id.org/xapi/acrossx/activities/webpage', // TODO: confirm
+      `${window.location.origin}/search?keyword=${keyword}`,
+      'https://w3id.org/xapi/acrossx/activities/webpage',
       'en',
       `ECC Search: ${keyword}`
     ),
     result: {
-      response: keyword, // TODO: Confirm, we do this in Moodle
+      response: keyword,
       extensions: {
-        'https://w3id.org/xapi/ecc/result/extensions/searchTerm': keyword,
+        'https://w3id.org/xapi/ecc/result/extensions/searchTerm': keyword, // TODO: Move this and all others to context extensions
       },
     },
   });
@@ -28,14 +28,14 @@ export function searched(keyword) {
 export function curated(listId, listName, listDescription) {
   sendStatement({
     verb: {
-      id: 'https://w3id.org/xapi/dod-isd/verbs/curated', // TODO: This is not defined anywhere!
+      id: 'https://w3id.org/xapi/dod-isd/verbs/curated', // TODO: Import this verb in to our profile so it exists
       display: {
         en: 'Curated',
       },
     },
     object: xapiObject(
       `${window.location.origin}/lists/${listId}`,
-      'http://id.tincanapi.com/activitytype/playlist', // TODO: confirm
+      'http://id.tincanapi.com/activitytype/playlist',
       'en',
       listName,
       listDescription
@@ -52,7 +52,7 @@ export function curated(listId, listName, listDescription) {
 export function socialized(courseId, courseTitle, courseDescription) {
   sendStatement({
     verb: {
-      // TODO: Bring this up. This should probably be http://adlnet.gov/expapi/verbs/shared
+      // TODO: Change this to shared, put in profile
       id: 'https://w3id.org/xapi/tla/verbs/socialized',
       display: {
         en: 'Socialized',
@@ -60,7 +60,7 @@ export function socialized(courseId, courseTitle, courseDescription) {
     },
     object: xapiObject(
       `${window.location.origin}/course/${courseId}`,
-      'https://w3id.org/xapi/cmi5/activitytype/course', // TODO: confirm
+      'https://w3id.org/xapi/cmi5/activitytype/course', // TODO: This is really a more general learning resource
       'en',
       courseTitle,
       courseDescription
@@ -78,20 +78,20 @@ export function socialized(courseId, courseTitle, courseDescription) {
 export function prioritized(name, keyword) {
   sendStatement({
     verb: {
-      id: 'https://w3id.org/xapi/acrossx/verbs/prioritized',
+      id: 'https://w3id.org/xapi/acrossx/verbs/prioritized', // TODO: change to saved
       display: {
         en: 'Prioritized',
       },
     },
     object: xapiObject(
       `${window.location.origin}/search#save`, // TODO: incorporate term
-      'https://w3id.org/xapi/acrossx/activities/search-engine', // TODO: placeholder, replace
+      'https://w3id.org/xapi/acrossx/activities/search-engine', // TODO: webpage, same as search
       'en',
       'ECC Search Term Saving'
     ),
     result: {
       extensions: {
-        'https://w3id.org/xapi/ecc/result/extensions/searchTerm': keyword,
+        'https://w3id.org/xapi/ecc/result/extensions/searchTerm': keyword, // TODO: add search name to extensions
       },
     },
   });
@@ -109,7 +109,7 @@ export function explored(courseId, courseUrl, courseTitle, courseDescription) {
     },
     object: xapiObject(
       courseUrl,
-      'https://w3id.org/xapi/cmi5/activitytype/course', // TODO: confirm
+      'https://w3id.org/xapi/cmi5/activitytype/course',
       'en',
       courseTitle,
       courseDescription
@@ -132,14 +132,14 @@ export function registered(
 ) {
   sendStatement({
     verb: {
-      id: 'https://w3id.org/xapi/tla/verbs/registered',
+      id: 'https://w3id.org/xapi/tla/verbs/registered', // TODO: Viewed
       display: {
         en: 'Registered',
       },
     },
     object: xapiObject(
       courseUrl,
-      'https://w3id.org/xapi/cmi5/activitytype/course', // TODO: confirm
+      'https://w3id.org/xapi/cmi5/activitytype/course',
       'en',
       courseTitle,
       courseDescription
