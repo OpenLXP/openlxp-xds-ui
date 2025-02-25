@@ -24,6 +24,30 @@ export function searched(keyword) {
   });
 }
 
+// when a user saves a search
+// TODO: utilize saved search name
+export function prioritized(name, keyword) {
+  sendStatement({
+    verb: {
+      id: 'https://w3id.org/xapi/acrossx/verbs/prioritized', // TODO: change to saved
+      display: {
+        en: 'Prioritized',
+      },
+    },
+    object: xapiObject(
+      `${window.location.origin}/search#save`, // TODO: incorporate term
+      'https://w3id.org/xapi/acrossx/activities/search-engine', // TODO: webpage, same as search
+      'en',
+      'ECC Search Term Saving'
+    ),
+    result: {
+      extensions: {
+        'https://w3id.org/xapi/ecc/result/extensions/searchTerm': keyword, // TODO: add search name to extensions
+      },
+    },
+  });
+}
+
 // when a user saves a list of courses
 export function curated(listId, listName, listDescription) {
   sendStatement({
@@ -70,30 +94,6 @@ export function shared(courseId, courseTitle, courseDescription) {
       },
     },
     object: obj,
-  });
-}
-
-// when a user saves a search
-// TODO: utilize saved search name
-export function prioritized(name, keyword) {
-  sendStatement({
-    verb: {
-      id: 'https://w3id.org/xapi/acrossx/verbs/prioritized', // TODO: change to saved
-      display: {
-        en: 'Prioritized',
-      },
-    },
-    object: xapiObject(
-      `${window.location.origin}/search#save`, // TODO: incorporate term
-      'https://w3id.org/xapi/acrossx/activities/search-engine', // TODO: webpage, same as search
-      'en',
-      'ECC Search Term Saving'
-    ),
-    result: {
-      extensions: {
-        'https://w3id.org/xapi/ecc/result/extensions/searchTerm': keyword, // TODO: add search name to extensions
-      },
-    },
   });
 }
 
