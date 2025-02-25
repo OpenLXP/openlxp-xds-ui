@@ -100,6 +100,17 @@ export function prioritized(name, keyword) {
 // when a user views a course
 // TODO: Every course NEEDS to have an IRI
 export function explored(courseId, courseUrl, courseTitle, courseDescription) {
+  const obj = xapiObject(
+    courseUrl,
+    'https://w3id.org/xapi/cmi5/activitytype/course',
+    'en',
+    courseTitle,
+    courseDescription
+  );
+  obj.definition.extensions = {
+    'https://xapi.edlm/profiles/edlm-ecc/concepts/activity-extensions/course-id':
+      courseId,
+  };
   sendStatement({
     verb: {
       id: 'https://w3id.org/xapi/tla/verbs/explored',
@@ -107,18 +118,7 @@ export function explored(courseId, courseUrl, courseTitle, courseDescription) {
         en: 'Explored',
       },
     },
-    object: xapiObject(
-      courseUrl,
-      'https://w3id.org/xapi/cmi5/activitytype/course',
-      'en',
-      courseTitle,
-      courseDescription
-    ),
-    result: {
-      extensions: {
-        'https://w3id.org/xapi/ecc/result/extensions/CourseId': courseId,
-      },
-    },
+    object: obj,
   });
 }
 
@@ -130,6 +130,17 @@ export function registered(
   courseTitle,
   courseDescription
 ) {
+  const obj = xapiObject(
+    courseUrl,
+    'https://w3id.org/xapi/cmi5/activitytype/course',
+    'en',
+    courseTitle,
+    courseDescription
+  );
+  obj.definition.extensions = {
+    'https://xapi.edlm/profiles/edlm-ecc/concepts/activity-extensions/course-id':
+      courseId,
+  };
   sendStatement({
     verb: {
       id: 'https://w3id.org/xapi/tla/verbs/registered', // TODO: Viewed
@@ -137,17 +148,6 @@ export function registered(
         en: 'Registered',
       },
     },
-    object: xapiObject(
-      courseUrl,
-      'https://w3id.org/xapi/cmi5/activitytype/course',
-      'en',
-      courseTitle,
-      courseDescription
-    ),
-    result: {
-      extensions: {
-        'https://w3id.org/xapi/ecc/result/extensions/CourseId': courseId,
-      },
-    },
+    object: obj,
   });
 }

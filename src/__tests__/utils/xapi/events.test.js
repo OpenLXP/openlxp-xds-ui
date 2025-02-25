@@ -177,13 +177,12 @@ describe('xAPI Actions', () => {
           description: {
             en: 'Course Description',
           },
+          extensions: {
+            'https://xapi.edlm/profiles/edlm-ecc/concepts/activity-extensions/course-id':
+              'courseXYZ',
+          },
         },
         objectType: 'Activity',
-      },
-      result: {
-        extensions: {
-          'https://w3id.org/xapi/ecc/result/extensions/CourseId': 'courseXYZ',
-        },
       },
     });
   });
@@ -214,13 +213,12 @@ describe('xAPI Actions', () => {
           description: {
             en: 'Registration Course Description',
           },
+          extensions: {
+            'https://xapi.edlm/profiles/edlm-ecc/concepts/activity-extensions/course-id':
+              'course999',
+          },
         },
         objectType: 'Activity',
-      },
-      result: {
-        extensions: {
-          'https://w3id.org/xapi/ecc/result/extensions/CourseId': 'course999',
-        },
       },
     });
   });
