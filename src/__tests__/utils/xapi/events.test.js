@@ -81,9 +81,9 @@ describe('xAPI Actions', () => {
         },
         objectType: 'Activity',
       },
-      result: {
+      context: {
         extensions: {
-          'https://w3id.org/xapi/ecc/result/extensions/CuratedListId':
+          'https://xapi.edlm/profiles/edlm-ecc/concepts/context-extensions/curated-list-id':
             'list123',
         },
       },

@@ -40,9 +40,10 @@ export function curated(listId, listName, listDescription) {
       listName,
       listDescription
     ),
-    result: {
+    context: {
       extensions: {
-        'https://w3id.org/xapi/ecc/result/extensions/CuratedListId': listId,
+        'https://xapi.edlm/profiles/edlm-ecc/concepts/context-extensions/curated-list-id':
+          listId,
       },
     },
   });
