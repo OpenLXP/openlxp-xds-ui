@@ -28,7 +28,7 @@ export function searched(keyword) {
 export function curated(listId, listName, listDescription) {
   sendStatement({
     verb: {
-      id: 'https://w3id.org/xapi/dod-isd/verbs/curated', // TODO: Import this verb in to our profile so it exists
+      id: 'https://xapi.edlm/profiles/edlm-ecc/concepts/verbs/curated',
       display: {
         en: 'Curated',
       },

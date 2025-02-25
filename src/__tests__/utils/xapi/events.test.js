@@ -63,7 +63,7 @@ describe('xAPI Actions', () => {
     expect(sendStatement).toHaveBeenCalledTimes(1);
     expect(sendStatement).toHaveBeenCalledWith({
       verb: {
-        id: 'https://w3id.org/xapi/dod-isd/verbs/curated',
+        id: 'https://xapi.edlm/profiles/edlm-ecc/concepts/verbs/curated',
         display: {
           en: 'Curated',
         },
