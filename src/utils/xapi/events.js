@@ -1,5 +1,15 @@
 import { sendStatement, xapiObject } from '@/utils/xapi';
 
+// helpers
+function searchObject(keyword) {
+  return xapiObject(
+    `${window.location.origin}/search?keyword=${keyword}`,
+    'https://w3id.org/xapi/acrossx/activities/webpage',
+    'en',
+    `ECC Search: ${keyword}`
+  );
+}
+
 // when a search fires from the index or search page
 export function searched(keyword) {
   sendStatement({
@@ -9,12 +19,7 @@ export function searched(keyword) {
         en: 'Searched',
       },
     },
-    object: xapiObject(
-      `${window.location.origin}/search?keyword=${keyword}`,
-      'https://w3id.org/xapi/acrossx/activities/webpage',
-      'en',
-      `ECC Search: ${keyword}`
-    ),
+    object: searchObject(keyword),
     context: {
       extensions: {
         'https://xapi.edlm/profiles/edlm-ecc/concepts/context-extensions/search-term':
@@ -26,23 +31,20 @@ export function searched(keyword) {
 
 // when a user saves a search
 // TODO: utilize saved search name
-export function prioritized(name, keyword) {
+export function saved(name, keyword) {
   sendStatement({
     verb: {
-      id: 'https://w3id.org/xapi/acrossx/verbs/prioritized', // TODO: change to saved
+      id: 'http://activitystrea.ms/save', // TODO: change to saved
       display: {
-        en: 'Prioritized',
+        en: 'Saved',
       },
     },
-    object: xapiObject(
-      `${window.location.origin}/search#save`, // TODO: incorporate term
-      'https://w3id.org/xapi/acrossx/activities/search-engine', // TODO: webpage, same as search
-      'en',
-      'ECC Search Term Saving'
-    ),
-    result: {
+    object: searchObject(keyword),
+    context: {
       extensions: {
-        'https://w3id.org/xapi/ecc/result/extensions/searchTerm': keyword, // TODO: add search name to extensions
+        // TODO: express saved search name
+        'https://xapi.edlm/profiles/edlm-ecc/concepts/context-extensions/search-term':
+          keyword,
       },
     },
   });

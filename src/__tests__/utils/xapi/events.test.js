@@ -121,30 +121,30 @@ describe('xAPI Actions', () => {
     });
   });
 
-  it('prioritized()', () => {
-    xapiActions.prioritized('someSavedSearchName', 'keyword123');
+  it('saved()', () => {
+    xapiActions.saved('someSavedSearchName', 'keyword123');
 
     expect(sendStatement).toHaveBeenCalledTimes(1);
     expect(sendStatement).toHaveBeenCalledWith({
       verb: {
-        id: 'https://w3id.org/xapi/acrossx/verbs/prioritized',
+        id: 'http://activitystrea.ms/save',
         display: {
-          en: 'Prioritized',
+          en: 'Saved',
         },
       },
       object: {
-        id: 'https://fakeorigin.com/search#save',
+        id: 'https://fakeorigin.com/search?keyword=keyword123',
         definition: {
-          type: 'https://w3id.org/xapi/acrossx/activities/search-engine',
+          type: 'https://w3id.org/xapi/acrossx/activities/webpage',
           name: {
-            en: 'ECC Search Term Saving',
+            en: 'ECC Search: keyword123',
           },
         },
         objectType: 'Activity',
       },
-      result: {
+      context: {
         extensions: {
-          'https://w3id.org/xapi/ecc/result/extensions/searchTerm':
+          'https://xapi.edlm/profiles/edlm-ecc/concepts/context-extensions/search-term':
             'keyword123',
         },
       },

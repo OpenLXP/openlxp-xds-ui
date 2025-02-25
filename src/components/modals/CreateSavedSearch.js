@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Popover, Transition } from '@headlessui/react';
-import { prioritized } from '@/utils/xapi/events';
+import { saved } from '@/utils/xapi/events';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateSaveSearch } from '@/hooks/useCreateSaveSearch';
 import { useRouter } from 'next/dist/client/router';
@@ -31,7 +31,7 @@ export default function CreateSavedSearchModal({ path }) {
     });
 
     //xAPI Statement
-    prioritized(fields.name, router.query.keyword);
+    saved(fields.name, router.query.keyword);
 
     // reset the form
     resetKey('name');
