@@ -51,6 +51,17 @@ export function curated(listId, listName, listDescription) {
 
 // when a user shares the ECC course page
 export function shared(courseId, courseTitle, courseDescription) {
+  const obj = xapiObject(
+    `${window.location.origin}/course/${courseId}`,
+    'https://w3id.org/xapi/cmi5/activitytype/course', // TODO: This is really a more general learning resource
+    'en',
+    courseTitle,
+    courseDescription
+  );
+  obj.definition.extensions = {
+    'https://xapi.edlm/profiles/edlm-ecc/concepts/activity-extensions/course-id':
+      courseId,
+  };
   sendStatement({
     verb: {
       id: 'http://adlnet.gov/expapi/verbs/shared',
@@ -58,18 +69,7 @@ export function shared(courseId, courseTitle, courseDescription) {
         en: 'Socialized',
       },
     },
-    object: xapiObject(
-      `${window.location.origin}/course/${courseId}`,
-      'https://w3id.org/xapi/cmi5/activitytype/course', // TODO: This is really a more general learning resource
-      'en',
-      courseTitle,
-      courseDescription
-    ),
-    result: {
-      extensions: {
-        'https://w3id.org/xapi/ecc/result/extensions/CourseId': courseId,
-      },
-    },
+    object: obj,
   });
 }
 

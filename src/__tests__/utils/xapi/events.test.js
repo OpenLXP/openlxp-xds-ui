@@ -111,13 +111,12 @@ describe('xAPI Actions', () => {
           description: {
             en: 'Awesome description',
           },
+          extensions: {
+            'https://xapi.edlm/profiles/edlm-ecc/concepts/activity-extensions/course-id':
+              'courseABC',
+          },
         },
         objectType: 'Activity',
-      },
-      result: {
-        extensions: {
-          'https://w3id.org/xapi/ecc/result/extensions/CourseId': 'courseABC',
-        },
       },
     });
   });
