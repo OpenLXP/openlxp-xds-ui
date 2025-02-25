@@ -30,11 +30,10 @@ export function searched(keyword) {
 }
 
 // when a user saves a search
-// TODO: utilize saved search name
 export function saved(name, keyword) {
   sendStatement({
     verb: {
-      id: 'http://activitystrea.ms/save', // TODO: change to saved
+      id: 'http://activitystrea.ms/save',
       display: {
         en: 'Saved',
       },
@@ -42,7 +41,8 @@ export function saved(name, keyword) {
     object: searchObject(keyword),
     context: {
       extensions: {
-        // TODO: express saved search name
+        'https://xapi.edlm/profiles/edlm-ecc/concepts/context-extensions/saved-search-name':
+          name,
         'https://xapi.edlm/profiles/edlm-ecc/concepts/context-extensions/search-term':
           keyword,
       },

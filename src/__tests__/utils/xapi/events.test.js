@@ -144,6 +144,8 @@ describe('xAPI Actions', () => {
       },
       context: {
         extensions: {
+          'https://xapi.edlm/profiles/edlm-ecc/concepts/context-extensions/saved-search-name':
+            'someSavedSearchName',
           'https://xapi.edlm/profiles/edlm-ecc/concepts/context-extensions/search-term':
             'keyword123',
         },
