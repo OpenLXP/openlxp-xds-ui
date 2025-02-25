@@ -90,13 +90,13 @@ describe('xAPI Actions', () => {
     });
   });
 
-  it('socialized()', () => {
-    xapiActions.socialized('courseABC', 'Cool Course', 'Awesome description');
+  it('shared()', () => {
+    xapiActions.shared('courseABC', 'Cool Course', 'Awesome description');
 
     expect(sendStatement).toHaveBeenCalledTimes(1);
     expect(sendStatement).toHaveBeenCalledWith({
       verb: {
-        id: 'https://w3id.org/xapi/tla/verbs/socialized',
+        id: 'http://adlnet.gov/expapi/verbs/shared',
         display: {
           en: 'Socialized',
         },

@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { DuplicateIcon, ShareIcon } from '@heroicons/react/outline';
 import { Fragment, useState } from 'react';
-import { socialized } from '@/utils/xapi/events';
+import { shared } from '@/utils/xapi/events';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback } from 'react';
 
@@ -18,7 +18,7 @@ export default function ShareButton({ id, courseTitle, courseDescription }) {
 
     handleCopy();
     openModal();
-    socialized(id, courseTitle, courseDescription);
+    shared(id, courseTitle, courseDescription);
   }, [id, courseTitle, courseDescription, user]);
 
   // modal states

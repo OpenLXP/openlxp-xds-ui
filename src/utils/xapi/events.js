@@ -50,11 +50,11 @@ export function curated(listId, listName, listDescription) {
 }
 
 // when a user shares the ECC course page
-export function socialized(courseId, courseTitle, courseDescription) {
+export function shared(courseId, courseTitle, courseDescription) {
   sendStatement({
     verb: {
       // TODO: Change this to shared, put in profile
-      id: 'https://w3id.org/xapi/tla/verbs/socialized',
+      id: 'http://adlnet.gov/expapi/verbs/shared',
       display: {
         en: 'Socialized',
       },
