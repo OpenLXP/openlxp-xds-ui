@@ -53,7 +53,6 @@ export function curated(listId, listName, listDescription) {
 export function shared(courseId, courseTitle, courseDescription) {
   sendStatement({
     verb: {
-      // TODO: Change this to shared, put in profile
       id: 'http://adlnet.gov/expapi/verbs/shared',
       display: {
         en: 'Socialized',
