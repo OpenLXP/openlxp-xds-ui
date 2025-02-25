@@ -48,10 +48,9 @@ describe('xAPI Actions', () => {
         },
         objectType: 'Activity',
       },
-      result: {
-        response: 'someKeyword',
+      context: {
         extensions: {
-          'https://w3id.org/xapi/ecc/result/extensions/searchTerm':
+          'https://xapi.edlm/profiles/edlm-ecc/concepts/context-extensions/search-term':
             'someKeyword',
         },
       },

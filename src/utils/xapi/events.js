@@ -15,10 +15,10 @@ export function searched(keyword) {
       'en',
       `ECC Search: ${keyword}`
     ),
-    result: {
-      response: keyword,
+    context: {
       extensions: {
-        'https://w3id.org/xapi/ecc/result/extensions/searchTerm': keyword, // TODO: Move this and all others to context extensions
+        'https://xapi.edlm/profiles/edlm-ecc/concepts/context-extensions/search-term':
+          keyword,
       },
     },
   });
