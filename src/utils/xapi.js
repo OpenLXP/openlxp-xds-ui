@@ -1,4 +1,5 @@
 import { axiosInstance } from '../config/axiosConfig.js';
+import { platform } from '../config/xAPIConfig.js';
 import { statementsUrl } from '../config/endpoints.js';
 
 // Send statement to the LRS Forwarding Endpoint
@@ -25,7 +26,7 @@ const prepareStatement = (partialStatement) => {
       ? { result: partialStatement.result }
       : {}),
     context: {
-      platform: 'ECC dev env', // TODO: allow config
+      platform,
       ...partialStatement.context,
     },
     timestamp: new Date().toISOString(),
