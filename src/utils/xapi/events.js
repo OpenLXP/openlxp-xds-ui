@@ -103,7 +103,7 @@ export function shared(courseId, courseUrl, courseTitle, courseDescription) {
   });
 }
 
-// when a user views a course
+// when a user views a course on the ECC
 // TODO: Every course NEEDS to have an IRI
 export function explored(courseId, courseUrl, courseTitle, courseDescription) {
   sendStatement({
@@ -118,18 +118,12 @@ export function explored(courseId, courseUrl, courseTitle, courseDescription) {
 }
 
 // when a user follows the registration link for a course
-// TODO: Bring this up, this is a significant verb in other contexts
-export function registered(
-  courseId,
-  courseUrl,
-  courseTitle,
-  courseDescription
-) {
+export function viewed(courseId, courseUrl, courseTitle, courseDescription) {
   sendStatement({
     verb: {
-      id: 'https://w3id.org/xapi/tla/verbs/registered', // TODO: Viewed
+      id: 'http://id.tincanapi.com/verb/viewed',
       display: {
-        en: 'Registered',
+        en: 'Viewed',
       },
     },
     object: courseObject(courseId, courseUrl, courseTitle, courseDescription),

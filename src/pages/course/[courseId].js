@@ -3,7 +3,7 @@ import {
   ArchiveIcon,
   UserIcon,
 } from '@heroicons/react/outline';
-import { explored, registered } from '@/utils/xapi/events';
+import { explored, viewed } from '@/utils/xapi/events';
 import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 import { removeHTML } from '@/utils/cleaning';
 
@@ -319,12 +319,7 @@ export default function Course() {
   const handleClick = useCallback(() => {
     if (!user) return;
     console.count('enrollment button clicked');
-    registered(
-      router.query?.courseId,
-      data?.url,
-      data?.title,
-      data?.description
-    );
+    viewed(router.query?.courseId, data?.url, data?.title, data?.description);
   }, [router.query?.courseId, data?.title, data?.description, data?.url]);
 
   return (

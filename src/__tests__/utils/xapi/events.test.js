@@ -194,20 +194,20 @@ describe('xAPI Actions', () => {
     });
   });
 
-  it('registered()', () => {
-    xapiActions.registered(
+  it('viewed()', () => {
+    xapiActions.viewed(
       'course999',
       'https://fakeorigin.com/course/course999',
-      'Registration Course',
-      'Registration Course Description'
+      'Viewed Course',
+      'Viewed Course Description'
     );
 
     expect(sendStatement).toHaveBeenCalledTimes(1);
     expect(sendStatement).toHaveBeenCalledWith({
       verb: {
-        id: 'https://w3id.org/xapi/tla/verbs/registered',
+        id: 'http://id.tincanapi.com/verb/viewed',
         display: {
-          en: 'Registered',
+          en: 'Viewed',
         },
       },
       object: {
@@ -215,10 +215,10 @@ describe('xAPI Actions', () => {
         definition: {
           type: 'https://w3id.org/xapi/cmi5/activitytype/course',
           name: {
-            en: 'Registration Course',
+            en: 'Viewed Course',
           },
           description: {
-            en: 'Registration Course Description',
+            en: 'Viewed Course Description',
           },
           extensions: {
             'https://xapi.edlm/profiles/edlm-ecc/concepts/activity-extensions/course-id':
