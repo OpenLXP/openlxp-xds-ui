@@ -1,12 +1,5 @@
-jest.mock('@/utils/xapi', () => {
-  const actualModule = jest.requireActual('@/utils/xapi');
-  return {
-    ...actualModule,
-    sendStatement: jest.fn(() => Promise.resolve({})),
-  };
-});
-
 import { act, fireEvent, render } from '@testing-library/react';
+import { mockSendStatement } from '@/__mocks__/mockXapi';
 import { sendStatement } from '@/utils/xapi';
 import {
   useMockClipboard,
@@ -16,6 +9,7 @@ import ShareButton from '@/components/buttons/ShareBtn';
 
 describe('ShareButton', () => {
   beforeEach(() => {
+    mockSendStatement();
     useUnauthenticatedUser();
     useMockClipboard();
   });

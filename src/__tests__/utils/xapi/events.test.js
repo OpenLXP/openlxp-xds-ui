@@ -1,13 +1,9 @@
 import * as xapiActions from '@/utils/xapi/events';
+import { mockSendStatement } from '@/__mocks__/mockXapi';
 import { sendStatement } from '@/utils/xapi';
 
-// Mock sendStatement so we can spy on calls
-jest.mock('@/utils/xapi', () => {
-  const actualModule = jest.requireActual('@/utils/xapi');
-  return {
-    ...actualModule,
-    sendStatement: jest.fn(() => Promise.resolve({})),
-  };
+beforeAll(() => {
+  mockSendStatement();
 });
 
 describe('xAPI Actions', () => {

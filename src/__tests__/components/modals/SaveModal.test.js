@@ -1,7 +1,8 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
-import SaveModal from '@/components/modals/SaveModal';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
-import * as xapi from '@/utils/xapi';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { mockSendStatement } from '@/__mocks__/mockXapi';
+import { sendStatement } from '@/utils/xapi';
+import SaveModal from '@/components/modals/SaveModal';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
@@ -146,10 +147,6 @@ describe('Save Modal', () => {
     it.skip('should send xAPI statement when create is clicked', () => {
       const { getByText, getByPlaceholderText } = renderer(true);
 
-      const spy = jest
-        .spyOn(xapi, 'sendStatement')
-        .mockImplementation(() => Promise.resolve({}));
-
       act(() => {
         fireEvent.click(getByText(/save/i));
       });
@@ -183,7 +180,7 @@ describe('Save Modal', () => {
       expect(getByText('Test List Name')).toBeInTheDocument();
 
       // xapi statement issued
-      expect(spy).toHaveBeenCalled();
+      expect(sendStatement).toHaveBeenCalled();
     });
   });
 });

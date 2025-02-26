@@ -1,14 +1,7 @@
-jest.mock('@/utils/xapi', () => {
-  const actualModule = jest.requireActual('@/utils/xapi');
-  return {
-    ...actualModule,
-    sendStatement: jest.fn(() => Promise.resolve({})),
-  };
-});
-
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render } from '@testing-library/react';
+import { mockSendStatement } from '@/__mocks__/mockXapi';
 import { sendStatement } from '@/utils/xapi';
 import {
   useAuthenticatedUser,
@@ -37,6 +30,10 @@ const renderer = (isAuth = false) => {
     </MemoryRouterProvider>
   );
 };
+
+beforeAll(() => {
+  mockSendStatement();
+});
 
 beforeEach(() => {
   useMockConfig();
