@@ -10,6 +10,21 @@ function searchObject(keyword) {
   );
 }
 
+function courseObject(courseId, courseUrl, courseTitle, courseDescription) {
+  const obj = xapiObject(
+    courseUrl,
+    'https://w3id.org/xapi/cmi5/activitytype/course',
+    'en',
+    courseTitle,
+    courseDescription
+  );
+  obj.definition.extensions = {
+    'https://xapi.edlm/profiles/edlm-ecc/concepts/activity-extensions/course-id':
+      courseId,
+  };
+  return obj;
+}
+
 // when a search fires from the index or search page
 export function searched(keyword) {
   sendStatement({
@@ -76,18 +91,7 @@ export function curated(listId, listName, listDescription) {
 }
 
 // when a user shares the ECC course page
-export function shared(courseId, courseTitle, courseDescription) {
-  const obj = xapiObject(
-    `${window.location.origin}/course/${courseId}`,
-    'https://w3id.org/xapi/cmi5/activitytype/course', // TODO: This is really a more general learning resource
-    'en',
-    courseTitle,
-    courseDescription
-  );
-  obj.definition.extensions = {
-    'https://xapi.edlm/profiles/edlm-ecc/concepts/activity-extensions/course-id':
-      courseId,
-  };
+export function shared(courseId, courseUrl, courseTitle, courseDescription) {
   sendStatement({
     verb: {
       id: 'http://adlnet.gov/expapi/verbs/shared',
@@ -95,24 +99,13 @@ export function shared(courseId, courseTitle, courseDescription) {
         en: 'Shared',
       },
     },
-    object: obj,
+    object: courseObject(courseId, courseUrl, courseTitle, courseDescription),
   });
 }
 
 // when a user views a course
 // TODO: Every course NEEDS to have an IRI
 export function explored(courseId, courseUrl, courseTitle, courseDescription) {
-  const obj = xapiObject(
-    courseUrl,
-    'https://w3id.org/xapi/cmi5/activitytype/course',
-    'en',
-    courseTitle,
-    courseDescription
-  );
-  obj.definition.extensions = {
-    'https://xapi.edlm/profiles/edlm-ecc/concepts/activity-extensions/course-id':
-      courseId,
-  };
   sendStatement({
     verb: {
       id: 'https://w3id.org/xapi/tla/verbs/explored',
@@ -120,7 +113,7 @@ export function explored(courseId, courseUrl, courseTitle, courseDescription) {
         en: 'Explored',
       },
     },
-    object: obj,
+    object: courseObject(courseId, courseUrl, courseTitle, courseDescription),
   });
 }
 
@@ -132,17 +125,6 @@ export function registered(
   courseTitle,
   courseDescription
 ) {
-  const obj = xapiObject(
-    courseUrl,
-    'https://w3id.org/xapi/cmi5/activitytype/course',
-    'en',
-    courseTitle,
-    courseDescription
-  );
-  obj.definition.extensions = {
-    'https://xapi.edlm/profiles/edlm-ecc/concepts/activity-extensions/course-id':
-      courseId,
-  };
   sendStatement({
     verb: {
       id: 'https://w3id.org/xapi/tla/verbs/registered', // TODO: Viewed
@@ -150,6 +132,6 @@ export function registered(
         en: 'Registered',
       },
     },
-    object: obj,
+    object: courseObject(courseId, courseUrl, courseTitle, courseDescription),
   });
 }

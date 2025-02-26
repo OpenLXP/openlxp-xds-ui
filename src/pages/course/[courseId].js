@@ -340,6 +340,7 @@ export default function Course() {
             <div className='flex gap-2'>
               <ShareButton
                 id={router.query?.courseId}
+                courseUrl={data?.url}
                 courseTitle={data?.title}
                 courseDescription={data?.description}
               />

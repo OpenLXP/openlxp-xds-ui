@@ -91,7 +91,12 @@ describe('xAPI Actions', () => {
   });
 
   it('shared()', () => {
-    xapiActions.shared('courseABC', 'Cool Course', 'Awesome description');
+    xapiActions.shared(
+      'courseABC',
+      'https://example.com/course',
+      'Cool Course',
+      'Awesome description'
+    );
 
     expect(sendStatement).toHaveBeenCalledTimes(1);
     expect(sendStatement).toHaveBeenCalledWith({
@@ -102,7 +107,7 @@ describe('xAPI Actions', () => {
         },
       },
       object: {
-        id: 'https://fakeorigin.com/course/courseABC',
+        id: 'https://example.com/course',
         definition: {
           type: 'https://w3id.org/xapi/cmi5/activitytype/course',
           name: {

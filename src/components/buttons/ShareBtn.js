@@ -5,7 +5,12 @@ import { shared } from '@/utils/xapi/events';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback } from 'react';
 
-export default function ShareButton({ id, courseTitle, courseDescription }) {
+export default function ShareButton({
+  id,
+  courseUrl,
+  courseTitle,
+  courseDescription,
+}) {
   const { user } = useAuth();
 
   // handle the copy to clipboard action
@@ -18,8 +23,8 @@ export default function ShareButton({ id, courseTitle, courseDescription }) {
 
     handleCopy();
     openModal();
-    shared(id, courseTitle, courseDescription);
-  }, [id, courseTitle, courseDescription, user]);
+    shared(id, courseUrl, courseTitle, courseDescription);
+  }, [id, courseUrl, courseTitle, courseDescription, user]);
 
   // modal states
   let [isOpen, setIsOpen] = useState(false);
