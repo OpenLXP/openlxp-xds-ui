@@ -13,7 +13,7 @@ function searchObject(keyword) {
 function courseObject(courseId, courseUrl, courseTitle, courseDescription) {
   const obj = xapiObject(
     courseUrl,
-    'https://w3id.org/xapi/cmi5/activitytype/course',
+    'https://w3id.org/xapi/cmi5/activitytype/course', // TODO: this is probably too narrow, and risks conflict with id-type combinations with other systems.
     'en',
     courseTitle,
     courseDescription
