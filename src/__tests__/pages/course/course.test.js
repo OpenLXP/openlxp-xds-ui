@@ -1,6 +1,8 @@
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render } from '@testing-library/react';
+import { mockSendStatement } from '@/__mocks__/mockXapi';
+import { sendStatement } from '@/utils/xapi';
 import {
   useAuthenticatedUser,
   useMockConfig,
@@ -28,6 +30,10 @@ const renderer = (isAuth = false) => {
     </MemoryRouterProvider>
   );
 };
+
+beforeAll(() => {
+  mockSendStatement();
+});
 
 beforeEach(() => {
   useMockConfig();
@@ -173,5 +179,13 @@ describe('Course Page', () => {
       fireEvent.click(relatedCourseLink);
     });
     expect(singletonRouter).toMatchObject({ asPath: '/course/more_like_this' });
+  });
+  it('should send an xAPI statement', () => {
+    useAuthenticatedUser();
+    useMockMoreLikeThis();
+    useMockCourse();
+    const screen = renderer();
+
+    expect(sendStatement).toBeCalled();
   });
 });

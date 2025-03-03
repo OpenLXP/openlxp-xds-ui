@@ -3,17 +3,17 @@ import {
   ArchiveIcon,
   UserIcon,
 } from '@heroicons/react/outline';
+import { explored, viewed } from '@/utils/xapi/events';
 import { getDeeplyNestedData } from '@/utils/getDeeplyNestedData';
 import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '@/contexts/AuthContext';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useConfig } from '@/hooks/useConfig';
 import { useCourse } from '@/hooks/useCourse';
 import { useDerivedCourse } from '@/hooks/useDerivedCourses';
 import { useMoreCoursesLikeThis } from '@/hooks/useMoreCoursesLikeThis';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import Accordion from '@/components/Accordion';
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
 import Footer from '@/components/Footer';
@@ -301,32 +301,26 @@ export default function Course() {
     };
   }, [course.isSuccess, course.data, config.isSuccess, config.data]);
 
+  const [xapiHasFired, setXapiHasFired] = useState(false);
+  useEffect(() => {
+    if (!data || xapiHasFired) return;
+    explored(router.query?.courseId, data?.url, data?.title, data?.description);
+    setXapiHasFired(true);
+  }, [
+    xapiHasFired,
+    router.query?.courseId,
+    data?.title,
+    data?.description,
+    data?.url,
+  ]);
+
   const derivedCourses = useDerivedCourse(data?.code);
 
   const handleClick = useCallback(() => {
-    if (!user) return;
     console.count('enrollment button clicked');
 
-    const context = {
-      actor: {
-        first_name: user?.user?.first_name || 'anonymous',
-        last_name: user?.user?.last_name || 'user',
-      },
-      verb: {
-        id: 'https://w3id.org/xapi/tla/verbs/registered',
-        display: 'enrolled',
-      },
-      object: {
-        definitionName: data?.title,
-        description: data?.description,
-        id: `${window.origin}/course/${router.query?.courseId}`,
-      },
-      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-      resultExtValue: router.query?.courseId,
-    };
-
-    xAPISendStatement(context);
-  }, [router.query?.courseId, data?.title, data?.description, user]);
+    viewed(router.query?.courseId, data?.url, data?.title, data?.description);
+  }, [router.query?.courseId, data?.url, data?.title, data?.description]);
 
   return (
     <>
