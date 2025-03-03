@@ -46,8 +46,8 @@ function DerivedCourses({ id, derivedCourses }) {
 
   const [showContent, setShowContent] = useState(false);
 
-  if(derivedCourses.data?.hits.length == 0){
-    return (<></>)
+  if (derivedCourses.data?.hits.length == 0) {
+    return <></>;
   }
 
   return (
@@ -56,66 +56,171 @@ function DerivedCourses({ id, derivedCourses }) {
         <div className='w-full gap-10 max-w-7xl mx-auto'>Derived Courses</div>
       </div>
       <div className='w-full mx-auto max-w-7xl'>
-      <div className=' w-3/4 my-6 max-w-7xl'>
-        <strong className='text-gray-600 text-lg'>{derivedCourses.data?.hits.length} total courses</strong>
-        <p className='my-2'> These are additional resources for reference. </p>
-      
-        {derivedCourses?.data?.hits?.slice(0, 5).map((course, index) => (
-            <Accordion key={index} title={getDeeplyNestedData(config.data?.course_information?.course_title, course)}
-            content={<a href={course.meta?.id}>
-              <div className='flex flex-col '>
-                <div className='py-4'>
-                  <strong>Course Code: </strong>{getDeeplyNestedData(config.data?.course_information?.course_code, course)}
-                </div>
-                <div>
-                  <strong>Description: </strong>{removeHTML(getDeeplyNestedData(config.data?.course_information?.course_description, course))}
-                </div>
-                <div className='py-4 '>
-                  <strong className=''>Start Date: </strong>{getDeeplyNestedData(config.data?.course_information?.course_startDate, course)?.replace(' ', '').split('T')[0]}
-                  <strong className='ml-8'>End Date: </strong>{getDeeplyNestedData(config.data?.course_information?.course_endDate, course)?.replace(' ', '').split('T')[0]}
-                  <strong className='ml-8'>Instructor: </strong>{getDeeplyNestedData(config.data?.course_information?.course_instructor, course)}
-                  <strong className='ml-8'>Delivery Mode: </strong>{getDeeplyNestedData(config.data?.course_information?.course_deliveryMode, course) || "Not Available"}
+        <div className=' w-3/4 my-6 max-w-7xl'>
+          <strong className='text-gray-600 text-lg'>
+            {derivedCourses.data?.hits.length} total courses
+          </strong>
+          <p className='my-2'>
+            {' '}
+            These are additional resources for reference.{' '}
+          </p>
 
-                </div>
-              </div>
-            </a>}/>
+          {derivedCourses?.data?.hits?.slice(0, 5).map((course, index) => (
+            <Accordion
+              key={index}
+              title={getDeeplyNestedData(
+                config.data?.course_information?.course_title,
+                course
+              )}
+              content={
+                <a href={course.meta?.id}>
+                  <div className='flex flex-col '>
+                    <div className='py-4'>
+                      <strong>Course Code: </strong>
+                      {getDeeplyNestedData(
+                        config.data?.course_information?.course_code,
+                        course
+                      )}
+                    </div>
+                    <div>
+                      <strong>Description: </strong>
+                      {removeHTML(
+                        getDeeplyNestedData(
+                          config.data?.course_information?.course_description,
+                          course
+                        )
+                      )}
+                    </div>
+                    <div className='py-4 '>
+                      <strong className=''>Start Date: </strong>
+                      {
+                        getDeeplyNestedData(
+                          config.data?.course_information?.course_startDate,
+                          course
+                        )
+                          ?.replace(' ', '')
+                          .split('T')[0]
+                      }
+                      <strong className='ml-8'>End Date: </strong>
+                      {
+                        getDeeplyNestedData(
+                          config.data?.course_information?.course_endDate,
+                          course
+                        )
+                          ?.replace(' ', '')
+                          .split('T')[0]
+                      }
+                      <strong className='ml-8'>Instructor: </strong>
+                      {getDeeplyNestedData(
+                        config.data?.course_information?.course_instructor,
+                        course
+                      )}
+                      <strong className='ml-8'>Delivery Mode: </strong>
+                      {getDeeplyNestedData(
+                        config.data?.course_information?.course_deliveryMode,
+                        course
+                      ) || 'Not Available'}
+                    </div>
+                  </div>
+                </a>
+              }
+            />
           ))}
-        {derivedCourses.data?.hits.length > 5 && !showContent && 
-        <div className='flex flex-col items-center justify-center'>
-          <button
-          onClick={()=>{setShowContent(true)}}
-          className='flex px-4 py-2 m-4 justify-center items-center w-1/2 whitespace-nowrap p-2 text-center text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600  font-medium transform transition-all duration-75 ease-in-out focus:ring-2 ring-blue-400 outline-none'
-        > Show {derivedCourses.data?.hits.length-5} More Courses </button> </div>}
+          {derivedCourses.data?.hits.length > 5 && !showContent && (
+            <div className='flex flex-col items-center justify-center'>
+              <button
+                onClick={() => {
+                  setShowContent(true);
+                }}
+                className='flex px-4 py-2 m-4 justify-center items-center w-1/2 whitespace-nowrap p-2 text-center text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600  font-medium transform transition-all duration-75 ease-in-out focus:ring-2 ring-blue-400 outline-none'
+              >
+                {' '}
+                Show {derivedCourses.data?.hits.length - 5} More Courses{' '}
+              </button>{' '}
+            </div>
+          )}
 
-        {showContent && 
-          derivedCourses?.data?.hits?.slice(5, derivedCourses.data?.hits.length).map((course, index) => (
-            <Accordion key={index} title={getDeeplyNestedData(config.data?.course_information?.course_title, course)}
-            content={<a href={course.meta?.id}>
-              <div className='flex flex-col '>
-                <div className='py-4'>
-                  <strong>Course Code: </strong>{getDeeplyNestedData(config.data?.course_information?.course_code, course)}
-                </div>
-                <div>
-                  <strong>Description: </strong>{removeHTML(getDeeplyNestedData(config.data?.course_information?.course_description, course))}
-                </div>
-                <div className='py-4 '>
-                  <strong className=''>Start Date: </strong>{getDeeplyNestedData(config.data?.course_information?.course_startDate, course)?.replace(' ', '').split('T')[0]}
-                  <strong className='ml-8'>End Date: </strong>{getDeeplyNestedData(config.data?.course_information?.course_endDate, course)?.replace(' ', '').split('T')[0]}
-                  <strong className='ml-8'>Instructor: </strong>{getDeeplyNestedData(config.data?.course_information?.course_instructor, course)}
-                  <strong className='ml-8'>Delivery Mode: </strong>{getDeeplyNestedData(config.data?.course_information?.course_deliveryMode, course) || "Not Available"}
-
-                </div>
-              </div>
-            </a>}/>
-          ))}
-        {showContent && 
-        <div className='flex flex-col items-center justify-center'>
-          <button
-          onClick={()=>{setShowContent(false)}}
-          className='flex px-4 py-2 m-4 justify-center items-center w-1/2 whitespace-nowrap p-2 text-center text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600  font-medium transform transition-all duration-75 ease-in-out focus:ring-2 ring-blue-400 outline-none'
-        > Show Less Courses </button></div>}
+          {showContent &&
+            derivedCourses?.data?.hits
+              ?.slice(5, derivedCourses.data?.hits.length)
+              .map((course, index) => (
+                <Accordion
+                  key={index}
+                  title={getDeeplyNestedData(
+                    config.data?.course_information?.course_title,
+                    course
+                  )}
+                  content={
+                    <a href={course.meta?.id}>
+                      <div className='flex flex-col '>
+                        <div className='py-4'>
+                          <strong>Course Code: </strong>
+                          {getDeeplyNestedData(
+                            config.data?.course_information?.course_code,
+                            course
+                          )}
+                        </div>
+                        <div>
+                          <strong>Description: </strong>
+                          {removeHTML(
+                            getDeeplyNestedData(
+                              config.data?.course_information
+                                ?.course_description,
+                              course
+                            )
+                          )}
+                        </div>
+                        <div className='py-4 '>
+                          <strong className=''>Start Date: </strong>
+                          {
+                            getDeeplyNestedData(
+                              config.data?.course_information?.course_startDate,
+                              course
+                            )
+                              ?.replace(' ', '')
+                              .split('T')[0]
+                          }
+                          <strong className='ml-8'>End Date: </strong>
+                          {
+                            getDeeplyNestedData(
+                              config.data?.course_information?.course_endDate,
+                              course
+                            )
+                              ?.replace(' ', '')
+                              .split('T')[0]
+                          }
+                          <strong className='ml-8'>Instructor: </strong>
+                          {getDeeplyNestedData(
+                            config.data?.course_information?.course_instructor,
+                            course
+                          )}
+                          <strong className='ml-8'>Delivery Mode: </strong>
+                          {getDeeplyNestedData(
+                            config.data?.course_information
+                              ?.course_deliveryMode,
+                            course
+                          ) || 'Not Available'}
+                        </div>
+                      </div>
+                    </a>
+                  }
+                />
+              ))}
+          {showContent && (
+            <div className='flex flex-col items-center justify-center'>
+              <button
+                onClick={() => {
+                  setShowContent(false);
+                }}
+                className='flex px-4 py-2 m-4 justify-center items-center w-1/2 whitespace-nowrap p-2 text-center text-white hover:shadow-md rounded-sm bg-blue-400 hover:bg-blue-600  font-medium transform transition-all duration-75 ease-in-out focus:ring-2 ring-blue-400 outline-none'
+              >
+                {' '}
+                Show Less Courses{' '}
+              </button>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
     </>
   );
 }
@@ -142,11 +247,15 @@ export default function Course() {
         start: getDeeplyNestedData(
           config.data?.course_information?.course_startDate,
           course.data
-        )?.replace(' ', '').split('T')[0],
+        )
+          ?.replace(' ', '')
+          .split('T')[0],
         end: getDeeplyNestedData(
           config.data?.course_information?.course_endDate,
           course.data
-        )?.replace(' ', '').split('T')[0],
+        )
+          ?.replace(' ', '')
+          .split('T')[0],
       },
       description: removeHTML(
         getDeeplyNestedData(
@@ -158,12 +267,21 @@ export default function Course() {
         config.data?.course_information?.course_url,
         course.data
       ),
-      code: getDeeplyNestedData(config.data?.course_information?.course_code, course.data),
+      code: getDeeplyNestedData(
+        config.data?.course_information?.course_code,
+        course.data
+      ),
       photo:
         getDeeplyNestedData('Course_Instance.Thumbnail', course.data) ||
-        getDeeplyNestedData(config.data?.course_information?.course_thumbnail, course.data),
+        getDeeplyNestedData(
+          config.data?.course_information?.course_thumbnail,
+          course.data
+        ),
 
-      provider: getDeeplyNestedData(config.data?.course_information?.course_provider, course.data),
+      provider: getDeeplyNestedData(
+        config.data?.course_information?.course_provider,
+        course.data
+      ),
       instructor: getDeeplyNestedData(
         config.data?.course_information?.course_instructor,
         course.data
@@ -209,7 +327,7 @@ export default function Course() {
 
     xAPISendStatement(context);
   }, [router.query?.courseId, data?.title, data?.description, user]);
-  
+
   return (
     <>
       <Header />
@@ -223,6 +341,7 @@ export default function Course() {
             <div className='flex gap-2'>
               <ShareButton
                 id={router.query?.courseId}
+                courseUrl={data?.url}
                 courseTitle={data?.title}
                 courseDescription={data?.description}
               />
@@ -294,7 +413,10 @@ export default function Course() {
                 </div>
               </span>
             </div>
-            <SaveModalCoursePage courseId={router.query?.courseId} title={data?.title} />
+            <SaveModalCoursePage
+              courseId={router.query?.courseId}
+              title={data?.title}
+            />
           </div>
         </div>
       </div>
@@ -316,7 +438,9 @@ export default function Course() {
       </div>
 
       {/* Derived Courses */}
-      {derivedCourses && <DerivedCourses id={data?.code} derivedCourses={derivedCourses}/> }
+      {derivedCourses && (
+        <DerivedCourses id={data?.code} derivedCourses={derivedCourses} />
+      )}
       {/* Related courses */}
       <RelatedCourses id={router.query?.courseId} />
       <Footer />
