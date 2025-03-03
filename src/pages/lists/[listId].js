@@ -2,7 +2,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useCallback, useEffect } from 'react';
 import { useList } from '@/hooks/useList';
 import { useRouter } from 'next/router';
-import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 
 export function getServerSideProps(context) {
@@ -33,25 +32,6 @@ export default function ListsView({ listId }) {
   }, []);
 
   const visitCourse = useCallback((course) => {
-    if (!user) return;
-    const context = {
-      actor: {
-        first_name: user?.user?.first_name,
-        last_name: user?.user?.last_name,
-      },
-      verb: {
-        id: 'https://w3id.org/xapi/acrossx/verbs/explored',
-        display: 'explored',
-      },
-      object: {
-        id: `${window.origin}/course/${course.meta.metadata_key_hash}`,
-        definitionName: course.Course.CourseTitle,
-        description: course.Course.CourseShortDescription,
-      },
-      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-      resultExtValue: course.meta.metadata_key_hash,
-    };
-    xAPISendStatement(context);
     router.push(`/course/${course.meta.metadata_key_hash}`);
   }, []);
 
