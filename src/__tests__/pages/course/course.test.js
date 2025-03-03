@@ -31,10 +31,6 @@ const renderer = (isAuth = false) => {
   );
 };
 
-beforeAll(() => {
-  mockSendStatement();
-});
-
 beforeEach(() => {
   useMockConfig();
   useMockUserOwnedLists();
@@ -180,12 +176,19 @@ describe('Course Page', () => {
     });
     expect(singletonRouter).toMatchObject({ asPath: '/course/more_like_this' });
   });
-  it('should send an xAPI statement', () => {
+  it('should send an xAPI statement on visiting a course page and following enrollment link', () => {
     useAuthenticatedUser();
     useMockMoreLikeThis();
     useMockCourse();
+    mockSendStatement();
     const screen = renderer();
 
-    expect(sendStatement).toBeCalled();
+    // one statement for viewing the ECC page
+    expect(sendStatement).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(screen.getByText('Go to Enrollment'));
+
+    // another for clicking the enrollment link
+    expect(sendStatement).toHaveBeenCalledTimes(2);
   });
 });
