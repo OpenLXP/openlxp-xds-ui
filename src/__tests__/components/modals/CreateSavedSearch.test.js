@@ -1,5 +1,6 @@
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act } from 'react-dom/test-utils';
+import { mockSendStatement } from '@/__mocks__/mockXapi';
 import {
   createSaveSearchMockFn,
   useAuthenticatedUser,
@@ -17,6 +18,10 @@ const renderer = () => {
     </QueryClientWrapper>
   );
 };
+
+beforeAll(() => {
+  mockSendStatement();
+});
 
 afterEach(() => {
   jest.resetAllMocks();
