@@ -4,11 +4,11 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useState } from 'react';
 
 import { PlusCircleIcon } from '@heroicons/react/outline';
+import { curated } from '@/utils/xapi/events';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserOwnedLists } from '@/hooks/useUserOwnedLists';
-import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import InputField from '@/components/inputs/InputField';
 import useField from '@/hooks/useField';
 
@@ -80,32 +80,12 @@ export default function SaveModal({ courseId, title }) {
         { form: fields },
         {
           onSuccess: (data) => {
-            // note: It assumed that the user is present if the button is available.
-            // create the context
-            const context = {
-              actor: {
-                first_name: user?.user?.first_name,
-                last_name: user?.user?.last_name,
-              },
-              verb: {
-                id: 'https://w3id.org/xapi/dod-isd/verbs/curated',
-                display: 'curated',
-              },
-              object: {
-                definitionName: fields.name,
-                description: fields.description,
-              },
-              resultExtName:
-                'https://w3id.org/xapi/ecc/result/extensions/CuratedListId',
-              resultExtValue: data.id,
-            };
-
-            xAPISendStatement(context);
+            curated(data.id, fields.name, fields.description);
           },
         }
       );
     },
-    [fields, user?.user]
+    [fields]
   );
 
   // modal states
@@ -206,7 +186,9 @@ export default function SaveModal({ courseId, title }) {
                   className='my-2 flex flex-col w-full'
                   onSubmit={handleSubmit}
                 >
-                  <h4 className='py-2 text-lg font-medium leading-6 text-gray-900'>Create a new list</h4>
+                  <h4 className='py-2 text-lg font-medium leading-6 text-gray-900'>
+                    Create a new list
+                  </h4>
                   <div>
                     <label htmlFor='name'>List Name</label>
                     <InputField
