@@ -13,10 +13,7 @@ export function mockSendStatement() {
 }
 
 export function mockXapiEvents() {
-  keepFreshAndMock(XapiEvents, 'searched', jest.fn());
-  keepFreshAndMock(XapiEvents, 'saved', jest.fn());
-  keepFreshAndMock(XapiEvents, 'curated', jest.fn());
-  keepFreshAndMock(XapiEvents, 'shared', jest.fn());
-  keepFreshAndMock(XapiEvents, 'explored', jest.fn());
-  keepFreshAndMock(XapiEvents, 'viewed', jest.fn());
+  ['searched', 'saved', 'curated', 'shared', 'explored', 'viewed'].forEach(
+    (fnName) => keepFreshAndMock(XapiEvents, fnName, jest.fn())
+  );
 }
