@@ -1,6 +1,8 @@
 import * as xapi from '@/utils/xapi';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock.js';
 import { act, fireEvent, render, screen } from '@testing-library/react';
+import { mockXapiEvents } from '@/__mocks__/mockXapi';
+import { searched } from '@/utils/xapi/events';
 import { useAuth } from '@/contexts/AuthContext';
 import { useMockConfig } from '@/__mocks__/predefinedMocks';
 import Home from '@/pages/index';
@@ -25,6 +27,7 @@ describe('should render the title', () => {
     });
 
     useMockConfig();
+    mockXapiEvents();
 
     render(
       <QueryClientWrapper>
@@ -74,10 +77,6 @@ describe('should render the title', () => {
   });
 
   it('should send xAPI Statement', () => {
-    const spy = jest
-      .spyOn(xapi, 'sendStatement')
-      .mockImplementation(() => Promise.resolve({}));
-
     act(() => {
       fireEvent.change(screen.getByRole('textbox'), {
         target: { value: 'data' },
@@ -87,6 +86,6 @@ describe('should render the title', () => {
       fireEvent.click(screen.getByTitle(/search/i));
     });
 
-    expect(spy).toHaveBeenCalled();
+    expect(searched).toHaveBeenCalled();
   });
 });
