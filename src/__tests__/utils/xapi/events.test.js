@@ -2,7 +2,7 @@ import * as xapiActions from '@/utils/xapi/events';
 import { mockSendStatement } from '@/__mocks__/mockXapi';
 import { sendStatement } from '@/utils/xapi';
 
-beforeAll(() => {
+beforeEach(() => {
   mockSendStatement();
 });
 
@@ -17,10 +17,6 @@ describe('xAPI Actions', () => {
 
   afterAll(() => {
     window.location = originalLocation;
-  });
-
-  beforeEach(() => {
-    jest.clearAllMocks();
   });
 
   it('searched()', () => {
