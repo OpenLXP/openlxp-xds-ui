@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import { mockSendStatement } from '@/__mocks__/mockXapi';
-import { sendStatement } from '@/utils/xapi';
+import { curated } from '@/utils/xapi/events';
+import { mockXapiEvents } from '@/__mocks__/mockXapi';
 import SaveModal from '@/components/modals/SaveModal';
 
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
@@ -66,10 +66,6 @@ const renderer = (isAuth = false) => {
   );
 };
 
-beforeAll(() => {
-  mockSendStatement();
-});
-
 beforeEach(() => {
   useUpdateUserList.mockImplementation(() => ({
     mutate: mutateFn,
@@ -84,6 +80,7 @@ beforeEach(() => {
     data: userListData,
     isSuccess: true,
   }));
+  mockXapiEvents();
 });
 
 describe('Save Modal', () => {
@@ -167,7 +164,7 @@ describe('Save Modal', () => {
 
       fireEvent.click(getByText(/create/i, { selector: 'input' }));
 
-      expect(sendStatement).toHaveBeenCalled();
+      expect(curated).toHaveBeenCalled();
     });
   });
 });

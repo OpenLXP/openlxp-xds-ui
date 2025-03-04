@@ -1,6 +1,7 @@
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act } from 'react-dom/test-utils';
-import { mockSendStatement } from '@/__mocks__/mockXapi';
+import { mockXapiEvents } from '@/__mocks__/mockXapi';
+import { saved } from '@/utils/xapi/events';
 import {
   createSaveSearchMockFn,
   useAuthenticatedUser,
@@ -19,8 +20,8 @@ const renderer = () => {
   );
 };
 
-beforeAll(() => {
-  mockSendStatement();
+beforeEach(() => {
+  mockXapiEvents();
 });
 
 afterEach(() => {

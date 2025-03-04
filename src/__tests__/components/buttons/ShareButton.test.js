@@ -1,6 +1,6 @@
 import { act, fireEvent, render } from '@testing-library/react';
-import { mockSendStatement } from '@/__mocks__/mockXapi';
-import { sendStatement } from '@/utils/xapi';
+import { mockXapiEvents } from '@/__mocks__/mockXapi';
+import { shared } from '@/utils/xapi/events';
 import {
   useMockClipboard,
   useUnauthenticatedUser,
@@ -9,7 +9,7 @@ import ShareButton from '@/components/buttons/ShareBtn';
 
 describe('ShareButton', () => {
   beforeEach(() => {
-    mockSendStatement();
+    mockXapiEvents();
     useUnauthenticatedUser();
     useMockClipboard();
   });
@@ -23,7 +23,7 @@ describe('ShareButton', () => {
     await act(async () => {
       fireEvent.click(screen.getByText('Share'));
     });
-    expect(sendStatement).toHaveBeenCalled();
+    expect(shared).toHaveBeenCalled();
     expect(navigator.clipboard.writeText).toHaveBeenCalled();
   });
 });
