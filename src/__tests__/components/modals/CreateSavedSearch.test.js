@@ -77,6 +77,7 @@ describe('CreateSavedSearchModal', () => {
       fireEvent.click(getByText('Save'));
     });
     expect(createSaveSearchMockFn).not.toHaveBeenCalled();
+    expect(saved).not.toHaveBeenCalled();
   });
 });
 
