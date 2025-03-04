@@ -63,6 +63,7 @@ describe('CreateSavedSearchModal', () => {
       fireEvent.click(getByText('Save'));
     });
     expect(createSaveSearchMockFn).toHaveBeenCalled();
+    expect(saved).toHaveBeenCalled();
   });
 
   it('should not call the api when there is no query to save', () => {
