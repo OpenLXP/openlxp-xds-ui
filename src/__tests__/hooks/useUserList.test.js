@@ -1,3 +1,5 @@
+'use strict';
+
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { renderHook } from '@testing-library/react-hooks';
 import { useUserList } from '@/hooks/useUserList';

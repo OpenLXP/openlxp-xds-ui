@@ -1,4 +1,5 @@
-/* eslint-disable import/no-anonymous-default-export */
+'use strict';
+
 export default [
   {
     id: 1,

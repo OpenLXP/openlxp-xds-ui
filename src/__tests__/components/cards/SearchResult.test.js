@@ -1,3 +1,6 @@
+'use strict';
+
+import '@testing-library/jest-dom'
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render } from '@testing-library/react';
 import {

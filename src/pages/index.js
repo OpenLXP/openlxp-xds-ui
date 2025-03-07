@@ -1,4 +1,8 @@
+'use strict';
+
+import { backendHost } from '@/config/endpoints';
 import { useAuth } from '@/contexts/AuthContext';
+import { useConfig } from '@/hooks/useConfig';
 import { useRouter } from 'next/router';
 import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import CourseSpotlight from '@/components/cards/CourseSpotlight';
@@ -11,8 +15,6 @@ import SearchBar from '@/components/inputs/SearchBar';
 import logo from '@/public/logo.png';
 import useField from '@/hooks/useField';
 import useSpotlightCourses from '@/hooks/useSpotlightCourses';
-import { useConfig } from '@/hooks/useConfig';
-import { backendHost } from '@/config/endpoints';
 
 export default function Home() {
   const router = useRouter();
@@ -69,7 +71,7 @@ export default function Home() {
       </Head>
       <Header />
       <div className='max-w-7xl mx-auto flex flex-col items-center justify-center mt-10'>
-        {config.isSuccess && thumbnail ? <img
+        {config?.isSuccess && thumbnail ? <img
             src={thumbnail}
             alt=''
             className='h-32 w-32 m-2'

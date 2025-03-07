@@ -1,3 +1,6 @@
+'use strict';
+
+import '@testing-library/jest-dom'
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { act, fireEvent, render } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';

@@ -1,4 +1,4 @@
-/* eslint-disable react/no-unescaped-entities */
+'use strict';
 
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useState } from 'react';
@@ -97,6 +97,12 @@ export default function SaveModal({ courseId, title }) {
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
 
+  const checkSpecialChar =(e)=>{
+    if(/[<>/?+={};#$*`~\\]/.test(e.key)){
+     e.preventDefault();
+    }
+   };
+   
   return (
     <>
       <button
@@ -224,6 +230,8 @@ export default function SaveModal({ courseId, title }) {
                           [e.target.name]: e.target.value,
                         }));
                       }}
+                      maxLength="1000"
+                      onKeyPress={(e)=>checkSpecialChar(e)}
                       className='w-full border outline-none rounded-md shadow focus:shadow-md p-2 focus:ring-4 ring-blue-400 transform transition-all duration-150'
                     />
                   </div>

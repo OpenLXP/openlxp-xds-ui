@@ -1,3 +1,6 @@
+'use strict';
+
+import '@testing-library/jest-dom'
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock.js';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -66,7 +69,7 @@ describe('should render the title', () => {
       fireEvent.click(screen.getByTitle(/search/i));
     });
     expect(singletonRouter).toMatchObject({
-      asPath: '/search/?keyword=updated%20value&p=1',
+      asPath: '/search?keyword=updated+value&p=1',
     });
   });
 

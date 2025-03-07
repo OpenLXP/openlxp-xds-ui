@@ -1,5 +1,8 @@
+'use strict';
+
 import { render, screen } from '@testing-library/react';
 
+import '@testing-library/jest-dom'
 import ExternalBtn from '@/components/buttons/ExternalBtn';
 
 describe('External Button', () => {

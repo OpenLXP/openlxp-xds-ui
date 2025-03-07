@@ -1,3 +1,5 @@
+'use strict';
+
 import {ChevronDownIcon} from '@heroicons/react/solid';
 import { Disclosure, Transition } from '@headlessui/react';
 

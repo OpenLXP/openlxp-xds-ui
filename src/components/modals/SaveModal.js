@@ -1,4 +1,4 @@
-/* eslint-disable react/no-unescaped-entities */
+'use strict';
 
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useState } from 'react';
@@ -113,6 +113,12 @@ export default function SaveModal({ courseId, title }) {
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
 
+  const checkSpecialChar =(e)=>{
+    if(/[<>/?+={};#$*`~\\]/.test(e.key)){
+     e.preventDefault();
+    }
+   };
+   
   return (
     <>
       <button
@@ -229,6 +235,8 @@ export default function SaveModal({ courseId, title }) {
                       placeholder='List Description...'
                       name='description'
                       id='description'
+                      maxLength="1000"
+                      onKeyPress={(e)=>checkSpecialChar(e)}
                       rows={Math.max(
                         fields.description?.length / 72,
                         2

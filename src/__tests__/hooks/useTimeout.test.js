@@ -1,3 +1,5 @@
+'use strict';
+
 import { act, renderHook } from '@testing-library/react-hooks';
 import useTimeout from '../../hooks/useTimeout';
 

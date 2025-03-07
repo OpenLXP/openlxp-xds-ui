@@ -1,13 +1,15 @@
+'use strict';
+
+import { backendHost } from '@/config/endpoints';
 import { useAuth } from '@/contexts/AuthContext';
+import { useConfig } from '@/hooks/useConfig';
+import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
+import Notifications from './menus/Notifications';
 import UserMenu from '@/components/menus/UserMenu';
 import logo from '@/public/logo.png';
-import Notifications from './menus/Notifications';
-import { useConfig } from '@/hooks/useConfig';
-import { backendHost } from '@/config/endpoints';
-import { useMemo } from 'react';
 
 const menuItems = [
   {
@@ -28,7 +30,7 @@ function Button({ data }) {
   const router = useRouter();
   if (data.path === router?.asPath) {
     return (
-      <Link href={data.path}>
+      <Link legacyBehavior href={data.path}>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a className='px-1 font-bold text-gray-800 border-b-2 border-gray-800 hover:text-gray-900'>
           {data.label}
@@ -37,7 +39,7 @@ function Button({ data }) {
     );
   }
   return (
-    <Link href={data.path}>
+    <Link legacyBehavior href={data.path}>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a className='transition-all duration-100 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-900'>
         {data.label}
@@ -73,7 +75,7 @@ export default function Header() {
                 id={'homepage-button'}
                 className={'cursor-pointer'}
               >
-              {config.isSuccess && thumbnail ? <img
+              {config?.isSuccess && thumbnail ? <img
                 src={thumbnail}
                 alt=''
                 className='h-12 w-12 m-2'

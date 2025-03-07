@@ -1,4 +1,5 @@
-/* eslint-disable import/no-anonymous-default-export */
+'use strict';
+
 export default {
   'Course Type': {
     doc_count_error_upper_bound: 0,
