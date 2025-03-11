@@ -1,6 +1,9 @@
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render } from '@testing-library/react';
+import { explored, viewed } from '@/utils/xapi/events';
+import { mockXapiEvents } from '@/__mocks__/mockXapi';
+import { sendStatement } from '@/utils/xapi';
 import {
   useAuthenticatedUser,
   useMockConfig,
@@ -34,6 +37,7 @@ beforeEach(() => {
   useMockUserOwnedLists();
   useMockUpdateUserList();
   useMockCreateUserList();
+  mockXapiEvents();
 });
 
 describe('Course Page', () => {
@@ -173,5 +177,19 @@ describe('Course Page', () => {
       fireEvent.click(relatedCourseLink);
     });
     expect(singletonRouter).toMatchObject({ asPath: '/course/more_like_this' });
+  });
+  it('should send an xAPI statement on visiting a course page and following enrollment link', () => {
+    useAuthenticatedUser();
+    useMockMoreLikeThis();
+    useMockCourse();
+    const screen = renderer();
+
+    // one statement for viewing the ECC page
+    expect(explored).toHaveBeenCalled();
+
+    fireEvent.click(screen.getByText('Go to Enrollment'));
+
+    // another for clicking the enrollment link
+    expect(viewed).toHaveBeenCalled();
   });
 });

@@ -1097,3 +1097,13 @@ export function useMockUserListWithDifferentUserId() {
     isError: false,
   }));
 }
+
+export function useMockClipboard() {
+  Object.defineProperty(navigator, 'clipboard', {
+    value: {
+      writeText: jest.fn().mockResolvedValue(undefined),
+      writeText: jest.fn().mockResolvedValue('foo'),
+    },
+    writable: true,
+  });
+}

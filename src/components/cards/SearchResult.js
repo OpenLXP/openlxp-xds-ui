@@ -2,7 +2,6 @@ import { removeHTML } from '@/utils/cleaning';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCallback } from 'react';
 import { useRouter } from 'next/router';
-import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import SaveModal from '@/components/modals/SaveModal';
 
 export default function SearchResult({ result }) {
@@ -10,28 +9,8 @@ export default function SearchResult({ result }) {
   const router = useRouter();
 
   const handleClick = useCallback(() => {
-    // create the context
-    const context = {
-      actor: {
-        first_name: user?.user?.first_name || 'Anonymous',
-        last_name: user?.user?.last_name || 'User',
-      },
-      verb: {
-        id: 'https://w3id.org/xapi/tla/verbs/explored',
-        display: 'explored',
-      },
-      object: {
-        id: `${window.origin}/course/${result.meta.id}`,
-        definitionName: result.Course.CourseTitle,
-        description: result.Course.CourseShortDescription,
-      },
-      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/CourseId',
-      resultExtValue: result.meta.id,
-    };
-
-    xAPISendStatement(context);
     router.push(`/course/${result.meta.id}`);
-  }, [result, user, router]);
+  }, [result, router]);
 
   return (
     <div
@@ -45,7 +24,12 @@ export default function SearchResult({ result }) {
         >
           <h3>{result.Course.CourseTitle}</h3>
         </button>
-        {user && <SaveModal courseId={result.meta.id} title={result.Course.CourseTitle} />}
+        {user && (
+          <SaveModal
+            courseId={result.meta.id}
+            title={result.Course.CourseTitle}
+          />
+        )}
       </div>
       <div onClick={handleClick} className='text-left' aria-hidden='true'>
         <h4>
