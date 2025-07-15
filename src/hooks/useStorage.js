@@ -1,6 +1,6 @@
 'use strict';
 
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export function useLocalStorage(key, defaultValue) {
   if (typeof window !== 'undefined') {

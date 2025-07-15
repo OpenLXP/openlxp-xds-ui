@@ -1,6 +1,6 @@
 'use strict';
 
-import { act, render, screen, fireEvent } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import SelectList from '@/components/inputs/SelectList';
 import aggregationsData from '@/__mocks__/data/aggregations.data';
