@@ -3,34 +3,30 @@
 import { BellIcon } from '@heroicons/react/outline';
 import { Fragment, useEffect, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
+import { allNotification, allRead } from '@/config/endpoints';
+import { axiosInstance } from '@/config/axiosConfig';
+import {getAllRead} from '@/hooks/useAllNotificRead'
+import { getNotifications, useNotifications } from '@/hooks/useNotifications';
+import { getUnreadData, useUnreadData } from '@/hooks/useNotifUnreadCount';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
-import { useNotifications, getNotifications } from '@/hooks/useNotifications';
-import {getAllRead} from '@/hooks/useAllNotificRead'
-import { getUnreadData, useUnreadData } from '@/hooks/useNotifUnreadCount';
-import { axiosInstance } from '@/config/axiosConfig';
-import { allNotification, allRead } from '@/config/endpoints';
 
 export default function Notifications() {
     const router = useRouter();
-    const {
-      user: {
-        user: { first_name },
-      },
-      logout,
-    } = useAuth();
 
     let [data, setData] = useState({});
 
     useEffect(() => {
         setTimeout(() => {
         }, 200);
+
         // Requesting data from the API endpoint
         axiosInstance
             .get(allNotification)
             .then((res) => {
                 setData(res.data);
             })
+
             // If there is an error.
             .catch((err) => {
                 console.log("Failed to retrieve data from endpoint")
@@ -83,7 +79,7 @@ export default function Notifications() {
                     <div className='grid gap-1 pt-1'>
                         {data?.all_list && data?.all_list?.map((list) => {
                         return (
-                            <div className='flex felx-col border vertical-align-middle items-center justify-center align-center'>
+                            <div className='flex felx-col border vertical-align-middle items-center justify-center align-center' key={list.id}>
                                 {list.unread ? (
                                     <div className='m-1 rounded-full inline-flex bg-blue-400 h-3 w-3 items-center justify-center align-center '/>)
                                     : (<div> </div>)}

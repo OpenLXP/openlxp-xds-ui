@@ -1,7 +1,8 @@
+'use strict';
+
+import '@testing-library/jest-dom'
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act } from 'react-dom/test-utils';
-import { mockXapiEvents } from '@/__mocks__/mockXapi';
-import { saved } from '@/utils/xapi/events';
 import {
   createSaveSearchMockFn,
   useAuthenticatedUser,
@@ -19,10 +20,6 @@ const renderer = () => {
     </QueryClientWrapper>
   );
 };
-
-beforeEach(() => {
-  mockXapiEvents();
-});
 
 afterEach(() => {
   jest.resetAllMocks();
@@ -63,7 +60,6 @@ describe('CreateSavedSearchModal', () => {
       fireEvent.click(getByText('Save'));
     });
     expect(createSaveSearchMockFn).toHaveBeenCalled();
-    expect(saved).toHaveBeenCalled();
   });
 
   it('should not call the api when there is no query to save', () => {
@@ -77,7 +73,6 @@ describe('CreateSavedSearchModal', () => {
       fireEvent.click(getByText('Save'));
     });
     expect(createSaveSearchMockFn).not.toHaveBeenCalled();
-    expect(saved).not.toHaveBeenCalled();
   });
 });
 

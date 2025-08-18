@@ -1,3 +1,5 @@
+'use strict';
+
 import { axiosInstance } from '@/config/axiosConfig';
 import { oneHour } from '@/config/timeConstants';
 import { spotlightCourses } from '@/config/endpoints';

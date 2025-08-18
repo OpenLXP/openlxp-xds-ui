@@ -1,3 +1,5 @@
+'use strict';
+
 import { useState } from 'react';
 
 export default function useField(initialValue) {

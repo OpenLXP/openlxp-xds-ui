@@ -1,12 +1,13 @@
-/* eslint-disable react/no-unescaped-entities */
+'use strict';
 
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useState } from 'react';
-import { curated } from '@/utils/xapi/events';
+
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserOwnedLists } from '@/hooks/useUserOwnedLists';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import InputField from '@/components/inputs/InputField';
 import useField from '@/hooks/useField';
 
@@ -45,12 +46,32 @@ export default function SaveModal({ courseId, title }) {
         { form: fields },
         {
           onSuccess: (data) => {
-            curated(data.id, fields.name, fields.description);
+            // note: It assumed that the user is present if the button is available.
+            // create the context
+            const context = {
+              actor: {
+                first_name: user?.user?.first_name,
+                last_name: user?.user?.last_name,
+              },
+              verb: {
+                id: 'https://w3id.org/xapi/dod-isd/verbs/curated',
+                display: 'curated',
+              },
+              object: {
+                definitionName: fields.name,
+                description: fields.description,
+              },
+              resultExtName:
+                'https://w3id.org/xapi/ecc/result/extensions/CuratedListId',
+              resultExtValue: data.id,
+            };
+
+            xAPISendStatement(context);
           },
         }
       );
     },
-    [fields]
+    [fields, user?.user]
   );
 
   // add a course to the selected list
@@ -76,6 +97,12 @@ export default function SaveModal({ courseId, title }) {
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
 
+  const checkSpecialChar =(e)=>{
+    if(/[<>/?+={};#$*`~\\]/.test(e.key)){
+     e.preventDefault();
+    }
+   };
+   
   return (
     <>
       <button
@@ -169,9 +196,7 @@ export default function SaveModal({ courseId, title }) {
                   className='my-2 flex flex-col w-full'
                   onSubmit={handleSubmit}
                 >
-                  <h4 className='py-2 text-lg font-medium leading-6 text-gray-900'>
-                    Create a new list
-                  </h4>
+                  <h4 className='py-2 text-lg font-medium leading-6 text-gray-900'>Create a new list</h4>
                   <div>
                     <label htmlFor='name'>List Name</label>
                     <InputField
@@ -205,6 +230,8 @@ export default function SaveModal({ courseId, title }) {
                           [e.target.name]: e.target.value,
                         }));
                       }}
+                      maxLength="1000"
+                      onKeyPress={(e)=>checkSpecialChar(e)}
                       className='w-full border outline-none rounded-md shadow focus:shadow-md p-2 focus:ring-4 ring-blue-400 transform transition-all duration-150'
                     />
                   </div>

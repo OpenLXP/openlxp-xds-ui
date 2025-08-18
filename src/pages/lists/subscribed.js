@@ -1,3 +1,5 @@
+'use strict';
+
 import { BookOpenIcon, UsersIcon } from '@heroicons/react/solid';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
@@ -65,8 +67,8 @@ export default function Subscribed() {
                       Unsubscribe
                     </button>
 
-                    <Link href={`/lists/${list.id}`} passHref>
-                      <button className='cursor-pointer flex-shrink-0 py-4 hover:bg-gray-100 w-1/2 text-center'>
+                    <Link href={`/lists/${list.id}`} className='cursor-pointer flex-shrink-0 py-4 hover:bg-gray-100 w-1/2 text-center' passHref>
+                      <button>
                         View
                       </button>
                     </Link>

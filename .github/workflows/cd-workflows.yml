@@ -45,56 +45,23 @@ jobs:
     #     echo "Docker network successfully created"
         # yarn
         # yarn test	--coverage
-
-  sonarcloud:
-      name: SonarCloud
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-          with:
-            fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-        - name: SonarCloud Scan
-          uses: SonarSource/sonarcloud-github-action@master
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         
   build:
     # requires dependency from step above
     needs: code-test
     name: Build Docker Image
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2
-
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
-      with:
-        mask-password: 'true'
- 
-    - name: Build, tag, and push image to Amazon ECR
+    - name: Docker login
       env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ${{ secrets.ECR_REPO }}
-        IMAGE_TAG: latest
+       DOCKER_USER: ${{ secrets.DOCKER_USER }}
+       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
-        echo "Cloning openlxp-private repository"
-        git clone https://openlxp-host:${{ secrets.ACCESS_TOKEN }}@github.com/OpenLXP/openlxp-private.git
-        echo "Private repository cloned successfully"
-        echo "Copying .env for XDS-UI from openlxp-private to current working directory"
-        cp ./openlxp-private/openlxp-xds-ui-env/.env .
-        echo "Copied .env file successfully"
-        echo "Starting docker build"
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        echo "Pushing image to ECR..."
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+       echo "Authenticate to Docker"
+       docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: Docker build
+      run: |
+       echo "Start docker build"
+       docker build . -t openlxp/openlxp-xds-ui

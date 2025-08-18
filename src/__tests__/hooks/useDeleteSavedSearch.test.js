@@ -1,3 +1,5 @@
+'use strict';
+
 // tests for hooks/useDeleteSavedSearch
 
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';

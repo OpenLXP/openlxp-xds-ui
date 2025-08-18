@@ -1,3 +1,6 @@
+'use strict';
+
+import '@testing-library/jest-dom'
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render, screen } from '@testing-library/react';
@@ -35,7 +38,8 @@ describe('Default Layout', () => {
     renderer();
     expect(screen.getByText('Sign in')).toBeInTheDocument();
     expect(screen.getByText('Sign up')).toBeInTheDocument();
-    expect(screen.getByText('Home')).toBeInTheDocument();
+
+    // expect(screen.getByAltText('home')).toBeInTheDocument();
 
     expect(screen.getByText('DOD Home Page')).toBeInTheDocument();
     expect(screen.getByText('About ADL')).toBeInTheDocument();

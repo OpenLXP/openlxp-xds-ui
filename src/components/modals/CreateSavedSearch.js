@@ -1,14 +1,14 @@
+'use strict';
+
 import { Fragment } from 'react';
 import { Popover, Transition } from '@headlessui/react';
-import { saved } from '@/utils/xapi/events';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateSaveSearch } from '@/hooks/useCreateSaveSearch';
-import { useRouter } from 'next/dist/client/router';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import InputField from '@/components/inputs/InputField';
 import useField from '@/hooks/useField';
 
 export default function CreateSavedSearchModal({ path }) {
-  const router = useRouter();
   const { user } = useAuth();
   const { fields, updateKeyValuePair, resetKey } = useField({
     name: '',
@@ -31,7 +31,23 @@ export default function CreateSavedSearchModal({ path }) {
     });
 
     //xAPI Statement
-    saved(fields.name, router.query.keyword);
+    const context = {
+      actor: {
+        first_name: user?.user?.first_name,
+        last_name: user?.user?.last_name,
+      },
+      verb: {
+        id: 'https://w3id.org/xapi/acrossx/verbs/prioritized',
+        display: 'prioritized',
+      },
+      object: {
+        definitionName: 'ECC Search Term Saving',
+      },
+      resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
+      resultExtValue: fields.name,
+    };
+
+    xAPISendStatement(context);
 
     // reset the form
     resetKey('name');

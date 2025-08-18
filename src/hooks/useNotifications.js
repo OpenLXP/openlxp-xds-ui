@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from 'react-query';
 
-import { axiosInstance } from '@/config/axiosConfig';
 import { allNotification } from '@/config/endpoints';
+import { axiosInstance } from '@/config/axiosConfig';
 
 export const getNotifications = () => {
   return () => axiosInstance.get(allNotification).then((res) => res.data);
