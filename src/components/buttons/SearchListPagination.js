@@ -1,3 +1,5 @@
+'use strict';
+
 
 export default function SearchListPagination({page, setPage, listToDisplayLength, pageLength, interestListsLength}) {
     const changePage = (number) => {

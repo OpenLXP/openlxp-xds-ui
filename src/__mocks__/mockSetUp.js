@@ -1,3 +1,5 @@
+'use strict';
+
 // mock useRouter
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
 
@@ -72,9 +74,9 @@ jest.mock('@/hooks/useCourse', () => ({
 }));
 
 // mocking config
-jest.mock('@/hooks/useConfig', () => ({
-  useConfig: jest.fn(),
-}));
+// jest.mock('@/hooks/useConfig', () => ({
+//   useConfig: jest.fn(),
+// }));
 
 // mocking useMoreLikeThis
 jest.mock('@/hooks/useMoreCoursesLikeThis', () => ({
@@ -115,3 +117,15 @@ mockIntersectionObserver.mockReturnValue({
   disconnect: () => null,
 });
 window.IntersectionObserver = mockIntersectionObserver;
+
+jest.mock('@/hooks/useConfig', () => ({
+  useConfig: jest.fn(() => ({
+    data: {
+      course_information: {
+        course_title: 'Course.CourseTitle',
+        course_description: 'Course.CourseShortDescription',
+        course_provider: 'Course.CourseProviderName',
+      },
+    },
+  })),
+}));

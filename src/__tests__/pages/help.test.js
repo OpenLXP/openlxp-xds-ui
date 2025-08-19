@@ -1,3 +1,6 @@
+'use strict';
+
+import '@testing-library/jest-dom'
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { render } from '@testing-library/react';
 import { useAuthenticatedUser, useMockConfig } from '@/__mocks__/predefinedMocks';

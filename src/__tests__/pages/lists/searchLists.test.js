@@ -1,10 +1,13 @@
+'use strict';
+
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, cleanup, fireEvent, render } from '@testing-library/react';
 import MockRouter from 'next-router-mock';
 import SearchLists from '@/pages/lists/searchLists';
 import singletonRouter from 'next/router';
 
+import '@testing-library/jest-dom';
 import {
   subscribeToListMockFn,
   unsubscribeFromListMockFn,
@@ -26,6 +29,8 @@ beforeEach(() => {
   useMockConfig();
 });
 
+afterEach(cleanup);
+
 const renderer = () => {
   MockRouter.setCurrentUrl('/lists/searchLists');
   return render(
@@ -36,6 +41,7 @@ const renderer = () => {
     </MemoryRouterProvider>
   );
 };
+
 describe('Search Lists', () => {
   it('should render the title', () => {
     useAuthenticatedUser();
@@ -72,11 +78,11 @@ describe('Search Lists', () => {
   });
 
   it('should navigate a user to "403" page when user has no permissions', () => {
-    useAuthenticatedUser();
-    useMockInterestListsWith403();
-    useMockSubscribedListsEmpty();
-    useMockSubscribeToList();
-    useMockUnsubscribeFromList();
+    useAuthenticatedUser({});
+    useMockInterestListsWith403({});
+    useMockSubscribedListsEmpty({});
+    useMockSubscribeToList({});
+    useMockUnsubscribeFromList({});
     const { getByText } = renderer();
     expect(singletonRouter).toMatchObject({
       asPath: '/403',

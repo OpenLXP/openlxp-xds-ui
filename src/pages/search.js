@@ -1,11 +1,14 @@
+'use strict';
+
+import { useCallback, useEffect, useState } from 'react';
+
 import { Pagination } from '@/components/buttons/Pagination';
-import { searched } from '@/utils/xapi/events';
 import { unstable_batchedUpdates } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { useCallback, useEffect, useState } from 'react';
 import { useConfig } from '@/hooks/useConfig';
 import { useRouter } from 'next/dist/client/router';
 import { useSearch } from '@/hooks/useSearch';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
 import CreateSavedSearchModal from '@/components/modals/CreateSavedSearch';
 import DefaultLayout from '@/components/layouts/DefaultLayout';
 import MoreLikeThis from '@/components/cards/MoreLikeThis';
@@ -83,7 +86,23 @@ export default function Search() {
         setUrl(modified);
       });
 
-      searched(modified.keyword);
+      const context = {
+        actor: {
+          first_name: user?.user?.first_name,
+          last_name: user?.user?.last_name,
+        },
+        verb: {
+          id: 'https://w3id.org/xapi/acrossx/verbs/searched',
+          display: 'searched',
+        },
+        object: {
+          definitionName: 'ECC Search Capability',
+        },
+        resultExtName: 'https://w3id.org/xapi/ecc/result/extensions/searchTerm',
+        resultExtValue: modified.keyword,
+      };
+
+      xAPISendStatement(context);
 
       router.push({ pathname: '/search', query: modified });
     },

@@ -1,3 +1,5 @@
+'use strict';
+
 // given config and data prepare the data for display
 
 import { backendHost } from '@/config/endpoints';

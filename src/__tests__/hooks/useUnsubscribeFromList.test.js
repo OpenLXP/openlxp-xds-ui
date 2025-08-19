@@ -1,3 +1,5 @@
+'use strict';
+
 // tests for useUnsubscribeFromList hook
 
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';

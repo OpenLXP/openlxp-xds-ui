@@ -1,3 +1,6 @@
+'use strict';
+
+import '@testing-library/jest-dom'
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { act, fireEvent, render } from '@testing-library/react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -6,6 +9,7 @@ import CourseSpotlight from '@/components/cards/CourseSpotlight';
 import courseData from '@/__mocks__/data/course.data';
 import mockRouter from 'next-router-mock';
 import uiConfigData from '@/__mocks__/data/uiConfig.data';
+import xAPIMapper from "@/utils/xapi/xAPIMapper";
 
 // jest mocks
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
@@ -57,7 +61,7 @@ describe('Course Spotlight', () => {
           Course_Instance: { Thumbnail: 'fake.img' },
         };
         const { getByAltText, queryByRole } = renderer(modified);
-        expect(getByAltText('')).toBeInTheDocument();
+        expect(getByAltText ('')).toBeInTheDocument();
 
         // expect(queryByRole('img')).toBeInTheDocument();
       });
@@ -70,6 +74,20 @@ describe('Course Spotlight', () => {
       });
     });
   });
+
+  it('send xAPI statement when course is clicked', () => {
+    const { getByText } = renderer();
+
+    const spy = jest.spyOn(xAPIMapper, 'sendStatement')
+      .mockImplementation(() => Promise.resolve({})
+      );
+
+      act(() => {
+      fireEvent.click(getByText(/Test Course Title/i).parentElement);
+    });
+
+    expect(spy).toHaveBeenCalled();
+  })
 });
 
 it('renders', () => {

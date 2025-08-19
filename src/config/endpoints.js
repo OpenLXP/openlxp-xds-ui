@@ -1,3 +1,5 @@
+'use strict';
+
 // local host endpoint from .env
 export const backendHost = process.env.NEXT_PUBLIC_BACKEND_HOST;
 const api = '/api/';
@@ -31,8 +33,6 @@ export const moreLikeThisUrl = `${backendHost}${elasticApi}more-like-this/`;
 export const saveSearchUrl = `${backendHost}${api}saved-filters`;
 export const saveSearchOwnedUrl = `${backendHost}${api}saved-filters/owned`;
 
-// Forward Statements
-export const statementsUrl = `${backendHost}${api}statements`;
 
 //Notifications
 export const allNotification = `${backendHost}/inbox/notifications/api/all_list/`;

@@ -1,5 +1,8 @@
+'use strict';
+
 import { act, fireEvent, render } from '@testing-library/react';
 
+import '@testing-library/jest-dom'
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import {

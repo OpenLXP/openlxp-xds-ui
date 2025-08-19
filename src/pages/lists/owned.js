@@ -1,3 +1,5 @@
+'use strict';
+
 import { BookOpenIcon, UsersIcon } from '@heroicons/react/solid';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
@@ -48,13 +50,13 @@ export default function Owned() {
                   {list.description}
                 </p>
                 <div className='absolute bottom-0 left-0 w-full flex justify-around items-center border-t divide-x mt-2'>
-                  <Link href={`/lists/edit/${list.id}`} passHref>
-                    <button className='cursor-pointer flex-shrink-0 py-4 hover:bg-gray-100 w-1/2 text-center'>
+                  <Link href={`/lists/edit/${list.id}`} className='cursor-pointer flex-shrink-0 py-4 hover:bg-gray-100 w-1/2 text-center' passHref>
+                    <button >
                       Edit
                     </button>
                   </Link>
-                  <Link href={`/lists/${list.id}`} passHref>
-                    <button className='cursor-pointer flex-shrink-0 py-4 hover:bg-gray-100 w-1/2 text-center'>
+                  <Link href={`/lists/${list.id}`} className='cursor-pointer flex-shrink-0 py-4 hover:bg-gray-100 w-1/2 text-center' passHref>
+                    <button>
                       View
                     </button>
                   </Link>

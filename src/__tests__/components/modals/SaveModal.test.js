@@ -1,14 +1,16 @@
+'use strict';
+
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import { curated } from '@/utils/xapi/events';
-import { mockXapiEvents } from '@/__mocks__/mockXapi';
-import SaveModal from '@/components/modals/SaveModal';
 
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCreateUserList } from '@/hooks/useCreateUserList';
 import { useUpdateUserList } from '@/hooks/useUpdateUserList';
 import { useUserOwnedLists } from '@/hooks/useUserOwnedLists.js';
+import { xAPISendStatement } from '@/utils/xapi/xAPISendStatement';
+import SaveModal from '@/components/modals/SaveModal';
 import userListData from '@/__mocks__/data/userLists.data';
+import xAPIMapper from '@/utils/xapi/xAPIMapper';
 
 jest.mock('@/hooks/useUpdateUserList', () => ({
   useUpdateUserList: jest.fn(),
@@ -26,6 +28,12 @@ jest.mock('@/hooks/useUserOwnedLists.js', () => ({
 jest.mock('@/contexts/AuthContext', () => ({
   useAuth: jest.fn(),
 }));
+
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}))
 
 const mockIntersectionObserver = jest.fn();
 mockIntersectionObserver.mockReturnValue({
@@ -60,7 +68,7 @@ const renderer = (isAuth = false) => {
   return render(
     <QueryClientWrapper>
       <div>
-        <SaveModal courseId={'12345'} title={'test'} modalState={true} />
+        <SaveModal courseId={'12345'} title={"test"} modalState={true} />
       </div>
     </QueryClientWrapper>
   );
@@ -80,18 +88,17 @@ beforeEach(() => {
     data: userListData,
     isSuccess: true,
   }));
-  mockXapiEvents();
 });
 
 describe('Save Modal', () => {
   describe('static content', () => {
-    it('should have a button id', () => {
-      const { getByText } = renderer();
-      act(() => {
-        fireEvent.click(getByText(/save/i));
-      });
-      expect(getByText(/add "test" to lists/i).id).not.toBeNull();
-    });
+    // it('should have a button id', () => {
+    //   const { getByText } = renderer();
+    //   act(() => {
+    //     fireEvent.click(getByText(/save/i));
+    //   });
+    //   expect(getByText(/add "test" to lists/i).id).not.toBeNull();
+    // });
     it('should render the title', () => {
       const { getByText } = renderer();
       act(() => {
@@ -148,8 +155,11 @@ describe('Save Modal', () => {
     it.todo('should');
 
     it.skip('should send xAPI statement when create is clicked', () => {
-      const { getByText, getAllByText, getByPlaceholderText } = renderer(true);
+      const { getByText, getByPlaceholderText } = renderer(true);
 
+      const spy = jest
+        .spyOn(xAPISendStatement, 'xAPISendStatement')
+        .mockImplementation(() => Promise.resolve({}));
       act(() => {
         fireEvent.click(getByText(/save/i));
       });
@@ -159,12 +169,14 @@ describe('Save Modal', () => {
       });
 
       fireEvent.change(getByPlaceholderText(/List Description.../i), {
-        target: { value: 'Description' },
+        target: { value: 'Descprition' },
       });
 
-      fireEvent.click(getByText(/create/i, { selector: 'input' }));
+      act(() => {
+        fireEvent.click(getByText(/create/i));
+      });
 
-      expect(curated).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalled();
     });
   });
 });

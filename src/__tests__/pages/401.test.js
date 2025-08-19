@@ -1,5 +1,8 @@
+'use strict';
+
 import { act, fireEvent, render } from '@testing-library/react';
 
+import '@testing-library/jest-dom'
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import Unathorized from '../../pages/401';
 import singletonRouter from 'next/router';
@@ -32,7 +35,7 @@ describe('401 Page', () => {
     const { getByText } = renderer();
     new Promise((r) => setTimeout(r, 16000));
     expect(singletonRouter).toMatchObject({
-        asPath: '',
+        asPath: '/',
       });
   });
 

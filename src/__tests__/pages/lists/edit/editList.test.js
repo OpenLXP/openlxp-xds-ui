@@ -1,4 +1,8 @@
-import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider/MemoryRouterProvider-11.1';
+'use strict';
+
+// import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider/MemoryRouterProvider-11.1';
+import '@testing-library/jest-dom';
+import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { QueryClientWrapper } from '@/__mocks__/queryClientMock';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import {
@@ -19,6 +23,7 @@ import singletonRouter from 'next/router';
 beforeEach(() => {
   useMockConfig();
 });
+
 const renderer = () => {
   MockRouter.setCurrentUrl('/lists/edit/1');
   return render(
