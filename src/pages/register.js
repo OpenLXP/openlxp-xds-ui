@@ -1,5 +1,7 @@
 'use strict';
 
+'use strict';
+
 import {
   CheckCircleIcon,
   RefreshIcon,
@@ -179,6 +181,7 @@ export default function Register() {
         register(res.data);
       })
       .catch((err) => {
+        console.log("Account registration failed.");
         console.log("Account registration failed.");
       })
       .finally(() => {

@@ -1,5 +1,7 @@
 'use strict';
 
+'use strict';
+
 import {
   EyeIcon,
   EyeOffIcon,

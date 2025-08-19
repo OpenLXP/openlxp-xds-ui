@@ -14,6 +14,15 @@ function useStorage(key, defaultValue, storageObject) {
       }
       return parseJSON;
     }
+    if (jsonValue != null) {
+      let parseJSON = null;
+      try{
+        parseJSON = JSON.parse(jsonValue);
+      }catch(error){
+        console.log("Storage parsing was not able to be processed!")
+      }
+      return parseJSON;
+    }
 
     if (typeof initialValue === 'function') {
       return defaultValue();

@@ -1,5 +1,7 @@
 'use strict';
 
+'use strict';
+
 import xAPIMapper from "./xAPIMapper";
 
 /**

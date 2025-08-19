@@ -1,5 +1,7 @@
 'use strict';
 
+'use strict';
+
 import { endpoint, key, secret } from '@/config/xAPIConfig';
 import XAPI from "@xapi/xapi";
 
